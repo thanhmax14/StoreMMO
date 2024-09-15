@@ -12,8 +12,8 @@ using StoreMMO.Core.Models;
 namespace StoreMMO.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240915102255_InitialCreatev5")]
-    partial class InitialCreatev5
+    [Migration("20240915103709_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -622,7 +622,7 @@ namespace StoreMMO.Core.Migrations
                     b.HasOne("StoreMMO.Core.Models.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("StoreDetail");

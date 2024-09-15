@@ -1,0 +1,3 @@
+dotnet ef migrations add {Name} --project StoreMMO.Core --startup-project StoreMMO
+
+dotnet ef database update --project StoreMMO.Core --startup-project StoreMMO

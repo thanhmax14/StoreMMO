@@ -54,11 +54,12 @@ namespace StoreMMO.Core.Models
            .OnDelete(DeleteBehavior.Cascade);
 
 
+          
             builder.Entity<FeedBack>()
-         .HasOne(s => s.User)
-         .WithMany()
-         .HasForeignKey(s => s.UserId)
-         .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(fb => fb.User)  
+                .WithMany()  
+                .HasForeignKey(fb => fb.UserId)
+                .OnDelete(DeleteBehavior.Restrict); 
 
             builder.Entity<WishList>()
            .HasOne(s => s.User)
