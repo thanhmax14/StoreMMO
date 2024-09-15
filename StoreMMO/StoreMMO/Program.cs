@@ -1,0 +1,109 @@
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using StoreMMO.Core.Models;
+
+var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("df");
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString, b => b.MigrationsAssembly("StoreMMO.Core")));
+
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
+
+//IdentityOptions
+builder.Services.Configure<IdentityOptions>(options => {
+   
+    options.Password.RequireDigit = false; 
+    options.Password.RequireLowercase = false; 
+    options.Password.RequireNonAlphanumeric = false; 
+    options.Password.RequireUppercase = false; 
+    options.Password.RequiredLength = 3; 
+    options.Password.RequiredUniqueChars = 1;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); 
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+
+    //setting for user
+    options.User.AllowedUserNameCharacters =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = true;
+
+    
+    options.SignIn.RequireConfirmedEmail = true; 
+    options.SignIn.RequireConfirmedPhoneNumber = false; 
+
+});
+
+// Cấu hình Cookie
+builder.Services.ConfigureApplicationCookie(options => {
+    // options.Cookie.HttpOnly = true;  
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.LoginPath = $"/login/";
+    options.LogoutPath = $"/logout/";
+  //  options.AccessDeniedPath = $"/";
+});
+
+
+
+
+var app = builder.Build();
+await SeedDataAsync(app);
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "account",
+    pattern: "{controller=Account}/{action=Login}/{id?}");
+
+app.Run();
+
+static async Task SeedDataAsync(WebApplication app)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
+        // Create roles if they don't exist
+        string[] roles = { "User", "Seller", "Admin" };
+        foreach (var role in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
+
+        // Create a default admin user if it doesn't exist
+        var adminUser = await userManager.FindByEmailAsync("admin@gmail.com");
+        if (adminUser == null)
+        {
+            adminUser = new AppUser { UserName = "admin", Email = "admin@gmail.com" };
+            var result = await userManager.CreateAsync(adminUser, "Password123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(adminUser, "Admin");
+            }
+        }
+    }
+}
