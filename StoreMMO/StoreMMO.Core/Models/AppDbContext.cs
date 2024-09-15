@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,26 @@ namespace StoreMMO.Core.Models
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
+
+        public virtual DbSet<Cart> Carts { get; set; }
+
+        public virtual DbSet<Category> Categories { get; set; }
+
+        public virtual DbSet<FeedBack> FeedBacks { get; set; }
+
+        public virtual DbSet<InfoAdd> InfoAdds { get; set; }
+
+        public virtual DbSet<Product> Products { get; set; }
+
+        public virtual DbSet<ProductConnect> ProductConnects { get; set; }
+
+        public virtual DbSet<Store> Stores { get; set; }
+
+        public virtual DbSet<StoreDetail> StoreDetails { get; set; }
+
+        public virtual DbSet<StoreType> StoreTypes { get; set; }
+
+        public virtual DbSet<WishList> WishLists { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
@@ -26,13 +47,37 @@ namespace StoreMMO.Core.Models
                     entityType.SetTableName(tableName.Substring(6));
                 }
             }
+            builder.Entity<Store>()
+           .HasOne(s => s.User)  
+           .WithMany()  
+           .HasForeignKey(s => s.UserId) 
+           .OnDelete(DeleteBehavior.Cascade);
+
+
+            builder.Entity<FeedBack>()
+         .HasOne(s => s.User)
+         .WithMany()
+         .HasForeignKey(s => s.UserId)
+         .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<WishList>()
+           .HasOne(s => s.User)
+           .WithMany()
+           .HasForeignKey(s => s.UserId)
+           .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Cart>()
+          .HasOne(s => s.User)
+          .WithMany()
+          .HasForeignKey(s => s.UserId)
+          .OnDelete(DeleteBehavior.Cascade);
         }
-        // Cấu hình cho migrations assembly
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("df", b => b.MigrationsAssembly("StoreMMO.Core"));
+                optionsBuilder.UseSqlServer("Server=DESKTOP-1E1A6I4;Database =StoreMMO;uid=sa;pwd=Thanh;encrypt=true;trustServerCertificate=true;", b => b.MigrationsAssembly("StoreMMO.Core"));
             }
         }
 
