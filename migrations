@@ -1,3 +1,0 @@
-dotnet ef migrations add InitialCreatev5 --project StoreMMO.Core --startup-project StoreMMO
-
-dotnet ef database update --project StoreMMO.Core --startup-project StoreMMO

@@ -619,7 +619,7 @@ namespace StoreMMO.Core.Migrations
                     b.HasOne("StoreMMO.Core.Models.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("StoreDetail");
