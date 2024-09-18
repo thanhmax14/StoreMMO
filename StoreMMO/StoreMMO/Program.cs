@@ -41,14 +41,14 @@ builder.Services.Configure<IdentityOptions>(options => {
 });
 
 // Cấu hình Cookie
-builder.Services.ConfigureApplicationCookie(options => {
+/*builder.Services.ConfigureApplicationCookie(options => {
     // options.Cookie.HttpOnly = true;  
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     options.LoginPath = $"/login/";
     options.LogoutPath = $"/logout/";
   //  options.AccessDeniedPath = $"/";
 });
-
+*/
 
 
 
