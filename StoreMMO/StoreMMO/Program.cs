@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
+using StoreMMO.Services.Email;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,7 +52,10 @@ builder.Services.Configure<IdentityOptions>(options => {
   //  options.AccessDeniedPath = $"/";
 });
 */
-
+// Mail Service
+var mailsettings = builder.Configuration.GetSection("MailSettings");  
+builder.Services.Configure<MailSettings>(mailsettings);               
+builder.Services.AddTransient<IEmailSender, SendMailService>(); 
 
 
 var app = builder.Build();
