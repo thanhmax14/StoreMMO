@@ -28,11 +28,11 @@ namespace StoreMMO.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Email,
+                var user = new AppUser { UserName = model.UserName,
                     Email = model.Email,
                     CreatedDate = DateTime.UtcNow,
-                    FullName ="Thanh Dep Trai"
-                };
+                    FullName ="Thanh Dep Trai",				
+			};
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -74,12 +74,16 @@ namespace StoreMMO.Controllers
                 else if (result.IsLockedOut)
                 {
                     ModelState.AddModelError(string.Empty, "Your account is locked.");
-                }
-                else
+                }else if (result.IsNotAllowed)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                }
-            }
+                    ModelState.AddModelError(string.Empty, "You must Verify Email before to Login!!");
+				}
+				else
+				{
+					ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+				}
+
+			}
             return View(model);
         }
         [HttpPost]
