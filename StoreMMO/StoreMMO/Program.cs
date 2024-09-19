@@ -14,7 +14,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString, b => b.MigrationsAssembly("StoreMMO.Core")));
 
-builder.Services.AddIdentity<AppUser, IdentityRole>()
+builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+{
+
+    options.SignIn.RequireConfirmedAccount = true;
+}
+
+
+
+)
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 

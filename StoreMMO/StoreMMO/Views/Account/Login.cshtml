@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Login";
+	var successMessage = ViewData["SuccessMessage"] as string;
 }
 
 <!DOCTYPE html>
@@ -93,10 +94,17 @@
 											{
 												<i class="fa fa-exclamation-circle" style="color: #ef8495;"></i>
 
-												<span>@error.ErrorMessage</span>
+												<span>@Html.Raw(error.ErrorMessage)</span>
 											}
 										</div>
 									}
+
+									@if (TempData["EmailNotConfirmed"] != null)
+									{
+										@Html.Raw(TempData["EmailNotConfirmed"].ToString())
+									}
+
+								
 								</div>
 						
 								<form asp-action="Login" method="post">
