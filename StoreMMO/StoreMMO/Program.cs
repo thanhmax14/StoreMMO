@@ -6,7 +6,7 @@ using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Car;
 using StoreMMO.Core.Repositories.Store;
 using StoreMMO.Services.Email;
-using StoreMMO.Services.Store;
+
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -69,8 +69,6 @@ var mailsettings = builder.Configuration.GetSection("MailSettings");
 builder.Services.Configure<MailSettings>(mailsettings);               
 builder.Services.AddTransient<IEmailSender, SendMailService>();
 
-builder.Services.AddScoped<IStoreRepository, StoreRepository>();
-builder.Services.AddScoped<IStoreService, StoreService>();
 
 
 
