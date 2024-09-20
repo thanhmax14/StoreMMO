@@ -29,8 +29,4 @@
     <ProjectReference Include="..\StoreMMO.Core\StoreMMO.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\StoreMMO.Core\" />
-  </ItemGroup>
-
 </Project>
