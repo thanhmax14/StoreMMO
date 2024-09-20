@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.WishList
 {
-    internal interface IWishListRepository
+    public interface IWishListRepository
     {
     }
 }

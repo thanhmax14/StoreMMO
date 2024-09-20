@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.Store
 {
+
     public class StoreRepository : IStoreRepository
+
     {
         private readonly AppDbContext _context;
         public StoreRepository(AppDbContext dbContext)

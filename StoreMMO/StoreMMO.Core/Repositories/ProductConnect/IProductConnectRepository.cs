@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.ProductConnect
 {
-    internal interface IProductConnectRepository
+    public interface IProductConnectRepository
     {
     }
 }

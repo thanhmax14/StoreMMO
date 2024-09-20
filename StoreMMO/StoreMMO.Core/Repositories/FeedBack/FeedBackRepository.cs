@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.FeedBack
 {
-    internal class FeedBackRepository
+    public class FeedBackRepository
     {
     }
 }

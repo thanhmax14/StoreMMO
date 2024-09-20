@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.Car
 {
-    internal interface ICarRepository
+    public interface ICarRepository
     {
     }
 }
