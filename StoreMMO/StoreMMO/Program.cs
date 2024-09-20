@@ -1,9 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
+using StoreMMO.Core.Repositories.Car;
+using StoreMMO.Core.Repositories.Store;
 using StoreMMO.Services.Email;
+using StoreMMO.Services.StoreMMO.API;
 using System.Configuration;
+using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +24,6 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 
     options.SignIn.RequireConfirmedAccount = true;
 }
-
-
-
 )
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
@@ -63,7 +65,27 @@ builder.Services.Configure<IdentityOptions>(options => {
 // Mail Service
 var mailsettings = builder.Configuration.GetSection("MailSettings");  
 builder.Services.Configure<MailSettings>(mailsettings);               
-builder.Services.AddTransient<IEmailSender, SendMailService>(); 
+builder.Services.AddTransient<IEmailSender, SendMailService>();
+
+static void ConfigureHttpClient(HttpClient client)
+{
+    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+}
+builder.Services.AddHttpClient<StoreApiService>(ConfigureHttpClient);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 var app = builder.Build();
