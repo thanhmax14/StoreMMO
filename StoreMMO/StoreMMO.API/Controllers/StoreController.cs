@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StoreMMO.Services.Store;
+using StoreMMO.API.Services;
+using StoreMMO.Core.Models;
+using StoreMMO.Core.ViewModels;
+using System.Runtime.InteropServices;
 
 namespace StoreMMO.API.Controllers
 {
@@ -21,22 +24,44 @@ namespace StoreMMO.API.Controllers
             var list = this._storeService.getAll();
             return Ok(list);
         }
+        [HttpPost]
+        public IActionResult AddStore(StoreAddViewModels store)
+        {
+            
+            if(store == null)
+            {
+                return BadRequest("No add store");
+            } else
+            {
+                _storeService.AddStore(store);
+            }
+            return Ok(store);
 
+        }
+        [HttpPut] 
+        public IActionResult EditStore(StoreAddViewModels store)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data");
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+            _storeService.Update(store);
+            return Ok(store);
+        }
+        [HttpDelete]
+        public IActionResult DeleteStore(string id)
+        {
+            
+            _storeService.Delete(id);
+            return Ok();
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetById(string id) {
+            _storeService.getById(id);  
+            return Ok(id);
+        }
     }
 
-    
+
 }
