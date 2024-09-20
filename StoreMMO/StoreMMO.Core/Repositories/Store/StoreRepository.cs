@@ -28,7 +28,6 @@ namespace StoreMMO.Core.Repositories.Store
                 "                  Categories ca ON sd.CategoryId = ca.Id";
 
 
-
             var list = this._context.Database.SqlQueryRaw<StoreViewModels>(sql).ToList();
             return list;
         }
