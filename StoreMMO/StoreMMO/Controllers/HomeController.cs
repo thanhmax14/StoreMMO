@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StoreMMO.Models;
-using StoreMMO.Services.Store;
+using StoreMMO.Services.StoreMMO.API;
 using System.Diagnostics;
 
 namespace StoreMMO.Controllers
@@ -8,17 +8,17 @@ namespace StoreMMO.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IStoreService _storeService;
+        private readonly StoreApiService _storeApi;
 
-        public HomeController(ILogger<HomeController> logger, IStoreService storeService)
+        public HomeController(ILogger<HomeController> logger,StoreApiService storeApi)
         {
             _logger = logger;
-            this._storeService = storeService;
+             this._storeApi = storeApi;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ViewBag.list =  this._storeService.getAll();
+            ViewBag.list = await this._storeApi.GetStoresAsync();
             return View();
         }
 
