@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.InforAdd
 {
-    internal interface IInforAddRepository
+    public interface IInforAddRepository
     {
     }
 }

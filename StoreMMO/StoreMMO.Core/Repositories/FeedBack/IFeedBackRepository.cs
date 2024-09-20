@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.FeedBack
 {
-    internal interface IFeedBackRepository
+    public interface IFeedBackRepository
     {
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.Store
 {
-    internal class StoreRepository
+    public class StoreRepository
     {
     }
 }
