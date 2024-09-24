@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Store;
-using StoreMMO.Services.Store;
+using StoreMMO.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

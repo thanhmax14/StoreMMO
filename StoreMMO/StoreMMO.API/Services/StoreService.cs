@@ -1,7 +1,7 @@
 ﻿using StoreMMO.Core.Repositories.Store;
 using StoreMMO.Core.ViewModels;
 
-namespace StoreMMO.Services.Store
+namespace StoreMMO.API.Services
 {
     public class StoreService:IStoreService
     {
@@ -13,6 +13,15 @@ namespace StoreMMO.Services.Store
         public IEnumerable<StoreViewModels> getAll()
         {
             return this._storeRepo.getAll();
+        }
+
+        public IEnumerable<getProducInStoreViewModels> getAllProductInStore(string id)
+        {
+            return this._storeRepo.getAllProductInStore(id);
+        }
+        public IEnumerable<StoreDetailViewModel> getStorDetailFullInfo(string id)
+        {
+            return this._storeRepo.getStorDetailFullInfo(id);    
         }
     }
 }

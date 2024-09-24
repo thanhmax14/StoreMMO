@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StoreMMO.Services.Store;
+using StoreMMO.API.Services;
+
 
 namespace StoreMMO.API.Controllers
 {
@@ -21,12 +22,12 @@ namespace StoreMMO.API.Controllers
             var list = this._storeService.getAll();
             return Ok(list);
         }
-
-
-
-
-
-
+        [HttpGet("{id}" , Name ="GetStoreDetail")]
+        public IActionResult GetStoreDetail(string id)
+        {
+            var list = this._storeService.getStorDetailFullInfo(id);
+            return Ok(list);
+        }
 
 
 
