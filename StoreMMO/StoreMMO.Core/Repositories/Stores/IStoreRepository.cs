@@ -16,5 +16,7 @@ namespace StoreMMO.Core.Repositories.Stores
         StoreAddViewModels Update(StoreAddViewModels store);
         void Delete(string id);
         StoreAddViewModels getById(string id);
+        IEnumerable<getProducInStoreViewModels> getAllProductInStore(string id);
+        IEnumerable<StoreDetailViewModel> getStorDetailFullInfo(string id);
     }
 }

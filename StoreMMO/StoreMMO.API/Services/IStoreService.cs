@@ -11,6 +11,7 @@ namespace StoreMMO.API.Services
         void Delete(string id);
         StoreAddViewModels getById(string id);
 
-
+        IEnumerable<getProducInStoreViewModels> getAllProductInStore(string id);
+        IEnumerable<StoreDetailViewModel> getStorDetailFullInfo(string id);
     }
 }
