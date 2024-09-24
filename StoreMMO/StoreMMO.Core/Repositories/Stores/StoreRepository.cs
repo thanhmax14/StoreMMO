@@ -99,5 +99,35 @@ namespace StoreMMO.Core.Repositories.Stores
 
             return viewModel;
         }
+        public IEnumerable<getProducInStoreViewModels> getAllProductInStore(string id)
+        {
+            string sql = $"SELECT p.[Name] AS ProductName, p.Stock AS ProductStock FROM Stores s JOIN Users u ON s.UserId = u.Id JOIN StoreDetails sd ON s.ID = sd.StoreID JOIN ProductConnects pc ON sd.Id = pc.StoreDetailID JOIN Products p ON pc.ProductID = p.ID LEFT JOIN FeedBacks f ON f.StoreDetailId = sd.Id AND f.UserId = u.Id JOIN Categories ca ON ca.Id = sd.CategoryId WHERE s.ID = '{id}';\r\n";
+            var list = this._context.Database.SqlQueryRaw<getProducInStoreViewModels>(sql).ToList();
+            return list;
+        }
+        public IEnumerable<StoreDetailViewModel> getStorDetailFullInfo(string id)
+        {
+
+            string sql = $"SELECT u.FullName AS OwnerUserName, sd.[Name] AS StoreName, sd.SubDescription AS " +
+                $"ShortDescription, sd.DescriptionDetail AS LongDescription, ca.[Name] AS CategoryName," +
+                $"  COUNT(f.StoreDetailId) AS QuantityComment" +
+                $" FROM Stores s JOIN Users u ON s.UserId = u.Id JOIN StoreDetails sd ON s.ID = sd.StoreID JOIN" +
+                $" ProductConnects pc ON sd.Id = pc.StoreDetailID JOIN Products p ON pc.ProductID = p.ID LEFT JOIN" +
+                $" FeedBacks f ON f.StoreDetailId = sd.Id AND f.UserId = u.Id JOIN Categories ca" +
+                $" ON ca.Id = sd.CategoryId WHERE s.ID = '{id}' GROUP BY u.FullName, sd.[Name]," +
+                $" sd.SubDescription, sd.DescriptionDetail, ca.[Name], f.Comments, f.Relay;\r\n";
+            var list = this._context.Database.SqlQueryRaw<StoreDetailViewModel>(sql).ToList();
+
+            foreach (var item in list)
+            {
+                var temPro = getAllProductInStore(id);
+                foreach (var itemPro in temPro)
+                {
+                    item.ProductStock.Add(itemPro.ProductName, itemPro.ProductStock);
+                }
+            }
+            return list;
+        }
+
     }
 }

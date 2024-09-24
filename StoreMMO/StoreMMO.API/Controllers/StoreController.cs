@@ -61,6 +61,12 @@ namespace StoreMMO.API.Controllers
             _storeService.getById(id);  
             return Ok(id);
         }
+        [HttpGet("{id}", Name = "GetStoreDetail")]
+        public IActionResult GetStoreDetail(string id)
+        {
+            var list = this._storeService.getStorDetailFullInfo(id);
+            return Ok(list);
+        }
     }
 
 

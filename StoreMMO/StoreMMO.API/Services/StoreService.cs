@@ -36,5 +36,13 @@ namespace StoreMMO.API.Services
         {
             return _storeRepo.Update(store);
         }
+        public IEnumerable<getProducInStoreViewModels> getAllProductInStore(string id)
+        {
+            return this._storeRepo.getAllProductInStore(id);
+        }
+        public IEnumerable<StoreDetailViewModel> getStorDetailFullInfo(string id)
+        {
+            return this._storeRepo.getStorDetailFullInfo(id);
+        }
     }
 }
