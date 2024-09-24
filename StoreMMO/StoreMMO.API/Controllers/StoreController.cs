@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using StoreMMO.API.Services;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
@@ -61,11 +62,12 @@ namespace StoreMMO.API.Controllers
             _storeService.getById(id);  
             return Ok(id);
         }
-        [HttpGet("{id}", Name = "GetStoreDetail")]
+        [HttpGet("detail/{id}", Name = "GetStoreDetail")]
         public IActionResult GetStoreDetail(string id)
         {
             var list = this._storeService.getStorDetailFullInfo(id);
-            return Ok(list);
+            
+            return list.IsNullOrEmpty()?BadRequest("Khong tim thay danh sach"):Ok(list);
         }
     }
 

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using StoreMMO.Models;
 using StoreMMO.Services.StoreMMO.API;
 using System.Diagnostics;
@@ -6,13 +7,11 @@ using System.Diagnostics;
 namespace StoreMMO.Controllers
 {
     public class HomeController : Controller
-    {
-        private readonly ILogger<HomeController> _logger;
+    { 
         private readonly StoreApiService _storeApi;
 
-        public HomeController(ILogger<HomeController> logger,StoreApiService storeApi)
+        public HomeController(StoreApiService storeApi)
         {
-            _logger = logger;
              this._storeApi = storeApi;
         }
 
@@ -21,16 +20,25 @@ namespace StoreMMO.Controllers
             ViewBag.list = await this._storeApi.GetStoresAsync();
             return View();
         }
-
-        public IActionResult Privacy()
+        public async Task<IActionResult> StoreDetail(string id)
         {
-            return View();
+            try
+            {
+                var list = await this._storeApi.GetStoreDetail(id);
+                ViewBag.ListDetail = list;
+                if (list == null || list.Count == 0)
+                {
+                    return NotFound();
+                }
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
+
     }
 }

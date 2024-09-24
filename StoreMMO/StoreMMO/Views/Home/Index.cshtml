@@ -224,7 +224,7 @@
                        @foreach(var item in list){
                             <div class="product-default appear-animate" data-animation-name="fadeInRightShorter">
                                 <figure>
-                                    <a href="product.html">
+                                    <a href="/home/storedetail/@item.storeID">
                                         <img src="~/assets/images/products/product-1.jpg" width="280" height="280" alt="product">
                                         <img src="~/assets/images/products/product-1-2.jpg" width="280" height="280" alt="product">
                                     </a>
@@ -238,9 +238,9 @@
                                         <a href="category.html" class="product-category">Category</a>
                                     </div>
                                     <h3 class="product-title">
-                                        <a href="product.html">@item.nameStore</a>
+                                        <a href="/home/storedetail/@item.storeID">@item.nameStore</a>
                                     </h3>
-                                    <a href="product.html">@item.UserName</a>
+                                    <a href="/home/storedetail/@item.storeID">@item.UserName</a>
                                     <div class="ratings-container">
                                         <div class="product-ratings">
                                             <span class="ratings" style="width:80%"></span>
@@ -259,7 +259,7 @@
                                         <a href="wishlist.html" class="btn-icon-wish" title="wishlist">
                                             <i class="icon-heart"></i>
                                         </a>
-                                        <a href="product.html" class="btn-icon btn-add-cart">
+                                        <a href="/home/storedetail/@item.storeID" class="btn-icon btn-add-cart">
                                             <i class="fa fa-arrow-right"></i><span>
                                                 SELECT
                                                 OPTIONS
