@@ -6,9 +6,9 @@ namespace StoreMMO.API.Services
 {
     public class ProductsService : IProductsService
     {
-        private readonly ProductRepository _productRepository;
+        private readonly IProductRepository _productRepository;
 
-        public ProductsService(ProductRepository productRepository)
+        public ProductsService(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }

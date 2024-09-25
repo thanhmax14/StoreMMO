@@ -209,15 +209,15 @@
 
                                     <li>
                                         Quality:
-                                        <strong> 10</strong>
+                                        <strong id="product-quality" class="product-quality">@TempData["defauStock"]</strong>
                                         <!-- <strong><a href="#" class="product-category">SWEATER</a></strong> -->
                                     </li>
                                 </ul>
 
                                 <div class="product-filters-container">
                                     <div class="product-single-filter">
-                                        <label>Color:</label>
-                                        <span class="new-price">$1,699.00</span>
+                                        <label>Price:</label>
+                                        <span id="new-price" class="new-price">@TempData["defauPrice"]</span>
                                     </div>
 
                                     <div class="product-single-filter">
@@ -230,7 +230,8 @@
                                             @foreach (var product in item.ProductStock)
                                             {
                                                 <li class="@(index == 0 ? "active" : "")">
-                                                    <a href="javascript:;" class="d-flex align-items-center justify-content-center">
+                                                    <a href="javascript:;" onclick="getProduct('@product.Value')"
+                                                    class="d-flex align-items-center justify-content-center" >
                                                         @product.Key
                                                     </a>
                                                 </li>
@@ -293,10 +294,10 @@
                                 <!-- end .sticky-header -->
 
                                 <div class="product-action">
-                                    <div class="price-box product-filtered-price">
+                                  @*   <div class="price-box product-filtered-price">
                                         <del class="old-price"><span>$286.00</span></del> <span class="product-price">$245.00</span>
                                     </div>
-
+ *@
                                     <div class="product-single-qty">
                                         <input class="horizontal-quantity form-control" type="text">
                                     </div>
@@ -344,6 +345,33 @@
                         <!-- End .row -->
                     </div>
                 }
+
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                <script>
+                    function getProduct(productId) {
+                        console.log("ID sản phẩm:", productId);  // Thêm dòng này để kiểm tra ID
+                        $.ajax({
+                            type: "GET",
+                            url: 'https://localhost:7200/api/Product/' + productId,
+                            success: function (response) {
+                                if (response) {
+                                    $("#new-price").text("$" + response.price);
+                                    $("#product-quality").text(response.stock);
+                                } else {
+                                    alert("Lỗi: Không tìm thấy sản phẩm");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert("Lỗi khi gửi yêu cầu AJAX: " + xhr.responseText);
+                            }
+                        });
+                    }
+                </script>
+
+
+
+
                 <!-- End .product-single-container -->
 
                 <div class="product-single-tabs">
