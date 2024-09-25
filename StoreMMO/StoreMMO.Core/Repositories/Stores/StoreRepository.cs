@@ -105,7 +105,7 @@ namespace StoreMMO.Core.Repositories.Stores
         }
         public IEnumerable<getProducInStoreViewModels> getAllProductInStore(string id)
         {
-            string sql = $"SELECT p.[Name] AS ProductName, p.Stock AS ProductStock FROM Stores s JOIN Users u ON s.UserId = u.Id JOIN StoreDetails sd ON s.ID = sd.StoreID JOIN ProductConnects pc ON sd.Id = pc.StoreDetailID JOIN Products p ON pc.ProductID = p.ID LEFT JOIN FeedBacks f ON f.StoreDetailId = sd.Id AND f.UserId = u.Id JOIN Categories ca ON ca.Id = sd.CategoryId WHERE s.ID = '{id}';\r\n";
+            string sql = $"SELECT p.[Name] AS ProductName,p.Id AS ProductId FROM Stores s JOIN Users u ON s.UserId = u.Id JOIN StoreDetails sd ON s.ID = sd.StoreID JOIN ProductConnects pc ON sd.Id = pc.StoreDetailID JOIN Products p ON pc.ProductID = p.ID LEFT JOIN FeedBacks f ON f.StoreDetailId = sd.Id AND f.UserId = u.Id JOIN Categories ca ON ca.Id = sd.CategoryId WHERE s.ID = '{id}';\r\n";
             var list = this._context.Database.SqlQueryRaw<getProducInStoreViewModels>(sql).ToList();
             return list;
         }
@@ -127,7 +127,7 @@ namespace StoreMMO.Core.Repositories.Stores
                 var temPro = getAllProductInStore(id);
                 foreach (var itemPro in temPro)
                 {
-                    item.ProductStock.Add(itemPro.ProductName, itemPro.ProductStock);
+                    item.ProductStock.Add(itemPro.ProductName, itemPro.ProductId);
                 }
             }
             return list;
