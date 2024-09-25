@@ -19,6 +19,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString, b => b.MigrationsAssembly("StoreMMO.Core")));
 
+
+
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
 
@@ -72,8 +74,7 @@ static void ConfigureHttpClient(HttpClient client)
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 }
 builder.Services.AddHttpClient<StoreApiService>(ConfigureHttpClient);
-
-
+builder.Services.AddHttpClient<ProductApiService>(ConfigureHttpClient);
 
 
 
@@ -96,6 +97,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+// User Cross
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

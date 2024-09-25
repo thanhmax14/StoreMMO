@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using StoreMMO.Core.ViewModels;
 using StoreMMO.Models;
 using StoreMMO.Services.StoreMMO.API;
 using System.Diagnostics;
@@ -9,10 +10,12 @@ namespace StoreMMO.Controllers
     public class HomeController : Controller
     { 
         private readonly StoreApiService _storeApi;
+        private readonly ProductApiService _productApi;
 
-        public HomeController(StoreApiService storeApi)
+        public HomeController(StoreApiService storeApi, ProductApiService productApiService)
         {
              this._storeApi = storeApi;
+            this._productApi = productApiService;
         }
 
         public async Task<IActionResult> Index()
@@ -30,14 +33,24 @@ namespace StoreMMO.Controllers
                 {
                     return NotFound();
                 }
-                return View();
+                foreach(var item in list)
+                {
+                    if (item.ProductStock.Count >= 1)
+                    {
+                        var defauPrce = await this._productApi.GetProductById(item.ProductStock.FirstOrDefault().Value);
+                        TempData["defauPrice"] = "$"+ defauPrce.Price;
+                        TempData["defauStock"] = defauPrce.Stock;
+                        return View();
+                    }
+                }
+                return NotFound();
             }
             catch (Exception ex)
             {
                 return NotFound();
             }
         }
-
+  
 
 
     }
