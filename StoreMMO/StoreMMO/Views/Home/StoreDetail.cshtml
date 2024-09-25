@@ -88,10 +88,10 @@
                                         <div class="product-label label-hot">HOT</div>
                                     </div>
 
-                                    <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
+                                    <div class="product-single-carousel owl-carousel owl-them">
                                         <div class="product-item">
                                             <img class="product-single-image"
-                                                 src="assets/images/products/zoom/product-1-big.jpg" height="468"
+                                                 src="@item.StoreImg" height="468"
                                                  alt="product" />
                                         </div>
 
@@ -356,7 +356,7 @@
                             url: 'https://localhost:7200/api/Product/' + productId,
                             success: function (response) {
                                 if (response) {
-                                    $("#new-price").text("$" + response.price);
+                                    $("#new-price").text("$"+response.price);
                                     $("#product-quality").text(response.stock);
                                 } else {
                                     alert("Lỗi: Không tìm thấy sản phẩm");
