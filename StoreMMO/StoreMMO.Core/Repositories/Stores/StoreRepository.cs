@@ -89,12 +89,16 @@ namespace StoreMMO.Core.Repositories.Stores
 
             if (store == null)
             {
-                return null; // Hoặc xử lý ngoại lệ nếu bạn muốn
+                throw new Exception("Not found ID");
             }
             var viewModel = new StoreAddViewModels
             {
                 Id = store.Id,
-               
+                UserId = store.UserId,
+                CreatedDate = store.CreatedDate,
+                ModifiedDate = DateTime.Now,
+                IsAccept = store.IsAccept,
+                Price = store.Price,
             };
 
             return viewModel;

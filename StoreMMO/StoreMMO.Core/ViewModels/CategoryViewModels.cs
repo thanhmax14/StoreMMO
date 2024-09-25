@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace StoreMMO.Core.ViewModels
+{
+    public class CategoryViewModels
+    {
+        public string Id { get; set; }
+
+        public string Name { get; set; }
+
+        public double? Commission { get; set; }
+
+        public DateTimeOffset? CreatedDate { get; set; }
+
+        public DateTimeOffset? ModifiedDate { get; set; }
+    }
+}
