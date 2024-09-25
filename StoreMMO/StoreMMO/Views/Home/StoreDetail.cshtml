@@ -72,65 +72,61 @@
                         <li class="breadcrumb-item"><a href="#">Products</a></li>
                     </ol>
                 </nav>
-                <div class="product-single-container product-single-default">
-                    <div class="cart-message d-none">
-                        <strong class="single-cart-notice">“Men Black Sports Shoes”</strong>
-                        <span>has been added to your cart.</span>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-lg-5 col-md-6 product-single-gallery">
-                            <div class="product-slider-container">
-                                <div class="label-group">
-                                    <div class="product-label label-hot">HOT</div>
-                                </div>
-
-                                <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
-                                    <div class="product-item">
-                                        <img class="product-single-image" src="~/assets/images/products/zoom/product-1-big.jpg" data-zoom-image="~/assets/images/products/zoom/product-1-big.jpg" width="468" height="468" alt="product" />
-                                    </div>
-                                    <div class="product-item">
-                                        <img class="product-single-image" src="~/assets/images/products/zoom/product-2-big.jpg" data-zoom-image="~/assets/images/products/zoom/product-2-big.jpg" width="468" height="468" alt="product" />
-                                    </div>
-                                    <div class="product-item">
-                                        <img class="product-single-image" src="~/assets/images/products/zoom/product-3-big.jpg" data-zoom-image="~/assets/images/products/zoom/product-3-big.jpg" width="468" height="468" alt="product" />
-                                    </div>
-                                    <div class="product-item">
-                                        <img class="product-single-image" src="~/assets/images/products/zoom/product-4-big.jpg" data-zoom-image="~/assets/images/products/zoom/product-4-big.jpg" width="468" height="468" alt="product" />
-                                    </div>
-                                    <div class="product-item">
-                                        <img class="product-single-image" src="~/assets/images/products/zoom/product-5-big.jpg" data-zoom-image="~/assets/images/products/zoom/product-5-big.jpg" width="468" height="468" alt="product" />
-                                    </div>
-                                </div>
-                                <!-- End .product-single-carousel -->
-                                <span class="prod-full-screen">
-                                    <i class="icon-plus"></i>
-                                </span>
-                            </div>
-
-                            <div class="prod-thumbnail owl-dots">
-                                <div class="owl-dot">
-                                    <img src="~/assets/images/products/zoom/product-1.jpg" width="110" height="110" alt="product-thumbnail" />
-                                </div>
-                                <div class="owl-dot">
-                                    <img src="~/assets/images/products/zoom/product-2.jpg" width="110" height="110" alt="product-thumbnail" />
-                                </div>
-                                <div class="owl-dot">
-                                    <img src="~/assets/images/products/zoom/product-3.jpg" width="110" height="110" alt="product-thumbnail" />
-                                </div>
-                                <div class="owl-dot">
-                                    <img src="~/assets/images/products/zoom/product-4.jpg" width="110" height="110" alt="product-thumbnail" />
-                                </div>
-                                <div class="owl-dot">
-                                    <img src="~/assets/images/products/zoom/product-5.jpg" width="110" height="110" alt="product-thumbnail" />
-                                </div>
-                            </div>
+                @foreach (var item in list)
+                {
+                    <div class="product-single-container product-single-default">
+                        <div class="cart-message d-none">
+                            <strong class="single-cart-notice">“@item.StoreName”</strong>
+                            <span>has been added to your cart.</span>
                         </div>
-                        <!-- End .product-single-gallery -->
 
+                        <div class="row">
+                            <div class="col-lg-5 col-md-6 product-single-gallery">
+                                <div class="product-slider-container">
+                                    <div class="label-group">
+                                        <div class="product-label label-hot">HOT</div>
+                                    </div>
 
-                        @foreach(var item in list)
-                        {
+                                    <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
+                                        <div class="product-item">
+                                            <img class="product-single-image"
+                                                 src="assets/images/products/zoom/product-1-big.jpg" height="468"
+                                                 alt="product" />
+                                        </div>
+
+                                    </div>
+                                    <!-- End .product-single-carousel -->
+                                    <!-- <span class="prod-full-screen">
+                                        <i class="icon-plus"></i>
+                                    </span> -->
+                                </div>
+
+                                <!-- <div class="prod-thumbnail owl-dots">
+                                    <div class="owl-dot">
+                                        <img src="assets/images/products/zoom/product-1.jpg" width="110" height="110"
+                                            alt="product-thumbnail" />
+                                    </div>
+                                    <div class="owl-dot">
+                                        <img src="assets/images/products/zoom/product-2.jpg" width="110" height="110"
+                                            alt="product-thumbnail" />
+                                    </div>
+                                    <div class="owl-dot">
+                                        <img src="assets/images/products/zoom/product-3.jpg" width="110" height="110"
+                                            alt="product-thumbnail" />
+                                    </div>
+                                    <div class="owl-dot">
+                                        <img src="assets/images/products/zoom/product-4.jpg" width="110" height="110"
+                                            alt="product-thumbnail" />
+                                    </div>
+                                    <div class="owl-dot">
+                                        <img src="assets/images/products/zoom/product-5.jpg" width="110" height="110"
+                                            alt="product-thumbnail" />
+                                    </div>
+                                </div> -->
+                            </div>
+                            <!-- End .product-single-gallery -->
+
                             <div class="col-lg-7 col-md-6 product-single-details">
                                 <h1 class="product-title">@item.StoreName</h1>
 
@@ -142,7 +138,7 @@
                                             <span class="product-popup">
                                                 <span class="box-content">
                                                     <img alt="product" width="150" height="150"
-                                                         src="~/assets/images/products/product-3.jpg"
+                                                         src="assets/images/products/product-3.jpg"
                                                          style="padding-top: 0px;">
 
                                                     <span>Circled Ultimate 3D Speaker</span>
@@ -158,7 +154,7 @@
                                             <span class="product-popup">
                                                 <span class="box-content">
                                                     <img alt="product" width="150" height="150"
-                                                         src="~/assets/images/products/product-4.jpg"
+                                                         src="assets/images/products/product-4.jpg"
                                                          style="padding-top: 0px;">
 
                                                     <span>Blue Backpack for the Young</span>
@@ -179,64 +175,56 @@
                                     <a href="#" class="rating-link">( 6 Reviews )</a>
                                 </div>
                                 <!-- End .ratings-container -->
+                                @*  <hr class="divider mb-0 mt-0"> *@
 
-                                <hr class="short-divider">
-
-                                <div class="price-box">
+                                <!-- <div class="price-box">
                                     <span class="old-price">$1,999.00</span>
                                     <span class="new-price">$1,699.00</span>
-                                </div>
+                                </div> -->
                                 <!-- End .price-box -->
 
                                 <div class="product-desc">
                                     <p>
                                         @item.ShortDescription
                                     </p>
+
+
                                 </div>
+                                @*    <hr class="divider mb-0 mt-0"> *@
                                 <!-- End .product-desc -->
 
                                 <ul class="single-info-list">
                                     <!---->
                                     <li>
-                                        SKU:
-                                        <strong>654613612</strong>
+                                        <b>Seller:</b>
+                                        <strong>@item.OwnerUserName</strong>
                                     </li>
 
                                     <li>
                                         CATEGORY:
                                         <strong>
-                                            <a href="#" class="product-category">SHOES</a>
+                                            <a href="#" class="product-category">@item.CategoryName</a>
                                         </strong>
                                     </li>
 
                                     <li>
-                                        TAGs:
-                                        <strong><a href="#" class="product-category">CLOTHES</a></strong>,
-                                        <strong><a href="#" class="product-category">SWEATER</a></strong>
+                                        Quality:
+                                        <strong> 10</strong>
+                                        <!-- <strong><a href="#" class="product-category">SWEATER</a></strong> -->
                                     </li>
                                 </ul>
 
                                 <div class="product-filters-container">
                                     <div class="product-single-filter">
                                         <label>Color:</label>
-                                        <ul class="config-size-list config-color-list config-filter-list">
-                                            <li class="active">
-                                                <a href="javascript:;" class="filter-color border-0" style="background-color: rgb(1, 136, 204);"></a>
-                                            </li>
-                                            <li class="">
-                                                <a href="javascript:;" class="filter-color border-0 initial disabled" style="background-color: rgb(221, 181, 119);"></a>
-                                            </li>
-                                            <li class="">
-                                                <a href="javascript:;" class="filter-color border-0" style="background-color: rgb(96, 133, 165);"></a>
-                                            </li>
-                                        </ul>
+                                        <span class="new-price">$1,699.00</span>
                                     </div>
 
                                     <div class="product-single-filter">
-                                        <label>Size:</label>
+                                        <label>Product:</label>
                                         <ul class="config-size-list">
                                             @{
-                                                var index = 0; 
+                                                var index = 0;
                                             }
 
                                             @foreach (var product in item.ProductStock)
@@ -248,14 +236,9 @@
                                                 </li>
                                                 index++;
                                             }
-
-                                            
-
-
-
                                             @* <li class=""><a href="javascript:;" class="d-flex align-items-center justify-content-center">Large</a></li>
-                                            <li class=""><a href="javascript:;" class="d-flex align-items-center justify-content-center">Medium</a></li>
-                                            <li class=""><a href="javascript:;" class="d-flex align-items-center justify-content-center">Small</a></li> *@
+                                        <li class=""><a href="javascript:;" class="d-flex align-items-center justify-content-center">Medium</a></li>
+                                        <li class=""><a href="javascript:;" class="d-flex align-items-center justify-content-center">Small</a></li> *@
                                         </ul>
                                     </div>
 
@@ -269,7 +252,8 @@
                                 <div class="sticky-header" data-sticky-options="{'mobile': false}">
                                     <div class="container">
                                         <div class="sticky-img mr-4">
-                                            <img src="~/assets/images/products/zoom/product-1.jpg" width="50" height="50" alt="product" />
+                                            <img src="assets/images/products/zoom/product-1.jpg" width="50" height="50"
+                                                 alt="product" />
                                         </div>
                                         <div class="sticky-detail">
                                             <div class="sticky-product-name">
@@ -299,7 +283,8 @@
                                             </div>
                                             <!-- End .product-single-qty -->
 
-                                            <a href="cart.html" class="btn btn-dark add-cart icon-shopping-cart" title="Add to Cart">Add to Cart</a>
+                                            <a href="cart.html" class="btn btn-dark add-cart icon-shopping-cart"
+                                               title="Add to Cart">Add to Cart</a>
                                         </div>
                                         <!-- End .product-action -->
                                     </div>
@@ -308,10 +293,8 @@
                                 <!-- end .sticky-header -->
 
                                 <div class="product-action">
-
                                     <div class="price-box product-filtered-price">
-                                        <del class="old-price"><span>$65</span></del>
-                                        <span class="product-price">$245.00</span>
+                                        <del class="old-price"><span>$286.00</span></del> <span class="product-price">$245.00</span>
                                     </div>
 
                                     <div class="product-single-qty">
@@ -334,11 +317,16 @@
                                     <label class="sr-only">Share:</label>
 
                                     <div class="social-icons mr-2">
-                                        <a href="#" class="social-icon social-facebook icon-facebook" target="_blank" title="Facebook"></a>
-                                        <a href="#" class="social-icon social-twitter icon-twitter" target="_blank" title="Twitter"></a>
-                                        <a href="#" class="social-icon social-linkedin fab fa-linkedin-in" target="_blank" title="Linkedin"></a>
-                                        <a href="#" class="social-icon social-gplus fab fa-google-plus-g" target="_blank" title="Google +"></a>
-                                        <a href="#" class="social-icon social-mail icon-mail-alt" target="_blank" title="Mail"></a>
+                                        <a href="#" class="social-icon social-facebook icon-facebook" target="_blank"
+                                           title="Facebook"></a>
+                                        <a href="#" class="social-icon social-twitter icon-twitter" target="_blank"
+                                           title="Twitter"></a>
+                                        <a href="#" class="social-icon social-linkedin fab fa-linkedin-in" target="_blank"
+                                           title="Linkedin"></a>
+                                        <a href="#" class="social-icon social-gplus fab fa-google-plus-g" target="_blank"
+                                           title="Google +"></a>
+                                        <a href="#" class="social-icon social-mail icon-mail-alt" target="_blank"
+                                           title="Mail"></a>
                                     </div>
                                     <!-- End .social-icons -->
 
@@ -351,21 +339,11 @@
                                 </div>
                                 <!-- End .product single-share -->
                             </div>
-                        }
-
-
-                      
-
-
-
-
-
-
-
-                        <!-- End .product-single-details -->
+                            <!-- End .product-single-details -->
+                        </div>
+                        <!-- End .row -->
                     </div>
-                    <!-- End .row -->
-                </div>
+                }
                 <!-- End .product-single-container -->
 
                 <div class="product-single-tabs">
