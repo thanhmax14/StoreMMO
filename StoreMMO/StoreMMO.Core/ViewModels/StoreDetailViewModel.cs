@@ -11,6 +11,7 @@ namespace StoreMMO.Core.ViewModels
     {
         public string OwnerUserName { get; set; } = "thanh";
         public string StoreName { get; set; }
+         public string StoreImg { get; set; }
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public string CategoryName { get; set; }
