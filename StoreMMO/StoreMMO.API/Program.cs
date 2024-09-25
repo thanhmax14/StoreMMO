@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Stores;
 using StoreMMO.API.Services;
+using StoreMMO.Core.Repositories.Carts;
+using StoreMMO.Core.Repositories.Categorys;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
 

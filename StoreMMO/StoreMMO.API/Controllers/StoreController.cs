@@ -59,8 +59,14 @@ namespace StoreMMO.API.Controllers
         }
         [HttpGet("{id}")]
         public IActionResult GetById(string id) {
-            _storeService.getById(id);  
-            return Ok(id);
+            var store = _storeService.getById(id);
+
+            if (store == null)
+            {
+                return NotFound("Store not found with the given ID");
+            }
+            // Trả về đối tượng StoreAddViewModels dưới dạng JSON
+            return Ok(store);
         }
         [HttpGet("detail/{id}", Name = "GetStoreDetail")]
         public IActionResult GetStoreDetail(string id)
