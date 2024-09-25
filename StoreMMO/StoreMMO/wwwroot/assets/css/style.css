@@ -11938,8 +11938,8 @@ main .sticky-header .product-ratings:before {
 }
 .product-single-filter .config-size-list li a {
   margin: 3px 6px 3px 0;
-  min-width: 3.2rem;
-  height: 2.6rem;
+  min-width: 15rem;
+  height: 3.6rem;
   border: 1px solid #eee;
   color: inherit;
   font-size: 1.1rem;

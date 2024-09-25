@@ -8,5 +8,6 @@ namespace StoreMMO.Core.Repositories.Product
 {
     public interface IProductRepository
     {
+
     }
 }
