@@ -15,7 +15,7 @@ namespace StoreMMO.Controllers
         public HomeController(StoreApiService storeApi, ProductApiService productApiService)
         {
              this._storeApi = storeApi;
-            this._productApi = productApiService;
+            this._productApi= productApiService;
         }
 
         public async Task<IActionResult> Index()

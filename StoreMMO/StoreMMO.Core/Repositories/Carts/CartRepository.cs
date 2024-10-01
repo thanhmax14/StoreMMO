@@ -107,7 +107,7 @@ namespace StoreMMO.Core.Repositories.Carts
             _contextAccessor.HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart, jsonSettings));
         }
 
-        public CartItem getProductAddByID(string proid)
+     /*   public CartItem getProductAddByID(string proid)
         {
             var sql = @"
         SELECT 
@@ -127,7 +127,7 @@ namespace StoreMMO.Core.Repositories.Carts
             var cartItem = _context.Database.SqlQueryRaw<CartItem>(sql, new SqlParameter("@ProductId", proid));
 
             return nu;
-        }
+        }*/
 
     }
 }

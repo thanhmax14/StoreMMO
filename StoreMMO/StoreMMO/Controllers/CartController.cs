@@ -16,24 +16,25 @@ namespace StoreMMO.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult AddCart(string saveProID, string quan)
-        {
-            var getinfoProduct = this._cartService.getProductAddByID(saveProID);
-           
-            float quantemp= float.Parse(quan);
-            var fullInfo = new CartItem { productID =
-                getinfoProduct.productID,
-                img = getinfoProduct.img,
-                price = getinfoProduct.price,
-                proName = getinfoProduct.proName,
-                quantity = quan,
-                subtotal = ""+ getinfoProduct.price* quantemp
+       /* [HttpPost]*/
+        /*   public IActionResult AddCart(string saveProID, string quan)
+           {
+               var getinfoProduct = this._cartService.getProductAddByID(saveProID);
 
-            };
-            var temsd = fullInfo;
+               float quantemp= float.Parse(quan);
+               var fullInfo = new CartItem { productID =
+                   getinfoProduct.productID,
+                   img = getinfoProduct.img,
+                   price = getinfoProduct.price,
+                   proName = getinfoProduct.proName,
+                   quantity = quan,
+                   subtotal = ""+ getinfoProduct.price* quantemp
 
-            return Json(new { success = true });
-        }
+               };
+               var temsd = fullInfo;
+
+               return Json(new { success = true });
+           }*/
     }
+
 }
