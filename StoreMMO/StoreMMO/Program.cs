@@ -2,11 +2,15 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+
 using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Carts;
+using StoreMMO.Core.Repositories.Categorys;
+using StoreMMO.Core.Repositories.Products;
 using StoreMMO.Core.Repositories.Stores;
 using StoreMMO.Services.Email;
 using StoreMMO.Services.StoreMMO.API;
+using StoreMMO.Services.StoreMMO.Core;
 using System.Configuration;
 using System.Net.Http.Headers;
 
@@ -80,6 +84,16 @@ builder.Services.AddHttpClient<ProductApiService>(ConfigureHttpClient);
 
 
 
+//Service for StoreMMO.Core
+builder.Services.AddScoped<IStoreRepository, StoreRepository>();
+builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductsService, ProductsService>();
 
 
 

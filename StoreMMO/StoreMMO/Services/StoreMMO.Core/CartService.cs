@@ -2,7 +2,7 @@
 using StoreMMO.Core.Repositories.Carts;
 using StoreMMO.Core.ViewModels;
 
-namespace StoreMMO.API.Services
+namespace StoreMMO.Services.StoreMMO.Core
 {
     public class CartService : ICartService
     {
@@ -32,7 +32,22 @@ namespace StoreMMO.API.Services
             return _cartRepository.getById(id);
         }
 
-      
+       
+
+        public CartItem getProductAddByID(string proid)
+        {
+           return _cartRepository.getProductAddByID(proid);
+        }
+        public List<CartItem> GetCartFromSession()
+        {
+           return this._cartRepository.GetCartFromSession();
+        }
+
+        public void SaveCartToSession(List<CartItem> cart)
+        {
+             this._cartRepository.SaveCartToSession(cart);
+
+        }
 
         public CartViewModels UpdateCart(CartViewModels cart)
         {
