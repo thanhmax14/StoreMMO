@@ -1,7 +1,7 @@
 ﻿using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 
-namespace StoreMMO.API.Services
+namespace StoreMMO.Services.StoreMMO.Core
 {
     public interface ICartService
     {
@@ -11,6 +11,9 @@ namespace StoreMMO.API.Services
         CartViewModels UpdateCart(CartViewModels cart);
         void DeleteCart(string id);
 
-       
+        CartItem getProductAddByID(string proid);
+        List<CartItem> GetCartFromSession();
+        void SaveCartToSession(List<CartItem> cart);
+
     }
 }

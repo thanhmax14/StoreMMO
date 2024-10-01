@@ -76,7 +76,7 @@
                 @foreach (var item in list)
                 {
                     <div class="product-single-container product-single-default">
-                        <div class="cart-message d-none">
+                        <div id="cart-message" class="cart-message d-none">
                             <strong class="single-cart-notice">“@item.StoreName”</strong>
                             <span>has been added to your cart.</span>
                         </div>
@@ -219,21 +219,23 @@
                                         <label>Price:</label>
                                         <span id="new-price" class="new-price">@TempData["defauPrice"]</span>
                                     </div>
-
+                                    <input type="text" hidden id="defauProid" value="@TempData["defauProid"]" />
                                     <div class="product-single-filter">
                                         <label>Product:</label>
                                         <ul class="config-size-list">
                                             @{
                                                 var index = 0;
                                             }
-
+                                           
                                             @foreach (var product in item.ProductStock)
                                             {
+                                                
                                                 <li class="@(index == 0 ? "active" : "")">
                                                     <a href="javascript:;" onclick="getProduct('@product.Value')"
                                                     class="d-flex align-items-center justify-content-center" >
                                                         @product.Key
                                                     </a>
+                                                   
                                                 </li>
                                                 index++;
                                             }
@@ -245,7 +247,7 @@
 
                                     <div class="product-single-filter">
                                         <label></label>
-                                        <a class="font1 text-uppercase clear-btn" href="#">Clear</a>
+                                     @*    <a class="font1 text-uppercase clear-btn" href="#">Clear</a> *@
                                     </div>
                                     <!---->
                                 </div>
@@ -284,7 +286,7 @@
                                             </div>
                                             <!-- End .product-single-qty -->
 
-                                            <a href="cart.html" class="btn btn-dark add-cart icon-shopping-cart"
+                                            <a href="" onclick="addCart()" class="btn btn-dark add-cart icon-shopping-cart"
                                                title="Add to Cart">Add to Cart</a>
                                         </div>
                                         <!-- End .product-action -->
@@ -299,16 +301,16 @@
                                     </div>
  *@
                                     <div class="product-single-qty">
-                                        <input class="horizontal-quantity form-control" type="text">
+                                        <input class="horizontal-quantity form-control" type="text" id="quantity">
                                     </div>
                                     <!-- End .product-single-qty -->
 
-                                    <a href="javascript:;" class="btn btn-dark add-cart mr-2" title="Add to Cart">
+                                    <a href="javascript:;" onclick="addCart()" id="cartid" class="btn btn-dark add-cart mr-2" title="Add to Cart">
                                         Add to
                                         Cart
                                     </a>
 
-                                    <a href="cart.html" class="btn btn-gray view-cart d-none">View cart</a>
+                                    <a href="cart.html" id="viewCar" class="btn btn-gray view-cart d-none">View cart</a>
                                 </div>
                                 <!-- End .product-action -->
 
@@ -349,8 +351,14 @@
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
                 <script>
+                    var saveProID = document.getElementById("defauProid").value;
+                    var quan = document.getElementById("quantity").value;
                     function getProduct(productId) {
-                        console.log("ID sản phẩm:", productId);  // Thêm dòng này để kiểm tra ID
+                        var element = document.getElementById("cartid");
+                        var viewCar = document.getElementById("viewCar");
+                        var cartmessage = document.getElementById("cart-message");
+                        console.log("ID sản phẩm:", productId);  
+                        saveProID = productId;
                         $.ajax({
                             type: "GET",
                             url: 'https://localhost:7200/api/Product/' + productId,
@@ -358,6 +366,9 @@
                                 if (response) {
                                     $("#new-price").text("$"+response.price);
                                     $("#product-quality").text(response.stock);
+                                    element.className = "btn btn-dark add-cart mr-2";
+                                    viewCar.className = "btn btn-gray view-cart d-none";
+                                    cartmessage.className = "cart-message d-none";
                                 } else {
                                     alert("Lỗi: Không tìm thấy sản phẩm");
                                 }
@@ -367,6 +378,28 @@
                             }
                         });
                     }
+
+                    function addCart() {
+                        var quan = document.getElementById("quantity").value;
+                        console.log("Sending data - saveProID: " + saveProID + ", quan: " + quan); // In ra để kiểm tra giá trị
+                        $.ajax({
+                            type: "POST",
+                            url: '/Cart/AddCart/',
+                            data: { saveProID: saveProID, quan: quan },
+                            success: function (response) {
+                                if (response.success) {
+                                    console.log("ok: " + saveProID + ": " + quan);
+                                } else {
+                                    alert("Lỗi: Không tìm thấy sản phẩm");
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert("Lỗi khi gửi yêu cầu AJAX: " + xhr.responseText);
+                            }
+                        });
+                    }
+
+
                 </script>
 
 

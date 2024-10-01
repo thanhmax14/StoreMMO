@@ -40,6 +40,7 @@ namespace StoreMMO.Controllers
                         var defauPrce = await this._productApi.GetProductById(item.ProductStock.FirstOrDefault().Value);
                         TempData["defauPrice"] = "$"+ defauPrce.Price;
                         TempData["defauStock"] = defauPrce.Stock;
+                        TempData["defauProid"] = defauPrce.Id;
                         return View();
                     }
                 }
@@ -50,8 +51,5 @@ namespace StoreMMO.Controllers
                 return NotFound();
             }
         }
-  
-
-
     }
 }

@@ -1,11 +1,17 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.Carts
@@ -14,9 +20,11 @@ namespace StoreMMO.Core.Repositories.Carts
     public class CartRepository : ICartRepository
     {
         private readonly AppDbContext _context;
-        public CartRepository(AppDbContext context)
+        private readonly IHttpContextAccessor _contextAccessor;
+        public CartRepository(AppDbContext context, IHttpContextAccessor contextAccessor)
         {
             _context = context;
+            this._contextAccessor = contextAccessor;   
         }
 
         public CartViewModels Add(CartViewModels cart)
@@ -83,7 +91,43 @@ namespace StoreMMO.Core.Repositories.Carts
             _context.SaveChanges();
 
             return cart;
+        }
+        public List<CartItem> GetCartFromSession() {
+
+            var cart = this._contextAccessor.HttpContext.Session.GetString("Cart");
+            return string.IsNullOrEmpty(cart) ? new List<CartItem>() : JsonConvert.DeserializeObject<List<CartItem>>(cart);
 
         }
+        public void SaveCartToSession(List<CartItem> cart)
+        {
+            var jsonSettings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+            _contextAccessor.HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart, jsonSettings));
+        }
+
+        public CartItem getProductAddByID(string proid)
+        {
+            var sql = @"
+        SELECT 
+            Products.Id AS productID, 
+            Products.Name AS proName, 
+            StoreDetails.Img AS img, 
+            Products.Price AS price 
+        FROM 
+            StoreDetails 
+        INNER JOIN 
+            ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId 
+        INNER JOIN 
+            Products ON ProductConnects.ProductId = Products.Id 
+        WHERE 
+            Products.Id = @ProductId";
+
+            var cartItem = _context.Database.SqlQueryRaw<CartItem>(sql, new SqlParameter("@ProductId", proid));
+
+            return nu;
+        }
+
     }
 }

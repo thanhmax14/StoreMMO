@@ -10,6 +10,7 @@ public partial class Cart
     public string ProductId { get; set; }
 
     public string UserId { get; set; }
+    public string quantity { get; set; }
 
     public virtual Product Product { get; set; }
     public virtual AppUser User { get; set; }
