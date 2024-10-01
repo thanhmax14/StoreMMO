@@ -11,7 +11,7 @@ namespace StoreMMO.Services.StoreMMO.Core
         CartViewModels UpdateCart(CartViewModels cart);
         void DeleteCart(string id);
 
-        CartItem getProductAddByID(string proid);
+      /*  CartItem getProductAddByID(string proid);*/
         List<CartItem> GetCartFromSession();
         void SaveCartToSession(List<CartItem> cart);
 

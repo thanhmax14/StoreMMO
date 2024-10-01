@@ -34,10 +34,10 @@ namespace StoreMMO.Services.StoreMMO.Core
 
        
 
-        public CartItem getProductAddByID(string proid)
+       /* public CartItem getProductAddByID(string proid)
         {
            return _cartRepository.getProductAddByID(proid);
-        }
+        }*/
         public List<CartItem> GetCartFromSession()
         {
            return this._cartRepository.GetCartFromSession();
