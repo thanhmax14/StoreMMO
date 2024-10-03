@@ -1,6 +1,4 @@
-﻿using Humanizer;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using StoreMMO.API.Services;
 using StoreMMO.Core.ViewModels;
 
@@ -27,7 +25,7 @@ namespace StoreMMO.API.Controllers
             {
                 return BadRequest(new
                 {
-                    message = "Not found IDpppppppppppppppppppppppppppppppppppppppppppppppppppp",
+                    message = "Not found IDloz",
                     error = ex.Message,
                 });
             }
