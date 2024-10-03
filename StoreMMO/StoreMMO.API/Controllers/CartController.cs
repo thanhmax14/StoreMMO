@@ -1,6 +1,4 @@
-﻿using Humanizer;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using StoreMMO.API.Services;
 using StoreMMO.Core.ViewModels;
@@ -33,12 +31,12 @@ namespace StoreMMO.API.Controllers
                 });
             }
         }
-   /*     [HttpGet]
-        public IActionResult getAllCart()
-        {
-            var list = _cartService.getAllCart();
-            return Ok(list);
-        }*/
+        /*     [HttpGet]
+             public IActionResult getAllCart()
+             {
+                 var list = _cartService.getAllCart();
+                 return Ok(list);
+             }*/
         [HttpPost]
         public IActionResult AddCart(CartViewModels cart)
         {
@@ -105,8 +103,8 @@ namespace StoreMMO.API.Controllers
         [HttpPost("AddToCart")]
         public IActionResult AddToCart([FromBody] CartRequest request)
         {
-            
-            if (string.IsNullOrEmpty(request.saveProID) || string.IsNullOrEmpty(request.quantity)||request == null)
+
+            if (string.IsNullOrEmpty(request.saveProID) || string.IsNullOrEmpty(request.quantity) || request == null)
             {
                 return BadRequest(new { success = false, message = "Invalid please enter again!!." });
             }
@@ -117,7 +115,8 @@ namespace StoreMMO.API.Controllers
                 if (getitem != null || !getitem.IsNullOrEmpty())
 
                 {
-                    foreach (var item in getitem) {
+                    foreach (var item in getitem)
+                    {
                         double quantity = double.Parse(request.quantity);
                         var temp = new CartItem
                         {
@@ -129,34 +128,34 @@ namespace StoreMMO.API.Controllers
                             subtotal = "" + item.price * quantity
 
                         };
-						var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
-						if (existingItem != null)
-						{
-							existingItem.quantity = (double.Parse(existingItem.quantity) + quantity).ToString(); 
-							existingItem.subtotal = (item.price * (double.Parse(existingItem.quantity))).ToString(); 
-						}
-						else
-						{
-							
-							cart.Add(temp);
-						}
-						this._cartService.SaveCartToSession(cart);
-					}
+                        var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
+                        if (existingItem != null)
+                        {
+                            existingItem.quantity = (double.Parse(existingItem.quantity) + quantity).ToString();
+                            existingItem.subtotal = (item.price * (double.Parse(existingItem.quantity))).ToString();
+                        }
+                        else
+                        {
+
+                            cart.Add(temp);
+                        }
+                        this._cartService.SaveCartToSession(cart);
+                    }
 
                 }
-                return Ok(new { success = true , message="ok id la "+ request.saveProID });
+                return Ok(new { success = true, message = "ok id la " + request.saveProID });
             }
         }
 
-		[HttpGet]
-		public IActionResult GetCart()
-		{
-            var sum = this._cartService.sum();
-
-			var cart = this._cartService.GetCartFromSession();
-			return Ok(cart);
-		}
+        [HttpGet]
+        public IActionResult GetCart()
+        {
 
 
-	}
+            var cart = this._cartService.GetCartFromSession();
+            return Ok(cart);
+        }
+
+
+    }
 }
