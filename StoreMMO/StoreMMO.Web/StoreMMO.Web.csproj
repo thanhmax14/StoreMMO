@@ -28,7 +28,6 @@
 	  <ProjectReference Include="..\StoreMMO.Core\StoreMMO.Core.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Pages\Admin\" />
 	  <Folder Include="Pages\User\" />
 	  <Folder Include="Pages\Seller\" />
 	</ItemGroup>

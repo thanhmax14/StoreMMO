@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
@@ -6,10 +7,10 @@ using StoreMMO.Core.Repositories.Carts;
 using StoreMMO.Core.Repositories.Categorys;
 using StoreMMO.Core.Repositories.Products;
 using StoreMMO.Core.Repositories.Stores;
+using StoreMMO.Core.Repositories.User;
 using StoreMMO.Web.Services.Email;
 using StoreMMO.Web.Services.StoreMMO.API;
 using StoreMMO.Web.Services.StoreMMO.Core;
-using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +26,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-	options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian hết hạn session
-	options.Cookie.HttpOnly = true;
-	options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian hết hạn session
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
 builder.Services.AddHttpContextAccessor();
@@ -42,7 +43,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     .AddDefaultTokenProviders();
 
 //IdentityOptions
-builder.Services.Configure<IdentityOptions>(options => {
+builder.Services.Configure<IdentityOptions>(options =>
+{
 
     options.Password.RequireDigit = false;
     options.Password.RequireLowercase = false;
@@ -101,6 +103,9 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductsService, ProductsService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserServices, UserService>();
 
 
 
