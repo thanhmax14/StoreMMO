@@ -2,6 +2,7 @@
 @model StoreMMO.Web.Pages.Home.StoredetailModel
 @{
 }
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -302,7 +303,7 @@
                                     </div>
                                     <!-- End .product-single-qty -->
 
-                                    <a href="javascript:;" onclick="" id="cartid" class="btn btn-dark add-cart mr-2" title="Add to Cart">
+                                    <a href="javascript:;" onclick="addCart()" id="cartid" class="btn btn-dark add-cart mr-2" title="Add to Cart">
                                         Add to
                                         Cart
                                     </a>
@@ -378,10 +379,10 @@
 
                     function addCart() {
                         var quan = document.getElementById("quantity").value;
-                        console.log("Sending data - saveProID: " + saveProID + ", quan: " + quan); 
+                        console.log("Sending data - saveProID: " + saveProID + ", quan: " + quan); // In ra để kiểm tra giá trị
                         $.ajax({
                             type: "POST",
-                            url: @Url.Page("Cart", "AddToCart"),
+                            url: '/Cart/AddCart/',
                             data: { saveProID: saveProID, quan: quan },
                             success: function (response) {
                                 if (response.success) {
@@ -395,8 +396,6 @@
                             }
                         });
                     }
-
-
 
 
                 </script>
