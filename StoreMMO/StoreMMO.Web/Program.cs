@@ -22,7 +22,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString, b => b.MigrationsAssembly("StoreMMO.Core")));
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian hết hạn session
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
 
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 {
@@ -77,6 +85,7 @@ static void ConfigureHttpClient(HttpClient client)
 }
 builder.Services.AddHttpClient<StoreApiService>(ConfigureHttpClient);
 builder.Services.AddHttpClient<ProductApiService>(ConfigureHttpClient);
+builder.Services.AddHttpClient<CartApiService>(ConfigureHttpClient);
 
 
 
@@ -113,7 +122,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();
