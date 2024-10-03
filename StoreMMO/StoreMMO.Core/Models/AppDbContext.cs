@@ -78,7 +78,7 @@ namespace StoreMMO.Core.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-1E1A6I4;Database =StoreMMO;uid=sa;pwd=Thanh;encrypt=true;trustServerCertificate=true;", b => b.MigrationsAssembly("StoreMMO.Core"));
+                optionsBuilder.UseSqlServer("Server=DESKTOP-FNQC97E;Database =StoreMMO;uid=sa;pwd=131123;encrypt=true;trustServerCertificate=true;", b => b.MigrationsAssembly("StoreMMO.Core"));
             }
         }
 
