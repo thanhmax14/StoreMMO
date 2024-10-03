@@ -107,27 +107,20 @@ namespace StoreMMO.Core.Repositories.Carts
             _contextAccessor.HttpContext.Session.SetString("Cart", JsonConvert.SerializeObject(cart, jsonSettings));
         }
 
-     /*   public CartItem getProductAddByID(string proid)
+        public IEnumerable<CartItem> getProductAddByID(string proid)
         {
-            var sql = @"
-        SELECT 
-            Products.Id AS productID, 
-            Products.Name AS proName, 
-            StoreDetails.Img AS img, 
-            Products.Price AS price 
-        FROM 
-            StoreDetails 
-        INNER JOIN 
-            ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId 
-        INNER JOIN 
-            Products ON ProductConnects.ProductId = Products.Id 
-        WHERE 
-            Products.Id = @ProductId";
+            string sql = $"SELECT Products.Id AS productID, Products.Name AS proName, StoreDetails.Img AS img, Products.Price AS price FROM StoreDetails" +
+                $" INNER JOIN ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId INNER JOIN Products ON ProductConnects.ProductId " +
+                $"= Products.Id WHERE Products.Id = '{proid}';\r\n";
 
-            var cartItem = _context.Database.SqlQueryRaw<CartItem>(sql, new SqlParameter("@ProductId", proid));
+            var list = this._context.Database.SqlQueryRaw<CartItem>(sql).ToList();
 
-            return nu;
-        }*/
+            return list;
+        }
 
+        public int sum(int a, int b)
+        {
+            return a + b;
+        }
     }
 }

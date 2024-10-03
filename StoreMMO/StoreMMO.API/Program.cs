@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Stores;
 using StoreMMO.API.Services;
@@ -15,6 +15,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString, b => b.MigrationsAssembly("StoreMMO.Core")));
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian hết hạn session
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
+
+
 
 //Services for CORS
 builder.Services.AddCors(options =>
@@ -25,6 +34,7 @@ builder.Services.AddCors(options =>
             policy.WithOrigins("https://localhost:44380")
                   .AllowAnyMethod()
                   .AllowAnyHeader();
+            policy.WithOrigins("https://localhost:44320").AllowAnyMethod().AllowAnyHeader();
         });
 });
 
@@ -61,6 +71,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors("AllowSpecificOrigin");
 app.UseHttpsRedirection();
+app.UseSession();
 
 app.UseAuthorization();
 

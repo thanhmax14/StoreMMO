@@ -29,7 +29,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\Admin\" />
-	  <Folder Include="Pages\Cart\" />
 	  <Folder Include="Pages\User\" />
 	  <Folder Include="Pages\Seller\" />
 	</ItemGroup>

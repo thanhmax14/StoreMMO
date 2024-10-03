@@ -32,7 +32,25 @@ namespace StoreMMO.API.Services
             return _cartRepository.getById(id);
         }
 
-      
+        public List<CartItem> GetCartFromSession()
+        {
+           return this._cartRepository.GetCartFromSession();
+        }
+
+        public IEnumerable<CartItem> getProductAddByID(string proid)
+        {
+            return this._cartRepository.getProductAddByID(proid);
+        }
+
+        public void SaveCartToSession(List<CartItem> cart)
+        {
+             this._cartRepository.SaveCartToSession(cart);
+        }
+
+        public int sum(int a, int b)
+        {
+           return this._cartRepository.sum(a, b);
+        }
 
         public CartViewModels UpdateCart(CartViewModels cart)
         {
