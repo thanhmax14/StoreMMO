@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Models
 {
@@ -48,18 +42,18 @@ namespace StoreMMO.Core.Models
                 }
             }
             builder.Entity<Store>()
-           .HasOne(s => s.User)  
-           .WithMany()  
-           .HasForeignKey(s => s.UserId) 
+           .HasOne(s => s.User)
+           .WithMany()
+           .HasForeignKey(s => s.UserId)
            .OnDelete(DeleteBehavior.Cascade);
 
 
-          
+
             builder.Entity<FeedBack>()
-                .HasOne(fb => fb.User)  
-                .WithMany()  
+                .HasOne(fb => fb.User)
+                .WithMany()
                 .HasForeignKey(fb => fb.UserId)
-                .OnDelete(DeleteBehavior.Restrict); 
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<WishList>()
            .HasOne(s => s.User)
@@ -73,12 +67,12 @@ namespace StoreMMO.Core.Models
           .HasForeignKey(s => s.UserId)
           .OnDelete(DeleteBehavior.Cascade);
         }
-        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-1E1A6I4;Database =StoreMMO;uid=sa;pwd=Thanh;encrypt=true;trustServerCertificate=true;", b => b.MigrationsAssembly("StoreMMO.Core"));
+                optionsBuilder.UseSqlServer("Server=TRANGIAHUY;Database =StoreMMO;uid=sa;pwd=1035;encrypt=true;trustServerCertificate=true;", b => b.MigrationsAssembly("StoreMMO.Core"));
             }
         }
 
