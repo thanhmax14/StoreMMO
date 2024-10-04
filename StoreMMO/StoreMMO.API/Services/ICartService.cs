@@ -10,7 +10,9 @@ namespace StoreMMO.API.Services
         CartViewModels Add(CartViewModels cart);
         CartViewModels UpdateCart(CartViewModels cart);
         void DeleteCart(string id);
-
-       
+        IEnumerable<CartItem> getProductAddByID(string proid);
+        List<CartItem> GetCartFromSession();
+        void SaveCartToSession(List<CartItem> cart);
+        int sum(int a, int b);
     }
 }
