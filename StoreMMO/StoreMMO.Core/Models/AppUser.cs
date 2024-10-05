@@ -16,10 +16,10 @@ namespace StoreMMO.Core.Models
        
         public DateTime? DateOfBirth { get; set; }
 
-
-        public string? Address { get; set; }
-
-    
+         public string? Address { get; set; }
+        public bool IsDelete { get; set; }
+        public DateTime? DateDelete { get; set; }
+        public  DateTime? DateRestore { get; set; }
         public DateTime? CreatedDate { get; set; }
 
      

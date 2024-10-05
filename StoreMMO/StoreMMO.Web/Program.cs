@@ -94,6 +94,8 @@ builder.Services.AddHttpClient<CartApiService>(ConfigureHttpClient);
 //Service for StoreMMO.Core
 builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddScoped<IStoreService, StoreService>();
+
+
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
