@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,9 +77,20 @@ namespace StoreMMO.Core.Models
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+           
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-1E1A6I4;Database =StoreMMO;uid=sa;pwd=Thanh;encrypt=true;trustServerCertificate=true;", b => b.MigrationsAssembly("StoreMMO.Core"));
+                string jsonFilePath = @"D:\connectionConfig.json";
+
+                // Đọc file JSON và xây dựng cấu hình
+                IConfiguration config = new ConfigurationBuilder()
+                    .SetBasePath(Path.GetDirectoryName(jsonFilePath))
+                    .AddJsonFile(Path.GetFileName(jsonFilePath))
+                    .Build();
+
+                // Lấy chuỗi kết nối từ file JSON
+                string connectionString = config.GetConnectionString("df");
+                optionsBuilder.UseSqlServer(connectionString, b => b.MigrationsAssembly("StoreMMO.Core"));
             }
         }
 

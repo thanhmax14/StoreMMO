@@ -8,7 +8,17 @@ using StoreMMO.Core.Repositories.Products;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("df");
+
+string jsonFilePath = @"D:\connectionConfig.json";
+
+// Đọc file JSON và xây dựng cấu hình
+IConfiguration config = new ConfigurationBuilder()
+    .SetBasePath(Path.GetDirectoryName(jsonFilePath))
+    .AddJsonFile(Path.GetFileName(jsonFilePath))
+    .Build();
+
+// Lấy chuỗi kết nối từ file JSON
+string connectionString = config.GetConnectionString("df");
 
 builder.Services.AddControllersWithViews();
 

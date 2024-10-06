@@ -14,9 +14,15 @@ using StoreMMO.Web.Services.StoreMMO.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
+string jsonFilePath = @"D:\connectionConfig.json";
 
 
-var connectionString = builder.Configuration.GetConnectionString("df");
+IConfiguration config = new ConfigurationBuilder()
+    .SetBasePath(Path.GetDirectoryName(jsonFilePath))
+    .AddJsonFile(Path.GetFileName(jsonFilePath))
+    .Build();
+
+string connectionString = config.GetConnectionString("df");
 
 builder.Services.AddControllersWithViews();
 
