@@ -277,21 +277,13 @@
                                             <!-- End .product-container -->
                                         </div>
                                         <!-- End .sticky-detail -->
+                                       @*  <button onclick="sendAja()">Send AJAX</button> *@
 
+                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                 
 
-                                        <script>
-                                            $.ajax({
-                                                type: "post",
-                                                url: "Index?handler=Test",
-                                                headers: {
-                                                    ""
-                                                }
-
-
-
-                                            });
-                                        </script>
-                                        
+                                        <!-- AntiForgeryToken input (make sure this is in the HTML) -->
+                                     
                                         <div class="product-action d-none">
                                             <div class="product-single-qty">
                                                 <input class="horizontal-quantity form-control" type="text">
@@ -321,16 +313,86 @@
                                    @*  <form method="post" >
                                         <button href="" id="viewCar" class="btn btn-gray view-cart">Buy Now</button>
                                     </form> *@
-                                  
 
-                                        <a href="javascript:;"  onclick="addCart()"  type="submit" id="cartid" class="btn btn-dark add-cart mr-2" title="Add to Cart">
+
+                                    <a href="javascript:;" onclick="sendAja()" type="submit" id="cartid" class="btn btn-dark add-cart mr-2" title="Add to Cart">
                                             Add to
                                             Cart
                                         </a>
 
-                                   
 
-                                    <a href="" id="viewCar" class="btn btn-gray view-cart d-none">View cart</a>
+                                    <script>
+                                        var saveProID = document.getElementById("defauProid").value;
+                                        $("#temID").val(saveProID);
+                                        var quan = document.getElementById("quantity").value;
+                                        function getProduct(productId) {
+                                            var element = document.getElementById("cartid");
+                                            var viewCar = document.getElementById("viewCar");
+                                            var cartmessage = document.getElementById("cart-message");
+                                            console.log("ID sản phẩm:", productId);
+                                            saveProID = productId;
+                                            $("#temID").val(saveProID);
+                                            $.ajax({
+                                                type: "GET",
+                                                url: 'https://localhost:7200/api/Product/' + productId,
+                                                success: function (response) {
+                                                    if (response) {
+                                                        $("#new-price").text("$" + response.price);
+                                                        $("#product-quality").text(response.stock);
+                                                        element.className = "btn btn-dark add-cart mr-2";
+                                                        viewCar.className = "btn btn-gray view-cart d-none";
+                                                        cartmessage.className = "cart-message d-none";
+                                                    } else {
+                                                        alert("Lỗi: Không tìm thấy sản phẩm");
+                                                    }
+                                                },
+                                                error: function (xhr, status, error) {
+                                                    alert("Lỗi khi gửi yêu cầu AJAX: " + xhr.responseText);
+                                                }
+                                            });
+                                        }
+
+
+                                  
+                                        // Ensure the AntiForgeryToken is set correctly
+                                        function sendAja() {
+                                            var quan = document.getElementById("quantity").value;
+                                            console.log("Sending data - saveProID: " + saveProID + ", quan: " + quan); // In ra để kiểm tra giá trị
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/Index?handler=AddToCart",
+                                                beforeSend: function (xhr) {
+                                                    // Set the XSRF token in the request header
+                                                    xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+                                                },
+                                                data: {
+                                                    quan: quan,
+                                                    saveProID: saveProID,
+                                                    
+                                                },
+                                                dataType: "json",
+                                                success: function (data) {
+                                                    if(data.success){
+                                                        console.log(data.message);
+                                                    }
+                                                 
+                                                },
+                                                error: function (error) {
+                                                    console.error("Error occurred:", error);
+                                                }
+                                            });
+                                        }
+
+                                        
+                                    </script>
+
+                                    <!-- AntiForgeryToken input (make sure this is in the HTML) -->
+                                    @Html.AntiForgeryToken()
+
+
+
+
+                                    <a href="/cart/view" id="viewCar" class="btn btn-gray view-cart d-none">View cart</a>
                                 </div>
                                 <!-- End .product-action -->
 
@@ -370,41 +432,6 @@
 
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                <script>
-                    var saveProID = document.getElementById("defauProid").value;
-                    $("#temID").val(saveProID);
-                    var quan = document.getElementById("quantity").value;
-                    function getProduct(productId) {
-                        var element = document.getElementById("cartid");
-                        var viewCar = document.getElementById("viewCar");
-                        var cartmessage = document.getElementById("cart-message");
-                        console.log("ID sản phẩm:", productId);
-                        saveProID = productId;
-                        $("#temID").val(saveProID);
-                        $.ajax({
-                            type: "GET",
-                            url: 'https://localhost:7200/api/Product/' + productId,
-                            success: function (response) {
-                                if (response) {
-                                    $("#new-price").text("$" + response.price);
-                                    $("#product-quality").text(response.stock);
-                                    element.className = "btn btn-dark add-cart mr-2";
-                                    viewCar.className = "btn btn-gray view-cart d-none";
-                                    cartmessage.className = "cart-message d-none";
-                                } else {
-                                    alert("Lỗi: Không tìm thấy sản phẩm");
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                alert("Lỗi khi gửi yêu cầu AJAX: " + xhr.responseText);
-                            }
-                        });
-                    }
-
-
-             
-
-                </script>
 
 
 

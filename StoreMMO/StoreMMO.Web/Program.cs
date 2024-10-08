@@ -92,6 +92,8 @@ builder.Services.AddTransient<IEmailSender, SendMailService>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+builder.Services.AddMvc();
 
 var app = builder.Build();
 

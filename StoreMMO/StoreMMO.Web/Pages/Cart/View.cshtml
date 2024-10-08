@@ -92,31 +92,30 @@
 										<tr class="product-row">
 											<td>
 												<figure class="product-image-container">
-													<a href="" class="product-image">
+													<a href="/home/storedetail/@item.storeDetailID" class="product-image">
 														<img src="@item.img" alt="product">
 													</a>
-
-													<a href="#" class="btn-remove icon-cancel" title="Remove Product"></a>
+													<a href="#" onclick="Remove(1)" class="btn-remove icon-cancel" title="Remove Product"></a>
 												</figure>
 											</td>
 											<td class="product-col">
 												<h5 class="product-title">
-													<a href="">@item.proName</a>
+													<a href="/home/storedetail/@item.storeDetailID">@item.proName</a>
 												</h5>
 											</td>
 											<td>$@item.price</td>
 											<td>
 												<div class="product-single-qty">
-													<input class="horizontal-quantity form-control" type="text">
+													<input class="horizontal-quantity form-control" type="text" value="@item.quantity">
 												</div><!-- End .product-single-qty -->
 											</td>
 											<td class="text-right"><span class="subtotal-price">$@item.subtotal</span></td>
 										</tr>
 									}
+
 									
-
 								</tbody>
-
+								
 
 								<tfoot>
 									<tr>
@@ -149,6 +148,7 @@
 							</table>
 						</div><!-- End .cart-table-container -->
 					</div><!-- End .col-lg-8 -->
+				
 
 					<div class="col-lg-4">
 						<div class="cart-summary">
@@ -448,6 +448,36 @@
 
 	<!-- Main JS File -->
 	<script src="~/assets/js/main.min.js"></script>
+	@section Scripts {
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+		<script>
+			function Remove() {			
+				$.ajax({
+					type: "POST",
+					url: '@Url.Page("/Index")',
+					beforeSend: function (xhr) {
+						// Set the XSRF token in the request header
+						xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+					},
+					data: {					
+						saveProID: 1,
+
+					},
+					dataType: "json",
+					success: function (data) {
+						if (data.success) {
+							console.log(data.message);
+						}
+
+					},
+					error: function (error) {
+						console.error("Error occurred:", error);
+					}
+				});
+			}
+		</script>
+	}
 </body>
 
 
