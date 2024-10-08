@@ -1,28 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogic.Services.StoreMMO.Core.Carts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.ViewModels;
-using StoreMMO.Web.Services.StoreMMO.API;
-using StoreMMO.Web.Services.StoreMMO.Core;
-
 namespace StoreMMO.Web.Pages.Cart
 {
 	public class ViewModel : PageModel
 	{
-		private readonly CartApiService _cartApiService;
+		//private readonly CartApiService _cartApiService;
         private readonly ICartService _cartService;
 
-		public ViewModel(CartApiService cartApiService, ICartService cartService)
+		public ViewModel( ICartService cartService)
 		{
-			_cartApiService = cartApiService;
+			//_cartApiService = cartApiService;
             this._cartService = cartService;
 		}
 
 		public List<CartItem> CartItems { get; set; } = new List<CartItem>();
 
-		public async Task OnGetAsync()
+	/*	public async Task OnGetAsync()
 		{
 			CartItems = await _cartApiService.GetCartFomSessionApi();
-		}
+		}*/
      
         public IActionResult OnPostAddToCart(string saveProID, string quan)
         {

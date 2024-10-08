@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogic.Services.StoreMMO.API;
+using BusinessLogic.Services.StoreMMO.Core.Carts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using StoreMMO.Core.ViewModels;
-using StoreMMO.Web.Services.StoreMMO.API;
-using StoreMMO.Web.Services.StoreMMO.Core;
+
 
 namespace StoreMMO.Web.Pages
 {
@@ -29,23 +31,17 @@ namespace StoreMMO.Web.Pages
             storeView = await this._storeApi.GetStoresAsync();
            
         }
+        // Index.cshtml.cs
+        public IActionResult OnPost(string saveProID, string quantity)
+        {
+            var a = saveProID;
 
-		public JsonResult OnPostAddToCart(string saveProID, string quantity)
-		{
 
-			var cart = this._cartService.GetCartFromSession();
-			var existingItem = cart.FirstOrDefault(u => u.productID == saveProID);
+            // Thêm logic xử lý để thêm sản phẩm vào giỏ hàng
+          
+            return new JsonResult(new { success = true });
+        }
 
-			if (existingItem != null)
-			{
-				existingItem.quantity = (double.Parse(existingItem.quantity) + double.Parse(quantity)).ToString();
-			}
-			else
-			{
-				cart.Add(new CartItem { productID = saveProID, quantity = quantity });
-			}
-			this._cartService.SaveCartToSession(cart);
-			return new JsonResult(new { success = true, message = "Product added to cart!" });
-		}
-	}
+
+    }
 }

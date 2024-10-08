@@ -25,6 +25,7 @@
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj" />
 	  <ProjectReference Include="..\StoreMMO.Core\StoreMMO.Core.csproj" />
 	</ItemGroup>
 	<ItemGroup>
