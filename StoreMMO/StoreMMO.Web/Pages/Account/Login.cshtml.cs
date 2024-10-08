@@ -64,7 +64,9 @@ namespace StoreMMO.Web.Pages.Account
                 await this._userManager.ResetAccessFailedCountAsync(user);
                 var result = await _signInManager.PasswordSignInAsync(inputLogin.Email, inputLogin.Password,
                     inputLogin.RememberMe, lockoutOnFailure: true);
-                if (result.IsNotAllowed)
+                HttpContext.Session.SetString("Email", inputLogin.Email);
+                HttpContext.Session.SetString("UserName", user.UserName);
+				if (result.IsNotAllowed)
                 {
 					ModelState.AddModelError(string.Empty, "You must verify email before login");
 					return Page();
@@ -76,6 +78,7 @@ namespace StoreMMO.Web.Pages.Account
                 }
                 else if (result.Succeeded)
                 {
+                   
 					return RedirectToPage("/Index");
 				}
                 else
