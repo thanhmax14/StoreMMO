@@ -95,7 +95,8 @@
 													<a href="/home/storedetail/@item.storeDetailID" class="product-image">
 														<img src="@item.img" alt="product">
 													</a>
-													<a href="#" onclick="Remove(1)" class="btn-remove icon-cancel" title="Remove Product"></a>
+													@Html.AntiForgeryToken()
+													<a href="#" onclick="Remove('@item.productID')" class="btn-remove icon-cancel" title="Remove Product"></a>
 												</figure>
 											</td>
 											<td class="product-col">
@@ -452,30 +453,28 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script>
-			function Remove() {			
+			function Remove(saveProID) {
 				$.ajax({
 					type: "POST",
-					url: '@Url.Page("/Index")',
+					url: '@Url.Page("/Index", null, new { handler = "RemoveCart" })', // Đúng URL với handler RemoveCart
 					beforeSend: function (xhr) {
-						// Set the XSRF token in the request header
 						xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
 					},
-					data: {					
-						saveProID: 1,
-
+					data: {
+						saveProID: saveProID  // Truyền giá trị đúng của saveProID
 					},
 					dataType: "json",
 					success: function (data) {
 						if (data.success) {
 							console.log(data.message);
 						}
-
 					},
 					error: function (error) {
 						console.error("Error occurred:", error);
 					}
 				});
 			}
+
 		</script>
 	}
 </body>
