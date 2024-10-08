@@ -109,7 +109,7 @@ namespace StoreMMO.Core.Repositories.Carts
 
         public IEnumerable<CartItem> getProductAddByID(string proid)
         {
-            string sql = $"SELECT Products.Id AS productID, Products.Name AS proName, StoreDetails.Img AS img, Products.Price AS price FROM StoreDetails" +
+            string sql = $"SELECT Products.Id AS productID, Products.Name AS proName, StoreDetails.Img AS img, Products.Price AS price,StoreDetails.StoreId as storeDetailID FROM StoreDetails" +
                 $" INNER JOIN ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId INNER JOIN Products ON ProductConnects.ProductId " +
                 $"= Products.Id WHERE Products.Id = '{proid}';\r\n";
 

@@ -15,6 +15,7 @@ namespace StoreMMO.Core.ViewModels
         public string? quantity { get; set; }
         public string img { get; set; }
         public double price { get; set; }
+        public string storeDetailID { get; set; }
         [NotMapped]
         public string? subtotal { get; set; }
 

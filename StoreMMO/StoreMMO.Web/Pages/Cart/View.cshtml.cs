@@ -17,11 +17,11 @@ namespace StoreMMO.Web.Pages.Cart
 
 		public List<CartItem> CartItems { get; set; } = new List<CartItem>();
 
-	/*	public async Task OnGetAsync()
-		{
-			CartItems = await _cartApiService.GetCartFomSessionApi();
-		}*/
-     
+        public void OnGetAsync()
+        {
+            CartItems =  this._cartService.GetCartFromSession();
+        }
+
         public IActionResult OnPostAddToCart(string saveProID, string quan)
         {
             if (string.IsNullOrEmpty(saveProID) || string.IsNullOrEmpty(quan))
