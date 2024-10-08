@@ -1,8 +1,8 @@
+using BusinessLogic.Services.StoreMMO.Core.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
-using StoreMMO.Web.Services.StoreMMO.Core;
 
 namespace StoreMMO.Web.Pages.Admin
 {

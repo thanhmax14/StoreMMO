@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BusinessLogic.Services.StoreMMO.Core.Products;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using StoreMMO.API.Services;
+
 
 namespace StoreMMO.API.Controllers
 {

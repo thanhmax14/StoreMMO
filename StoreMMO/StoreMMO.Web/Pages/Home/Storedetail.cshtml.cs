@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogic.Services.StoreMMO.API;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
-using StoreMMO.Web.Services.StoreMMO.API;
+
 
 namespace StoreMMO.Web.Pages.Home
 {
@@ -57,5 +58,10 @@ namespace StoreMMO.Web.Pages.Home
                 return NotFound();
             }
         }
+       
+
+
+
+
     }
 }

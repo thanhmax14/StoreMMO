@@ -1,18 +1,18 @@
 ﻿using System.Net.Http.Headers;
+using BusinessLogic.Config;
+using BusinessLogic.Services.Email;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
-using StoreMMO.Core.Repositories.Carts;
-using StoreMMO.Core.Repositories.Categorys;
-using StoreMMO.Core.Repositories.Products;
-using StoreMMO.Core.Repositories.Stores;
-using StoreMMO.Core.Repositories.User;
-using StoreMMO.Web.Services.Email;
-using StoreMMO.Web.Services.StoreMMO.API;
-using StoreMMO.Web.Services.StoreMMO.Core;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Addseverce
+ConfigServices.ConfigureServices(builder.Services);
+
 
 string jsonFilePath = @"D:\connectionConfig.json";
 
@@ -82,41 +82,11 @@ builder.Services.Configure<IdentityOptions>(options =>
   //  options.AccessDeniedPath = $"/";
 });
 */
+
 // Mail Service
 var mailsettings = builder.Configuration.GetSection("MailSettings");
 builder.Services.Configure<MailSettings>(mailsettings);
 builder.Services.AddTransient<IEmailSender, SendMailService>();
-
-static void ConfigureHttpClient(HttpClient client)
-{
-    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-}
-builder.Services.AddHttpClient<StoreApiService>(ConfigureHttpClient);
-builder.Services.AddHttpClient<ProductApiService>(ConfigureHttpClient);
-builder.Services.AddHttpClient<CartApiService>(ConfigureHttpClient);
-
-
-
-
-
-//Service for StoreMMO.Core
-builder.Services.AddScoped<IStoreRepository, StoreRepository>();
-builder.Services.AddScoped<IStoreService, StoreService>();
-
-
-builder.Services.AddScoped<ICartRepository, CartRepository>();
-builder.Services.AddScoped<ICartService, CartService>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductsService, ProductsService>();
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserServices, UserService>();
-
-
-
 
 
 
@@ -141,7 +111,10 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapRazorPages();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages(); // Đảm bảo rằng bạn đã có dòng này
+});
 app.Run();
 static async Task SeedDataAsync(WebApplication app)
 {

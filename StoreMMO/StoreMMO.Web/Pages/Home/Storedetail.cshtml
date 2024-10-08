@@ -278,6 +278,20 @@
                                         </div>
                                         <!-- End .sticky-detail -->
 
+
+                                        <script>
+                                            $.ajax({
+                                                type: "post",
+                                                url: "Index?handler=Test",
+                                                headers: {
+                                                    ""
+                                                }
+
+
+
+                                            });
+                                        </script>
+                                        
                                         <div class="product-action d-none">
                                             <div class="product-single-qty">
                                                 <input class="horizontal-quantity form-control" type="text">
@@ -298,17 +312,25 @@
                                 <del class="old-price"><span>$286.00</span></del> <span class="product-price">$245.00</span>
                                 </div>
                                 *@
-                                    <div class="product-single-qty">
-                                        <input class="horizontal-quantity form-control" type="text" id="quantity">
-                                    </div>
                                     <!-- End .product-single-qty -->
+                                   
+                                    <div class="product-single-qty">
+                                        <input class="horizontal-quantity form-control" name="quantity" type="text" id="quantity">
+                                        <input  type="text" hidden id="temID" value="10" name="Proid"/>
+                                    </div>
+                                   @*  <form method="post" >
+                                        <button href="" id="viewCar" class="btn btn-gray view-cart">Buy Now</button>
+                                    </form> *@
+                                  
 
-                                    <a href="javascript:;" onclick="addCart()" id="cartid" class="btn btn-dark add-cart mr-2" title="Add to Cart">
-                                        Add to
-                                        Cart
-                                    </a>
+                                        <a href="javascript:;"  onclick="addCart()"  type="submit" id="cartid" class="btn btn-dark add-cart mr-2" title="Add to Cart">
+                                            Add to
+                                            Cart
+                                        </a>
 
-                                    <a href="cart.html" id="viewCar" class="btn btn-gray view-cart d-none">View cart</a>
+                                   
+
+                                    <a href="" id="viewCar" class="btn btn-gray view-cart d-none">View cart</a>
                                 </div>
                                 <!-- End .product-action -->
 
@@ -350,6 +372,7 @@
 
                 <script>
                     var saveProID = document.getElementById("defauProid").value;
+                    $("#temID").val(saveProID);
                     var quan = document.getElementById("quantity").value;
                     function getProduct(productId) {
                         var element = document.getElementById("cartid");
@@ -357,6 +380,7 @@
                         var cartmessage = document.getElementById("cart-message");
                         console.log("ID sản phẩm:", productId);
                         saveProID = productId;
+                        $("#temID").val(saveProID);
                         $.ajax({
                             type: "GET",
                             url: 'https://localhost:7200/api/Product/' + productId,
@@ -377,26 +401,8 @@
                         });
                     }
 
-                    function addCart() {
-                        var quan = document.getElementById("quantity").value;
-                        console.log("Sending data - saveProID: " + saveProID + ", quan: " + quan); // In ra để kiểm tra giá trị
-                        $.ajax({
-                            type: "POST",
-                            url: '/Cart/AddCart/',
-                            data: { saveProID: saveProID, quan: quan },
-                            success: function (response) {
-                                if (response.success) {
-                                    console.log("ok: " + saveProID + ": " + quan);
-                                } else {
-                                    alert("Lỗi: Không tìm thấy sản phẩm");
-                                }
-                            },
-                            error: function (xhr, status, error) {
-                                alert("Lỗi khi gửi yêu cầu AJAX: " + xhr.responseText);
-                            }
-                        });
-                    }
 
+             
 
                 </script>
 
