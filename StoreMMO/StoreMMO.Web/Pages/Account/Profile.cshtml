@@ -874,7 +874,7 @@
 									</div> *@
 									@if (ViewData["IsSeller"] == null || (bool)ViewData["IsSeller"] == false)
 									{
-										<div class="alert alert-info">
+										<div class="alert alert-info" id="seller1">
 											<div class="alert-wrapper">
 												<h4>Announcement!</h4>
 												<p>Do you want to register as a seller?</p>
@@ -883,15 +883,24 @@
 											</div>
 										</div>
 									}
-									else if (ViewData["IsSeller"] != null && (bool)ViewData["IsSeller"] == true)
-									{
-										<div class="alert alert-info" style="background-color:#87cefa;">
-											<div class="alert-wrapper">
-												<h4>Announcement!</h4>
-												<p>Waiting for admin approval</p>
-											</div>
+									 else if (ViewData["IsSeller"] != null && (bool)ViewData["IsSeller"] == true)
+									 {
+									 	<div class="alert alert-info" id="seller" style="background-color:#87cefa;">
+									 		<div class="alert-wrapper">
+									 			<h4>Announcement!</h4>
+									 			<p>Waiting for admin approval</p>
+									 		</div>
+									 	</div>
+									 }
+									<div class="alert alert-info d-none" id="seller" style="background-color:#87cefa;">
+										<div class="alert-wrapper">
+											<h4>Announcement!</h4>
+											<p>Waiting for admin approval</p>
 										</div>
-									}
+									</div>
+
+
+
 									@* <div class="form-footer mb-0">
 										<div class="form-footer-right">
 											<button type="submit" class="btn btn-dark py-4">
@@ -1307,7 +1316,18 @@ $(document).ready(function () {
 			$(document).ready(function () {
 				// Sự kiện cho nút "Yes" - Gửi form khi bấm "Yes"
 				$('#btnYes').on('click', function () {
-					$('#register-seller-form').submit(); // Gửi form khi bấm nút "Yes"
+					Swal.fire({
+						icon: 'warning',
+						title: 'Do you want register',
+						text: 'Bạn có chắc chắn muốn đăng ký làm seller không?',
+						showCancelButton: true,
+						confirmButtonText: 'Yes, I want to register seller',
+						cancelButtonText: 'No, Cancel'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							$('#register-seller-form').submit(); // Gửi form khi bấm nút "Yes" trong xác nhận
+						}
+					});
 				});
 
 				// Sự kiện cho nút "No" - Không làm gì ngoài hiển thị thông báo
@@ -1332,6 +1352,8 @@ $(document).ready(function () {
 						success: function (response) {
 							if (response.success) {
 								// Hiển thị thông báo đăng ký thành công
+								var element = document.getElementById("seller");
+								var seller1 = document.getElementById("seller1");
 								Swal.fire({
 									icon: 'success',
 									title: 'Đăng ký thành công!',
@@ -1339,9 +1361,9 @@ $(document).ready(function () {
 									showConfirmButton: false,
 									timer: 2000 // Đóng thông báo sau 2 giây
 								}).then(() => {
-									// Ẩn thông báo đầu tiên và hiển thị thông báo đợi admin duyệt
-									$('.alert-info').first().hide(); // Ẩn thông báo "Do you want to register seller?"
-									$('.alert-info').last().show(); // Hiển thị thông báo "Waiting for admin approval"
+									seller1.className = "alert alert-info d-none";
+									element.className = "alert alert-info";
+									
 								});
 							} else if (response.requiresRedirect) {
 								// Nếu cần chuyển qua tab chi tiết tài khoản
