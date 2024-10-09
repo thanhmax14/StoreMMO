@@ -19,5 +19,14 @@ namespace StoreMMO.Core.Repositories.User
             var list = this._context.Database.SqlQueryRaw<UserViewModel>(sql).ToList();
             return list;
         }
+
+        public IEnumerable<UserViewModel> GetlUserById(string userId)
+        {
+            string sql = $"SELECT       Users.Id as UserID, Users.FullName, Users.DateOfBirth, Users.Address, Users.IsSeller, Users.UserName, Users.Email, Users.PhoneNumber, Roles.Name as RoleName,Users.PasswordHash, Users.CreatedDate FROM            Users INNER JOIN                         UserRoles ON Users.Id = UserRoles.UserId INNER JOIN                     Roles ON UserRoles.RoleId = Roles.Id where users.Id ='{userId}'";
+
+
+            var list = this._context.Database.SqlQueryRaw<UserViewModel>(sql).ToList();
+            return list;
+        }
     }
 }

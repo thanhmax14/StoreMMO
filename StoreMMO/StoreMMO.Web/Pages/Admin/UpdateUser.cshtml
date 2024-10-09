@@ -1,5 +1,5 @@
-﻿@page
-@model StoreMMO.Web.Pages.Admin.UserAccountListModel
+﻿@page "{id?}"
+@model StoreMMO.Web.Pages.Admin.UpdateUserModel
 @{
 }
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+    <title>Forms / Elements - NiceAdmin Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -19,7 +19,8 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="~/assets_Admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -32,7 +33,16 @@
 
     <!-- Template Main CSS File -->
     <link href="~/assets_Admin/css/style.css" rel="stylesheet">
-
+    <style>
+        /* CSS để căn giữa form */
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            /* Chiều cao của viewport */
+        }
+    </style>
     <!-- =======================================================
     * Template Name: NiceAdmin
     * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -49,7 +59,7 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="index.html" class="logo d-flex align-items-center">
-                <img src="~/assets_Admin/img/logo.png" alt="">
+                <img src="assets/img/logo.png" alt="">
                 <span class="d-none d-lg-block">NiceAdmin</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -363,12 +373,12 @@
             </li><!-- End Components Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link " data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="forms-elements.html">
+                        <a href="forms-elements.html" class="active">
                             <i class="bi bi-circle"></i><span>Form Elements</span>
                         </a>
                     </li>
@@ -391,17 +401,17 @@
             </li><!-- End Forms Nav -->
 
             <li class="nav-item">
-                <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="tables-general.html">
                             <i class="bi bi-circle"></i><span>General Tables</span>
                         </a>
                     </li>
                     <li>
-                        <a href="tables-data.html" class="active">
+                        <a href="tables-data.html">
                             <i class="bi bi-circle"></i><span>Data Tables</span>
                         </a>
                     </li>
@@ -512,12 +522,12 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>User List Tables</h1>
+            <h1>Update User Information</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Tables</li>
-                    <li class="breadcrumb-item active">Data</li>
+                    <!-- <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item">Forms</li>
+                    <li class="breadcrumb-item active">Elements</li> -->
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -528,78 +538,77 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">User List</h5>
-                            
-                            <!-- Table with stripped rows -->
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Full Name</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">Create Date</th>
-                                        @* <th>Address</th> *@
-                                        @* <th>Is Seller</th> *@
-                                        <th>Email</th>
-                                        <th>UserName</th>
-                                        <th>Phone Number</th>
-                                        <th>Role Name</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        int stt = 1;
-                                    }
-                                     @foreach(var item in @Model.list)
-                                    {
-                                        <tr>
-                                            <td>@stt</td>
-                                            <td>@item.FullName</td>
-                                            <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-                                            @* <td>@(item.Address ?? "Null Data")</td> *@
-                                            @* <td>@item.IsSeller</td> *@
-                                            <td>@item.Email</td>
-                                            <td>@item.UserName</td>
-                                            <td>@(item.PhoneNumber ?? "Null Data")</td>
-                                            <td>@item.RoleName</td>
-                                            <td>
-                                                <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
-                                                @* <button type="button" class="btn btn-danger">Hidden</button> *@
-                                                
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                        data-bs-target="#verticalycentered">
-                                                    Hidden
-                                                </button>
-                                                <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Hidden that user</h5>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to hide this user?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button left" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">
-                                                                    Back
-                                                                </button>
-                                                                <button type="button" class="btn btn-primary">Yes</button>
-                                                                <button type="button" class="btn btn-primary">No</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        stt++;
-                                    }
+                            <h5 class="card-title">Update Form</h5>
 
-                                </tbody>
-                            </table>
-                            <!-- End Table with stripped rows -->
+                            <!-- General Form Elements -->
+                            <form>
+                                <div class="row mb-3">
+                                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">User Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputText" class="col-sm-2 col-form-label">FullName</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputDate" class="col-sm-2 col-form-label">Create Date</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="inputDate" class="col-sm-2 col-form-label">Date Of Birth</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputNumber" class="col-sm-2 col-form-label">Phone Number</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label">Role Name</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-select" disabled>
+                                            <option selected value="1">Admin</option>
+                                            <option value="2">User</option>
+                                            <option value="3">Seller</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="inputPassword" class="col-sm-2 col-form-label">Address</label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" style="height: 100px"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label"></label>
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </div>
+
+                            </form><!-- End General Form Elements -->
 
                         </div>
                     </div>
@@ -610,7 +619,7 @@
 
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
-@*     <footer id="footer" class="footer">
+    <footer id="footer" class="footer">
         <div class="copyright">
             &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
         </div>
@@ -621,9 +630,11 @@
             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
         </div>
-    </footer><!-- End Footer --> *@
+    </footer><!-- End Footer -->
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
 
     <!-- Vendor JS Files -->
     <script src="~/assets_Admin/vendor/apexcharts/apexcharts.min.js"></script>
@@ -641,4 +652,3 @@
 </body>
 
 </html>
-
