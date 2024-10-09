@@ -89,7 +89,7 @@
 
 									@foreach(var item in Model.CartItems)
 									{
-										<tr class="product-row">
+										<tr class="product-row" id="row-@item.productID">
 											<td>
 												<figure class="product-image-container">
 													<a href="/home/storedetail/@item.storeDetailID" class="product-image">
@@ -107,10 +107,21 @@
 											<td>$@item.price</td>
 											<td>
 												<div class="product-single-qty">
-													<input class="horizontal-quantity form-control" type="text" value="@item.quantity">
+													<div class="product-single-qty">
+														<div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+															<span class="input-group-btn input-group-prepend">
+																<button onclick="AutocheckQuan('@item.productID')" class="btn btn-outline btn-down-icon bootstrap-touchspin-down" type="button"></button>
+															</span>
+
+															<input style=" background-color: white;" readonly id="quanitu-@item.productID" class="form-control" type="text" value="@item.quantity">
+															<span class="input-group-btn input-group-append">
+																<button onclick="AddPluts('@item.productID')" class="btn btn-outline btn-up-icon bootstrap-touchspin-up" type="button"></button>
+															</span>
+														</div>
+													</div>
 												</div><!-- End .product-single-qty -->
 											</td>
-											<td class="text-right"><span class="subtotal-price">$@item.subtotal</span></td>
+											<td class="text-right"><span id="subprice-@item.productID" class="subtotal-price">$@item.subtotal</span></td>
 										</tr>
 									}
 
@@ -466,7 +477,7 @@
 					dataType: "json",
 					success: function (data) {
 						if (data.success) {
-							console.log(data.message);
+							$('#row-' + saveProID).remove();
 						}
 					},
 					error: function (error) {
@@ -474,6 +485,81 @@
 					}
 				});
 			}
+			function AddPluts(proid) {
+				$.ajax({
+					type: "POST",
+					url: '@Url.Page("/Index", null, new { handler = "AddPluts" })',
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+					},
+					data: {
+						saveProID: proid
+					},
+					dataType: "json",
+					success: function (data) {
+						if (data.success) {
+							console.log(data.message);
+							$("#quanitu-"+proid).val(data.quantity);
+							$("#subprice-"+proid).text("$" + data.subprice1);
+						}
+					},
+					error: function (error) {
+						console.error("Error occurred:", error);
+					}
+				});
+			}
+				function OnPostAddMinus(proid) {
+					$.ajax({
+						type: "POST",
+					url: '@Url.Page("/Index", null, new { handler = "AddMinus" })',
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+						},
+						data: {
+							saveProID: proid
+						},
+						dataType: "json",
+						success: function (data) {
+							if (data.success) {
+							$("#quanitu-"+proid).val(data.quantity);
+							$("#subprice-"+proid).text("$" + data.subprice1);
+							}
+						},
+						error: function (error) {
+							console.error("Error occurred:", error);
+						}
+					});
+			}
+
+			function AutocheckQuan(Proid) {
+				$.ajax({
+					type: "POST",
+					url: '@Url.Page("/Index", null, new { handler = "Autocheck" })',
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+					},
+					data: {
+						saveProID: Proid
+					},
+					dataType: "json",
+					success: function (data) {
+						if (data.success) {
+							OnPostAddMinus(Proid);
+						} else {
+							if (confirm(data.message)) {
+								OnPostAddMinus(Proid);
+								$('#row-' + Proid).remove();
+							} else {
+								alert("Gio hang cuaban con")
+							}
+						}
+					},
+					error: function (error) {
+						console.error("Error occurred:", error);
+					}
+				});
+			}
+
 
 		</script>
 	}

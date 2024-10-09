@@ -97,7 +97,7 @@ namespace StoreMMO.Web.Pages
 						var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
 						if (existingItem != null)
 						{
-                            cart.Remove(existingItem);
+                            cart.Remove(existingItem); 
 						}						
 						this._cartService.SaveCartToSession(cart);
 					}
@@ -106,5 +106,121 @@ namespace StoreMMO.Web.Pages
 				return new JsonResult(new { success = true, message = "ok id la " + saveProID +"Da bi xoa" });
 			}
 		}
+
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult OnPostAddPluts(string saveProID)
+		{
+			if (string.IsNullOrEmpty(saveProID))
+			{
+				return new JsonResult(new { success = false, mess = "" });
+			}
+			else
+			{
+				var cart = this._cartService.GetCartFromSession();
+				var getitem = this._cartService.getProductAddByID(saveProID);
+				var temquantit="";
+				var subprice = "";
+				if (getitem != null || !getitem.IsNullOrEmpty())
+
+				{
+					foreach (var item in getitem)
+					{
+						var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
+						if (existingItem != null)
+						{
+							existingItem.quantity = (double.Parse(existingItem.quantity) + 1).ToString();
+							existingItem.subtotal = (item.price * (double.Parse(existingItem.quantity))).ToString();
+						
+						}
+						subprice = existingItem.subtotal;
+						temquantit = existingItem.quantity;
+						this._cartService.SaveCartToSession(cart);
+					}
+
+				}
+				return new JsonResult(new { success = true, message = "ok id la " + saveProID + "Da bi xoa",
+					subprice1 = subprice,
+					quantity = temquantit });
+			}
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult OnPostAddMinus(string saveProID)
+		{
+			if (string.IsNullOrEmpty(saveProID))
+			{
+				return new JsonResult(new { success = false, mess = "" });
+			}
+			else
+			{
+				var cart = this._cartService.GetCartFromSession();
+				var getitem = this._cartService.getProductAddByID(saveProID);
+				var temquantit = "";
+				var subprice = "";
+				if (getitem != null || !getitem.IsNullOrEmpty())
+
+				{
+					foreach (var item in getitem)
+					{
+						var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
+						if (existingItem != null)
+						{
+							existingItem.quantity = (double.Parse(existingItem.quantity) - 1).ToString();
+							existingItem.subtotal = (item.price * (double.Parse(existingItem.quantity))).ToString();
+						}
+						subprice = existingItem.subtotal;
+						temquantit = existingItem.quantity;
+						if (Int32.Parse(existingItem.quantity) <= 0 || double.Parse(existingItem.subtotal) <=0)
+						{
+							cart.Remove(existingItem);
+						}					
+						this._cartService.SaveCartToSession(cart);
+					}
+
+				}
+				return new JsonResult(new { success = true, message = "ok id la " + saveProID + "Da bi xoa",
+				subprice1 = subprice,
+					quantity = temquantit
+				});
+			}
+		}
+
+
+
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult OnPostAutocheck(string saveProID)
+		{
+			if (string.IsNullOrEmpty(saveProID))
+			{
+				return new JsonResult(new { success = false, mess = "" });
+			}
+			else
+			{
+				var cart = this._cartService.GetCartFromSession();
+				var getitem = this._cartService.getProductAddByID(saveProID);
+				if (getitem != null || !getitem.IsNullOrEmpty())
+
+				{
+					foreach (var item in getitem)
+					{
+						var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
+						if (existingItem != null)
+						{
+							if (Int32.Parse(existingItem.quantity) == 1)
+							{
+								return new JsonResult(new { success = false, message = "Do you want to remove??" });
+							}
+						}										
+					}
+
+				}
+				return new JsonResult(new { success = true, message = "" });
+			}
+		}
+
 	}
 }
