@@ -13,7 +13,7 @@ namespace StoreMMO.Core.Repositories.User
         }
         public IEnumerable<UserViewModel> GetAllUser()
         {
-            string sql = "SELECT       Users.Id as UserID, Users.FullName, Users.DateOfBirth, Users.Address, Users.IsSeller, Users.UserName, Users.Email, Users.PhoneNumber, Roles.Name as RoleName\r\nFROM            Users INNER JOIN\r\n                         UserRoles ON Users.Id = UserRoles.UserId INNER JOIN\r\n                         Roles ON UserRoles.RoleId = Roles.Id";
+            string sql = "SELECT       Users.Id as UserID, Users.FullName, Users.DateOfBirth, Users.Address, Users.IsSeller, Users.UserName, Users.Email, Users.PhoneNumber, Roles.Name as RoleName,Users.PasswordHash, Users.CreatedDate FROM            Users INNER JOIN                         UserRoles ON Users.Id = UserRoles.UserId INNER JOIN                     Roles ON UserRoles.RoleId = Roles.Id";
 
 
             var list = this._context.Database.SqlQueryRaw<UserViewModel>(sql).ToList();
