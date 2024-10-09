@@ -21,6 +21,16 @@ namespace StoreMMO.Web.Pages.Account
 			var email = HttpContext.Session.GetString("Email");
 			var UserName = HttpContext.Session.GetString("UserName");
 			AppUser = await this._userManager.FindByEmailAsync("ANHLDCE171348@FPT.EDU.VN");
+
+			// Kiểm tra nếu người dùng tồn tại
+			if (AppUser != null)
+			{
+				ViewData["IsSeller"] = AppUser.IsSeller; // Gán trạng thái IsSeller cho ViewData
+			}
+			else
+			{
+				ViewData["IsSeller"] = false; // Nếu không tìm thấy người dùng, gán false
+			}
 		}
 
 		public async Task<IActionResult> OnPost()
@@ -81,10 +91,12 @@ namespace StoreMMO.Web.Pages.Account
 
 			// Cập nhật thông tin nếu người dùng đồng ý trở thành seller
 			item.IsSeller = true; // Hoặc lấy giá trị từ form nếu cần
+			item.RequestSellerDate = DateTime.UtcNow;
 			var result = await _userManager.UpdateAsync(item);
 			if (result.Succeeded)
 			{
-				return new JsonResult(new { success = true, message = "You registered as a seller successfully!" });
+				// Phản hồi thành công, thông báo cần đợi admin duyệt
+				return new JsonResult(new { success = true, message = "You registered as a seller successfully! Waiting for admin approval." });
 			}
 			else
 			{
