@@ -90,6 +90,36 @@ namespace StoreMMO.Web.Pages.Account
             }
 
         }
+		public async Task<IActionResult> ConfirmEmail(string userId, string token)
+		{
+			Console.WriteLine($"UserId: {userId}, Token: {token}"); // In ra UserId và Token
 
-    }
+			if (userId == null || token == null)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
+			var user = await _userManager.FindByIdAsync(userId);
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			var decodedToken = Uri.UnescapeDataString(token); // Sử dụng Uri để giải mã
+			var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
+
+			if (result.Succeeded)
+			{
+				return RedirectToPage("/Account/Login");
+			}
+
+			// Ghi lại các lỗi nếu xác nhận không thành công
+			foreach (var error in result.Errors)
+			{
+				Console.WriteLine($"Error: {error.Description}"); // In ra lỗi
+				ModelState.AddModelError(string.Empty, error.Description);
+			}
+			return NotFound();
+		}
+	}
 }
