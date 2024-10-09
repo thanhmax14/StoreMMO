@@ -11,12 +11,12 @@ namespace StoreMMO.Core.Models
 {
     public class AppUser: IdentityUser
     {
-		[Required(ErrorMessage = "FullName cannot is blank")]
+		
 		public string? FullName { get; set; }
 
        
         public DateTime? DateOfBirth { get; set; }
-		[Required(ErrorMessage = "Address cannot is blank")]
+		
 
 		public string? Address { get; set; }
         public bool IsDelete { get; set; }

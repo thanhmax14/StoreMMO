@@ -872,25 +872,33 @@
 											</label>
 										</div>
 									</div> *@
-									<div class="alert alert-info">
-										<div class="alert-wrapper">
-											<h4>Announcement!</h4>
-											<p>
-											Do want to register seller
-											</p>
-											<button class="btn btn-info mt-xs mb-xs" id="btnYes">Yes, it’s the best choice</button>
-											<button class="btn btn-default mt-xs mb-xs" id="btnNo">Not convinced yet</button>
-
+									@if (ViewData["IsSeller"] == null || (bool)ViewData["IsSeller"] == false)
+									{
+										<div class="alert alert-info">
+											<div class="alert-wrapper">
+												<h4>Announcement!</h4>
+												<p>Do you want to register as a seller?</p>
+												<button class="btn btn-info mt-xs mb-xs" id="btnYes" type="button">Yes, it’s the best choice</button>
+												<button class="btn btn-default mt-xs mb-xs" id="btnNo" type="button">Not convinced yet</button>
+											</div>
 										</div>
-									</div>
-
-									<div class="form-footer mb-0">
+									}
+									else if (ViewData["IsSeller"] != null && (bool)ViewData["IsSeller"] == true)
+									{
+										<div class="alert alert-info" style="background-color:#87cefa;">
+											<div class="alert-wrapper">
+												<h4>Announcement!</h4>
+												<p>Waiting for admin approval</p>
+											</div>
+										</div>
+									}
+									@* <div class="form-footer mb-0">
 										<div class="form-footer-right">
 											<button type="submit" class="btn btn-dark py-4">
 												Save Address
 											</button>
 										</div>
-									</div>
+									</div> *@
 								</form>
 							</div>
 						</div><!-- End .tab-pane -->
@@ -1297,14 +1305,13 @@ $(document).ready(function () {
 </script>
 		<script>
 			$(document).ready(function () {
-				// Sự kiện cho nút "Yes"
+				// Sự kiện cho nút "Yes" - Gửi form khi bấm "Yes"
 				$('#btnYes').on('click', function () {
-					$('#register-seller-form').submit(); // Gửi form
+					$('#register-seller-form').submit(); // Gửi form khi bấm nút "Yes"
 				});
 
-				// Sự kiện cho nút "Not convinced yet"
+				// Sự kiện cho nút "No" - Không làm gì ngoài hiển thị thông báo
 				$('#btnNo').on('click', function () {
-					// Không làm gì hoặc có thể hiển thị thông báo
 					Swal.fire({
 						icon: 'info',
 						title: 'Still thinking?',
@@ -1313,6 +1320,7 @@ $(document).ready(function () {
 					});
 				});
 
+				// Xử lý submit form
 				$('#register-seller-form').on('submit', function (event) {
 					event.preventDefault(); // Ngăn hành động submit mặc định
 
@@ -1323,12 +1331,17 @@ $(document).ready(function () {
 						data: $(this).serialize(),
 						success: function (response) {
 							if (response.success) {
+								// Hiển thị thông báo đăng ký thành công
 								Swal.fire({
 									icon: 'success',
 									title: 'Đăng ký thành công!',
 									text: response.message,
 									showConfirmButton: false,
 									timer: 2000 // Đóng thông báo sau 2 giây
+								}).then(() => {
+									// Ẩn thông báo đầu tiên và hiển thị thông báo đợi admin duyệt
+									$('.alert-info').first().hide(); // Ẩn thông báo "Do you want to register seller?"
+									$('.alert-info').last().show(); // Hiển thị thông báo "Waiting for admin approval"
 								});
 							} else if (response.requiresRedirect) {
 								// Nếu cần chuyển qua tab chi tiết tài khoản
