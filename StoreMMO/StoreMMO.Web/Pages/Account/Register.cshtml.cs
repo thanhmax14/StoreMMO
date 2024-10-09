@@ -51,7 +51,7 @@ namespace StoreMMO.Web.Pages.Account
 				{
 					var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 					var encodedToken = Uri.EscapeDataString(token); // Sử dụng Uri để mã hóa
-					var confirmLink = Url.Page("/Account/Register",
+					var confirmLink = Url.Page("/Account/Login",
 						pageHandler: "ConfirmEmail",
 						values: new { userId = user.Id, token = encodedToken },
 						protocol: Request.Scheme);
@@ -76,36 +76,6 @@ namespace StoreMMO.Web.Pages.Account
 			return Page();
 		}
 
-		public async Task<IActionResult> ConfirmEmail(string userId, string token)
-		{
-			Console.WriteLine($"UserId: {userId}, Token: {token}"); // In ra UserId và Token
-
-			if (userId == null || token == null)
-			{
-				return RedirectToAction("Index", "Home");
-			}
-
-			var user = await _userManager.FindByIdAsync(userId);
-			if (user == null)
-			{
-				return NotFound();
-			}
-
-			var decodedToken = Uri.UnescapeDataString(token); // Sử dụng Uri để giải mã
-			var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
-
-			if (result.Succeeded)
-			{
-				return RedirectToPage("/Account/Login");
-			}
-
-			// Ghi lại các lỗi nếu xác nhận không thành công
-			foreach (var error in result.Errors)
-			{
-				Console.WriteLine($"Error: {error.Description}"); // In ra lỗi
-				ModelState.AddModelError(string.Empty, error.Description);
-			}
-			return NotFound();
-		}
+		
 	}
 }
