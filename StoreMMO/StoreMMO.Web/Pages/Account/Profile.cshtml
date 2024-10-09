@@ -482,7 +482,7 @@
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" id="shop-address-tab" data-toggle="tab" href="#shipping" role="tab"
-									aria-controls="edit" aria-selected="false">Shopping Addres</a>
+									aria-controls="edit" aria-selected="false">Register Seller</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="wishlist.html">Wishlist</a>
@@ -662,71 +662,71 @@
 							<h3 class="account-sub-title d-none d-md-block mt-0 pt-1 ml-1"><i
 									class="icon-user-2 align-middle mr-3 pr-1"></i>Account Details</h3>
 							<div class="account-content">
-								<form id="profileForm">
-									    @Html.AntiForgeryToken()
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label asp-for="AppUser.UserName">UserName <span class="required">*</span></label>
-												<input asp-for="AppUser.UserName" class="form-control" placeholder="Editor" required readonly />
+									<form id="profileForm">
+											@Html.AntiForgeryToken()
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label asp-for="AppUser.UserName">UserName <span class="required">*</span></label>
+													<input asp-for="AppUser.UserName" class="form-control" placeholder="Editor" required readonly />
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="form-group">
+													<label asp-for="AppUser.Email">Email <span class="required">*</span></label>
+													<input asp-for="AppUser.Email" class="form-control" required  readonly/>
+												</div>
 											</div>
 										</div>
 
-										<div class="col-md-6">
+										<div class="form-group mb-2">
+											<label asp-for="AppUser.FullName">FullName <span class="required">*</span></label>
+											<input asp-for="AppUser.FullName" class="form-control" placeholder="Editor" required />
+										</div>
+										<div class="form-group mb-2">
+											<label asp-for="AppUser.DateOfBirth">DateOfBirth <span class="required">*</span></label>
+											<input asp-for="AppUser.DateOfBirth" class="form-control" type="date" required />
+										</div>
+										<div class="form-group mb-2">
+											<label asp-for="AppUser.PhoneNumber">PhoneNumber <span class="required">*</span></label>
+											<input asp-for="AppUser.PhoneNumber" class="form-control" required />
+										</div>
+										<div class="form-group mb-4">
+											<label asp-for="AppUser.Address">Address <span class="required">*</span></label>
+											<input asp-for="AppUser.Address" class="form-control" required />
+										</div>
+
+									@* 	<div class="change-password">
+											<h3 class="text-uppercase mb-2">Password Change</h3>
+
 											<div class="form-group">
-												<label asp-for="AppUser.Email">Email <span class="required">*</span></label>
-												<input asp-for="AppUser.Email" class="form-control" required  readonly/>
+												<label for="acc-password">Current Password (leave blank to leave
+													unchanged)</label>
+												<input type="password" class="form-control" id="acc-password"
+													name="acc-password" />
 											</div>
+
+											<div class="form-group">
+												<label for="acc-password">New Password (leave blank to leave
+													unchanged)</label>
+												<input type="password" class="form-control" id="acc-new-password"
+													name="acc-new-password" />
+											</div>
+
+											<div class="form-group">
+												<label for="acc-password">Confirm New Password</label>
+												<input type="password" class="form-control" id="acc-confirm-password"
+													name="acc-confirm-password" />
+											</div>
+										</div> *@
+
+										<div class="form-footer mt-3 mb-0">
+<button type="submit" class="btn btn-dark btn-save-changes">
+												Save changes
+											</button>
 										</div>
-									</div>
-
-									<div class="form-group mb-2">
-										<label asp-for="AppUser.FullName">FullName <span class="required">*</span></label>
-										<input asp-for="AppUser.FullName" class="form-control" placeholder="Editor" required />
-									</div>
-									<div class="form-group mb-2">
-										<label asp-for="AppUser.DateOfBirth">DateOfBirth <span class="required">*</span></label>
-										<input asp-for="AppUser.DateOfBirth" class="form-control" type="date" required />
-									</div>
-									<div class="form-group mb-2">
-										<label asp-for="AppUser.PhoneNumber">PhoneNumber <span class="required">*</span></label>
-										<input asp-for="AppUser.PhoneNumber" class="form-control" required />
-									</div>
-									<div class="form-group mb-4">
-										<label asp-for="AppUser.Address">Address <span class="required">*</span></label>
-										<input asp-for="AppUser.Address" class="form-control" required />
-									</div>
-
-								@* 	<div class="change-password">
-										<h3 class="text-uppercase mb-2">Password Change</h3>
-
-										<div class="form-group">
-											<label for="acc-password">Current Password (leave blank to leave
-												unchanged)</label>
-											<input type="password" class="form-control" id="acc-password"
-												name="acc-password" />
-										</div>
-
-										<div class="form-group">
-											<label for="acc-password">New Password (leave blank to leave
-												unchanged)</label>
-											<input type="password" class="form-control" id="acc-new-password"
-												name="acc-new-password" />
-										</div>
-
-										<div class="form-group">
-											<label for="acc-password">Confirm New Password</label>
-											<input type="password" class="form-control" id="acc-confirm-password"
-												name="acc-confirm-password" />
-										</div>
-									</div> *@
-
-									<div class="form-footer mt-3 mb-0">
-										<button type="submit" class="btn btn-dark mr-0">
-											Save changes
-										</button>
-									</div>
-								</form>
+									</form>
 							</div>
 						</div><!-- End .tab-pane -->
 
@@ -818,62 +818,70 @@
 							<div class="address account-content mt-0 pt-2">
 								<h4 class="title mb-3">Shipping Address</h4>
 
-								<form class="mb-2" action="#">
-									<div class="row">
+								<form id="register-seller-form" asp-page-handler="RegisterSeller" method="post">
+									@* <div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>First name <span class="required">*</span></label>
-												<input type="text" class="form-control" required />
+												<label asp-for="AppUser.UserName">UserName <span class="required">*</span></label>
+												<input asp-for="AppUser.UserName" class="form-control" placeholder="Editor" required readonly />
 											</div>
 										</div>
 
 										<div class="col-md-6">
 											<div class="form-group">
-												<label>Last name <span class="required">*</span></label>
-												<input type="text" class="form-control" required />
+												<label asp-for="AppUser.Email">Email <span class="required">*</span></label>
+												<input asp-for="AppUser.Email" class="form-control" required readonly />
 											</div>
 										</div>
 									</div>
 
-									<div class="form-group">
+									@* <div class="form-group">
 										<label>Company </label>
 										<input type="text" class="form-control">
-									</div>
+									</div> *@
 
-									<div class="select-custom">
-										<label>Country / Region <span class="required">*</span></label>
-										<select name="orderby" class="form-control">
-											<option value="" selected="selected">British Indian Ocean Territory
-											</option>
-											<option value="1">Brunei</option>
-											<option value="2">Bulgaria</option>
-											<option value="3">Burkina Faso</option>
-											<option value="4">Burundi</option>
-											<option value="5">Cameroon</option>
-										</select>
-									</div>
+								@* 	 <div class="form-group mb-2">
+									 	<label asp-for="AppUser.FullName">FullName <span class="required">*</span></label>
+									 	<input id="fullName" asp-for="AppUser.FullName" class="form-control" placeholder="Editor" />
+									 </div>
+									 <div class="form-group mb-2">
+									 	<label asp-for="AppUser.DateOfBirth">DateOfBirth <span class="required">*</span></label>
+									 	<input asp-for="AppUser.DateOfBirth" class="form-control" type="date"  />
+									 </div>
+									 <div class="form-group mb-2">
+									 	<label asp-for="AppUser.PhoneNumber">PhoneNumber <span class="required">*</span></label>
+									 	<input id="phoneNumber" asp-for="AppUser.PhoneNumber" class="form-control" />
+									 </div>
+									 <div class="form-group mb-4">
+									 	<label asp-for="AppUser.Address">Address <span class="required">*</span></label>
+									 	<input id="address" asp-for="AppUser.Address" class="form-control" />
+									 </div> *@ 
+									<!-- Thêm phần chọn Yes/No để đăng ký làm seller -->
+								@* 	<div class="form-group mb-4">
+										<label>Do you want to register as a seller?</label>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="isSeller" id="isSellerYes" value="Yes">
+											<label class="form-check-label" for="isSellerYes">
+												Yes
+											</label>
+										</div>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="isSeller" id="isSellerNo" value="No" checked>
+											<label class="form-check-label" for="isSellerNo">
+												No
+											</label>
+										</div>
+									</div> *@
+									<div class="alert alert-info">
+										<div class="alert-wrapper">
+											<h4>Announcement!</h4>
+											<p>
+											Do want to register seller
+											</p>
+											<button class="btn btn-info mt-xs mb-xs" id="btnYes">Yes, it’s the best choice</button>
+											<button class="btn btn-default mt-xs mb-xs" id="btnNo">Not convinced yet</button>
 
-									<div class="form-group">
-										<label>Street address <span class="required">*</span></label>
-										<input type="text" class="form-control"
-											placeholder="House number and street name" required />
-										<input type="text" class="form-control"
-											placeholder="Apartment, suite, unit, etc. (optional)" required />
-									</div>
-
-									<div class="form-group">
-										<label>Town / City <span class="required">*</span></label>
-										<input type="text" class="form-control" required />
-									</div>
-
-									<div class="form-group">
-										<label>State / Country <span class="required">*</span></label>
-										<input type="text" class="form-control" required />
-									</div>
-
-									<div class="form-group">
-										<label>Postcode / ZIP <span class="required">*</span></label>
-										<input type="text" class="form-control" required />
+										</div>
 									</div>
 
 									<div class="form-footer mb-0">
@@ -1193,6 +1201,18 @@
 	</div>
 
 
+	<style>
+		.btn-save-changes {
+    opacity: 0.5; /* Độ mờ ban đầu là 0.5 */
+    transition: opacity 0.5s ease; /* Hiệu ứng chuyển tiếp mượt mà */
+    pointer-events: none; /* Không cho phép tương tác khi không hoạt động */
+}
+
+.btn-save-changes.visible {
+    opacity: 1; /* Khi có lớp "visible", độ mờ sẽ là 1 (hiển thị) */
+    pointer-events: auto; /* Cho phép tương tác khi nút hoạt động */
+}
+	</style>
 
 	<a id="scroll-top" href="#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
 
@@ -1208,51 +1228,144 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 			<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script>
-	$(document).ready(function () {
-		   // Xử lý sự kiện submit form bằng Ajax
-		   $('#profileForm').submit(function (event) {
-				  event.preventDefault(); // Ngăn không cho form submit theo cách thông thường
-				
-				  $.ajax({
-						 url: '@Url.Page("/Profile")',  // Đảm bảo đúng handler Razor Page
-						 type: 'POST',
-						 data: $(this).serialize(),
-						 headers: {
-								'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
-						 },
-						 success: function (response) {
-								// Hiển thị thông báo thành công hoặc thất bại bằng SweetAlert
-								if (response.success) {
-									console.log("Ok");
-									Swal.fire({
-										icon: 'success',
-										title: 'Cập nhật thành công!',
-										text: response.message,
-										showConfirmButton: false,
-										timer: 2000 // Đóng thông báo sau 1.5 giây
-									});
-								} else {
-									Swal.fire({
-										icon: 'error',
-										title: 'Cập nhật thất bại!',
-										text: response.message,
-										showConfirmButton: true
-									});
-								}
-						 },
-						 error: function () {
+$(document).ready(function () {
+    // Lưu trữ giá trị ban đầu của các trường nhập liệu
+    const initialValues = {};
+    $('#profileForm input').each(function () {
+        initialValues[this.name] = $(this).val();
+    });
+
+    // Đặt nút "Save changes" ở trạng thái mờ (opacity: 0.5)
+    $('.btn-save-changes').removeClass('visible'); // Đảm bảo không có lớp visible ban đầu
+
+    // Theo dõi sự thay đổi trong các trường nhập
+    $('#profileForm input').on('input change', function () {
+        const currentValue = $(this).val();
+        const name = $(this).attr('name');
+
+        // So sánh giá trị hiện tại với giá trị ban đầu
+        if (currentValue !== initialValues[name]) {
+            $('.btn-save-changes').addClass('visible'); // Hiển thị nút khi có sự thay đổi
+        } else {
+            $('.btn-save-changes').removeClass('visible'); // Giữ nút mờ nếu không có sự thay đổi
+        }
+    });
+
+    // Xử lý sự kiện submit form bằng Ajax
+    $('#profileForm').submit(function (event) {
+        event.preventDefault(); // Ngăn không cho form submit theo cách thông thường
+
+        $.ajax({
+            url: '@Url.Page("/Profile")',  // Đảm bảo đúng handler Razor Page
+            type: 'POST',
+            data: $(this).serialize(),
+            headers: {
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            },
+            success: function (response) {
+                // Hiển thị thông báo thành công hoặc thất bại bằng SweetAlert
+                if (response.success) {
+                    console.log("Ok");
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Cập nhật thành công!',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 2000 // Đóng thông báo sau 2 giây
+                    });
+                    $('.btn-save-changes').removeClass('visible'); // Giữ nút mờ sau khi cập nhật thành công
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Cập nhật thất bại!',
+                        text: response.message,
+                        showConfirmButton: true
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Xảy ra lỗi trong quá trình cập nhật hồ sơ.',
+                    showConfirmButton: true
+                });
+            }
+        });
+    });
+});
+</script>
+		<script>
+			$(document).ready(function () {
+				// Sự kiện cho nút "Yes"
+				$('#btnYes').on('click', function () {
+					$('#register-seller-form').submit(); // Gửi form
+				});
+
+				// Sự kiện cho nút "Not convinced yet"
+				$('#btnNo').on('click', function () {
+					// Không làm gì hoặc có thể hiển thị thông báo
+					Swal.fire({
+						icon: 'info',
+						title: 'Still thinking?',
+						text: 'You can always come back to register later!',
+						showConfirmButton: true
+					});
+				});
+
+				$('#register-seller-form').on('submit', function (event) {
+					event.preventDefault(); // Ngăn hành động submit mặc định
+
+					// Thực hiện AJAX để gửi form
+					$.ajax({
+						type: 'POST',
+						url: '@Url.Page("Profile", "RegisterSeller")',
+						data: $(this).serialize(),
+						success: function (response) {
+							if (response.success) {
+								Swal.fire({
+									icon: 'success',
+									title: 'Đăng ký thành công!',
+									text: response.message,
+									showConfirmButton: false,
+									timer: 2000 // Đóng thông báo sau 2 giây
+								});
+							} else if (response.requiresRedirect) {
+								// Nếu cần chuyển qua tab chi tiết tài khoản
+								Swal.fire({
+									icon: 'warning',
+									title: 'Thông tin không đầy đủ!',
+									text: response.message,
+									showConfirmButton: true
+								}).then(() => {
+									$('#edit-tab').tab('show'); // Chuyển qua tab
+								});
+							} else {
 								Swal.fire({
 									icon: 'error',
 									title: 'Lỗi!',
-									text: 'Xảy ra lỗi trong quá trình cập nhật hồ sơ.',
+									text: response.message,
 									showConfirmButton: true
 								});
-						 }
-				  });
-		   }); // Đóng submit function
-	}); // Đóng $(document).ready()
-</script>
+							}
+						},
+						error: function () {
+							Swal.fire({
+								icon: 'error',
+								title: 'Lỗi!',
+								text: 'Xảy ra lỗi trong quá trình gửi yêu cầu.',
+								showConfirmButton: true
+							});
+						}
+					});
+				});
+			});
+		</script>
+
+
 	}
+
+
 </body>
 
 

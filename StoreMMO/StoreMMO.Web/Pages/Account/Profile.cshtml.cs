@@ -41,7 +41,7 @@ namespace StoreMMO.Web.Pages.Account
 				existingUser.DateOfBirth = AppUser.DateOfBirth;
 				existingUser.PhoneNumber = AppUser.PhoneNumber;
 				existingUser.Address = AppUser.Address;
-
+				existingUser.ModifiedDateUpdateProfile = DateTime.UtcNow;
 				var result = await _userManager.UpdateAsync(existingUser);
 
 				if (result.Succeeded)
@@ -58,5 +58,39 @@ namespace StoreMMO.Web.Pages.Account
 
 			return new JsonResult(new { success = false, message = "User not found." });
 		}
+		public async Task<IActionResult> OnPostRegisterSeller()
+		{
+			// Tìm người dùng theo email
+			var item = await _userManager.FindByEmailAsync("ANHLDCE171348@FPT.EDU.VN");
+
+			// Nếu không tìm thấy người dùng
+			if (item == null)
+			{
+				return new JsonResult(new { success = false, message = "No user found. Please register your account first." });
+			}
+
+			// Kiểm tra nếu các trường bắt buộc có đủ thông tin từ cơ sở dữ liệu
+			if (string.IsNullOrWhiteSpace(item.FullName) ||
+				!item.DateOfBirth.HasValue || // Kiểm tra xem DateOfBirth có giá trị không
+				string.IsNullOrWhiteSpace(item.PhoneNumber) ||
+				string.IsNullOrWhiteSpace(item.Address))
+			{
+				// Nếu thiếu thông tin, gửi phản hồi yêu cầu chuyển hướng đến tab chỉnh sửa
+				return new JsonResult(new { success = false, requiresRedirect = true, message = "Please complete your profile in Account Details." });
+			}
+
+			// Cập nhật thông tin nếu người dùng đồng ý trở thành seller
+			item.IsSeller = true; // Hoặc lấy giá trị từ form nếu cần
+			var result = await _userManager.UpdateAsync(item);
+			if (result.Succeeded)
+			{
+				return new JsonResult(new { success = true, message = "You registered as a seller successfully!" });
+			}
+			else
+			{
+				return new JsonResult(new { success = false, message = "Failed to register seller." });
+			}
+		}
+
 	}
 }
