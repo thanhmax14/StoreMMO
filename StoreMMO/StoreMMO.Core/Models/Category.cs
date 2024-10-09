@@ -14,6 +14,7 @@ public partial class Category
     public DateTimeOffset? CreatedDate { get; set; }
 
     public DateTimeOffset? ModifiedDate { get; set; }
+    public bool IsActive { get; set; } = false;
 
-    public virtual ICollection<StoreDetail> StoreDetails { get; set; } = new List<StoreDetail>();
+	public virtual ICollection<StoreDetail> StoreDetails { get; set; } = new List<StoreDetail>();
 }

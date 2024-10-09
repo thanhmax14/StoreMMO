@@ -13,11 +13,7 @@ namespace StoreMMO.Core.Models
     {
 		
 		public string? FullName { get; set; }
-
-       
         public DateTime? DateOfBirth { get; set; }
-		
-
 		public string? Address { get; set; }
         public bool IsDelete { get; set; }
         public DateTime? DateDelete { get; set; }
