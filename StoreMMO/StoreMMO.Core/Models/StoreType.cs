@@ -12,6 +12,7 @@ public partial class StoreType
     public DateTimeOffset? CreatedDate { get; set; }
 
     public DateTimeOffset? ModifiedDate { get; set; }
+	public bool? IsActive { get; set; }
 
-    public virtual ICollection<StoreDetail> StoreDetails { get; set; } = new List<StoreDetail>();
+	public virtual ICollection<StoreDetail> StoreDetails { get; set; } = new List<StoreDetail>();
 }
