@@ -15,5 +15,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.User
         {
             return _userRepository.GetAllUser();
         }
+
+        public IEnumerable<UserViewModel> GetUserById(string userId)
+        {
+            return _userRepository.GetlUserById(userId);
+        }
     }
 }
