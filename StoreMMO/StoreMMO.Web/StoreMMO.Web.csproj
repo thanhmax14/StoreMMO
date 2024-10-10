@@ -30,6 +30,5 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\User\" />
-	  <Folder Include="Pages\Seller\" />
 	</ItemGroup>
 </Project>
