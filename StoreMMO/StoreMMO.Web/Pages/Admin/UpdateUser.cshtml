@@ -1,7 +1,11 @@
 ﻿@page "{userId?}"
 @model StoreMMO.Web.Pages.Admin.UpdateUserModel
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 @{
 }
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -404,26 +408,45 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Update Form</h5>
+                            @if (!string.IsNullOrEmpty(@Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(@Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+
+                            
                              @foreach (var item in @Model.list)
                              {
                                 <!-- General Form Elements -->
-                                <form>
+                                <form method="post">
                                     <div class="row mb-3">
                                         <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                         <div class="col-sm-10">
-                                            <input type="email" class="form-control" value="@item.Email" disabled>
+                                            <input type="email" class="form-control" value="@item.Email" asp-for="input.Email" readonly>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="inputText" class="col-sm-2 col-form-label">User Name</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" value="@item.UserName" disabled>
+                                            <input type="text" class="form-control" value="@item.UserName" asp-for="input.UserName" readonly>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="inputText" class="col-sm-2 col-form-label">FullName</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" value=" @item.FullName">
+                                            <input type="text" class="form-control" value="@item.FullName" asp-for="input.FullName">
+                                            <span style="color:red" asp-validation-for="input.FullName"></span>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -431,11 +454,11 @@
                                         <div class="col-sm-10">
                                             @if (item.CreatedDate != null)
                                             {
-                                                <input type="date" class="form-control" value="@item.CreatedDate.Value.ToString("yyyy-MM-dd")" disabled>
+                                                <input type="date" class="form-control" value="@item.CreatedDate.Value.ToString("yyyy-MM-dd")" readonly>
                                             }
                                             else
                                             {
-                                                <input type="date" class="form-control" value="" disabled>
+                                                <input type="date" class="form-control" value="" readonly>
                                             }
                                             
                                         </div>
@@ -446,18 +469,21 @@
                                         <div class="col-sm-10">
                                             @if (item.DateOfBirth != null)
                                             {
-                                                <input type="date" class="form-control" value="@item.DateOfBirth.Value.ToString("yyyy-MM-dd")">
+                                                <input type="date" class="form-control" value="@item.DateOfBirth.Value.ToString("yyyy-MM-dd")" asp-for="input.DateOfBirth">
+                                                <span style="color:red" asp-validation-for="input.DateOfBirth"></span>
                                             }
                                             else
                                             {
-                                                <input type="date" class="form-control" value="">
+                                                <input type="date" class="form-control" value="" asp-for="input.DateOfBirth">
+                                                <span style="color:red" asp-validation-for="input.DateOfBirth"></span>
                                             }
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="inputNumber" class="col-sm-2 col-form-label">Phone Number</label>
                                         <div class="col-sm-10">
-                                            <input type="number" class="form-control" value=" @item.PhoneNumber">
+                                            <input type="text" class="form-control" value="@item.PhoneNumber" asp-for="input.PhoneNumber">
+                                            <span style="color:red" asp-validation-for="input.PhoneNumber"></span>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -474,13 +500,16 @@
                                     <div class="row mb-3">
                                         <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
                                         <div class="col-sm-10">
-                                            <input type="password" class="form-control" value=" @item.PasswordHash">
+                                            <input type="text" class="form-control" value="@item.PasswordHash" asp-for="input.Password">
+                                            <span style="color:red" asp-validation-for="input.Password"></span>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <label for="inputText" class="col-sm-2 col-form-label">Address</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" value=" @item.Address">
+                                            <input type="text" class="form-control" value="@item.Address" asp-for="input.Address">
+                                          
+                                            <span style="color:red" asp-validation-for="input.Address"></span>
                                         </div>
                                     </div>
                                     <div class="text-center">
@@ -491,6 +520,10 @@
                                     
 
                                 </form><!-- End General Form Elements -->
+
+                               
+
+
                             }
                         </div>
                     </div>
@@ -522,3 +555,4 @@
 </body>
 
 </html>
+
