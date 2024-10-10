@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.WebUtilities;
 using StoreMMO.Core.Models;
 using StoreMMO.Web.Models.ViewModels;
+using System.Text.Encodings.Web;
+using System.Text;
 using System.Web;
 
 namespace StoreMMO.Web.Pages.Account
@@ -49,17 +52,22 @@ namespace StoreMMO.Web.Pages.Account
 
 				if (result.Succeeded)
 				{
-					var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-					var encodedToken = Uri.EscapeDataString(token); // Sử dụng Uri để mã hóa
-					var confirmLink = Url.Page("/Account/Login",
-						pageHandler: "ConfirmEmail",
-						values: new { userId = user.Id, token = encodedToken },
-						protocol: Request.Scheme);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmailSuccess",
+                        pageHandler: null,
+                        values: new {userId = user.Id, code = code },
+                        protocol: Request.Scheme);
 
-					var emailMessage = $"Please confirm your account by clicking this link: <a href='{confirmLink}'>Confirm Email</a>";
-					await _emailSender.SendEmailAsync(inputRegister.Email, "Confirm Email", emailMessage);
+                    await _emailSender.SendEmailAsync(inputRegister.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-					if (!await _roleManager.RoleExistsAsync("User"))
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        return RedirectToPage("WaitVerifyEmail", new { email = inputRegister.Email });
+                    }                 
+                    if (!await _roleManager.RoleExistsAsync("User"))
 					{
 						await _roleManager.CreateAsync(new IdentityRole("User"));
 					}

@@ -40,12 +40,14 @@ namespace StoreMMO.Web.Pages.Account
                 return Page();
             }else
             {
-                var user = await this._userManager.FindByEmailAsync(inputLogin.Email);
-                if (user == null)
+                var checkByEmail = await this._userManager.FindByEmailAsync(inputLogin.Email);
+                var checkByUsername = await this._userManager.FindByNameAsync(inputLogin.Email);
+                if (checkByEmail == null && checkByUsername==null)
                 {
-                    ModelState.AddModelError(string.Empty,"User not exit!");
+                    ModelState.AddModelError(string.Empty,"User not doesn't exit!");
                     return Page();
                 }
+                var user = checkByEmail ?? checkByUsername;
                 var checkpwd = await this._userManager.CheckPasswordAsync(user, inputLogin.Password);
                 if (!checkpwd)
                 {
@@ -61,25 +63,25 @@ namespace StoreMMO.Web.Pages.Account
                     }
                     return Page();
                 }
-                await this._userManager.ResetAccessFailedCountAsync(user);
-                var result = await _signInManager.PasswordSignInAsync(inputLogin.Email, inputLogin.Password,
-                    inputLogin.RememberMe, lockoutOnFailure: true);
-                HttpContext.Session.SetString("Email", inputLogin.Email);
-                HttpContext.Session.SetString("UserName", user.UserName);
-				if (result.IsNotAllowed)
-                {
+				if (user != null && !await _userManager.IsEmailConfirmedAsync(user))
+				{
 					ModelState.AddModelError(string.Empty, "You must verify email before login");
 					return Page();
 				}
-                else if (result.IsLockedOut)
+				await this._userManager.ResetAccessFailedCountAsync(user);
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, inputLogin.Password,
+                    inputLogin.RememberMe, lockoutOnFailure: false);
+               
+				 if (result.IsLockedOut)
                 {
                     ModelState.AddModelError(string.Empty, "Your account is locked.");
                     return Page();
                 }
                 else if (result.Succeeded)
                 {
-                   
-					return RedirectToPage("/Index");
+                    HttpContext.Session.SetString("Email", inputLogin.Email);
+                    HttpContext.Session.SetString("UserName", user.UserName);
+                    return RedirectToPage("/Index");
 				}
                 else
                 {
