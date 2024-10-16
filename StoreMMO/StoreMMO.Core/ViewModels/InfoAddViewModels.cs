@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreMMO.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace StoreMMO.Core.ViewModels
     {
         public string Id { get; set; }
 
-        public string ProductId { get; set; }
+        public string ProductTypeId { get; set; }
 
         public string Account { get; set; }
 
@@ -21,6 +22,8 @@ namespace StoreMMO.Core.ViewModels
         public string Status { get; set; }
 
         public DateTimeOffset? CreatedDate { get; set; }
+
+        public virtual ProductType ProductType { get; set; }
 
     }
 }
