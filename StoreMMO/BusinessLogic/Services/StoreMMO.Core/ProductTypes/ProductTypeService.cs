@@ -13,7 +13,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.ProductTypes
             _productRepository = productRepository;
         }
 
-        public ProductViewModels AddProduct(ProductViewModels productViewModels)
+        public ProductTypesViewModels AddProduct(ProductTypesViewModels productViewModels)
         {
             return _productRepository.AddProduct(productViewModels);
         }
@@ -28,12 +28,12 @@ namespace BusinessLogic.Services.StoreMMO.Core.ProductTypes
             return _productRepository.GetAllProduct();
         }
 
-        public ProductViewModels getByIDProduct(string id)
+        public ProductTypesViewModels getByIDProduct(string id)
         {
            return _productRepository.getByIDProduct(id);
         }
 
-        public ProductViewModels Update(ProductViewModels productViewModels)
+        public ProductTypesViewModels Update(ProductTypesViewModels productViewModels)
         {
            return _productRepository.Update(productViewModels);
         }

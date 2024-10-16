@@ -15,13 +15,13 @@ namespace BusinessLogic.Services.StoreMMO.API
             this._httpClient.DefaultRequestHeaders.Accept.Add(contentype);
             this.api = "https://localhost:7200/api/Product";
         }
-        public async Task<ProductViewModels> GetProductById(string id)
+        public async Task<ProductTypesViewModels> GetProductById(string id)
         {
             try
             {
                 var reponse = await this._httpClient.GetAsync($"{this.api}/{id}");
                 reponse.EnsureSuccessStatusCode();
-                return await reponse.Content.ReadFromJsonAsync<ProductViewModels>();
+                return await reponse.Content.ReadFromJsonAsync<ProductTypesViewModels>();
             }catch(HttpRequestException ex)
             {
                 throw new Exception($"Đã xảy ra lỗi khi gọi API: {ex.Message}");

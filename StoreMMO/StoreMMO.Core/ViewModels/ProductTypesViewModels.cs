@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Core.ViewModels
 {
-    public class ProductViewModels
+    public class ProductTypesViewModels
     {
         public string Id { get; set; }
 
