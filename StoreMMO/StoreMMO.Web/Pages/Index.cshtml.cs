@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Services.StoreMMO.API;
+﻿using BusinessLogic.Services.Encrypt;
+using BusinessLogic.Services.StoreMMO.API;
 using BusinessLogic.Services.StoreMMO.Core.Carts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,73 +11,99 @@ using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages
 {
-    public class IndexModel : PageModel
-    {
-        private readonly StoreApiService _storeApi;
-        private readonly ProductApiService _productApi;
+	public class IndexModel : PageModel
+	{
+		private readonly StoreApiService _storeApi;
+		private readonly ProductApiService _productApi;
 		private readonly ICartService _cartService;
+		private readonly WishListApiService _wishListApi;
 
 
 
-        public IndexModel(StoreApiService storeApiService, ProductApiService productApi, ICartService cartService)
-        {
-            this._storeApi = storeApiService;
-            this._productApi = productApi;
+		public IndexModel(StoreApiService storeApiService, ProductApiService productApi,
+			ICartService cartService, WishListApiService wishListApi)
+		{
+			this._storeApi = storeApiService;
+			this._productApi = productApi;
 			this._cartService = cartService;
-        }
+			this._wishListApi = wishListApi;
+		}
 
-        public List<StoreViewModels> storeView = new List<StoreViewModels>();
+		public List<StoreViewModels> storeView = new List<StoreViewModels>();
+		public List<WishListViewModels> wishList = new List<WishListViewModels>();
+		public List<WishListViewModels> wishnew = new List<WishListViewModels>();
+		public async Task OnGetAsync()
+		{
 
-        public async Task OnGetAsync()
-        {
-            storeView = await this._storeApi.GetStoresAsync();
-           
-        }
-      
-        public IActionResult OnPostAddToCart(int quan, string saveProID)
-        {
-            if (string.IsNullOrEmpty(saveProID) || int.IsNegative(quan))
-            {
-                return new JsonResult(new { success = false, mess="" });
-            }
-            else
-            {
-                var cart = this._cartService.GetCartFromSession();
-                var getitem = this._cartService.getProductAddByID(saveProID);
-                if (getitem != null || !getitem.IsNullOrEmpty())
 
-                {
-                    foreach (var item in getitem)
-                    {
-                        double quantity = double.Parse(quan+"");
-                        var temp = new CartItem
-                        {
-                            img = item.img,
-                            productID = item.productID,
-                            storeDetailID= item.storeDetailID,
-                            quantity = quan+"",
-                            price = item.price,
-                            proName = item.proName,
-                            subtotal = "" + item.price * quantity
+			storeView = await this._storeApi.GetStoresAsync();
+			var useriD = HttpContext.Session.GetString("UserID");
+			if (useriD != null)
+			{
+				foreach (var storeViewModel in storeView)
+				{
+					var checktem = await this._storeApi.GetStoreDetail(storeViewModel.storeID);
 
-                        };
-                        var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
-                        if (existingItem != null)
-                        {
-                            existingItem.quantity = (double.Parse(existingItem.quantity) + quantity).ToString();
-                            existingItem.subtotal = (item.price * (double.Parse(existingItem.quantity))).ToString();
-                        }
-                        else
-                        {
-                            cart.Add(temp);
-                        }
-                        this._cartService.SaveCartToSession(cart);
-                    }
+					wishList = await this._wishListApi.getByUserID(useriD);
+					foreach (var wish in wishList)
+					{
+						if (checktem.Any(u => u.ProductStock.ContainsValue(wish.ProductId)))
+						{
+							wish.ProductId = storeViewModel.storeID;
+						}
+						wishnew.Add(wish);
+					}
 
-                }
-                return new JsonResult(new { success = true, message = "ok id la " + saveProID });
-            }
-        }
+
+				}
+			}
+		}
+
+
+		public IActionResult OnPostAddToCart(int quan, string saveProID)
+		{
+			if (string.IsNullOrEmpty(saveProID) || int.IsNegative(quan))
+			{
+				return new JsonResult(new { success = false, mess = "" });
+			}
+			else
+			{
+				var cart = this._cartService.GetCartFromSession();
+				var getitem = this._cartService.getProductAddByID(saveProID);
+				if (getitem != null || !getitem.IsNullOrEmpty())
+
+				{
+					foreach (var item in getitem)
+					{
+						double quantity = double.Parse(quan + "");
+						var temp = new CartItem
+						{
+							img = item.img,
+							productID = item.productID,
+							storeDetailID = item.storeDetailID,
+							quantity = quan + "",
+							price = item.price,
+							proName = item.proName,
+							subtotal = "" + item.price * quantity
+
+						};
+						var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
+						if (existingItem != null)
+						{
+							existingItem.quantity = (double.Parse(existingItem.quantity) + quantity).ToString();
+							existingItem.subtotal = (item.price * (double.Parse(existingItem.quantity))).ToString();
+						}
+						else
+						{
+							cart.Add(temp);
+						}
+						this._cartService.SaveCartToSession(cart);
+					}
+
+				}
+				return new JsonResult(new { success = true, message = "ok id la " + saveProID });
+			}
+		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult OnPostRemoveCart(string saveProID)
@@ -93,17 +120,17 @@ namespace StoreMMO.Web.Pages
 
 				{
 					foreach (var item in getitem)
-					{						
+					{
 						var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
 						if (existingItem != null)
 						{
-                            cart.Remove(existingItem); 
-						}						
+							cart.Remove(existingItem);
+						}
 						this._cartService.SaveCartToSession(cart);
 					}
 
 				}
-				return new JsonResult(new { success = true, message = "ok id la " + saveProID +"Da bi xoa" });
+				return new JsonResult(new { success = true, message = "ok id la " + saveProID + "Da bi xoa" });
 			}
 		}
 
@@ -120,7 +147,7 @@ namespace StoreMMO.Web.Pages
 			{
 				var cart = this._cartService.GetCartFromSession();
 				var getitem = this._cartService.getProductAddByID(saveProID);
-				var temquantit="";
+				var temquantit = "";
 				var subprice = "";
 				if (getitem != null || !getitem.IsNullOrEmpty())
 
@@ -132,7 +159,7 @@ namespace StoreMMO.Web.Pages
 						{
 							existingItem.quantity = (double.Parse(existingItem.quantity) + 1).ToString();
 							existingItem.subtotal = (item.price * (double.Parse(existingItem.quantity))).ToString();
-						
+
 						}
 						subprice = existingItem.subtotal;
 						temquantit = existingItem.quantity;
@@ -140,9 +167,13 @@ namespace StoreMMO.Web.Pages
 					}
 
 				}
-				return new JsonResult(new { success = true, message = "ok id la " + saveProID + "Da bi xoa",
+				return new JsonResult(new
+				{
+					success = true,
+					message = "ok id la " + saveProID + "Da bi xoa",
 					subprice1 = subprice,
-					quantity = temquantit });
+					quantity = temquantit
+				});
 			}
 		}
 		[HttpPost]
@@ -172,16 +203,19 @@ namespace StoreMMO.Web.Pages
 						}
 						subprice = existingItem.subtotal;
 						temquantit = existingItem.quantity;
-						if (Int32.Parse(existingItem.quantity) <= 0 || double.Parse(existingItem.subtotal) <=0)
+						if (Int32.Parse(existingItem.quantity) <= 0 || double.Parse(existingItem.subtotal) <= 0)
 						{
 							cart.Remove(existingItem);
-						}					
+						}
 						this._cartService.SaveCartToSession(cart);
 					}
 
 				}
-				return new JsonResult(new { success = true, message = "ok id la " + saveProID + "Da bi xoa",
-				subprice1 = subprice,
+				return new JsonResult(new
+				{
+					success = true,
+					message = "ok id la " + saveProID + "Da bi xoa",
+					subprice1 = subprice,
 					quantity = temquantit
 				});
 			}
@@ -214,7 +248,7 @@ namespace StoreMMO.Web.Pages
 							{
 								return new JsonResult(new { success = false, message = "Do you want to remove??" });
 							}
-						}										
+						}
 					}
 
 				}
@@ -222,5 +256,32 @@ namespace StoreMMO.Web.Pages
 			}
 		}
 
+
+		public async Task<IActionResult> OnPostAddWishList(string saveProID)
+		{
+			// Lấy UserID từ session
+			var useriD = HttpContext.Session.GetString("UserID");
+			if (useriD == null)
+			{
+				return new JsonResult(new { success = false, message = "Bạn phải đăng nhập." ,login=false});
+			}
+			var wishListItem = new WishListViewModels
+			{
+				Id = Guid.NewGuid().ToString(),
+				ProductId = saveProID,
+				UserId = useriD,
+			};
+			var existingItems = await this._wishListApi.getByUserID(useriD);
+			if (existingItems.Any(item => saveProID == item.ProductId))
+			{
+				return new JsonResult(new { success = false, message = $"Sản phẩm đã tồn tại trong danh sách yêu thích: {saveProID}" , login = true });
+			}
+			var addedItem = await this._wishListApi.Add(wishListItem);
+			if (addedItem == null)
+			{
+				return new JsonResult(new { success = false, message = $"Thêm sản phẩm thất bại: {saveProID}", login = true });
+			}
+			return new JsonResult(new { success = true, message = $"Sản phẩm đã được thêm vào danh sách yêu thích: {saveProID}", login = true });
+		}
 	}
 }

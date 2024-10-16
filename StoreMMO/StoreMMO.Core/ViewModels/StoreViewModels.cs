@@ -16,5 +16,6 @@ namespace StoreMMO.Core.ViewModels
         public string imgStore { get; set; }
 
 
+
     }
 }

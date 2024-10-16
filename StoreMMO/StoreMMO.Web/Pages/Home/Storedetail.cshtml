@@ -223,11 +223,20 @@
                                         <ul class="config-size-list">
                                             @{
                                                 var index = 0;
+                                                bool flags = false;
                                             }
 
                                             @foreach (var product in item.ProductStock)
                                             {
-
+                                                if (TempData["defauUSerid"] != "")
+                                                {
+                                                    if(index == 0)
+                                                    {
+                                                        var userid = TempData["defauUSerid"].ToString();
+                                                        flags = Model.wishnew.Any(u => u.UserId == userid.Split("$")[1] && u.ProductId == product.Value);
+                                                    }
+                                                   
+                                                }
                                                 <li class="@(index == 0 ? "active" : "")">
                                                     <a href="javascript:;" onclick="getProduct('@product.Value')"
                                                        class="d-flex align-items-center justify-content-center">
@@ -314,34 +323,51 @@
                                         <button href="" id="viewCar" class="btn btn-gray view-cart">Buy Now</button>
                                     </form> *@
 
-
+                                    
                                     <a href="javascript:;" onclick="sendAja()" type="submit" id="cartid" class="btn btn-dark add-cart mr-2" title="Add to Cart">
                                             Add to
                                             Cart
                                         </a>
 
-
                                     <script>
                                         var saveProID = document.getElementById("defauProid").value;
                                         $("#temID").val(saveProID);
                                         var quan = document.getElementById("quantity").value;
+                                       
                                         function getProduct(productId) {
+                                            var wihs = document.getElementById("checkwicj");
                                             var element = document.getElementById("cartid");
-                                            var viewCar = document.getElementById("viewCar");
+                                          
                                             var cartmessage = document.getElementById("cart-message");
                                             console.log("ID sản phẩm:", productId);
                                             saveProID = productId;
+
                                             $("#temID").val(saveProID);
+                                            var send = productId + '@TempData["defauUSerid"]'
+                                            console.log(send);
                                             $.ajax({
                                                 type: "GET",
-                                                url: 'https://localhost:7200/api/Product/' + productId,
+                                                url: 'https://localhost:7200/api/Product/'+ send,
                                                 success: function (response) {
+                                                    if (response.thanhdeptrai) {
+                                                        wihs.className = "btn-icon-wish add-wishlist added-wishlist";
+                                                        $("#spwit").text("BROWSE WISHLIST");
+                                                    } else {
+                                                        wihs.className = "btn-icon-wish add-wishlist";
+                                                        $("#spwit").text("Add to Wishlist");
+                                                    }
+
+
                                                     if (response) {
                                                         $("#new-price").text("$" + response.price);
-                                                        $("#product-quality").text(response.stock);
+                                                        $("#product-quality").text(response.stock);                                   
                                                         element.className = "btn btn-dark add-cart mr-2";
                                                         viewCar.className = "btn btn-gray view-cart d-none";
                                                         cartmessage.className = "cart-message d-none";
+                                                        if (response.stock === "0") {
+                                                            element.className = "btn btn-dark add-cart mr-2 disabled";
+                                                            element.removeAttribute('onclick');
+                                                        }
                                                     } else {
                                                         alert("Lỗi: Không tìm thấy sản phẩm");
                                                     }
@@ -383,7 +409,36 @@
                                             });
                                         }
 
-                                        
+                                        function skad() {
+                                            
+                                                console.log("Sending data - saveProID: " + saveProID); // In ra để kiểm tra giá trị
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/Index?handler=AddWishList",
+                                                beforeSend: function (xhr) {
+                                                    // Set the XSRF token in the request header
+                                                    xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+                                                },
+                                                data: {
+                                                    saveProID: saveProID,
+                                                },
+                                                dataType: "json",
+                                                success: function (data) {
+                                                    if (!data.login){
+                                                        window.location.href = "/account/login";
+                                                    }else{
+                                                        if (data.success) {
+                                                            console.log(data.message);
+                                                        } else {
+                                                            console.log(data.message);
+                                                        }
+                                                    }
+                                                },
+                                                error: function (error) {
+                                                    console.error("Error occurred:", error);
+                                                }
+                                            });
+                                        }
                                     </script>
 
                                     <!-- AntiForgeryToken input (make sure this is in the HTML) -->
@@ -415,12 +470,26 @@
                                     </div>
                                     <!-- End .social-icons -->
 
-                                    <a href="wishlist.html" class="btn-icon-wish add-wishlist" title="Add to Wishlist">
-                                        <i class="icon-wishlist-2"></i><span>
+                                    @{
+                                        if (flags)
+                                        {
+                                            <a href="/wishlist/view" class="btn-icon-wish add-wishlist added-wishlist" id="checkwicj" onclick="skad()" title="Add to Wishlist">
+                                                <i class="icon-wishlist-2"></i>
+                                                <span id="spwit">
+                                                    BROWSE WISHLIST
+                                                </span>
+                                            </a>
+                                        }else{
+                                             <a href="/wishlist/view" class="btn-icon-wish add-wishlist" id="checkwicj" onclick="skad()" title="Add to Wishlist">
+                                                <i class="icon-wishlist-2"></i><span id="spwit">
                                             Add to
                                             Wishlist
                                         </span>
                                     </a>
+                                        }
+                                    }
+                                   
+                                
                                 </div>
                                 <!-- End .product single-share -->
                             </div>
@@ -431,7 +500,7 @@
                 }
 
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+               
 
 
 

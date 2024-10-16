@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Services.StoreMMO.API;
+﻿using BusinessLogic.Services.Encrypt;
+using BusinessLogic.Services.StoreMMO.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
@@ -11,16 +12,19 @@ namespace StoreMMO.Web.Pages.Home
     {
         private readonly StoreApiService _storeApi;
         private readonly ProductApiService _productApi;
+        private readonly WishListApiService _wishListApi;
 
 
-        public StoredetailModel(StoreApiService storeApiService, ProductApiService productApi)
+        public StoredetailModel(StoreApiService storeApiService, ProductApiService productApi,WishListApiService wishListApiService)
         {
             this._storeApi = storeApiService;
             this._productApi = productApi;
+            this._wishListApi = wishListApiService;
         }
 
         [BindProperty]
         public List<StoreDetailViewModel> ListDetail { get; set; }
+        public List<WishListViewModels> wishnew = new List<WishListViewModels>();
 
         [TempData]
         public string DefauPrice { get; set; }
@@ -28,10 +32,20 @@ namespace StoreMMO.Web.Pages.Home
         [TempData]
         public string DefauStock { get; set; }
 
-       
 
         public async Task<IActionResult> OnGetAsync(string id)  
         {
+            var useriD = HttpContext.Session.GetString("UserID");
+            if (useriD != null)
+            {
+                TempData["defauUSerid"] ="$"+useriD;
+                wishnew = await this._wishListApi.getByUserID(useriD);
+            }
+            else
+            {
+                TempData["defauUSerid"] = "";
+            }
+            
             try
             {
                 ListDetail = await _storeApi.GetStoreDetail(id);
@@ -58,9 +72,6 @@ namespace StoreMMO.Web.Pages.Home
                 return NotFound();
             }
         }
-       
-
-
 
 
     }

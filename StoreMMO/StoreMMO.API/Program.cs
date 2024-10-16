@@ -41,12 +41,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         policy =>
         {
-            policy.WithOrigins("https://localhost:44380")
+            policy.WithOrigins("http://localhost:44320", "https://localhost:44320") 
                   .AllowAnyMethod()
                   .AllowAnyHeader();
-            policy.WithOrigins("https://localhost:44320").AllowAnyMethod().AllowAnyHeader();
         });
 });
+
 
 builder.Services.AddHttpContextAccessor();
 

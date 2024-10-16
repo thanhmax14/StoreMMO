@@ -30,7 +30,6 @@
     <Folder Include="Services\StoreMMO.Core\ProductsConnect\" />
     <Folder Include="Services\StoreMMO.Core\StoreDetails\" />
     <Folder Include="Services\StoreMMO.Core\StoreTypes\" />
-    <Folder Include="Services\StoreMMO.Core\WishLists\" />
   </ItemGroup>
 
 </Project>
