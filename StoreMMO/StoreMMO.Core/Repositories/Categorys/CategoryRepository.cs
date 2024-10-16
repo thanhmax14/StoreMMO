@@ -30,11 +30,10 @@ namespace StoreMMO.Core.Repositories.Categorys
 
             return category;
         }
-
         public void Delete(string id)
         {
             var findId = _context.Categories.FirstOrDefault(x => x.Id == id);
-            if(findId == null)
+            if (findId == null)
             {
                 throw new Exception("Id not found");
             }
@@ -51,7 +50,7 @@ namespace StoreMMO.Core.Repositories.Categorys
         public CategoryViewModels getById(string id)
         {
             var findId = _context.Categories.SingleOrDefault(x => x.Id == id);
-            if(findId == null)
+            if (findId == null)
             {
                 throw new Exception("Id not found");
             }
@@ -64,6 +63,27 @@ namespace StoreMMO.Core.Repositories.Categorys
                 ModifiedDate = findId.ModifiedDate,
             };
             return category;
+        }
+
+        public IEnumerable<CategoryViewModels> GetCategoryIsActive()
+        {
+            var categoryIsActive = this._context.Categories.Where(x => x.IsActive).ToList();
+            try
+            {
+                List<CategoryViewModels> cateviewmodel = categoryIsActive.Select(x => new CategoryViewModels
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Commission = x.Commission,
+                    CreatedDate = x.CreatedDate,
+                    ModifiedDate = x.ModifiedDate,
+                }).ToList();
+                return cateviewmodel;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public CategoryViewModels Update(CategoryViewModels category)
