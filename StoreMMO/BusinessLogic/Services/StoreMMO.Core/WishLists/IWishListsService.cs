@@ -6,15 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoreMMO.Core.Repositories.WishLists
+namespace BusinessLogic.Services.StoreMMO.Core.WishLists
 {
-    public interface IWishListRepository
+    public interface IWishListsService
     {
         IEnumerable<WishListViewModels> getAllWishList();
         WishListViewModels getByIDWishList(string id);
         WishListViewModels AddWishList(WishListViewModels wishListViewModels);
         WishListViewModels UpdateWishList(WishListViewModels wishListViewModels);
         void DeleteWishList(string id);
-        IEnumerable<WishListViewModels> getAllByUserID(string userID);
+        IEnumerable<WishListViewModels> getAllByUserID(string userid);
     }
 }

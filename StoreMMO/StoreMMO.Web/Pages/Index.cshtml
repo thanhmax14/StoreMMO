@@ -251,10 +251,24 @@
                                         <span class="product-price">$49.00</span>
                                     </div>
                                     <!-- End .price-box -->
+
+                                    @{
+                                        bool flag= Model.wishnew.Any(u => u.ProductId == item.storeID);
+                                    }
+
                                     <div class="product-action">
-                                        <a href="wishlist.html" class="btn-icon-wish" title="wishlist">
-                                            <i class="icon-heart"></i>
-                                        </a>
+                                        @if(flag){
+                                            <a href="/wishlist/view" class="btn-icon-wish added-wishlist" title="wishlist">
+                                                <i class="icon-heart"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/wishlist/view" class="btn-icon-wish" title="wishlist">
+                                                <i class="icon-heart"></i>
+                                            </a>
+                                        }
+
                                         <a href="/home/storedetail/@item.storeID" class="btn-icon btn-add-cart">
                                             <i class="fa fa-arrow-right"></i><span>
                                                 SELECT
