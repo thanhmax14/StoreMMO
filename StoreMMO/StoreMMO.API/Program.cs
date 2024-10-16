@@ -3,7 +3,7 @@ using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Stores;
 using StoreMMO.Core.Repositories.Carts;
 using StoreMMO.Core.Repositories.Categorys;
-using StoreMMO.Core.Repositories.Products;
+using StoreMMO.Core.Repositories.ProductsTypes;
 using BusinessLogic.Config;
 
 var builder = WebApplication.CreateBuilder(args);

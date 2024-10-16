@@ -21,7 +21,6 @@ namespace StoreMMO.Core.Repositories.Categorys
             {
                 Id = category.Id,
                 Name = category.Name,
-                Commission = category.Commission,
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = category.ModifiedDate,
             };
@@ -58,8 +57,7 @@ namespace StoreMMO.Core.Repositories.Categorys
             var category = new CategoryViewModels
             {
                 Id = findId.Id,
-                Name = findId.Name,
-                Commission = findId.Commission,
+                Name = findId.Name,             
                 CreatedDate = findId.CreatedDate,
                 ModifiedDate = findId.ModifiedDate,
             };
@@ -72,7 +70,6 @@ namespace StoreMMO.Core.Repositories.Categorys
             {
                 Id = category.Id,
                 Name = category.Name,
-                Commission = category.Commission,
                 CreatedDate = category.CreatedDate,
                 ModifiedDate = DateTime.UtcNow,
             };

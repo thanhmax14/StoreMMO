@@ -23,7 +23,7 @@ namespace StoreMMO.Core.Repositories.WishLists
             var viewModel = new WishList
             {
                 Id = wishListViewModels.Id,
-                ProductId = wishListViewModels.ProductId,
+                ProductTypeId = wishListViewModels.ProductId,
                 UserId = wishListViewModels.UserId,
             };
             _context.WishLists.Add(viewModel);
@@ -49,7 +49,7 @@ namespace StoreMMO.Core.Repositories.WishLists
             {
                 Id = item.Id,
 
-                ProductId = item.ProductId,
+                ProductId = item.ProductTypeId,
                 UserId = item.UserId
             }).ToList();
 
@@ -63,7 +63,7 @@ namespace StoreMMO.Core.Repositories.WishLists
             List<WishListViewModels> temp = list.Select(item => new WishListViewModels 
             { Id = item.Id,
                 
-                ProductId = item.ProductId,
+                ProductId = item.ProductTypeId,
                 UserId = item.UserId }).ToList();
            
             return temp;
@@ -79,7 +79,7 @@ namespace StoreMMO.Core.Repositories.WishLists
             var viewModel = new WishListViewModels
             {
                 Id = findId.Id,
-                ProductId = findId.ProductId,
+                ProductId = findId.ProductTypeId,
                 UserId = findId.UserId,
             };
             return viewModel;
@@ -90,7 +90,7 @@ namespace StoreMMO.Core.Repositories.WishLists
             var viewModel = new WishList
             {
                 Id = wishListViewModels.Id,
-                ProductId = wishListViewModels.ProductId,
+                ProductTypeId = wishListViewModels.ProductId,
                 UserId = wishListViewModels.UserId,
             };
             _context.WishLists.Update(viewModel);

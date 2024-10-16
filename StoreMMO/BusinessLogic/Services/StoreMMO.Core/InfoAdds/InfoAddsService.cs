@@ -23,7 +23,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.InfoAdds
             _infoAddRepository.DeleteInforAdd(id);
         }
 
-        public IEnumerable<InfoAdd> getAllInforAdd()
+        public IEnumerable<Product> getAllInforAdd()
         {
            return _infoAddRepository.getAllInforAdd();
         }

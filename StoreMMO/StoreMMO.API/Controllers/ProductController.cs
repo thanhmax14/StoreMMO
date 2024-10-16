@@ -1,4 +1,4 @@
-﻿using BusinessLogic.Services.StoreMMO.Core.Products;
+﻿using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
 using BusinessLogic.Services.StoreMMO.Core.WishLists;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +11,9 @@ namespace StoreMMO.API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductsService _productsService;
+        private readonly IProductTypeService _productsService;
         private readonly IWishListsService _wishListsService;
-        public ProductController(IProductsService productsService, IWishListsService wishListsService)
+        public ProductController(IProductTypeService productsService, IWishListsService wishListsService)
         {
              this._productsService = productsService;
             this._wishListsService = wishListsService;

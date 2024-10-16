@@ -1,7 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using BusinessLogic.Config;
 using BusinessLogic.Services.Email;
-using BusinessLogic.Services.StoreMMO.Core.Products;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -87,10 +86,6 @@ builder.Services.Configure<IdentityOptions>(options =>
 var mailsettings = builder.Configuration.GetSection("MailSettings");
 builder.Services.Configure<MailSettings>(mailsettings);
 builder.Services.AddTransient<IEmailSender, SendMailService>();
-builder.Services.AddTransient<IProductsService, ProductsService>();
-
-
-
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");

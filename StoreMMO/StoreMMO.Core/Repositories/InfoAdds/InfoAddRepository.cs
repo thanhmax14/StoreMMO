@@ -17,40 +17,40 @@ namespace StoreMMO.Core.Repositories.InfoAdds
         }
         public InfoAddViewModels AddInforAdd(InfoAddViewModels inforAddViewModels)
         {
-            var ViewModel = new InfoAdd
+            var ViewModel = new Models.Product
             {
                 Id = inforAddViewModels.Id,
-                ProductId = inforAddViewModels.ProductId,
+                ProductTypeId = inforAddViewModels.ProductId,
                 Account = inforAddViewModels.Account,
                 Pwd = inforAddViewModels.Pwd,
                 Status = inforAddViewModels.Status,
                 CreatedDate = DateTime.Now,
             };
-            _context.InfoAdds.Add(ViewModel);
+            _context.Products.Add(ViewModel);
             _context.SaveChanges();
             return inforAddViewModels;
         }
 
         public void DeleteInforAdd(string id)
         {
-            var p = _context.InfoAdds.FirstOrDefault(x => x.Id == id);
+            var p = _context.Products.FirstOrDefault(x => x.Id == id);
             if(p == null)
             {
                 throw new Exception("Not found ID");
             }
-            _context.InfoAdds.Remove(p);
+            _context.Products.Remove(p);
             _context.SaveChanges();
         }
 
-        public IEnumerable<InfoAdd> getAllInforAdd()
+        public IEnumerable<Models.Product> getAllInforAdd()
         {
-            var list = _context.InfoAdds.ToList();  
+            var list = _context.Products.ToList();  
             return list;
         }
 
         public InfoAddViewModels getByIdInforAdd(string id)
         {
-            var findId = _context.InfoAdds.SingleOrDefault(x => x.Id == id);
+            var findId = _context.Products.SingleOrDefault(x => x.Id == id);
             if(findId == null)
             {
                 throw new Exception("Not found ID");
@@ -58,7 +58,7 @@ namespace StoreMMO.Core.Repositories.InfoAdds
             var viewModel = new InfoAddViewModels
             {
                 Id = findId.Id,
-                ProductId = findId.ProductId,
+                ProductId = findId.ProductTypeId,
                 Account = findId.Account,
                 Pwd = findId.Pwd,
                 StatusUpload = findId.StatusUpload,
@@ -71,17 +71,17 @@ namespace StoreMMO.Core.Repositories.InfoAdds
 
         public InfoAddViewModels UpdateInforAdd(InfoAddViewModels inforAddViewModels)
         {
-            var viewModel = new InfoAdd
+            var viewModel = new Models.Product
             {
                 Id = inforAddViewModels.Id,
-                ProductId = inforAddViewModels.ProductId,
+                ProductTypeId = inforAddViewModels.ProductId,
                 Account = inforAddViewModels.Account,
                 Pwd = inforAddViewModels.Pwd,
                 StatusUpload = inforAddViewModels.StatusUpload,
                 Status = inforAddViewModels.Status,
                 CreatedDate = inforAddViewModels.CreatedDate,
             };
-            _context.InfoAdds.Update(viewModel);
+            _context.Products.Update(viewModel);
             _context.SaveChanges();
             return inforAddViewModels;
         }

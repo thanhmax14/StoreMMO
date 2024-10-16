@@ -1,4 +1,4 @@
-using BusinessLogic.Services.StoreMMO.Core.Products;
+using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
@@ -7,13 +7,13 @@ namespace StoreMMO.Web.Pages.Seller
 {
     public class UpdateProductModel : PageModel
     {
-        private readonly IProductsService _product;
-        public UpdateProductModel(IProductsService products)
+        private readonly IProductTypeService _product;
+        public UpdateProductModel(IProductTypeService products)
         {
             this._product = products;
         }
 
-       public IEnumerable<Product> products1 = new List<Product>();
+       public IEnumerable<ProductType> products1 = new List<ProductType>();
 
         public void OnGet(string id)
         {

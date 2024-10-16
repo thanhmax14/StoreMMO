@@ -1,11 +1,11 @@
 ﻿using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 
-namespace BusinessLogic.Services.StoreMMO.Core.Products
+namespace BusinessLogic.Services.StoreMMO.Core.ProductTypes
 {
-    public interface IProductsService
+    public interface IProductTypeService
     {
-        IEnumerable<Product> GetAllProduct();
+        IEnumerable<ProductType> GetAllProduct();
         ProductViewModels getByIDProduct(string id);
         ProductViewModels AddProduct(ProductViewModels productViewModels);
         ProductViewModels Update(ProductViewModels productViewModels);
