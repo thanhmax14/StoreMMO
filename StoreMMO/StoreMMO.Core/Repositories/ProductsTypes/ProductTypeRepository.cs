@@ -7,18 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoreMMO.Core.Repositories.Products
+namespace StoreMMO.Core.Repositories.ProductsTypes
 {
-    public class ProductRepository : IProductRepository
+    public class ProductTypeRepository: IProductTypeRepository
     {
         private readonly AppDbContext _context;
-        public ProductRepository(AppDbContext context)
+        public ProductTypeRepository(AppDbContext context)
         {
             _context = context;
         }
         public ProductViewModels AddProduct(ProductViewModels productViewModels)
         {
-            var viewModel = new Product
+            var viewModel = new Models.ProductType
             {
                 Id = productViewModels.Id,
                 Name = productViewModels.Name,
@@ -28,7 +28,7 @@ namespace StoreMMO.Core.Repositories.Products
                 ModifiedDate = productViewModels.ModifiedDate,
                 IsActive = productViewModels.IsActive,
             };
-            _context.Products.Add(viewModel);
+            _context.ProductTypes.Add(viewModel);
             _context.SaveChanges();
             return productViewModels;
 
@@ -45,15 +45,15 @@ namespace StoreMMO.Core.Repositories.Products
             _context.SaveChanges();
         }
 
-        public IEnumerable<Product> GetAllProduct()
+        public IEnumerable<ProductType> GetAllProduct()
         {
-            var list = _context.Products.ToList();
+            var list = _context.ProductTypes.ToList();
             return list;
         }
 
         public ProductViewModels getByIDProduct(string id)
         {
-          var findId = _context.Products.SingleOrDefault(x => x.Id == id);
+          var findId = _context.ProductTypes.SingleOrDefault(x => x.Id == id);
             if (findId == null) {
                 return null;
             }
@@ -72,7 +72,7 @@ namespace StoreMMO.Core.Repositories.Products
 
         public ProductViewModels Update(ProductViewModels productViewModels)
         {
-            var viewModel = new Product
+            var viewModel = new Models.ProductType
             {
                 Id = productViewModels.Id,
                 Name = productViewModels.Name,
@@ -82,7 +82,7 @@ namespace StoreMMO.Core.Repositories.Products
                 ModifiedDate = productViewModels.ModifiedDate,
                 IsActive = productViewModels.IsActive,
             };
-            _context.Products.Update(viewModel);
+            _context.ProductTypes.Update(viewModel);
             _context.SaveChanges();
             return productViewModels;
         }

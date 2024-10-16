@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StoreMMO.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,9 +17,9 @@ namespace StoreMMO.Core.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Commission = table.Column<double>(type: "float", nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    ModifiedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                    ModifiedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,7 +27,7 @@ namespace StoreMMO.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "ProductTypes",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -40,7 +40,7 @@ namespace StoreMMO.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_ProductTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -63,8 +63,10 @@ namespace StoreMMO.Core.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Commission = table.Column<double>(type: "float", nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    ModifiedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                    ModifiedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -79,9 +81,13 @@ namespace StoreMMO.Core.Migrations
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDelete = table.Column<bool>(type: "bit", nullable: false),
+                    DateDelete = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateRestore = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedDateUpdateProfile = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsSeller = table.Column<bool>(type: "bit", nullable: false),
+                    RequestSellerDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     SellerApprovalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -104,11 +110,11 @@ namespace StoreMMO.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InfoAdds",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProductTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Account = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Pwd = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StatusUpload = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -117,11 +123,11 @@ namespace StoreMMO.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InfoAdds", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_InfoAdds_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_Products_ProductTypes_ProductTypeId",
+                        column: x => x.ProductTypeId,
+                        principalTable: "ProductTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -152,16 +158,17 @@ namespace StoreMMO.Core.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ProductTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    quantity = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Carts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Carts_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_Carts_ProductTypes_ProductTypeId",
+                        column: x => x.ProductTypeId,
+                        principalTable: "ProductTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -284,16 +291,16 @@ namespace StoreMMO.Core.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProductTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WishLists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WishLists_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_WishLists_ProductTypes_ProductTypeId",
+                        column: x => x.ProductTypeId,
+                        principalTable: "ProductTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -380,15 +387,15 @@ namespace StoreMMO.Core.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     StoreDetailId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    ProductTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductConnects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductConnects_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_ProductConnects_ProductTypes_ProductTypeId",
+                        column: x => x.ProductTypeId,
+                        principalTable: "ProductTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -400,9 +407,9 @@ namespace StoreMMO.Core.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carts_ProductId",
+                name: "IX_Carts_ProductTypeId",
                 table: "Carts",
-                column: "ProductId");
+                column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Carts_UserId",
@@ -420,19 +427,19 @@ namespace StoreMMO.Core.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InfoAdds_ProductId",
-                table: "InfoAdds",
-                column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductConnects_ProductId",
+                name: "IX_ProductConnects_ProductTypeId",
                 table: "ProductConnects",
-                column: "ProductId");
+                column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductConnects_StoreDetailId",
                 table: "ProductConnects",
                 column: "StoreDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductTypeId",
+                table: "Products",
+                column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
@@ -494,9 +501,9 @@ namespace StoreMMO.Core.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WishLists_ProductId",
+                name: "IX_WishLists_ProductTypeId",
                 table: "WishLists",
-                column: "ProductId");
+                column: "ProductTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WishLists_UserId",
@@ -514,10 +521,10 @@ namespace StoreMMO.Core.Migrations
                 name: "FeedBacks");
 
             migrationBuilder.DropTable(
-                name: "InfoAdds");
+                name: "ProductConnects");
 
             migrationBuilder.DropTable(
-                name: "ProductConnects");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
@@ -544,7 +551,7 @@ namespace StoreMMO.Core.Migrations
                 name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "ProductTypes");
 
             migrationBuilder.DropTable(
                 name: "Categories");

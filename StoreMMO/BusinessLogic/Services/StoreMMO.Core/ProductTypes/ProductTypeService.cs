@@ -1,14 +1,14 @@
 ﻿using StoreMMO.Core.Models;
-using StoreMMO.Core.Repositories.Products;
+using StoreMMO.Core.Repositories.ProductsTypes;
 using StoreMMO.Core.ViewModels;
 
-namespace BusinessLogic.Services.StoreMMO.Core.Products
+namespace BusinessLogic.Services.StoreMMO.Core.ProductTypes
 {
-    public class ProductsService : IProductsService
+    public class ProductTypeService : IProductTypeService
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IProductTypeRepository _productRepository;
 
-        public ProductsService(IProductRepository productRepository)
+        public ProductTypeService(IProductTypeRepository productRepository)
         {
             _productRepository = productRepository;
         }
@@ -23,7 +23,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
            _productRepository.DeleteProduct(id);
         }
 
-        public IEnumerable<Product> GetAllProduct()
+        public IEnumerable<ProductType> GetAllProduct()
         {
             return _productRepository.GetAllProduct();
         }

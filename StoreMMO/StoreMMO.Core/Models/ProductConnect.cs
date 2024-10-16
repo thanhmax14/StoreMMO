@@ -9,9 +9,9 @@ public partial class ProductConnect
 
     public string StoreDetailId { get; set; }
 
-    public string ProductId { get; set; }
+    public string ProductTypeId { get; set; }
 
-    public virtual Product Product { get; set; }
+    public virtual ProductType ProductType { get; set; }
 
     public virtual StoreDetail StoreDetail { get; set; }
 }

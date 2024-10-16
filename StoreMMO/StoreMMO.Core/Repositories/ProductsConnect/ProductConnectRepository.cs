@@ -22,7 +22,7 @@ namespace StoreMMO.Core.Repositories.ProductsConnect
             {
                 Id = productConnect.Id,
                 StoreDetailId = productConnect.StoreDetailId,
-                ProductId = productConnect.ProductId,
+                ProductTypeId = productConnect.ProductId,
             };
             _context.ProductConnects.Add(viewModel);
             _context.SaveChanges();
@@ -58,7 +58,7 @@ namespace StoreMMO.Core.Repositories.ProductsConnect
             {
                 Id = findId.Id,
                 StoreDetailId = findId.StoreDetailId,
-                ProductId = findId.ProductId,
+                ProductId = findId.ProductTypeId,
             };
             return viewModel;
         }
@@ -69,7 +69,7 @@ namespace StoreMMO.Core.Repositories.ProductsConnect
             {
                 Id = productConnect.Id,
                 StoreDetailId = productConnect.StoreDetailId,
-                ProductId = productConnect.ProductId,
+                ProductTypeId = productConnect.ProductId,
             };
             _context.ProductConnects.Update(viewModel);
             _context.SaveChanges();
