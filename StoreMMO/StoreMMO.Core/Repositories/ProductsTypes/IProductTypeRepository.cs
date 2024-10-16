@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoreMMO.Core.Repositories.Products
+namespace StoreMMO.Core.Repositories.ProductsTypes
 {
-    public interface IProductRepository
+    public interface IProductTypeRepository
     {
-        IEnumerable<Product> GetAllProduct();
+        IEnumerable<ProductType> GetAllProduct();
         ProductViewModels getByIDProduct(string id);
         ProductViewModels AddProduct(ProductViewModels productViewModels);
         ProductViewModels Update(ProductViewModels productViewModels);

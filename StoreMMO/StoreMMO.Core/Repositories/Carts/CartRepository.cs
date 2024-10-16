@@ -33,7 +33,7 @@ namespace StoreMMO.Core.Repositories.Carts
             {
                 Id = cart.Id,
                 UserId= cart.UserId,
-                ProductId = cart.ProductId,
+                ProductTypeId = cart.ProductId,
             };
            
             _context.Carts.Add(cartViewModel);
@@ -73,7 +73,7 @@ namespace StoreMMO.Core.Repositories.Carts
             {
                 Id = findId.Id,
                 UserId = findId.UserId,
-                ProductId = findId.ProductId,
+                ProductId = findId.ProductTypeId,
             };
           
             return CarstViewModel;
@@ -85,7 +85,7 @@ namespace StoreMMO.Core.Repositories.Carts
             {
                 Id = cart.Id,
                 UserId = cart.UserId,
-                ProductId = cart.ProductId,
+                ProductTypeId = cart.ProductId,
             };
             _context.Carts.Update(CartViewModel1);
             _context.SaveChanges();

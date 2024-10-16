@@ -9,7 +9,6 @@ public partial class Category
 
     public string Name { get; set; }
 
-    public double? Commission { get; set; }
 
     public DateTimeOffset? CreatedDate { get; set; }
 

@@ -10,7 +10,7 @@ namespace StoreMMO.Core.Repositories.InfoAdds
 {
     public interface IInfoAddRepository
     {
-        IEnumerable<InfoAdd> getAllInforAdd();
+        IEnumerable<Models.Product> getAllInforAdd();
         InfoAddViewModels getByIdInforAdd(string id);
         InfoAddViewModels AddInforAdd(InfoAddViewModels inforAddViewModels);
         InfoAddViewModels UpdateInforAdd(InfoAddViewModels inforAddViewModels);

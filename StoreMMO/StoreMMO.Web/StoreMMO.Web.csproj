@@ -5,6 +5,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Home\ViewAllStore.cshtml" />
+  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
 		<PackageReference Include="MailKit" Version="4.7.1.1" />
@@ -23,6 +27,7 @@
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
+		<PackageReference Include="X.PagedList.Mvc.Core" Version="10.5.3" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj" />
@@ -30,5 +35,14 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\User\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Pages\Home\ViewAllStore.cshtml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Pages\Home\ViewAllStore.cshtml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="Pages\Home\ViewAllStore.cshtml" />
 	</ItemGroup>
 </Project>

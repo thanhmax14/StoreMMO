@@ -1,6 +1,7 @@
 ﻿using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace StoreMMO.Core.Repositories.WishLists
             var viewModel = new WishList
             {
                 Id = wishListViewModels.Id,
-                ProductId = wishListViewModels.ProductId,
+                ProductTypeId = wishListViewModels.ProductId,
                 UserId = wishListViewModels.UserId,
             };
             _context.WishLists.Add(viewModel);
@@ -41,10 +42,31 @@ namespace StoreMMO.Core.Repositories.WishLists
             _context.SaveChanges();
         }
 
-        public IEnumerable<WishList> getAllWishList()
+        public IEnumerable<WishListViewModels> getAllByUserID(string userID)
+        {
+            var find = _context.WishLists.Where(w => w.UserId == userID).ToList();
+            List<WishListViewModels> temp = find.Select(item => new WishListViewModels
+            {
+                Id = item.Id,
+
+                ProductId = item.ProductTypeId,
+                UserId = item.UserId
+            }).ToList();
+
+            return temp;
+        }
+
+
+        public IEnumerable<WishListViewModels> getAllWishList()
         {
             var list = _context.WishLists.ToList();
-            return list;
+            List<WishListViewModels> temp = list.Select(item => new WishListViewModels 
+            { Id = item.Id,
+                
+                ProductId = item.ProductTypeId,
+                UserId = item.UserId }).ToList();
+           
+            return temp;
         }
 
         public WishListViewModels getByIDWishList(string id)
@@ -57,7 +79,7 @@ namespace StoreMMO.Core.Repositories.WishLists
             var viewModel = new WishListViewModels
             {
                 Id = findId.Id,
-                ProductId = findId.ProductId,
+                ProductId = findId.ProductTypeId,
                 UserId = findId.UserId,
             };
             return viewModel;
@@ -68,7 +90,7 @@ namespace StoreMMO.Core.Repositories.WishLists
             var viewModel = new WishList
             {
                 Id = wishListViewModels.Id,
-                ProductId = wishListViewModels.ProductId,
+                ProductTypeId = wishListViewModels.ProductId,
                 UserId = wishListViewModels.UserId,
             };
             _context.WishLists.Update(viewModel);

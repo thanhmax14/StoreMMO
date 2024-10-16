@@ -22,9 +22,9 @@ namespace StoreMMO.Core.Models
 
         public virtual DbSet<FeedBack> FeedBacks { get; set; }
 
-        public virtual DbSet<InfoAdd> InfoAdds { get; set; }
-
         public virtual DbSet<Product> Products { get; set; }
+
+        public virtual DbSet<ProductType> ProductTypes { get; set; }
 
         public virtual DbSet<ProductConnect> ProductConnects { get; set; }
 
