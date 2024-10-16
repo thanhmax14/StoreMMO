@@ -1,4 +1,5 @@
-﻿using StoreMMO.Core.ViewModels;
+﻿using StoreMMO.Core.Models;
+using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace StoreMMO.Core.Repositories.Products
     public interface IProductRepository
     {
         IEnumerable<Models.Product> getAllProduct();
-        InfoAddViewModels getByIdProduct(string id);
-        InfoAddViewModels AddProduct(InfoAddViewModels inforAddViewModels);
-        InfoAddViewModels UpdateProduct(InfoAddViewModels inforAddViewModels);
+        ProductViewModels getByIdProduct(string id);
+        ProductViewModels AddProduct(ProductViewModels inforAddViewModels);
+        ProductViewModels UpdateProduct(ProductViewModels inforAddViewModels);
         void DeleteProduct(string id);
     }
 }

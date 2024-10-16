@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProductViewModels = StoreMMO.Core.ViewModels.ProductViewModels;
 
 namespace StoreMMO.Core.Repositories.Products
 {
@@ -15,7 +16,7 @@ namespace StoreMMO.Core.Repositories.Products
         {
             _context = context;
         }
-        public InfoAddViewModels AddProduct(InfoAddViewModels inforAddViewModels)
+        public ProductViewModels AddProduct(ProductViewModels inforAddViewModels)
         {
             var ViewModel = new Models.Product
             {
@@ -42,20 +43,21 @@ namespace StoreMMO.Core.Repositories.Products
             _context.SaveChanges();
         }
 
-        public IEnumerable<Models.Product> getAllProduct()
+        public IEnumerable<Product> getAllProduct()
         {
             var list = _context.Products.ToList();
             return list;
         }
 
-        public InfoAddViewModels getByIdProduct(string id)
+        public ProductViewModels getByIdProduct(string id)
         {
             var findId = _context.Products.SingleOrDefault(x => x.Id == id);
             if (findId == null)
             {
                 throw new Exception("Not found ID");
             }
-            var viewModel = new InfoAddViewModels
+            // Mapping to ProductViewModels
+            var viewModel = new ProductViewModels
             {
                 Id = findId.Id,
                 ProductTypeId = findId.ProductTypeId,
@@ -69,7 +71,7 @@ namespace StoreMMO.Core.Repositories.Products
             return viewModel;
         }
 
-        public InfoAddViewModels UpdateProduct(InfoAddViewModels inforAddViewModels)
+        public ProductViewModels UpdateProduct(ProductViewModels inforAddViewModels)
         {
             var viewModel = new Models.Product
             {

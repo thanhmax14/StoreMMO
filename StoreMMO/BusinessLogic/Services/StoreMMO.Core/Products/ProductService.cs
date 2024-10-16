@@ -6,9 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProductViewModels = StoreMMO.Core.ViewModels.ProductViewModels;
 
 namespace BusinessLogic.Services.StoreMMO.Core.Products
 {
+
     public class ProductService : IProductService
     {
         private readonly ProductRepository _productRepository;
@@ -18,7 +20,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
             _productRepository = productRepository;
         }
 
-        public InfoAddViewModels AddProduct(InfoAddViewModels inforAddViewModels)
+        public ProductViewModels AddProduct(ProductViewModels inforAddViewModels)
         {
             return _productRepository.AddProduct(inforAddViewModels);
         }
@@ -30,15 +32,15 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
 
         public IEnumerable<Product> getAllProduct()
         {
-            return _productRepository.getAllProduct();
+           return _productRepository.getAllProduct();
         }
 
-        public InfoAddViewModels getByIdProduct(string id)
+        public ProductViewModels getByIdProduct(string id)
         {
             return _productRepository.getByIdProduct(id);
         }
 
-        public InfoAddViewModels UpdateProduct(InfoAddViewModels inforAddViewModels)
+        public ProductViewModels UpdateProduct(ProductViewModels inforAddViewModels)
         {
             return _productRepository.UpdateProduct(inforAddViewModels);
         }

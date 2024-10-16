@@ -5,15 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProductViewModels = StoreMMO.Core.ViewModels.ProductViewModels;
 
 namespace BusinessLogic.Services.StoreMMO.Core.Products
 {
     public interface IProductService
     {
         IEnumerable<Product> getAllProduct();
-        InfoAddViewModels getByIdProduct(string id);
-        InfoAddViewModels AddProduct(InfoAddViewModels inforAddViewModels);
-        InfoAddViewModels UpdateProduct(InfoAddViewModels inforAddViewModels);
+        ProductViewModels getByIdProduct(string id);
+        ProductViewModels AddProduct(ProductViewModels inforAddViewModels);
+        ProductViewModels UpdateProduct(ProductViewModels inforAddViewModels);
         void DeleteProduct(string id);
     }
 }
