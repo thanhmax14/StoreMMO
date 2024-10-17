@@ -16,13 +16,19 @@ namespace BusinessLogic.Services.StoreMMO.API
             this._httpClient.DefaultRequestHeaders.Accept.Add(contentType);
             this.api = "https://localhost:7200/api/Store";
         }
-        public async Task<List<StoreViewModels>> GetStoresAsync()
-        {
-            var reponse = await this._httpClient.GetAsync(this.api);
-             reponse.EnsureSuccessStatusCode();
-            return await reponse.Content.ReadFromJsonAsync<List<StoreViewModels>>();
-        }
-        public async Task<List<StoreDetailViewModel>> GetStoreDetail(string id)
+		public async Task<List<StoreViewModels>> GetStoresAsync(bool sicbo)
+		{
+			// Gọi API với query string thay vì truyền vào route
+			var response = await this._httpClient.GetAsync($"{this.api}/GetAll?sicbo={sicbo}");
+
+			// Đảm bảo phản hồi thành công
+			response.EnsureSuccessStatusCode();
+
+			// Đọc nội dung phản hồi và chuyển thành danh sách StoreViewModels
+			return await response.Content.ReadFromJsonAsync<List<StoreViewModels>>();
+		}
+
+		public async Task<List<StoreDetailViewModel>> GetStoreDetail(string id)
         {
             try
             {

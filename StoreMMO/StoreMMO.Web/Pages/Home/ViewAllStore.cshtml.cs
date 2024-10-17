@@ -26,7 +26,7 @@ namespace StoreMMO.Web.Pages.Home
             CurrentFilter = searchString;
             CurrentPageSize = count ?? 12;  
             int pageNumber = page ?? 1;
-            var stores = await _storeApi.GetStoresAsync();
+            var stores = await _storeApi.GetStoresAsync(true);
             if (!string.IsNullOrEmpty(searchString))
             {
 				var keywords = searchString.Split(' ');
