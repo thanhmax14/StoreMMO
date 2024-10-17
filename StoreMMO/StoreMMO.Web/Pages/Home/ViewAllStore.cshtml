@@ -2,6 +2,9 @@
 @model StoreMMO.Web.Pages.Home.ViewAllStoreModel
 @{
 }
+@{
+    var selectedCount = Request.Query["count"].ToString();
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -140,18 +143,41 @@
                             <!-- End .toolbox-left -->
 
                             <div class="toolbox-right">
-                                <div class="toolbox-item toolbox-show">
-                                    <label>Show:</label>
+                               <form method="get">
+    <div class="toolbox-item toolbox-show">
+        <label>Show:</label>
+        <div class="select-custom">
+                                        <select name="count" class="form-control" onchange="this.form.submit()">
+                                            @if (selectedCount == "12" || string.IsNullOrEmpty(selectedCount))
+                                            {
+                                                <option value="12" selected>12</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="12">12</option>
+                                            }
 
-                                    <div class="select-custom">
-                                        <select name="count" class="form-control">
-                                            <option value="12">12</option>
-                                            <option value="24">24</option>
-                                            <option value="36">36</option>
+                                            @if (selectedCount == "24")
+                                            {
+                                                <option value="24" selected>24</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="24">24</option>
+                                            }
+
+                                            @if (selectedCount == "36")
+                                            {
+                                                <option value="36" selected>36</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="36">36</option>
+                                            }
                                         </select>
+                                        </div>
                                     </div>
-                                    <!-- End .select-custom -->
-                                </div>
+                                    </form>
                                 <!-- End .toolbox-item -->
 
                                 <div class="toolbox-item layout-modes">
@@ -169,7 +195,7 @@
 
                         <div class="row">
 
-                            @foreach(var item in Model.PagedStores){
+                            @foreach(var item in Model.storeView){
                                 <div class="col-6 col-sm-4 col-md-3">
                                     <div class="product-default">
                                         <figure>
@@ -239,34 +265,83 @@
                         <!-- End .row -->
 
                         <nav class="toolbox toolbox-pagination">
-                            <div class="toolbox-item toolbox-show">
-                                <label>Show:</label>
+<form method="get">
+    <div class="toolbox-item toolbox-show">
+        <label>Show:</label>
+        <div class="select-custom">
+                                        <select name="count" class="form-control" onchange="this.form.submit()">
+                                            @if (selectedCount == "12" || string.IsNullOrEmpty(selectedCount))
+                                            {
+                                                <option value="12" selected>12</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="12">12</option>
+                                            }
 
-                                <div class="select-custom">
-                                    <select name="count" class="form-control">
-                                        <option value="12">12</option>
-                                        <option value="24">24</option>
-                                        <option value="36">36</option>
-                                    </select>
-                                </div>
-                                <!-- End .select-custom -->
-                            </div>
-                            <!-- End .toolbox-item -->
+                                            @if (selectedCount == "24")
+                                            {
+                                                <option value="24" selected>24</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="24">24</option>
+                                            }
 
-                            <ul class="pagination toolbox-item">
-                                <li class="page-item disabled">
-                                    <a class="page-link page-link-btn" href="#"><i class="icon-angle-left"></i></a>
-                                </li>
-                                <li class="page-item active">
-                                    <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><span class="page-link">...</span></li>
-                                <li class="page-item">
-                                    <a class="page-link page-link-btn" href="#"><i class="icon-angle-right"></i></a>
-                                </li>
-                            </ul>
+                                            @if (selectedCount == "36")
+                                            {
+                                                <option value="36" selected>36</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="36">36</option>
+                                            }
+                                        </select>
+        </div>
+    </div>
+
+                                <input type="hidden" name="searchString" value="@Model.CurrentFilter" />
+
+                                <ul class="pagination toolbox-item">
+                                    @if (Model.storeView.HasPreviousPage)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Page("ViewAllStore", new { page = Model.storeView.PageNumber - 1, searchString = Model.CurrentFilter, count = Model.CurrentPageSize })">
+                                                <i class="icon-angle-left"></i>
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item disabled">
+                                            <span class="page-link"><i class="icon-angle-left"></i></span>
+                                        </li>
+                                    }
+
+                                    @for (int i = 1; i <= Model.storeView.PageCount; i++)
+                                    {
+                                        <li class="page-item @(i == Model.storeView.PageNumber ? "active" : "")">
+                                            <a class="page-link" href="@Url.Page("ViewAllStore", new { page = i, searchString = Model.CurrentFilter, count = Model.CurrentPageSize })">@i</a>
+                                        </li>
+                                    }
+
+                                    @if (Model.storeView.HasNextPage)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Page("ViewAllStore", new { page = Model.storeView.PageNumber + 1, searchString = Model.CurrentFilter, count = Model.CurrentPageSize })">
+                                                <i class="icon-angle-right"></i>
+                                            </a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="page-item disabled">
+                                            <span class="page-link"><i class="icon-angle-right"></i></span>
+                                        </li>
+                                    }
+                                </ul>
+</form>
+
                         </nav>
                     </div>
                     <!-- End .col-lg-9 -->
