@@ -1,7 +1,8 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Admin.StoreListModel
+@model StoreMMO.Web.Pages.Admin.StoreListHiddenModel
 @{
 }
+
 
 
 <!DOCTYPE html>
@@ -415,8 +416,8 @@
                                         <th>Stt</th>
                                         <th>Name Store</th>
                                         <th>UserName</th>
-                                       
-                                        
+
+
                                         <th>imgStore</th>
                                     </tr>
                                 </thead>
@@ -431,22 +432,15 @@
 
 
                                             <td>@item.nameStore</td>
-                                            
+
                                             <td>@item.UserName</td>
 
-                                            <td><img src="@item.imgStore" width="240" height="120"/> </td>
+                                            <td><img src="@item.imgStore" width="240" height="120" /> </td>
 
 
-                                           
 
-                                          <td>
-                                                <button onclick="window.location.href='/admin/StoreList/UpdateStoreIsAccept/@item.storeID'" type="button" class="btn btn-primary">View Detail</button>
-                                                <button type="button" class="btn btn-danger" >Hidden</button>
 
-                                                
-                                               
-                                                   
-                                            </td>
+                                            
                                         </tr>
                                         stt++;
                                     }

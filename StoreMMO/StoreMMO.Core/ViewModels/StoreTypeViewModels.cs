@@ -12,6 +12,8 @@ namespace StoreMMO.Core.ViewModels
 
         public string Name { get; set; }
 
+        public double? Commission { get; set; }
+
         public DateTimeOffset? CreatedDate { get; set; }
 
         public DateTimeOffset? ModifiedDate { get; set; }

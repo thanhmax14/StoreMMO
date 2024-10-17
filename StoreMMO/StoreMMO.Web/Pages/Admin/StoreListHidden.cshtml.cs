@@ -5,10 +5,10 @@ using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class StoreListModel : PageModel
+    public class StoreListHiddenModel : PageModel
     {
         private readonly IStoreService _storeService;
-        public StoreListModel(IStoreService storeService)
+        public StoreListHiddenModel(IStoreService storeService)
         {
             _storeService = storeService;
         }
@@ -21,17 +21,7 @@ namespace StoreMMO.Web.Pages.Admin
         public string fail { get; set; }
         public void OnGet()
         {
-            list = this._storeService.getAll();
-        }
-
-        public void UpdateStoreIsAccept(StoreAddViewModels storeView)
-        {
-           
             list = this._storeService.getAll(false);
         }
-
-
-
-
     }
 }
