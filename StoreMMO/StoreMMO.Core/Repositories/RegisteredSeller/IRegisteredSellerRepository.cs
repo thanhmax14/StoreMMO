@@ -12,5 +12,6 @@ namespace StoreMMO.Core.Repositories.RegisteredSeller
     {
         IEnumerable<UserViewModel> GetAllSellerUsersWithUserRole();
         UserViewModel UpdateSeller(UserViewModel inforAddViewModels);
+        UserViewModel RejectSeller(UserViewModel inforAddViewModels);
     }
 }

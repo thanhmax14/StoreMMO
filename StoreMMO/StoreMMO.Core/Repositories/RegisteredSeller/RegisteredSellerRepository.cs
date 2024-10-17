@@ -43,7 +43,7 @@ namespace StoreMMO.Core.Repositories.RegisteredSeller
         {
             // Truy vấn SQL để cập nhật IsSeller = 0 trong bảng Users
             string updateIsSellerSql = @"UPDATE [dbo].[Users] 
-                                 SET IsSeller = 0 
+                                 SET IsSeller = 1 
                                  WHERE Id = @UserId";
 
             // Thực thi truy vấn cập nhật IsSeller
@@ -64,6 +64,38 @@ namespace StoreMMO.Core.Repositories.RegisteredSeller
         END";
 
             // Thực thi truy vấn để cập nhật hoặc thêm vai trò "seller" cho người dùng
+            _context.Database.ExecuteSqlRaw(updateUserRoleSql, new SqlParameter("@UserId", inforAddViewModels.UserID));
+
+            // Lưu thay đổi vào cơ sở dữ liệu
+            _context.SaveChanges();
+
+            return inforAddViewModels;
+        }
+        public UserViewModel RejectSeller(UserViewModel inforAddViewModels)
+        {
+            // Truy vấn SQL để cập nhật IsSeller = 0 trong bảng Users
+            string updateIsSellerSql = @"UPDATE [dbo].[Users] 
+                                 SET IsSeller = 0 
+                                 WHERE Id = @UserId";
+
+            // Thực thi truy vấn cập nhật IsSeller
+            _context.Database.ExecuteSqlRaw(updateIsSellerSql, new SqlParameter("@UserId", inforAddViewModels.UserID));
+
+            // Truy vấn SQL để cập nhật role của user thành "user"
+            string updateUserRoleSql = @"
+        IF EXISTS (SELECT 1 FROM [dbo].[UserRoles] WHERE UserId = @UserId)
+        BEGIN
+            UPDATE [dbo].[UserRoles] 
+            SET RoleId = (SELECT Id FROM [dbo].[Roles] WHERE Name = 'User') 
+            WHERE UserId = @UserId
+        END
+        ELSE
+        BEGIN
+            INSERT INTO [dbo].[UserRoles] (UserId, RoleId) 
+            VALUES (@UserId, (SELECT Id FROM [dbo].[Roles] WHERE Name = 'User'))
+        END";
+
+            // Thực thi truy vấn để cập nhật hoặc thêm vai trò "user" cho người dùng
             _context.Database.ExecuteSqlRaw(updateUserRoleSql, new SqlParameter("@UserId", inforAddViewModels.UserID));
 
             // Lưu thay đổi vào cơ sở dữ liệu

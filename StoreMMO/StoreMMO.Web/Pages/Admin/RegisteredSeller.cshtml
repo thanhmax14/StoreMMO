@@ -288,9 +288,9 @@
                 <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-account-box-line"></i><span>Manage User Accounts</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="" onclick="window.location.href='/admin/UserAccountList'" class="active">
+                        <a href='/admin/UserAccountList' >
                             <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
@@ -306,15 +306,15 @@
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-contacts-line"></i> <span>Manage Sellers and Stores</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="">
+                        <a href='/admin/RegisteredSeller' class="active">
                             <i class="bi bi-circle"></i><span>Sellers Request</span>
                         </a>
                     </li>
                     <li>
                         <a href="">
-                            <i class="bi bi-circle"></i><span>Stand Request</span>
+                            <i class="bi bi-circle"></i><span>Store Request</span>
                         </a>
                     </li>
                     <li>
@@ -377,7 +377,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>User List Tables</h1>
+            <h1>Registered Seller Tables</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -386,7 +386,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">User List</h5>
+                            <h5 class="card-title">Registered Seller List</h5>
 
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
@@ -421,45 +421,23 @@
                                             <td>@(item.PhoneNumber ?? "Null Data")</td>
                                             <td>@item.RoleName</td>
                                             <td>
-                                                <!-- Nút Accept -->
-    <button type="button" class="btn btn-primary" onclick="acceptSeller('@item.UserID')">Accept</button>
+                                            
 
-    <!-- Thêm thẻ anti-forgery token -->
-    <form method="post">
-                                                    @Html.AntiForgeryToken()
-    </form>
-
-    <script>
-        function acceptSeller(userId) {
-            $.ajax({
-                url: '/admin/UpdateSellerAjax',
-                type: 'POST',
-                data: {
-                    userId: userId,
-                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // Bảo mật CSRF
-                },
-                success: function (response) {
-                    if (response.success) {
-                        alert('Seller updated successfully!');
-                    } else {
-                        alert('Failed to update seller.');
-                    }
-                },
-                error: function () {
-                    alert('An error occurred while updating the seller.');
-                }
-            });
-        }
-    </script>
-
-
-
+                                                <!-- Accept Form -->
+                                                <form method="post" asp-page-handler="OnPostAsync" asp-route-Id="@item.UserID">
+                                                    <button type="submit" class="btn btn-primary">Accept</button>
+                                                </form>
+                                                <!-- Reject Form -->
+                                                <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.UserID">
+                                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                                </form>
+                                            
                                                 @* <button type="button" class="btn btn-danger">Hidden</button> *@
 
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                @* <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                                                         data-bs-target="#verticalycentered">
                                                     Hidden
-                                                </button>
+                                                </button> *@
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">

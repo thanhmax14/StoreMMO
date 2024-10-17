@@ -26,5 +26,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.RegisteredSeller
         {
             return _registeredSellerRepository.UpdateSeller(inforAddViewModels);
         }
+        public UserViewModel RejectSeller(UserViewModel inforAddViewModels)
+        {
+            return _registeredSellerRepository.RejectSeller(inforAddViewModels);
+        }
     }
 }

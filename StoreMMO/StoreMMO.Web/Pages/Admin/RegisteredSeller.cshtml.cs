@@ -3,6 +3,7 @@ using BusinessLogic.Services.StoreMMO.Core.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
@@ -13,9 +14,19 @@ namespace StoreMMO.Web.Pages.Admin
     {
         private readonly IRegisteredSellerService _registeredSellerService;
         private readonly UserManager<AppUser> _userManager;
+        private readonly AppDbContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
         [BindProperty]
         public UserViewModel input { get; set; }
 
+        [BindProperty]
+        public string checkacp { get; set; }
+        [BindProperty]
+        public string checkre { get; set; }
+        [TempData]
+        public string success { get; set; }
+        [TempData]
+        public string fail { get; set; }
         public RegisteredSellerModel(UserManager<AppUser> userManager, IRegisteredSellerService registeredSellerService)
         {
 
@@ -28,51 +39,104 @@ namespace StoreMMO.Web.Pages.Admin
         {
             list = this._registeredSellerService.GetAllSellerUsersWithUserRole();
         }
-        public IActionResult OnPostUpdateSellerAjax(string userId)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
-            // Tìm người dùng dựa trên userId
-            var user = _userManager.Users
-                        .Where(u => u.Id == userId)
-                        .FirstOrDefault();
+            // Tìm người dùng theo ID
+            var find = await _userManager.FindByIdAsync(id);
 
-            if (user == null)
+            if (find != null)
             {
-                return new JsonResult(new { success = false, message = "User not found" });
-            }
+                    // Accept logic: Cập nhật IsSeller thành true
+                    find.IsSeller = true;
 
-            // Cập nhật trạng thái IsSeller
-            user.IsSeller = false;
+                    var update = await _userManager.UpdateAsync(find);
 
-            // Lấy vai trò "Seller"
-            var sellerRole = _userManager.Roles.FirstOrDefault(r => r.Name == "Seller");
+                    if (update.Succeeded)
+                    {
+                        // Assign the "Seller" role
+                        var roles = await _userManager.GetRolesAsync(find);
+                        var removeRolesResult = await _userManager.RemoveFromRolesAsync(find, roles);
 
-            if (sellerRole == null)
-            {
-                return new JsonResult(new { success = false, message = "Seller role not found" });
-            }
-
-            // Kiểm tra xem user đã có role "Seller" chưa, nếu chưa thì thêm
-            var userRole = _context.UserRoles.FirstOrDefault(ur => ur.UserId == user.Id);
-
-            if (userRole == null)
-            {
-                _context.UserRoles.Add(new IdentityUserRole<string>
-                {
-                    UserId = user.Id,
-                    RoleId = sellerRole.Id
-                });
+                        if (removeRolesResult.Succeeded)
+                        {
+                            var addRoleResult = await _userManager.AddToRoleAsync(find, "Seller");
+                            if (addRoleResult.Succeeded)
+                            {
+                                success = "User successfully updated to 'Seller'.";
+                            }
+                            else
+                            {
+                                fail = "Failed to add 'Seller' role.";
+                            }
+                        }
+                        else
+                        {
+                            fail = "Failed to remove current roles.";
+                        }
+                    }
+                    else
+                    {
+                        fail = "Update failed.";
+                    }
             }
             else
             {
-                userRole.RoleId = sellerRole.Id;
+                fail = "User not found.";
             }
 
-            // Lưu thay đổi
-            _context.SaveChanges();
-
-            // Trả về kết quả thành công
-            return new JsonResult(new { success = true });
+            // Điều hướng trở lại trang danh sách người dùng
+            return RedirectToPage("RegisteredSeller");
         }
+        public async Task<IActionResult> OnPostRejectAsync(string id)
+        {
+            // Tìm người dùng theo ID
+            var find = await _userManager.FindByIdAsync(id);
+
+            if (find != null)
+            {
+                    // Accept logic: Cập nhật IsSeller thành true
+                    find.IsSeller = true;
+
+                    var update = await _userManager.UpdateAsync(find);
+
+                    if (update.Succeeded)
+                    {
+                        // Assign the "Seller" role
+                        var roles = await _userManager.GetRolesAsync(find);
+                        var removeRolesResult = await _userManager.RemoveFromRolesAsync(find, roles);
+
+                        if (removeRolesResult.Succeeded)
+                        {
+                            var addRoleResult = await _userManager.AddToRoleAsync(find, "User");
+                            if (addRoleResult.Succeeded)
+                            {
+                                success = "User successfully updated to 'User'.";
+                            }
+                            else
+                            {
+                                fail = "Failed to add 'User' role.";
+                            }
+                        }
+                        else
+                        {
+                            fail = "Failed to remove current roles.";
+                        }
+                    }
+                    else
+                    {
+                        fail = "Update failed.";
+                    }
+            }
+            else
+            {
+                fail = "User not found.";
+            }
+
+            // Điều hướng trở lại trang danh sách người dùng
+            return RedirectToPage("RegisteredSeller");
+        }
+
+
 
     }
 }

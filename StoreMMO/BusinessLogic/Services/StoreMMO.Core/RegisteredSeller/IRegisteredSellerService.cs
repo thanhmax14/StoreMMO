@@ -12,5 +12,6 @@ namespace BusinessLogic.Services.StoreMMO.Core.RegisteredSeller
     {
         IEnumerable<UserViewModel> GetAllSellerUsersWithUserRole();
         UserViewModel UpdateSeller(UserViewModel inforAddViewModels);
+        UserViewModel RejectSeller(UserViewModel inforAddViewModels);
     }
 }
