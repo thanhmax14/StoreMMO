@@ -20,5 +20,10 @@ namespace StoreMMO.Web.Pages.Admin
             listcate = this._categoryServices.GetCategoryIsActive();
         }
 
+        public IActionResult OnPostHidden(int id)
+        {
+         
+        }
+
     }
 }
