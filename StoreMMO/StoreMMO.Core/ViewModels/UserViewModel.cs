@@ -1,5 +1,6 @@
 ﻿namespace StoreMMO.Core.ViewModels
 {
+    
     public class UserViewModel
     {
         public string UserID { get; set; }

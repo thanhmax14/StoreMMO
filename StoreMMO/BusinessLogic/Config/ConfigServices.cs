@@ -2,6 +2,7 @@
 using BusinessLogic.Services.StoreMMO.Core.Carts;
 using BusinessLogic.Services.StoreMMO.Core.Categorys;
 using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
+using BusinessLogic.Services.StoreMMO.Core.RegisteredSeller;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
 using BusinessLogic.Services.StoreMMO.Core.User;
 using BusinessLogic.Services.StoreMMO.Core.WishLists;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StoreMMO.Core.Repositories.Carts;
 using StoreMMO.Core.Repositories.Categorys;
 using StoreMMO.Core.Repositories.ProductsTypes;
+using StoreMMO.Core.Repositories.RegisteredSeller;
 using StoreMMO.Core.Repositories.Stores;
 using StoreMMO.Core.Repositories.User;
 using StoreMMO.Core.Repositories.WishLists;
@@ -46,6 +48,7 @@ namespace BusinessLogic.Config
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+            services.AddScoped<IRegisteredSellerRepository, RegisteredSellerRepository>();
 
 
 
@@ -56,7 +59,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IUserServices, UserService>();
             services.AddScoped<IWishListsService, WishListsService>();
             services.AddScoped<IProductTypeService, ProductTypeService>();
-
+            services.AddScoped<IRegisteredSellerService, RegisteredSellerService>();
 
 
         }
