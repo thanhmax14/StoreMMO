@@ -1,8 +1,5 @@
-﻿@page "{userId?}"
-@model StoreMMO.Web.Pages.Admin.UpdateUserModel
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+﻿@page
+@model StoreMMO.Web.Pages.Admin.UserHiddenAccountListModel
 @{
 }
 
@@ -13,7 +10,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Forms / Elements - NiceAdmin Bootstrap Template</title>
+    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -23,8 +20,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="~/assets_Admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -37,16 +33,7 @@
 
     <!-- Template Main CSS File -->
     <link href="~/assets_Admin/css/style.css" rel="stylesheet">
-    <style>
-        /* CSS để căn giữa form */
-        .form-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            /* Chiều cao của viewport */
-        }
-    </style>
+
     <!-- =======================================================
     * Template Name: NiceAdmin
     * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -63,7 +50,7 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="index.html" class="logo d-flex align-items-center">
-                <img src="assets/img/logo.png" alt="">
+                <img src="~/assets_Admin/img/logo.png" alt="">
                 <span class="d-none d-lg-block">NiceAdmin</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -304,12 +291,12 @@
                 </a>
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href='/admin/UserAccountList' class="active">
+                        <a href='/admin/UserAccountList' >
                             <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/UserHiddenAccountList'>
+                        <a href='/admin/UserHiddenAccountList' class="active">
                             <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
@@ -391,14 +378,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Update User Information</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <!-- <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Forms</li>
-                    <li class="breadcrumb-item active">Elements</li> -->
-                </ol>
-            </nav>
+            <h1>User List Tables</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -407,124 +387,87 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Update Form</h5>
-                            @if (!string.IsNullOrEmpty(@Model.success))
-                            {
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <i class="bi bi-check-circle me-1"></i>
-                                    @Model.success
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            }
-                            @if (!string.IsNullOrEmpty(@Model.fail))
-                            {
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <i class="bi bi-exclamation-octagon me-1"></i>
-                                    @Model.fail
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            }
+                            <h5 class="card-title">User List</h5>
 
-                            
-                             @foreach (var item in @Model.list)
-                             {
-                                <!-- General Form Elements -->
-                                <form method="post">
-                                    <div class="row mb-3">
-                                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control" value="@item.Email" asp-for="input.Email" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputText" class="col-sm-2 col-form-label">User Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" value="@item.UserName" asp-for="input.UserName" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputText" class="col-sm-2 col-form-label">FullName</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" value="@item.FullName" asp-for="input.FullName">
-                                            <span style="color:red" asp-validation-for="input.FullName"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputDate" class="col-sm-2 col-form-label">Create Date</label>
-                                        <div class="col-sm-10">
-                                            @if (item.CreatedDate != null)
-                                            {
-                                                <input type="date" class="form-control" value="@item.CreatedDate.Value.ToString("yyyy-MM-dd")" readonly>
-                                            }
-                                            else
-                                            {
-                                                <input type="date" class="form-control" value="" readonly>
-                                            }
-                                            
-                                        </div>
-                                    </div>
+                            <!-- Table with stripped rows -->
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Full Name</th>
+                                        <th data-type="date" data-format="YYYY/DD/MM">Create Date</th>
+                                        @* <th>Address</th> *@
+                                        @* <th>Is Seller</th> *@
+                                        <th>Email</th>
+                                        <th>UserName</th>
+                                        <th>Phone Number</th>
+                                        <th>Role Name</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int stt = 1;
+                                    }
+                                    @foreach (var item in @Model.list)
+                                    {
+                                        <tr>
+                                            <td>@stt</td>
+                                            <td>@item.FullName</td>
+                                            <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
+                                            @* <td>@(item.Address ?? "Null Data")</td> *@
+                                            @* <td>@item.IsSeller</td> *@
+                                            <td>@item.Email</td>
+                                            <td>@item.UserName</td>
+                                            <td>@(item.PhoneNumber ?? "Null Data")</td>
+                                            <td>@item.RoleName</td>
+                                            <td>
+                                                
+                                                @* <button type="button" class="btn btn-danger">Hidden</button> *@
 
-                                    <div class="row mb-3">
-                                        <label for="inputDate" class="col-sm-2 col-form-label">Date Of Birth</label>
-                                        <div class="col-sm-10">
-                                            @if (item.DateOfBirth != null)
-                                            {
-                                                <input type="date" class="form-control" value="@item.DateOfBirth.Value.ToString("yyyy-MM-dd")" asp-for="input.DateOfBirth">
-                                                <span style="color:red" asp-validation-for="input.DateOfBirth"></span>
-                                            }
-                                            else
-                                            {
-                                                <input type="date" class="form-control" value="" asp-for="input.DateOfBirth">
-                                                <span style="color:red" asp-validation-for="input.DateOfBirth"></span>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputNumber" class="col-sm-2 col-form-label">Phone Number</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" value="@item.PhoneNumber" asp-for="input.PhoneNumber">
-                                            <span style="color:red" asp-validation-for="input.PhoneNumber"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label class="col-sm-2 col-form-label">Role Name</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-select" >
-
-                                                <option selected value="@item.RoleName">@item.RoleName</option>
-                                                <option value="@Model.role1">@Model.role1</option>
-                                                <option value="@Model.role2">@Model.role2</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                                        <div class="col-sm-10">
-                                            <input type="password" class="form-control" value="@item.PasswordHash" asp-for="input.Password">
-                                            <span style="color:red" asp-validation-for="input.Password"></span>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-3">
-                                        <label for="inputText" class="col-sm-2 col-form-label">Address</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" value="@item.Address" asp-for="input.Address">
-                                          
-                                            <span style="color:red" asp-validation-for="input.Address"></span>
-                                        </div>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="button" onclick="window.location.href='/admin/UserAccountList'" class="btn btn-secondary">Back To List</button>
-                                        <button type="reset" class="btn btn-secondary">Reset</button>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
-                                    
-
-                                </form><!-- End General Form Elements -->
-
-                               
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                        data-bs-target="#verticalycentered">
+                                                    Show
+                                                </button>
+                                                <div class="modal fade" id="verticalycentered" tabindex="-1">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Show that user</h5>
+                                                                <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you want to show this user?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">
+                                                                    Back
+                                                                </button>
 
 
-                            }
+                                                                <form method="post" asp-route-id="@item.UserID" asp-page-handler="Asyns">
+                                                                    @* <input type="text" value="@item.UserID" hidden/> *@
+                                                                    <button type="submit" class="btn btn-primary">Yes</button>
+                                                                </form>
+                                                                <button type="button" class="btn btn-primary"
+                                                                        data-bs-dismiss="modal">
+                                                                    No
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        stt++;
+                                    }
+
+                                </tbody>
+                            </table>
+                            <!-- End Table with stripped rows -->
+
                         </div>
                     </div>
 
@@ -533,11 +476,21 @@
         </section>
 
     </main><!-- End #main -->
-   
+    <!-- ======= Footer ======= -->
+    @*     <footer id="footer" class="footer">
+    <div class="copyright">
+    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+    </footer><!-- End Footer --> *@
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
     <script src="~/assets_Admin/vendor/apexcharts/apexcharts.min.js"></script>
@@ -551,6 +504,7 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
+
 
 </body>
 

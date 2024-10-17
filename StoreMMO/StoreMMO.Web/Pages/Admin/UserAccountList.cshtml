@@ -290,12 +290,12 @@
                 </a>
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="" onclick="window.location.href='/admin/UserAccountList'" class="active">
+                        <a href='/admin/UserAccountList'  class="active">
                             <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/UserHiddenAccountList'>
                             <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
@@ -440,12 +440,20 @@
                                                                 Are you sure you want to hide this user?
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button left" class="btn btn-secondary"
+                                                                <button type="button" class="btn btn-secondary"
                                                                         data-bs-dismiss="modal">
                                                                     Back
                                                                 </button>
-                                                                <button type="button" class="btn btn-primary">Yes</button>
-                                                                <button type="button" class="btn btn-primary">No</button>
+
+
+                                                                <form method="post" asp-route-id="@item.UserID" asp-page-handler="Asyns">
+                                                                    @* <input type="text" value="@item.UserID" hidden/> *@
+                                                                    <button type="submit" class="btn btn-primary">Yes</button>
+                                                                    </form>
+                                                                <button type="button" class="btn btn-primary"
+                                                                        data-bs-dismiss="modal">
+                                                                    No
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
