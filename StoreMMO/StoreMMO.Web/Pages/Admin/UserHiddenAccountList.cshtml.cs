@@ -20,6 +20,10 @@ namespace StoreMMO.Web.Pages.Admin
         }
         [BindProperty]
         public string id { get; set; }
+        [TempData]
+        public string success { get; set; }
+        [TempData]
+        public string fail { get; set; }
         public IEnumerable<UserViewModel> list = new List<UserViewModel>();
         public void OnGet()
         {
@@ -35,6 +39,11 @@ namespace StoreMMO.Web.Pages.Admin
             {
                 find.IsDelete = false;
                 var update = await _userManager.UpdateAsync(find);
+                success = "Show User Thanh Cong";
+            }
+            else
+            {
+                fail = "Show User That Bai";
             }
 
             return RedirectToPage("UserHiddenAccountList");
