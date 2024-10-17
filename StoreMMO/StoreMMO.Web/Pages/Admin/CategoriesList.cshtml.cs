@@ -8,6 +8,7 @@ namespace StoreMMO.Web.Pages.Admin
     public class CategoriesListModel : PageModel
     {
         private readonly ICategoryService _categoryServices;
+      
 
         public CategoriesListModel(ICategoryService categoryServices)
         {
@@ -20,23 +21,20 @@ namespace StoreMMO.Web.Pages.Admin
             listcate = this._categoryServices.GetCategoryIsActive();
         }
 
-      //  public IActionResult OnPostHidden(int id)
-      //  {
-            // Gọi service để ẩn category với ID tương ứng
-          //  var result = _categoryServices.HideCategory(id);
+        public IActionResult OnPostHidden(string id)
+        {
+            var cate =_categoryServices.getByIdCategory(id);
+            cate.IsActive = false;
+            var result = _categoryServices.UpdateCategory(cate);
 
-            //if (result)
-            //{
-            //    // Nếu thành công, có thể chuyển hướng hoặc làm gì đó tùy ý
-            //    return RedirectToPage("/Admin/CategoriesList");
-            //}
-            //else
-            //{
-            //    // Nếu thất bại, có thể hiển thị thông báo lỗi
-            //    ModelState.AddModelError("", "Failed to hide the category.");
-            //    return Page();
-            //}
-        //}
+
+                // Nếu thành công, chuyển hướng lại danh sách categories
+                return RedirectToPage("/Admin/CategoriesList");
+           
+        }
+
+
+
 
 
     }
