@@ -1,42 +1,40 @@
 ﻿using BusinessLogic.Services.StoreMMO.API;
-using BusinessLogic.Services.StoreMMO.Core.Carts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
-using X.PagedList.Extensions;
 using X.PagedList;
+using System.Linq;
+using X.PagedList.Extensions;
 
 namespace StoreMMO.Web.Pages.Home
 {
     public class ViewAllStoreModel : PageModel
     {
         private readonly StoreApiService _storeApi;
-        private readonly ProductApiService _productApi;
-        private readonly ICartService _cartService;
-        private readonly WishListApiService _wishListApi;
-        public ViewAllStoreModel(StoreApiService storeApiService, ProductApiService productApi,
-            ICartService cartService, WishListApiService wishListApi)
-        {
-            this._storeApi = storeApiService;
-            this._productApi = productApi;
-            this._cartService = cartService;
-            this._wishListApi = wishListApi;
-        }
-        public IPagedList<StoreViewModels> PagedStores { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? page)
+        public ViewAllStoreModel(StoreApiService storeApi)
         {
-            int pageSize = 10;
+            _storeApi = storeApi;
+        }
+
+        public IPagedList<StoreViewModels> storeView { get; set; }
+        public string CurrentFilter { get; set; }
+        public int CurrentPageSize { get; set; }
+
+        public async Task OnGetAsync(string searchString, int? page, int? count)
+        {
+            CurrentFilter = searchString;
+            CurrentPageSize = count ?? 12;  
             int pageNumber = page ?? 1;
-            var stores = await this._storeApi.GetStoresAsync();
+            var stores = await _storeApi.GetStoresAsync(true);
+            if (!string.IsNullOrEmpty(searchString))
+            {
+				var keywords = searchString.Split(' ');
+				stores = stores.Where(s => keywords.All(k => s.nameStore.ToLower().Contains(k.ToLower()))).ToList();
 
-            PagedStores = stores.ToPagedList(pageNumber, pageSize);
 
-            return Page();
+			}
+			storeView = stores.ToPagedList(pageNumber, CurrentPageSize);
         }
-
-
     }
 }

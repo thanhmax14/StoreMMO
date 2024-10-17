@@ -6,7 +6,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
 
     public interface IStoreService
     {
-        IEnumerable<StoreViewModels> getAll();
+        IEnumerable<StoreViewModels> getAll(bool sicbo);
         StoreAddViewModels AddStore(StoreAddViewModels store);
         StoreAddViewModels Update(StoreAddViewModels store);
         void Delete(string id);

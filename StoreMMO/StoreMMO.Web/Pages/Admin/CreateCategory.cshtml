@@ -1,5 +1,8 @@
-﻿@page
-@model StoreMMO.Web.Pages.Admin.UserAccountListModel
+﻿@page 
+@model StoreMMO.Web.Pages.Admin.CreateCategoryModel
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 @{
 }
 <!DOCTYPE html>
@@ -9,7 +12,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+    <title>Forms / Elements - NiceAdmin Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -40,8 +43,6 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
-
-   
 </head>
 
 <body>
@@ -292,18 +293,18 @@
                 </a>
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href='/admin/UserAccountList'  class="active">
+                        <a href="" onclick="window.location.href='/admin/UserAccountList'" class="active">
                             <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/UserHiddenAccountList'>
+                        <a href="">
                             <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End Components Nav -->
-
+            <!-- -->
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-contacts-line"></i> <span>Manage Sellers and Stores</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -316,7 +317,7 @@
                     </li>
                     <li>
                         <a href="">
-                            <i class="bi bi-circle"></i><span>Stand Request</span>
+                            <i class="bi bi-circle"></i><span>Store Request</span>
                         </a>
                     </li>
                     <li>
@@ -331,6 +332,7 @@
                     </li>
                 </ul>
             </li><!-- End Forms Nav -->
+            <!-- star sidebar-nav categories >
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
@@ -338,12 +340,12 @@
                 </a>
                 <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="">
+                        <a href="/Admin/CategoriesList">
                             <i class="bi bi-circle"></i><span>Active Category</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="/Admin">
                             <i class="bi bi-circle"></i><span>Hidden Category</span>
                         </a>
                     </li>
@@ -375,20 +377,28 @@
         </ul>
 
     </aside><!-- End Sidebar-->
+    <!-- ======= End Sidebar ======= -->
 
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>User List Tables</h1>
+            <h1>Form Elements</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item">Forms</li>
+                    <li class="breadcrumb-item active">Elements</li>
+                </ol>
+            </nav>
         </div><!-- End Page Title -->
-
+       
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">User List</h5>
+                            <h5 class="card-title">General Form Elements</h5>
                             @if (!string.IsNullOrEmpty(@Model.success))
                             {
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -405,86 +415,27 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             }
-                            <!-- Table with stripped rows -->
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Full Name</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">Create Date</th>
-                                        @* <th>Address</th> *@
-                                        @* <th>Is Seller</th> *@
-                                        <th>Email</th>
-                                        <th>UserName</th>
-                                        <th>Phone Number</th>
-                                        <th>Role Name</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        int stt = 1;
-                                    }
-                                     @foreach(var item in @Model.list)
-                                    {
-                                        <tr>
-                                            <td>@stt</td>
-                                            <td>@item.FullName</td>
-                                            <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-                                            @* <td>@(item.Address ?? "Null Data")</td> *@
-                                            @* <td>@item.IsSeller</td> *@
-                                            <td>@item.Email</td>
-                                            <td>@item.UserName</td>
-                                            <td>@(item.PhoneNumber ?? "Null Data")</td>
-                                            <td>@item.RoleName</td>
-                                            <td>
-                                                <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
-                                                @* <button type="button" class="btn btn-danger">Hidden</button> *@
-                                                
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                        data-bs-target="#verticalycentered" data-userid="@item.UserID">
-                                                    Hidden
-                                                </button>
-                                                @* Hien thong bao check Yes/No *@
-                                                <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Hidden that user</h5>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to hide this user?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">
-                                                                    Back
-                                                                </button>
+                            <!-- General Form Elements -->
+                            <form method="post">
+                           
+                                <div class="row mb-4">
+                                    <label for="inputName" class="col-sm-5 col-form-label">Name</label>
+                                    <div class="col-sm-15">
+                                        <!-- Liên kết với CateName trong ViewModel -->
+                                        <input type="text" class="form-control" asp-for="input.Name">
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.Name"></span>
+                                </div>
 
+                            
+                                <div class="row mb-4">
+                                    <div class="col-sm-10">
+                                        <button type="button" onclick="window.location.href='/admin/CategoriesList'" class="btn btn-secondary">Back To List</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </div>
+                            </form>
 
-                                                                <form method="post" asp-page-handler="Asyns">
-                                                                    <input type="hidden" id="hiddenUserId" name="id" />
-                                                                    <button type="submit" class="btn btn-primary">Yes</button>
-                                                                </form>
-
-                                                                <button type="button" class="btn btn-primary"
-                                                                        data-bs-dismiss="modal">
-                                                                    No
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        stt++;
-                                    }
-
-                                </tbody>
-                            </table>
-                            <!-- End Table with stripped rows -->
 
                         </div>
                     </div>
@@ -495,7 +446,7 @@
 
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
-@*     <footer id="footer" class="footer">
+    <footer id="footer" class="footer">
         <div class="copyright">
             &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
         </div>
@@ -506,7 +457,7 @@
             <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
             Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
         </div>
-    </footer><!-- End Footer --> *@
+    </footer><!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -523,23 +474,6 @@
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
 
-    <!-- code js de lay id de hide -->
-    <script>
-        var modal = document.getElementById('verticalycentered');
-        modal.addEventListener('show.bs.modal', function (event) {
-            // Lấy nút đã kích hoạt modal
-            var button = event.relatedTarget;
-            // Lấy UserID từ thuộc tính data-userid
-            var userId = button.getAttribute('data-userid');
-            // Gán UserID vào input hidden trong form
-            var input = document.getElementById('hiddenUserId');
-            input.value = userId;
-        });
-        </script>
-    <!-- code js de lay id de hide -->
-
-
 </body>
 
 </html>
-

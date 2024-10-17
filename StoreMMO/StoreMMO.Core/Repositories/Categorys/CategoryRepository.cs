@@ -29,11 +29,10 @@ namespace StoreMMO.Core.Repositories.Categorys
 
             return category;
         }
-
         public void Delete(string id)
         {
             var findId = _context.Categories.FirstOrDefault(x => x.Id == id);
-            if(findId == null)
+            if (findId == null)
             {
                 throw new Exception("Id not found");
             }
@@ -50,7 +49,7 @@ namespace StoreMMO.Core.Repositories.Categorys
         public CategoryViewModels getById(string id)
         {
             var findId = _context.Categories.SingleOrDefault(x => x.Id == id);
-            if(findId == null)
+            if (findId == null)
             {
                 throw new Exception("Id not found");
             }
@@ -64,18 +63,82 @@ namespace StoreMMO.Core.Repositories.Categorys
             return category;
         }
 
+        public IEnumerable<CategoryViewModels> GetCategoryIsActive()
+        {
+            var categoryIsActive = this._context.Categories.Where(x => x.IsActive).ToList();
+            try
+            {
+                List<CategoryViewModels> cateviewmodel = categoryIsActive.Select(x => new CategoryViewModels
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                  //  Commission = x.Commission,
+                    CreatedDate = x.CreatedDate,
+                    ModifiedDate = x.ModifiedDate,
+                }).ToList();
+                return cateviewmodel;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public CategoryViewModels Update(CategoryViewModels category)
         {
-            var updateCategory = new Category
+          /*  var updateCategory = new Category
             {
                 Id = category.Id,
                 Name = category.Name,
                 CreatedDate = category.CreatedDate,
                 ModifiedDate = DateTime.UtcNow,
             };
-            _context.Categories.Update(updateCategory);
-            _context.SaveChanges();
+            _context.Categories.Update(updateCategory);*/
+          var fine = this._context.Categories.FirstOrDefault(x => x.Id == category.Id);
+            fine.Name = category.Name;
+            fine.IsActive = category.IsActive;
+            fine.ModifiedDate = DateTime.UtcNow; 
+            this._context.SaveChanges();
+             category.Id = fine.Id;
+            category.Name = fine.Name;
+            category.CreatedDate = fine.CreatedDate;
+            category.ModifiedDate = fine.ModifiedDate;
             return category;
+          
         }
+
+        //public CategoryViewModels UpdateName(int check, string id, string name, bool isactive, CategoryViewModels cate)
+        //{ var updateCategory = new CategoryViewModels;
+        //    if (updateCategory == null)
+        //    {
+        //        throw new Exception("Id not found");
+        //    }
+        //    else
+        //    {
+        //        if (check != 0) // o thay name dùng update 
+        //        {
+        //            updateCategory.Name = name;
+        //        }
+        //        else   // khac 0 là dùng hidden 
+        //        {
+        //            updateCategory.IsActive = isactive;
+        //        }
+        //        updateCategory.ModifiedDate = DateTime.UtcNow;   // auto update thời gian mỗi lần update 
+
+        //        _context.Categories.Update(updateCategory);
+        //        _context.SaveChanges();
+        //    }
+        
+        //    return new CategoryViewModels
+        //    {
+        //        Id = updateCategory.Id,
+        //        Name = updateCategory.Name,
+        //        CreatedDate = updateCategory.CreatedDate,
+        //        ModifiedDate = updateCategory.ModifiedDate,
+        //    }
+            
+        //    ;
+        //}
+
     }
 }
