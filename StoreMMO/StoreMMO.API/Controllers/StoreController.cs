@@ -19,10 +19,10 @@ namespace StoreMMO.API.Controllers
             this._storeService = storeService;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpGet("GetAll")]
+        public IActionResult GetAll(bool sicbo)
         {
-            var list = this._storeService.getAll();
+            var list = this._storeService.getAll(sicbo);
             return Ok(list);
         }
         [HttpPost]

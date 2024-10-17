@@ -11,9 +11,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.User
         {
             this._userRepository = userRepository;
         }
-        public IEnumerable<UserViewModel> GetAllUser()
+        public IEnumerable<UserViewModel> GetAllUser(bool isDelete)
         {
-            return _userRepository.GetAllUser();
+            return _userRepository.GetAllUser(isDelete);
         }
 
         public IEnumerable<UserViewModel> GetUserById(string userId)

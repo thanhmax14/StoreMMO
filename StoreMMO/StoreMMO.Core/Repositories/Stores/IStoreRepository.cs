@@ -4,7 +4,7 @@ namespace StoreMMO.Core.Repositories.Stores
 {
     public interface IStoreRepository
     {
-        IEnumerable<StoreViewModels> getAll();
+        IEnumerable<StoreViewModels> getAll(bool sicbo);
         StoreAddViewModels AddStore(StoreAddViewModels store);
         StoreAddViewModels Update(StoreAddViewModels store);
         void Delete(string id);

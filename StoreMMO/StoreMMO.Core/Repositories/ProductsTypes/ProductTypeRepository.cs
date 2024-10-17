@@ -16,7 +16,7 @@ namespace StoreMMO.Core.Repositories.ProductsTypes
         {
             _context = context;
         }
-        public ProductViewModels AddProduct(ProductViewModels productViewModels)
+        public ProductTypesViewModels AddProduct(ProductTypesViewModels productViewModels)
         {
             var viewModel = new Models.ProductType
             {
@@ -51,13 +51,13 @@ namespace StoreMMO.Core.Repositories.ProductsTypes
             return list;
         }
 
-        public ProductViewModels getByIDProduct(string id)
+        public ProductTypesViewModels getByIDProduct(string id)
         {
           var findId = _context.ProductTypes.SingleOrDefault(x => x.Id == id);
             if (findId == null) {
                 return null;
             }
-            var viewModel = new ProductViewModels
+            var viewModel = new ProductTypesViewModels
             {
                 Id = findId.Id,
                 Name = findId.Name,
@@ -70,7 +70,7 @@ namespace StoreMMO.Core.Repositories.ProductsTypes
             return viewModel;
         }
 
-        public ProductViewModels Update(ProductViewModels productViewModels)
+        public ProductTypesViewModels Update(ProductTypesViewModels productViewModels)
         {
             var viewModel = new Models.ProductType
             {

@@ -72,7 +72,7 @@ namespace StoreMMO.Core.Repositories.Categorys
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Commission = x.Commission,
+                  //  Commission = x.Commission,
                     CreatedDate = x.CreatedDate,
                     ModifiedDate = x.ModifiedDate,
                 }).ToList();
@@ -86,16 +86,59 @@ namespace StoreMMO.Core.Repositories.Categorys
 
         public CategoryViewModels Update(CategoryViewModels category)
         {
-            var updateCategory = new Category
+          /*  var updateCategory = new Category
             {
                 Id = category.Id,
                 Name = category.Name,
                 CreatedDate = category.CreatedDate,
                 ModifiedDate = DateTime.UtcNow,
             };
-            _context.Categories.Update(updateCategory);
-            _context.SaveChanges();
+            _context.Categories.Update(updateCategory);*/
+          var fine = this._context.Categories.FirstOrDefault(x => x.Id == category.Id);
+            fine.Name = category.Name;
+            fine.IsActive = category.IsActive;
+            fine.ModifiedDate = DateTime.UtcNow; 
+            this._context.SaveChanges();
+             category.Id = fine.Id;
+            category.Name = fine.Name;
+            category.CreatedDate = fine.CreatedDate;
+            category.ModifiedDate = fine.ModifiedDate;
             return category;
+          
         }
+
+        //public CategoryViewModels UpdateName(int check, string id, string name, bool isactive, CategoryViewModels cate)
+        //{ var updateCategory = new CategoryViewModels;
+        //    if (updateCategory == null)
+        //    {
+        //        throw new Exception("Id not found");
+        //    }
+        //    else
+        //    {
+        //        if (check != 0) // o thay name dùng update 
+        //        {
+        //            updateCategory.Name = name;
+        //        }
+        //        else   // khac 0 là dùng hidden 
+        //        {
+        //            updateCategory.IsActive = isactive;
+        //        }
+        //        updateCategory.ModifiedDate = DateTime.UtcNow;   // auto update thời gian mỗi lần update 
+
+        //        _context.Categories.Update(updateCategory);
+        //        _context.SaveChanges();
+        //    }
+        
+        //    return new CategoryViewModels
+        //    {
+        //        Id = updateCategory.Id,
+        //        Name = updateCategory.Name,
+        //        CreatedDate = updateCategory.CreatedDate,
+        //        ModifiedDate = updateCategory.ModifiedDate,
+        //    }
+            
+        //    ;
+        //}
+
     }
 }

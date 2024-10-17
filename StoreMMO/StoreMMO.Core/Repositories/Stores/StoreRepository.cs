@@ -22,18 +22,12 @@ namespace StoreMMO.Core.Repositories.Stores
 
      
 
-        public IEnumerable<StoreViewModels> getAll()
+        public IEnumerable<StoreViewModels> getAll(bool sicbo)
         {
-            string sql = "SELECT  s.Id as storeID, us.id as userid, sd.[Name] as nameStore," +
-                " ca.[Name] as catename,\r\n us.UserName , sd.Img as imgStore\r\nFROM           " +
-                "       Users us INNER JOIN\r\n           " +
-                "           Stores s ON us.Id = s.UserId INNER JOIN\r\n     " +
-                "                 StoreDetails sd  ON s.Id = sd.StoreId INNER JOIN\r\n    " +
-                "                  StoreTypes st  ON sd.StoreTypeId = st.Id INNER JOIN\r\n    " +
-                "                  Categories ca ON sd.CategoryId = ca.Id";
+			string sql = $"SELECT s.Id AS storeID, us.id AS userid, sd.[Name] AS nameStore, ca.[Name] AS catename, us.UserName, sd.Img AS imgStore FROM Users us INNER JOIN Stores s ON us.Id = s.UserId INNER JOIN StoreDetails sd ON s.Id = sd.StoreId INNER JOIN StoreTypes st ON sd.StoreTypeId = st.Id INNER JOIN Categories ca ON sd.CategoryId = ca.Id WHERE s.IsAccept = '{sicbo}'\r\n";
 
 
-            var list = this._context.Database.SqlQueryRaw<StoreViewModels>(sql).ToList();
+			var list = this._context.Database.SqlQueryRaw<StoreViewModels>(sql).ToList();
             return list;
         }
 
@@ -105,7 +99,7 @@ namespace StoreMMO.Core.Repositories.Stores
         }
         public IEnumerable<getProducInStoreViewModels> getAllProductInStore(string id)
         {
-            string sql = $"SELECT p.[Name] AS ProductName,p.Id AS ProductId FROM Stores s JOIN Users u ON s.UserId = u.Id JOIN StoreDetails sd ON s.ID = sd.StoreID JOIN ProductConnects pc ON sd.Id = pc.StoreDetailID JOIN Products p ON pc.ProductID = p.ID LEFT JOIN FeedBacks f ON f.StoreDetailId = sd.Id AND f.UserId = u.Id JOIN Categories ca ON ca.Id = sd.CategoryId WHERE s.ID = '{id}';\r\n";
+            string sql = $"SELECT p.[Name] AS ProductName,p.Id AS ProductId FROM Stores s JOIN Users u ON s.UserId = u.Id JOIN StoreDetails sd ON s.ID = sd.StoreID JOIN ProductConnects pc ON sd.Id = pc.StoreDetailID JOIN ProductTypes p ON pc.ProductTypeId = p.ID LEFT JOIN FeedBacks f ON f.StoreDetailId = sd.Id AND f.UserId = u.Id JOIN Categories ca ON ca.Id = sd.CategoryId WHERE s.ID = '{id}';\r\n";
             var list = this._context.Database.SqlQueryRaw<getProducInStoreViewModels>(sql).ToList();
             return list;
         }
@@ -116,7 +110,7 @@ namespace StoreMMO.Core.Repositories.Stores
                 $"ShortDescription, sd.DescriptionDetail AS LongDescription, ca.[Name] AS CategoryName," +
                 $"  COUNT(f.StoreDetailId) AS QuantityComment" +
                 $" FROM Stores s JOIN Users u ON s.UserId = u.Id JOIN StoreDetails sd ON s.ID = sd.StoreID JOIN" +
-                $" ProductConnects pc ON sd.Id = pc.StoreDetailID JOIN Products p ON pc.ProductID = p.ID LEFT JOIN" +
+                $" ProductConnects pc ON sd.Id = pc.StoreDetailID JOIN ProductTypes p ON pc.ProductTypeId = p.ID LEFT JOIN" +
                 $" FeedBacks f ON f.StoreDetailId = sd.Id AND f.UserId = u.Id JOIN Categories ca" +
                 $" ON ca.Id = sd.CategoryId WHERE s.ID = '{id}' GROUP BY u.FullName, sd.[Name],   sd.[Img]  ," +
                 $" sd.SubDescription, sd.DescriptionDetail, ca.[Name], f.Comments, f.Relay;\r\n";

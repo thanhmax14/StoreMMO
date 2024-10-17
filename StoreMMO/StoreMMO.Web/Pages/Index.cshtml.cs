@@ -36,7 +36,7 @@ namespace StoreMMO.Web.Pages
 		{
 
 
-			storeView = await this._storeApi.GetStoresAsync();
+			storeView = await this._storeApi.GetStoresAsync(true);
 			var useriD = HttpContext.Session.GetString("UserID");
 			if (useriD != null)
 			{

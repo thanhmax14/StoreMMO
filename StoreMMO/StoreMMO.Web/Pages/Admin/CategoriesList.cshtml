@@ -1,4 +1,5 @@
-﻿@page
+﻿
+@page
 @model StoreMMO.Web.Pages.Admin.CategoriesListModel
 @{
 }
@@ -395,7 +396,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Datatables</h5>
-                            <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p>
+
+                            <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to convert to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p>
 
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
@@ -405,12 +407,10 @@
                                         <th>
                                             <b>N</b>ame
                                         </th>
-
-                                        <th>Commission</th>
+                                     
                                         <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
                                         <th></th>
-                                        @*     <th>IsActive</th> *@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -422,13 +422,10 @@
                                         <tr>
                                             <td>@stt</td>
                                             <td>@item.Name</td>
-                                            <td>@item.Commission</td>
                                             <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
                                             <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-
-                                            @*    <td>@item.IsActive</td> *@
                                             <td>
-                                                <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
+                                                <button onclick="window.location.href='/admin/UpdateUser/@item.Id'" type="button" class="btn btn-primary">Edit</button>
                                                 @* <button type="button" class="btn btn-danger">Hidden</button> *@
 
                                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
@@ -447,10 +444,45 @@
                                                                 Are you sure you want to hide this user?
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button left" class="btn btn-secondary"
+                                                                <button type="button" class="btn btn-secondary"
                                                                         data-bs-dismiss="modal">
                                                                     Back
                                                                 </button>
+                                                                <form method="post" asp-route-id="@item.Id" asp-page-handler="Asyns">
+                                                                    @* <input type="text" value="@item.UserID" hidden/> *@
+                                                                    <button onclick="showAlert()" type="submit" class="btn btn-primary">Yes</button>
+                                                                </form>
+                                                                <button type="button" class="btn btn-primary"
+                                                                        data-bs-dismiss="modal">
+                                                                    No
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <!-- Nút Edit -->
+                                                <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
+ 
+                                                <!-- Nút Hidden -->
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalHidden_@item.Id">
+                                                    Hidden
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Hidden that user</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you want to hide this user?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
                                                                 <button type="button" class="btn btn-primary">Yes</button>
                                                                 <button type="button" class="btn btn-primary">No</button>
                                                             </div>
@@ -461,18 +493,19 @@
                                         </tr>
                                         stt++;
                                     }
-
-
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->
 
                         </div>
-                    </div>
 
+                        <!-- Nút CreateCategory -->
+                        <button type="button" onclick="window.location.href='/admin/CreateCategory'" class="btn btn-secondary">CreateCategory</button>
+                    </div>
                 </div>
             </div>
         </section>
+
 
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->

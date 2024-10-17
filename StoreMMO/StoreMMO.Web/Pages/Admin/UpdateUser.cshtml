@@ -304,12 +304,12 @@
                 </a>
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="" onclick="window.location.href='/admin/UserAccountList'" class="active">
+                        <a href='/admin/UserAccountList' class="active">
                             <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/UserHiddenAccountList'>
                             <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
@@ -500,7 +500,7 @@
                                     <div class="row mb-3">
                                         <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" value="@item.PasswordHash" asp-for="input.Password">
+                                            <input type="password" class="form-control" value="@item.PasswordHash" asp-for="input.Password">
                                             <span style="color:red" asp-validation-for="input.Password"></span>
                                         </div>
                                     </div>

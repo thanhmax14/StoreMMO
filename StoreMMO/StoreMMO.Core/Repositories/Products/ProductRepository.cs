@@ -5,22 +5,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProductViewModels = StoreMMO.Core.ViewModels.ProductViewModels;
 
-namespace StoreMMO.Core.Repositories.InfoAdds
+namespace StoreMMO.Core.Repositories.Products
 {
-    public class InfoAddRepository : IInfoAddRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly AppDbContext _context;
-        public InfoAddRepository(AppDbContext context)
+        public ProductRepository(AppDbContext context)
         {
             _context = context;
         }
-        public InfoAddViewModels AddInforAdd(InfoAddViewModels inforAddViewModels)
+        public ProductViewModels AddProduct(ProductViewModels inforAddViewModels)
         {
             var ViewModel = new Models.Product
             {
                 Id = inforAddViewModels.Id,
-                ProductTypeId = inforAddViewModels.ProductId,
+                ProductTypeId = inforAddViewModels.ProductTypeId,
                 Account = inforAddViewModels.Account,
                 Pwd = inforAddViewModels.Pwd,
                 Status = inforAddViewModels.Status,
@@ -31,10 +32,10 @@ namespace StoreMMO.Core.Repositories.InfoAdds
             return inforAddViewModels;
         }
 
-        public void DeleteInforAdd(string id)
+        public void DeleteProduct(string id)
         {
             var p = _context.Products.FirstOrDefault(x => x.Id == id);
-            if(p == null)
+            if (p == null)
             {
                 throw new Exception("Not found ID");
             }
@@ -42,23 +43,24 @@ namespace StoreMMO.Core.Repositories.InfoAdds
             _context.SaveChanges();
         }
 
-        public IEnumerable<Models.Product> getAllInforAdd()
+        public IEnumerable<Product> getAllProduct()
         {
-            var list = _context.Products.ToList();  
+            var list = _context.Products.ToList();
             return list;
         }
 
-        public InfoAddViewModels getByIdInforAdd(string id)
+        public ProductViewModels getByIdProduct(string id)
         {
             var findId = _context.Products.SingleOrDefault(x => x.Id == id);
-            if(findId == null)
+            if (findId == null)
             {
                 throw new Exception("Not found ID");
             }
-            var viewModel = new InfoAddViewModels
+            // Mapping to ProductViewModels
+            var viewModel = new ProductViewModels
             {
                 Id = findId.Id,
-                ProductId = findId.ProductTypeId,
+                ProductTypeId = findId.ProductTypeId,
                 Account = findId.Account,
                 Pwd = findId.Pwd,
                 StatusUpload = findId.StatusUpload,
@@ -69,12 +71,12 @@ namespace StoreMMO.Core.Repositories.InfoAdds
             return viewModel;
         }
 
-        public InfoAddViewModels UpdateInforAdd(InfoAddViewModels inforAddViewModels)
+        public ProductViewModels UpdateProduct(ProductViewModels inforAddViewModels)
         {
             var viewModel = new Models.Product
             {
                 Id = inforAddViewModels.Id,
-                ProductTypeId = inforAddViewModels.ProductId,
+                ProductTypeId = inforAddViewModels.ProductTypeId,
                 Account = inforAddViewModels.Account,
                 Pwd = inforAddViewModels.Pwd,
                 StatusUpload = inforAddViewModels.StatusUpload,

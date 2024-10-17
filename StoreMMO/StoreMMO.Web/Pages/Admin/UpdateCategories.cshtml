@@ -1,5 +1,8 @@
-﻿@page
+﻿@page "{categoryId?}"
 @model StoreMMO.Web.Pages.Admin.UpdateCategoriesModel
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 @{
 }
 <!DOCTYPE html>
@@ -388,7 +391,7 @@
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-
+       
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
@@ -396,53 +399,66 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">General Form Elements</h5>
-
+                            @if (!string.IsNullOrEmpty(@Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(@Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
                             <!-- General Form Elements -->
-                            <form>
+                            <form method="post">
+                                <div class="row mb-4">
+                                   
+                                    <div class="col-sm-15">
+                                        <!-- Liên kết với CateName trong ViewModel -->
+                                        <input hidden type="text" class="form-control" value="@Model.category.Id" asp-for="input.Id" readonly>
+                                    </div>
+                      
+                                </div>
                                 <div class="row mb-4">
                                     <label for="inputName" class="col-sm-5 col-form-label">Name</label>
                                     <div class="col-sm-15">
-                                        <input type="text" class="form-control">
+                                        <!-- Liên kết với CateName trong ViewModel -->
+                                        <input type="text" class="form-control" value="@Model.category.Name" asp-for="input.Name">
                                     </div>
+                                    <span style="color:red" asp-validation-for="input.Name"></span>
                                 </div>
-                                <div class="row mb-4">
-                                    <label for="inputCommission" class="col-sm-5 col-form-label">Commission</label>
-                                    <div class="col-sm-15">
-                                        <input type="number" class="form-control">
-                                    </div>
-                                </div>
+
                                 <div class="row mb-4">
                                     <label for="inputCreatedDate" class="col-sm-5 col-form-label">CreatedDate</label>
                                     <div class="col-sm-15">
-                                        <input type="date" class="form-control" disabled>
+                                        <input type="date" class="form-control" value="@Model.category.CreatedDate?.ToString("yyyy-MM-dd")" disabled>
+
                                     </div>
                                 </div>
+      
                                 <div class="row mb-4">
                                     <label for="inputModifiedDate" class="col-sm-5 col-form-label">ModifiedDate</label>
                                     <div class="col-sm-15">
-                                        <input type="date" class="form-control" disabled>
+                                        <input type="date" class="form-control" value="@Model.category.ModifiedDate?.ToString("yyyy-MM-dd")" disabled>
+                                        <!-- Liên kết với ModifiedDate trong ViewModel -->
+                                      @*   <input type="date" class="form-control" asp-for="input.ModifiedDate" disabled> *@
                                     </div>
                                 </div>
 
-        @*                         <div class="row mb-4">
-                                    <label class="col-sm-2 col-form-label">Select</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
-                                    </div>
-                                </div> *@
                                 <div class="row mb-4">
-                                  
                                     <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-primary">Submit Form</button>
+                                        <button type="button" onclick="window.location.href='/admin/CategoriesList'" class="btn btn-secondary">Back To List</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
                                     </div>
                                 </div>
+                            </form>
 
-                            </form><!-- End General Form Elements -->
 
                         </div>
                     </div>

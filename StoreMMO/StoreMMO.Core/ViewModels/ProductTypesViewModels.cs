@@ -6,21 +6,20 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Core.ViewModels
 {
-    public class InfoAddViewModels
+    public class ProductTypesViewModels
     {
         public string Id { get; set; }
 
-        public string ProductId { get; set; }
+        public string Name { get; set; }
 
-        public string Account { get; set; }
+        public string Stock { get; set; }
 
-        public string Pwd { get; set; }
-
-        public string StatusUpload { get; set; }
-
-        public string Status { get; set; }
+        public double? Price { get; set; }
 
         public DateTimeOffset? CreatedDate { get; set; }
 
+        public DateTimeOffset? ModifiedDate { get; set; }
+
+        public bool? IsActive { get; set; }
     }
 }

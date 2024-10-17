@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreMMO.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,16 +11,19 @@ namespace StoreMMO.Core.ViewModels
     {
         public string Id { get; set; }
 
-        public string Name { get; set; }
+        public string ProductTypeId { get; set; }
 
-        public string Stock { get; set; }
+        public string Account { get; set; }
 
-        public double? Price { get; set; }
+        public string Pwd { get; set; }
+
+        public string StatusUpload { get; set; }
+
+        public string Status { get; set; }
 
         public DateTimeOffset? CreatedDate { get; set; }
 
-        public DateTimeOffset? ModifiedDate { get; set; }
+        public virtual ProductType ProductType { get; set; }
 
-        public bool? IsActive { get; set; }
     }
 }
