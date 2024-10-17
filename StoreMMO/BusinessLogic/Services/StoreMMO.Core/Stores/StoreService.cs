@@ -23,9 +23,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
              _storeRepo.Delete(id);
         }
 
-        public IEnumerable<StoreViewModels> getAll()
+        public IEnumerable<StoreViewModels> getAll(bool sicbo)
         {
-            return this._storeRepo.getAll();
+            return this._storeRepo.getAll(sicbo);
         }
 
         public StoreAddViewModels getById(string id)

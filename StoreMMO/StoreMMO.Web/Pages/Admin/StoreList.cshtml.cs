@@ -21,7 +21,7 @@ namespace StoreMMO.Web.Pages.Admin
         public string fail { get; set; }
         public void OnGet()
         {
-            list = this._storeService.getAll();
+            list = this._storeService.getAll(true);
         }
 
 
