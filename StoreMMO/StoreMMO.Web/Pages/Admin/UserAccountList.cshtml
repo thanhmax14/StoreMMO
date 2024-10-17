@@ -40,6 +40,8 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+
+   
 </head>
 
 <body>
@@ -387,7 +389,22 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">User List</h5>
-                            
+                            @if (!string.IsNullOrEmpty(@Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(@Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
@@ -448,7 +465,7 @@
 
                                                                 <form method="post" asp-route-id="@item.UserID" asp-page-handler="Asyns">
                                                                     @* <input type="text" value="@item.UserID" hidden/> *@
-                                                                    <button type="submit" class="btn btn-primary">Yes</button>
+                                                                    <button onclick="showAlert()" type="submit" class="btn btn-primary">Yes</button>
                                                                     </form>
                                                                 <button type="button" class="btn btn-primary"
                                                                         data-bs-dismiss="modal">
@@ -504,7 +521,7 @@
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
 
-    
+   
 </body>
 
 </html>
