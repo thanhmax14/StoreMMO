@@ -71,7 +71,7 @@
 						<a href="cart.html">Order Complete</a>
 					</li>
 				</ul>
-
+			
 				<div class="row">
 					<div class="col-lg-8">
 						<div class="cart-table-container">
@@ -464,27 +464,66 @@
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script>
+
 			function Remove(saveProID) {
-				$.ajax({
-					type: "POST",
-					url: '@Url.Page("/Index", null, new { handler = "RemoveCart" })', // Đúng URL với handler RemoveCart
-					beforeSend: function (xhr) {
-						xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+				const swalWithBootstrapButtons = Swal.mixin({
+					customClass: {
+						confirmButton: "btn btn-success",
+						cancelButton: "btn btn-danger"
 					},
-					data: {
-						saveProID: saveProID  // Truyền giá trị đúng của saveProID
-					},
-					dataType: "json",
-					success: function (data) {
-						if (data.success) {
-							$('#row-' + saveProID).remove();
-						}
-					},
-					error: function (error) {
-						console.error("Error occurred:", error);
+					buttonsStyling: false
+				});
+				swalWithBootstrapButtons.fire({
+					title: "Are you sure?",
+					text: "You won't be able to revert this!",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonText: "Yes, delete it!",
+					cancelButtonText: "No, cancel!",
+					reverseButtons: true
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$.ajax({
+							type: "POST",
+							url: '@Url.Page("/Index", null, new { handler = "RemoveCart" })', // Đúng URL với handler RemoveCart
+							beforeSend: function (xhr) {
+								xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+							},
+							data: {
+								saveProID: saveProID  // Truyền giá trị đúng của saveProID
+							},
+							dataType: "json",
+							success: function (data) {
+								if (data.success) {
+									swalWithBootstrapButtons.fire({
+										title: "Deleted!",
+										text: "Your file has been deleted.",
+										icon: "success"
+									});
+									$('#row-' + saveProID).remove();
+									//	swal("Deleted!", "The item has been deleted.", "success");
+								}
+							},
+							error: function (error) {
+								console.error("Error occurred:", error);
+								///swal("Error", "An error occurred while deleting the item.", "error");
+							}
+						});
+					} else if (
+						/* Read more about handling dismissals below */
+						result.dismiss === Swal.DismissReason.cancel
+					) {
+						swalWithBootstrapButtons.fire({
+							title: "Cancelled",
+							text: "Your imaginary file is safe :)",
+							icon: "error"
+						});
 					}
 				});
 			}
+
+
+
 			function AddPluts(proid) {
 				$.ajax({
 					type: "POST",
@@ -546,12 +585,45 @@
 						if (data.success) {
 							OnPostAddMinus(Proid);
 						} else {
-							if (confirm(data.message)) {
-								OnPostAddMinus(Proid);
-								$('#row-' + Proid).remove();
-							} else {
-								alert("Gio hang cuaban con")
-							}
+
+
+
+							const swalWithBootstrapButtons = Swal.mixin({
+								customClass: {
+									confirmButton: "btn btn-success",
+									cancelButton: "btn btn-danger"
+								},
+								buttonsStyling: false
+							});
+							swalWithBootstrapButtons.fire({
+								title: "Are you sure?",
+								text: "You won't be able to revert this!",
+								icon: "warning",
+								showCancelButton: true,
+								confirmButtonText: "Yes, delete it!",
+								cancelButtonText: "No, cancel!",
+								reverseButtons: true
+							}).then((result) => {
+								if (result.isConfirmed) {
+									swalWithBootstrapButtons.fire({
+										title: "Deleted!",
+										text: "Your file has been deleted.",
+										icon: "success"
+									});
+									OnPostAddMinus(Proid);
+									$('#row-' + Proid).remove();
+								} else if (
+									/* Read more about handling dismissals below */
+									result.dismiss === Swal.DismissReason.cancel
+								) {
+									swalWithBootstrapButtons.fire({
+										title: "Cancelled",
+										text: "Your imaginary file is safe :)",
+										icon: "error"
+									});
+								}
+							});
+
 						}
 					},
 					error: function (error) {
@@ -564,7 +636,7 @@
 		</script>
 	}
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Mirrored from www.portotheme.com/html/porto_ecommerce/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Sep 2024 11:14:22 GMT -->
 </html>

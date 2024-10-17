@@ -356,8 +356,6 @@
                                                         wihs.className = "btn-icon-wish add-wishlist";
                                                         $("#spwit").text("Add to Wishlist");
                                                     }
-
-
                                                     if (response) {
                                                         $("#new-price").text("$" + response.price);
                                                         $("#product-quality").text(response.stock);                                   
@@ -394,7 +392,6 @@
                                                 data: {
                                                     quan: quan,
                                                     saveProID: saveProID,
-                                                    
                                                 },
                                                 dataType: "json",
                                                 success: function (data) {
