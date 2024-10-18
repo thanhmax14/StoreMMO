@@ -109,9 +109,9 @@ namespace StoreMMO.Core.Repositories.Carts
 
         public IEnumerable<CartItem> getProductAddByID(string proid)
         {
-            string sql = $"SELECT Products.Id AS productID, Products.Name AS proName, StoreDetails.Img AS img, Products.Price AS price,StoreDetails.StoreId as storeDetailID FROM StoreDetails" +
-                $" INNER JOIN ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId INNER JOIN Products ON ProductConnects.ProductId " +
-                $"= Products.Id WHERE Products.Id = '{proid}';\r\n";
+            string sql = $"SELECT ProductTypes.Id AS productID, ProductTypes.Name AS proName, StoreDetails.Img AS img, ProductTypes.Price AS price,StoreDetails.StoreId as storeDetailID FROM StoreDetails" +
+                $" INNER JOIN ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId INNER JOIN ProductTypes ON ProductConnects.ProductTypeId " +
+                $"= ProductTypes.Id WHERE ProductTypes.Id = '{proid}';\r\n";
 
             var list = this._context.Database.SqlQueryRaw<CartItem>(sql).ToList();
 

@@ -5,10 +5,6 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Content Remove="Pages\Home\ViewAllStore.cshtml" />
-  </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
@@ -36,14 +32,5 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\User\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <UpToDateCheckInput Remove="Pages\Home\ViewAllStore.cshtml" />
-	</ItemGroup>
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="Pages\Home\ViewAllStore.cshtml" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Include="Pages\Home\ViewAllStore.cshtml" />
 	</ItemGroup>
 </Project>

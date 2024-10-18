@@ -1,7 +1,10 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Admin.UserAccountListModel
+@model StoreMMO.Web.Pages.Admin.StoreListHiddenModel
 @{
 }
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,7 +44,7 @@
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
 
-   
+
 </head>
 
 <body>
@@ -292,7 +295,7 @@
                 </a>
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href='/admin/UserAccountList'  class="active">
+                        <a href='/admin/UserAccountList' class="active">
                             <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
@@ -409,75 +412,35 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>Full Name</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">Create Date</th>
-                                        @* <th>Address</th> *@
-                                        @* <th>Is Seller</th> *@
-                                        <th>Email</th>
+
+                                        <th>Stt</th>
+                                        <th>Name Store</th>
                                         <th>UserName</th>
-                                        <th>Phone Number</th>
-                                        <th>Role Name</th>
-                                        <th>Actions</th>
+
+
+                                        <th>imgStore</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{
                                         int stt = 1;
                                     }
-                                     @foreach(var item in @Model.list)
+                                    @foreach (var item in @Model.list)
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td>@item.FullName</td>
-                                            <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-                                            @* <td>@(item.Address ?? "Null Data")</td> *@
-                                            @* <td>@item.IsSeller</td> *@
-                                            <td>@item.Email</td>
+
+
+                                            <td>@item.nameStore</td>
+
                                             <td>@item.UserName</td>
-                                            <td>@(item.PhoneNumber ?? "Null Data")</td>
-                                            <td>@item.RoleName</td>
-                                            <td>
-                                                <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
-                                                @* <button type="button" class="btn btn-danger">Hidden</button> *@
-                                                
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                        data-bs-target="#verticalycentered" data-userid="@item.UserID">
-                                                    Hidden
-                                                </button>
-                                                @* Hien thong bao check Yes/No *@
-                                                <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Hidden that user</h5>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to hide this user?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">
-                                                                    Back
-                                                                </button>
+
+                                            <td><img src="@item.imgStore" width="240" height="120" /> </td>
 
 
-                                                                <form method="post" asp-page-handler="Asyns">
-                                                                    <input type="hidden" id="hiddenUserId" name="id" />
-                                                                    <button type="submit" class="btn btn-primary">Yes</button>
-                                                                </form>
 
-                                                                <button type="button" class="btn btn-primary"
-                                                                        data-bs-dismiss="modal">
-                                                                    No
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
+
+                                            
                                         </tr>
                                         stt++;
                                     }
@@ -495,17 +458,17 @@
 
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
-@*     <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
+    @*     <footer id="footer" class="footer">
+    <div class="copyright">
+    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
     </footer><!-- End Footer --> *@
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -523,23 +486,7 @@
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
 
-    <!-- code js de lay id de hide -->
-    <script>
-        var modal = document.getElementById('verticalycentered');
-        modal.addEventListener('show.bs.modal', function (event) {
-            // Lấy nút đã kích hoạt modal
-            var button = event.relatedTarget;
-            // Lấy UserID từ thuộc tính data-userid
-            var userId = button.getAttribute('data-userid');
-            // Gán UserID vào input hidden trong form
-            var input = document.getElementById('hiddenUserId');
-            input.value = userId;
-        });
-        </script>
-    <!-- code js de lay id de hide -->
-
 
 </body>
 
 </html>
-

@@ -32,7 +32,6 @@
   <ItemGroup>
     <Folder Include="Services\StoreMMO.Core\ProductsConnect\" />
     <Folder Include="Services\StoreMMO.Core\StoreDetails\" />
-    <Folder Include="Services\StoreMMO.Core\StoreTypes\" />
   </ItemGroup>
 
 </Project>

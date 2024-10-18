@@ -7,12 +7,12 @@ using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class UserAccountListModel : PageModel
+    public class UserHiddenAccountListModel : PageModel
     {
         private readonly IUserServices _userServices;
         private readonly UserManager<AppUser> _userManager;
 
-        public UserAccountListModel(UserManager<AppUser> userManager, IUserServices userServices)
+        public UserHiddenAccountListModel(UserManager<AppUser> userManager, IUserServices userServices)
         {
 
             _userManager = userManager;
@@ -28,7 +28,7 @@ namespace StoreMMO.Web.Pages.Admin
         public void OnGet()
         {
 
-            list = this._userServices.GetAllUser(false);
+            list = this._userServices.GetAllUser(true);
         }
         public async Task<IActionResult> OnPostAsyns(string id)
         {
@@ -37,18 +37,18 @@ namespace StoreMMO.Web.Pages.Admin
 
             if (find != null)
             {
-                find.IsDelete = true;
+                find.IsDelete = false;
                 var update = await _userManager.UpdateAsync(find);
-                success = "Hidden User Thanh Cong";
+                success = "Show User Thanh Cong";
             }
-
             else
             {
-                fail = "Hidden User That Bai";
+                fail = "Show User That Bai";
             }
 
-            return RedirectToPage("UserAccountList");
+            return RedirectToPage("UserHiddenAccountList");
         }
+
 
     }
 }

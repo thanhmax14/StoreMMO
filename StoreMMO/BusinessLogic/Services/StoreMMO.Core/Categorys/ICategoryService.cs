@@ -12,6 +12,8 @@ namespace BusinessLogic.Services.StoreMMO.Core.Categorys
         CategoryViewModels UpdateCategory(CategoryViewModels category);
 
         void DeleteCategory(string id);
+        IEnumerable<CategoryViewModels> GetCategoryIsActive();
+
 
     }
 }
