@@ -1,5 +1,4 @@
-﻿
-@page
+﻿@page
 @model StoreMMO.Web.Pages.Admin.CategoriesListModel
 @{
 }
@@ -407,7 +406,7 @@
                                         <th>
                                             <b>N</b>ame
                                         </th>
-                                     
+
                                         <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
                                         <th></th>
@@ -424,13 +423,13 @@
                                             <td>@stt</td>
                                             <td>@item.Name</td>
                                             <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-                                            <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>                              
+                                            <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
 
                                             <td>
                                                 <!-- Nút Edit -->
                                                 <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                                </td>
-                                                <td>
+                                            </td>
+                                            <td>
                                                 <form method="post" asp-page-handler="Hidden">
                                                     <!-- Hidden input để gửi id -->
                                                     <input type="hidden" name="id" value="@item.Id" />
@@ -440,27 +439,25 @@
                                                 </form>
 
                                                 <!-- Nút Hidden -->
-                                              
-
                                                 <!-- Modal -->
-                                               @*  <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Hidden that user</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to hide this user?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                                                <button type="button" class="btn btn-primary">Yes</button>
-                                                                <button type="button" class="btn btn-primary">No</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> *@
+                                                @*  <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title">Hidden that user</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            Are you sure you want to hide this user?
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                                            <button type="button" class="btn btn-primary">Yes</button>
+                                            <button type="button" class="btn btn-primary">No</button>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div> *@
                                             </td>
                                         </tr>
                                         stt++;

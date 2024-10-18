@@ -6,16 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoreMMO.Core.Repositories.StoreTypes
+namespace BusinessLogic.Services.StoreMMO.Core.StoreTypes
 {
-    public interface IStoreTypeRepository
+    public interface IStoreTypeService
     {
         IEnumerable<StoreType> getAllStoreType();
         StoreTypeViewModels AddStoreType(StoreTypeViewModels storeViewModels);
         StoreTypeViewModels UpdateStoreType(StoreTypeViewModels storeViewModels);
         StoreTypeViewModels getByIdStoreType(string id);
         void deleteByIdStoreType(string id);
-   IEnumerable<StoreTypeViewModels> GetStoreTypeIsActive();
     }
-
 }

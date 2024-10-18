@@ -1,10 +1,7 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Seller.IndexModel
+@model StoreMMO.Web.Pages.Admin.StoreTypeCreateModel
 @{
 }
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +9,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+    <title>Forms / Elements - NiceAdmin Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -294,22 +291,17 @@
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="" onclick="window.location.href='/admin/UserAccountList'" class="active">
-                            <i class="bi bi-circle"></i><span>Manage Product</span>
+                            <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
                         <a href="">
-                            <i class=" bi bi-circle"></i><span>Create Product</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class=" bi bi-circle"></i><span>Edit Product</span>
+                            <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End Components Nav -->
-
+            <!-- -->
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-contacts-line"></i> <span>Manage Sellers and Stores</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -322,7 +314,7 @@
                     </li>
                     <li>
                         <a href="">
-                            <i class="bi bi-circle"></i><span>Stand Request</span>
+                            <i class="bi bi-circle"></i><span>Store Request</span>
                         </a>
                     </li>
                     <li>
@@ -337,6 +329,7 @@
                     </li>
                 </ul>
             </li><!-- End Forms Nav -->
+            <!-- star sidebar-nav categories >
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
@@ -344,12 +337,12 @@
                 </a>
                 <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="">
+                        <a href="/Admin/CategoriesList">
                             <i class="bi bi-circle"></i><span>Active Category</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href="/Admin">
                             <i class="bi bi-circle"></i><span>Hidden Category</span>
                         </a>
                     </li>
@@ -381,116 +374,72 @@
         </ul>
 
     </aside><!-- End Sidebar-->
+    <!-- ======= End Sidebar ======= -->
 
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>User List Tables</h1>
+            <h1>Form Elements</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Tables</li>
-                    <li class="breadcrumb-item active">Data</li>
+                    <li class="breadcrumb-item">Forms</li>
+                    <li class="breadcrumb-item active">Elements</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-
+       
         <section class="section">
-            <a asp-page="/Seller/CreateProduct" class="btn btn-primary">Create</a>
             <div class="row">
                 <div class="col-lg-12">
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Manage Product</h5>
+                            <h5 class="card-title">General Form Elements</h5>
+                            @if (!string.IsNullOrEmpty(@Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(@Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            <!-- General Form Elements -->
+                            <form method="post">
+                           
+                                <div class="row mb-4">
+                                    <label for="inputName" class="col-sm-5 col-form-label">Name</label>
+                                    <div class="col-sm-15">
+                                        <!-- Liên kết với CateName trong ViewModel -->
+                                        <input type="text" class="form-control" asp-for="input.Name">
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.Name"></span>
+                                </div>
+                                <div class="row mb-4">
+                                    <label for="inputName" class="col-sm-5 col-form-label">Commission</label>
+                                    <div class="col-sm-15">
+                                        <!-- Liên kết với CateName trong ViewModel -->
+                                        <input type="text" class="form-control" asp-for="input.Commission">
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.Commission"></span>
+                                </div>
+                            
+                                <div class="row mb-4">
+                                    <div class="col-sm-10">
+                                        <button type="button" onclick="window.location.href='/admin/StoreTypeList'" class="btn btn-secondary">Back To List</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </div>
+                            </form>
 
-                            <!-- Table with stripped rows -->
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                       
-                                        <th>Stt</th>
-                                        <th>NameStore</th>
-                                        <th>CateName</th>
-                                        <th>Price</th>
-                                        <th>Commission</th>
-                                        <th>Stock</th>
-                                        <th>CreatedDate</th>
-                                        <th>IsAccept</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        int stt = 1;
-                                    }
-                                    @foreach (var item in Model.products)
-                                      {
-                                          <tr>
-                                              <td>@stt</td>
-                                           @*  @{
-                                                var productTypeName = Model.ProductTypes.FirstOrDefault(pt => pt.Id == item.ProductTypeId)?.Name;
-                                            } *@
-                                            <td>@item.NameStore</td> <!-- Hiển thị tên của ProductType -->
-                                            <td>@item.CateName</td>
-                                           @*  <td>@item.Price</td>
-                                            <td>@item.Commission</td>
-                                            <td>@item.Stock</td>
-                                            <td>@item.CreatedDate?.ToString("dd/MM/yyyy")</td>
-                                            <td class="@(@item.IsAccept == true ? "text-success" : "text-danger")">
-                                                @if (@item.IsAccept == true)
-                                                {
-                                                    <text>Paid</text>
-                                                }
-                                                else
-                                                {
-                                                    <text>Wait Accept</text>
-                                                }
-                                            </td> *@
-
-
-                                              <td>
-                                                 @*  <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
-                                                   <button type="button" class="btn btn-danger">Hidden</button>
-                                            *@     
-                                                <a asp-page="/Seller/UpdateProduct" asp-route-id="@item.Id" class="btn btn-primary">View Details</a>
-                                              @Html.AntiForgeryToken()
-
-@*                                                 <a href="#" class="btn btn-danger" onclick="confirmHide('@item.Id')">Hidden</a>
- *@
-                                               @*   <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                         data-bs-target="#verticalycentered">
-                                                     Hidden
-                                                 </button> *@
-                                                @* <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Hidden that user</h5>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to hide this user?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button left" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">
-                                                                    Back
-                                                                </button>
-                                                                <button type="button" class="btn btn-primary">Yes</button>
-                                                                <button type="button" class="btn btn-primary">No</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> *@
-                                            </td>
-                                        </tr>
-                                        stt++;
-                                    }
-
-                                </tbody>
-                            </table>
-                            <!-- End Table with stripped rows -->
 
                         </div>
                     </div>
@@ -501,18 +450,18 @@
 
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
-    @*     <footer id="footer" class="footer">
-    <div class="copyright">
-    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-    <!-- All the links in the footer should remain intact. -->
-    <!-- You can delete the links only if you purchased the pro version. -->
-    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
-    </footer><!-- End Footer --> *@
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+    </footer><!-- End Footer -->
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -528,55 +477,7 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
-    @section Scripts {
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            function confirmHide(productId) {
-                console.log("Product ID:", productId); // Print the product ID to the console
-                Swal.fire({
-                    title: 'Bạn có chắc chắn muốn ẩn sản phẩm này?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Có, ẩn đi!',
-                    cancelButtonText: 'Hủy bỏ',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '@Url.Page("Index", "HideProduct")', // Ensure the correct URL
-                            type: 'POST',
-                            data: { id: productId },  // Send the ID as regular form data
-                            beforeSend: function (xhr) {
-                                // Set the XSRF token
-                                xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
-                            },
-                            success: function (response) {
-                                if (response.success) {
-                                    Swal.fire(
-                                        'Đã ẩn!',
-                                        'Sản phẩm đã được ẩn thành công.',
-                                        'success'
-                                    ).then(() => {
-                                        location.reload(); // Reload the page after successful hide
-                                    });
-                                }
-                            },
-                            error: function (error) {
-                                console.error("Error occurred:", error);
-                                Swal.fire(
-                                    'Lỗi!',
-                                    'Có lỗi xảy ra khi ẩn sản phẩm.',
-                                    'error'
-                                );
-                            }
-                        });
-                    }
-                });
-            }
-        </script>
-    }
-    
+
 </body>
 
 </html>

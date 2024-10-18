@@ -12,8 +12,8 @@ using StoreMMO.Core.Models;
 namespace StoreMMO.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241016045955_v1")]
-    partial class v1
+    [Migration("20241018071412_v2")]
+    partial class v2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -442,14 +442,14 @@ namespace StoreMMO.Core.Migrations
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<bool?>("IsAccept")
-                        .HasColumnType("bit");
+                    b.Property<string>("IsAccept")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<double?>("Price")
-                        .HasColumnType("float");
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()

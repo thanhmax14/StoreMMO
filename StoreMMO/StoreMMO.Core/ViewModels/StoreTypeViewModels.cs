@@ -8,12 +8,17 @@ namespace StoreMMO.Core.ViewModels
 {
     public class StoreTypeViewModels
     {
+        
         public string Id { get; set; }
 
         public string Name { get; set; }
 
+        public double? Commission { get; set; }
+
         public DateTimeOffset? CreatedDate { get; set; }
 
         public DateTimeOffset? ModifiedDate { get; set; }
+
+        public bool? IsActive { get; set; }
     }
 }
