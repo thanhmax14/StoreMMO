@@ -1,12 +1,10 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Admin.StoreTypeListModel
+@model StoreMMO.Web.Pages.Admin.StoreListHiddenModel
 @{
 }
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,11 +43,8 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
 </head>
 
 <body>
@@ -283,10 +278,6 @@
 
     </header><!-- End Header -->
     <!-- ======= Sidebar ======= -->
-<<<<<<< HEAD
-
-=======
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
     <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
@@ -304,30 +295,18 @@
                 </a>
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-<<<<<<< HEAD
-                        <a href="" onclick="window.location.href='/admin/UserAccountList'" class="active">
-=======
                         <a href='/admin/UserAccountList' class="active">
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
                             <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
-<<<<<<< HEAD
-                        <a href="">
-=======
                         <a href='/admin/UserHiddenAccountList'>
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
                             <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End Components Nav -->
-<<<<<<< HEAD
-            <!-- -->
-=======
 
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-contacts-line"></i> <span>Manage Sellers and Stores</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -340,11 +319,7 @@
                     </li>
                     <li>
                         <a href="">
-<<<<<<< HEAD
-                            <i class="bi bi-circle"></i><span>Store Request</span>
-=======
                             <i class="bi bi-circle"></i><span>Stand Request</span>
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
                         </a>
                     </li>
                     <li>
@@ -359,10 +334,6 @@
                     </li>
                 </ul>
             </li><!-- End Forms Nav -->
-<<<<<<< HEAD
-            <!-- star sidebar-nav categories >
-=======
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
 
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
@@ -370,20 +341,12 @@
                 </a>
                 <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-<<<<<<< HEAD
-                        <a href="/Admin/CategoriesList">
-=======
                         <a href="">
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
                             <i class="bi bi-circle"></i><span>Active Category</span>
                         </a>
                     </li>
                     <li>
-<<<<<<< HEAD
-                        <a href="/Admin">
-=======
                         <a href="">
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
                             <i class="bi bi-circle"></i><span>Hidden Category</span>
                         </a>
                     </li>
@@ -415,25 +378,11 @@
         </ul>
 
     </aside><!-- End Sidebar-->
-<<<<<<< HEAD
-    <main id="main" class="main">
-
-        <div class="pagetitle">
-            <h1>Data Tables</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Categories</li>
-                    <li class="breadcrumb-item active">DataList</li>
-                </ol>
-            </nav>
-=======
 
     <main id="main" class="main">
 
         <div class="pagetitle">
             <h1>User List Tables</h1>
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -442,12 +391,6 @@
 
                     <div class="card">
                         <div class="card-body">
-<<<<<<< HEAD
-                            <h5 class="card-title">Datatables</h5>
-
-                            <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to convert to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p>
-
-=======
                             <h5 class="card-title">User List</h5>
                             @if (!string.IsNullOrEmpty(@Model.success))
                             {
@@ -465,185 +408,54 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             }
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-<<<<<<< HEAD
-                                        <th></th>
-                                        <th>
-                                            <b>N</b>ame
-                                        </th>
-                                        <th>Commission</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
-                                        <th></th>
-                                        <th></th>
-=======
 
                                         <th>Stt</th>
-                                        <th>Name</th>
-                                        <th>Commission</th>
-                                        <th>CreateDate</th>
-                                        <th>ModifiedDate</th>
+                                        <th>Name Store</th>
+                                        <th>UserName</th>
 
-                                        
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
+
+                                        <th>imgStore</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{
                                         int stt = 1;
                                     }
-<<<<<<< HEAD
-                                    @foreach (var item in Model.listcate)
-                                    {
-                                        <tr>
-                                            <td>@stt</td>
-                                            <td>@item.Name</td>
-                                            <td>@(item.Commission?.ToString() ?? "nulldata")</td>
-                                            <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-                                            <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-
-                                            <td>
-                                                <!-- Nút Edit -->
-                                                <button onclick="window.location.href='/admin/UpdateStoreType/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                            </td>
-                                            <td>
-                                                <form method="post" asp-page-handler="Hidden">
-                                                    <!-- Hidden input để gửi id -->
-                                                    <input type="hidden" name="id" value="@item.Id" />
-                                                    <button type="submit" class="btn btn-danger">
-                                                        Hidden
-                                                    </button>
-                                                </form>
-
-                                                <!-- Nút Hidden -->
-                                                <!-- Modal -->
-                                                @*  <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title">Hidden that user</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                            Are you sure you want to hide this user?
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                            <button type="button" class="btn btn-primary">Yes</button>
-                                            <button type="button" class="btn btn-primary">No</button>
-                                            </div>
-                                            </div>
-                                            </div>
-                                            </div> *@
-                                            </td>
-                                        </tr>
-                                        stt++;
-                                    }
-=======
-                                   
                                     @foreach (var item in @Model.list)
                                     {
                                         <tr>
-
-
-
                                             <td>@stt</td>
 
-                                            <td>@item.Name</td>
-                                            <td>@item.Commission</td>
 
-                                            <td>@(item.CreatedDate?.ToString("yyy/dd/MM")?? "Null Data")</td>
+                                            <td>@item.nameStore</td>
 
-                                            <td>@(item.ModifiedDate?.ToString("yyy/dd/MM")?? "Null Data")</td>
+                                            <td>@item.UserName</td>
 
-
-                                            <td>
-                                                <button onclick="window.location.href='/admin/UpdateUser/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                                @* <button type="button" class="btn btn-danger">Hidden</button> *@
-
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                        data-bs-target="#verticalycentered">
-                                                    Hidden
-                                                </button>
-                                                <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Hidden that user</h5>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to hide this user?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">
-                                                                    Back
-                                                                </button>
-
-
-                                                                <form method="post" asp-route-id="@item.Id" asp-page-handler="Asyns">
-                                                                    @* <input type="text" value="@item.UserID" hidden/> *@
-                                                                    <button onclick="showAlert()" type="submit" class="btn btn-primary">Yes</button>
-                                                                </form>
-                                                                <button type="button" class="btn btn-primary"
-                                                                        data-bs-dismiss="modal">
-                                                                    No
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            <td><img src="@item.imgStore" width="240" height="120" /> </td>
 
 
 
 
+                                            
                                         </tr>
                                         stt++;
                                     }
 
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->
 
                         </div>
-<<<<<<< HEAD
-
-                        <!-- Nút CreateCategory -->
-                        <button type="button" onclick="window.location.href='/admin/StoreTypeCreate'" class="btn btn-secondary">StoreTypeCreate</button>
-                    </div>
-=======
                     </div>
 
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
                 </div>
             </div>
         </section>
 
-<<<<<<< HEAD
-
-    </main><!-- End #main -->
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
-=======
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
     @*     <footer id="footer" class="footer">
@@ -658,7 +470,6 @@
     Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
     </div>
     </footer><!-- End Footer --> *@
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -675,10 +486,7 @@
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 2e998585cff9466b6c6cbd066036e56f4a3f007d
 </body>
 
 </html>

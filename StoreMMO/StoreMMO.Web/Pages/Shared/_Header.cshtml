@@ -1,4 +1,18 @@
-﻿<header class="header">
+﻿@using Newtonsoft.Json
+@using StoreMMO.Core.ViewModels
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var categoryJson = HttpContextAccessor.HttpContext.Session.GetString("ListCate");
+    List<CategoryViewModels> listCat = new List<CategoryViewModels>();
+    if (!string.IsNullOrEmpty(categoryJson))
+    {
+        listCat = System.Text.Json.JsonSerializer.Deserialize<List<CategoryViewModels>>(categoryJson);
+    }
+
+}
+
+
+<header class="header">
     <div class="header-top">
         <div class="container">
             <div class="header-left d-none d-sm-block">
@@ -81,7 +95,7 @@
             <div class="header-right w-lg-max">
                 <div class="header-icon header-search header-search-inline header-search-category w-lg-max text-right mt-0">
                     <a href="#" class="search-toggle" role="button"><i class="icon-search-3"></i></a>
-                    <form action="#" method="get">
+                    @* <form action="#" method="get">
                         <div class="header-search-wrapper">
                             <input type="search" class="form-control" name="q" id="q" placeholder="Search..." required>
                             <div class="select-custom">
@@ -109,7 +123,54 @@
                             <button class="btn icon-magnifier p-0" title="search" type="submit"></button>
                         </div>
                         <!-- End .header-search-wrapper -->
+                    </form> *@
+
+
+
+
+
+
+
+                    <form method="get" asp-page="/Home/ViewAllStore">
+                    <div class="header-search-wrapper">
+                            <input type="text" name="searchString" class="form-control" placeholder="Nhập tên cửa hàng..." />
+                    <div class="select-custom">
+
+
+
+                    <select id="cat" name="cat">
+                                    <option value="" selected>All Categories</option>
+                                    @if (listCat.Count > 0)
+                                    {
+                                        foreach (var item in listCat)
+                                        {
+                                            <option value="@item.Name">@item.Name</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="">All Categories</option>
+                                    }
+
+                    </select>
+                    </div>
+                    <!-- End .select-custom -->
+                    <button class="btn icon-magnifier p-0" title="search" type="submit"></button>
+                    </div>
+                    <!-- End .header-search-wrapper -->
                     </form>
+
+
+
+
+
+
+
+
+
+
+
+
                 </div>
                 <!-- End .header-search -->
 

@@ -27,7 +27,7 @@ namespace StoreMMO.API.Controllers
         [HttpGet]
         public IActionResult getAllCategory()
         {
-            var list = _categoryService.getAllCategory();
+            var list = _categoryService.GetAll();
             return Ok(list);
         }
         [HttpPost]
