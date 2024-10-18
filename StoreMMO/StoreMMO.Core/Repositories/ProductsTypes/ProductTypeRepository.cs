@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.Timeouts;
+using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 using System;
@@ -72,6 +73,12 @@ namespace StoreMMO.Core.Repositories.ProductsTypes
 
         public ProductTypesViewModels Update(ProductTypesViewModels productViewModels)
         {
+            var existingProduct = _context.ProductTypes.FirstOrDefault(p => p.Id == productViewModels.Id);
+            if (existingProduct != null)
+            {
+                // Tách thực thể đã theo dõi
+                _context.Entry(existingProduct).State = EntityState.Detached;
+            }
             var viewModel = new Models.ProductType
             {
                 Id = productViewModels.Id,

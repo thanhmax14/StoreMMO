@@ -1,8 +1,7 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Seller.UpdateProductModel
+@model StoreMMO.Web.Pages.Seller.CreateProductModel
 @{
 }
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -307,12 +306,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href="" >
+                        <a href="" class="active">
                             <i class=" bi bi-circle"></i><span>Create Product</span>
                         </a>
                     </li>
                     <li>
-                        <a href="" class="active">
+                        <a href="">
                             <i class=" bi bi-circle"></i><span>Edit Product</span>
                         </a>
                     </li>
@@ -414,16 +413,10 @@
 
                             <!-- General Form Elements -->
                             <form method="post">
-                                 <div class="row mb-3">
-                                    <label asp-for="EditProduct.Id" class="col-sm-2 col-form-label">Id</label>
-                                     <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Id" type="text" class="form-control" disabled>
-                                     </div>
-                                 </div>
                                 <div class="row mb-3">
-                                    <label asp-for="EditProduct.ProductTypeId" class="col-sm-2 col-form-label">Product Type</label>
+                                    <label asp-for="CreateProduct.ProductTypeId" class="col-sm-2 col-form-label">Product Type</label>
                                     <div class="col-sm-10">
-                                        <select asp-for="EditProduct.ProductTypeId" class="form-select">
+                                        <select asp-for="CreateProduct.ProductTypeId" class="form-select">
                                             <option value="">-- Select Product Type --</option>
                                             @foreach (var type in Model.ProductTypes)
                                             {
@@ -434,27 +427,27 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label asp-for="EditProduct.Account" class="col-sm-2 col-form-label">Account</label>
+                                    <label asp-for="CreateProduct.Account" class="col-sm-2 col-form-label">Account</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Account" type="text" class="form-control">
+                                        <input asp-for="CreateProduct.Account" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label asp-for="EditProduct.Pwd" class="col-sm-2 col-form-label">Pwd</label>
+                                    <label asp-for="CreateProduct.Pwd" class="col-sm-2 col-form-label">Pwd</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Pwd" type="text" class="form-control">
+                                        <input asp-for="CreateProduct.Pwd" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label asp-for="EditProduct.Status" class="col-sm-2 col-form-label">Status</label>
+                                    <label asp-for="CreateProduct.Status" class="col-sm-2 col-form-label">Status</label>
                                     <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Status" type="text" class="form-control">
+                                        <input asp-for="CreateProduct.Status" type="text" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <label class="col-sm-2 col-form-label"></label>
                                     <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-primary">Update</button>
+                                        <button type="submit" class="btn btn-primary">Create Product</button>
                                     </div>
                                 </div>
 
