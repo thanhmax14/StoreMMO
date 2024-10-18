@@ -1,4 +1,3 @@
-
 ﻿
 using BusinessLogic.Services.StoreMMO.Core.StoreTypes;
 using Microsoft.AspNetCore.Mvc;
@@ -39,5 +38,5 @@ namespace StoreMMO.Web.Pages.Admin
 
         }
 
-    }
+    }                           
 }
