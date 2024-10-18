@@ -23,9 +23,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.Categorys
             _categoryRepository.Delete(id);
         }
 
-        public IEnumerable<Category> getAllCategory()
+        public IEnumerable<CategoryViewModels> GetAll()
         {
-           return _categoryRepository.getAll();
+           return _categoryRepository.GetAll();
         }
 
         public CategoryViewModels getByIdCategory(string id)

@@ -10,7 +10,7 @@ namespace StoreMMO.Core.Repositories.Categorys
 {
     public interface ICategoryRepository
     {
-        IEnumerable<Category> getAll();
+        IEnumerable<CategoryViewModels> GetAll();
         CategoryViewModels getById(string id);
 
         CategoryViewModels Add(CategoryViewModels a);

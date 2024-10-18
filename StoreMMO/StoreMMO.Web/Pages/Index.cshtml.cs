@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using StoreMMO.Core.ViewModels;
+using System.Text.Json;
 
 
 namespace StoreMMO.Web.Pages
@@ -17,16 +18,17 @@ namespace StoreMMO.Web.Pages
 		private readonly ProductApiService _productApi;
 		private readonly ICartService _cartService;
 		private readonly WishListApiService _wishListApi;
-
+		private readonly CategoryApiService _categoryApiService;
 
 
 		public IndexModel(StoreApiService storeApiService, ProductApiService productApi,
-			ICartService cartService, WishListApiService wishListApi)
+			ICartService cartService, WishListApiService wishListApi, CategoryApiService categoryApiService)
 		{
 			this._storeApi = storeApiService;
 			this._productApi = productApi;
 			this._cartService = cartService;
 			this._wishListApi = wishListApi;
+			_categoryApiService = categoryApiService;
 		}
 
 		public List<StoreViewModels> storeView = new List<StoreViewModels>();
@@ -35,6 +37,11 @@ namespace StoreMMO.Web.Pages
 		public async Task OnGetAsync()
 		{
 
+		   var listCate = this._categoryApiService.GetAllCategoriesAsync();
+			if (listCate != null)
+			{
+				HttpContext.Session.SetString("ListCate",JsonSerializer.Serialize(listCate));
+			}
 
 			storeView = await this._storeApi.GetStoresAsync(true);
 			var useriD = HttpContext.Session.GetString("UserID");

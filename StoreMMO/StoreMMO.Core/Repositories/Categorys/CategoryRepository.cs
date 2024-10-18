@@ -41,13 +41,23 @@ namespace StoreMMO.Core.Repositories.Categorys
             _context.SaveChanges();
         }
 
-        public IEnumerable<Category> getAll()
-        {
-            var list = _context.Categories.ToList();
-            return list;
-        }
+		public IEnumerable<CategoryViewModels> GetAll()
+		{
+			var list = _context.Categories.ToList();
+			var listtep = list.Select(x => new CategoryViewModels
+			{
+				CreatedDate = x.CreatedDate,
+				Id = x.Id,
+				IsActive= x.IsActive,
+				ModifiedDate = x.ModifiedDate,
+				Name = x.Name
+			}).ToList();
 
-        public CategoryViewModels getById(string id)
+			return listtep;
+		}
+
+
+		public CategoryViewModels getById(string id)
         {
             var findId = _context.Categories.SingleOrDefault(x => x.Id == id);
             if(findId == null)

@@ -36,6 +36,7 @@ namespace BusinessLogic.Config
             services.AddHttpClient<StoreApiService>(ConfigureHttpClient);
             services.AddHttpClient<ProductApiService>(ConfigureHttpClient);
             services.AddHttpClient<WishListApiService>(ConfigureHttpClient);
+            services.AddHttpClient<CategoryApiService>(ConfigureHttpClient);
 
 
 
