@@ -432,7 +432,7 @@
                                             } *@
                                             <td>@item.NameStore</td> <!-- Hiển thị tên của ProductType -->
                                             <td>@item.CateName</td>
-                                            <td>@item.Price</td>
+                                           @*  <td>@item.Price</td>
                                             <td>@item.Commission</td>
                                             <td>@item.Stock</td>
                                             <td>@item.CreatedDate?.ToString("dd/MM/yyyy")</td>
@@ -445,14 +445,15 @@
                                                 {
                                                     <text>Wait Accept</text>
                                                 }
-                                            </td>
+                                            </td> *@
+
 
                                               <td>
                                                  @*  <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
                                                    <button type="button" class="btn btn-danger">Hidden</button>
                                             *@     
-@*                                             <a asp-page="/Seller/UpdateProduct" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
- *@                                                @Html.AntiForgeryToken()
+                                                <a asp-page="/Seller/UpdateProduct" asp-route-id="@item.Id" class="btn btn-primary">View Details</a>
+                                              @Html.AntiForgeryToken()
 
 @*                                                 <a href="#" class="btn btn-danger" onclick="confirmHide('@item.Id')">Hidden</a>
  *@

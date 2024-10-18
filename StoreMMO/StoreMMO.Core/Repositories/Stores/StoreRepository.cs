@@ -39,7 +39,7 @@ namespace StoreMMO.Core.Repositories.Stores
                 UserId = store.UserId,
                 CreatedDate = DateTime.Now,
                 ModifiedDate = store.ModifiedDate,
-                IsAccept = false,
+                IsAccept = "",
                 Price = store.Price,
             };
             _context.Stores.Add(store1);
