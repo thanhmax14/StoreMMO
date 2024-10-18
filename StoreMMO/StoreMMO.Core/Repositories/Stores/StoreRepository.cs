@@ -127,27 +127,32 @@ namespace StoreMMO.Core.Repositories.Stores
         public IEnumerable<StoreManageViewModels> getAllStore()
         {
             string sql = @"
-        SELECT 
-            Users.UserName, 
-            Stores.Price, 
-            StoreTypes.Name AS StoreTypeName, 
-            Categories.Name AS CategoryName, 
-            StoreDetails.Name AS StoreDetailName, 
-            ProductTypes.Name AS ProductTypeName
-        FROM 
-            Categories
-        INNER JOIN 
-            StoreDetails ON Categories.Id = StoreDetails.CategoryId
-        INNER JOIN 
-            Stores ON StoreDetails.StoreId = Stores.Id
-        INNER JOIN 
-            StoreTypes ON StoreDetails.StoreTypeId = StoreTypes.Id
-        INNER JOIN 
-            Users ON Stores.UserId = Users.Id
-        INNER JOIN 
-            ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId
-        INNER JOIN 
-            ProductTypes ON ProductConnects.ProductTypeId = ProductTypes.Id";
+SELECT 
+    Users.UserName, 
+    Stores.Price, 
+    Stores.IsAccept, 
+    Stores.Id,
+    StoreTypes.Name AS StoreTypeName, 
+    Categories.Name AS CategoryName, 
+    StoreDetails.Name AS StoreDetailName, 
+    ProductTypes.Name AS ProductTypeName
+FROM 
+    Categories
+INNER JOIN 
+    StoreDetails ON Categories.Id = StoreDetails.CategoryId
+INNER JOIN 
+    Stores ON StoreDetails.StoreId = Stores.Id
+INNER JOIN 
+    StoreTypes ON StoreDetails.StoreTypeId = StoreTypes.Id
+INNER JOIN 
+    Users ON Stores.UserId = Users.Id
+INNER JOIN 
+    ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId
+INNER JOIN 
+    ProductTypes ON ProductConnects.ProductTypeId = ProductTypes.Id
+WHERE 
+    Stores.IsAccept = '0'";
+
 
             var list = this._context.Database.SqlQueryRaw<StoreManageViewModels>(sql).ToList();
             return list;
