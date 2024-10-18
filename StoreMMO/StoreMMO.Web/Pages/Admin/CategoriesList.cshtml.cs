@@ -8,7 +8,7 @@ namespace StoreMMO.Web.Pages.Admin
     public class CategoriesListModel : PageModel
     {
         private readonly ICategoryService _categoryServices;
-      
+
 
         public CategoriesListModel(ICategoryService categoryServices)
         {
@@ -23,14 +23,14 @@ namespace StoreMMO.Web.Pages.Admin
 
         public IActionResult OnPostHidden(string id)
         {
-            var cate =_categoryServices.getByIdCategory(id);
+            var cate = _categoryServices.getByIdCategory(id);
             cate.IsActive = false;
             var result = _categoryServices.UpdateCategory(cate);
 
 
-                // Nếu thành công, chuyển hướng lại danh sách categories
-                return RedirectToPage("/Admin/CategoriesList");
-           
+            // Nếu thành công, chuyển hướng lại danh sách categories
+            return RedirectToPage("/Admin/CategoriesList");
+
         }
 
 

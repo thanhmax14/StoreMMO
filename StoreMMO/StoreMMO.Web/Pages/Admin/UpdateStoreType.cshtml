@@ -1,5 +1,8 @@
-﻿@page
-@model StoreMMO.Web.Pages.Admin.CategoriesListModel
+﻿@page "{storetypeId?}"
+@model StoreMMO.Web.Pages.Admin.UpdateStoreTypeModel
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 @{
 }
 <!DOCTYPE html>
@@ -9,7 +12,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+    <title>Forms / Elements - NiceAdmin Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -273,7 +276,6 @@
 
     </header><!-- End Header -->
     <!-- ======= Sidebar ======= -->
-
     <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
@@ -375,15 +377,17 @@
         </ul>
 
     </aside><!-- End Sidebar-->
+    <!-- ======= End Sidebar ======= -->
+
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Data Tables</h1>
+            <h1>Form Elements</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Categories</li>
-                    <li class="breadcrumb-item active">DataList</li>
+                    <li class="breadcrumb-item">Forms</li>
+                    <li class="breadcrumb-item active">Elements</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -394,87 +398,81 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Datatables</h5>
+                            <h5 class="card-title">General Form Elements</h5>
+                            @if (!string.IsNullOrEmpty(@Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(@Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            <!-- General Form Elements -->
+                            <form method="post">
+                                <div class="row mb-4">
 
-                            <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to convert to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p>
+                                    <div class="col-sm-15">
+                                        <!-- Liên kết với CateName trong ViewModel -->
+                                        <input hidden type="text" class="form-control" value="@Model.category.Id" asp-for="input.Id" readonly>
+                                    </div>
 
-                            <!-- Table with stripped rows -->
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>
-                                            <b>N</b>ame
-                                        </th>
+                                </div>
+                                <div class="row mb-4">
+                                    <label for="inputName" class="col-sm-5 col-form-label">Name</label>
+                                    <div class="col-sm-15">
+                                        <!-- Liên kết với CateName trong ViewModel -->
+                                        <input type="text" class="form-control" value="@Model.category.Name" asp-for="input.Name">
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.Name"></span>
+                                </div>
+                                <div class="row mb-4">
+                                    <label for="inputName" class="col-sm-5 col-form-label">Commission</label>
+                                    <div class="col-sm-15">
+                                        <!-- Liên kết với CateName trong ViewModel -->
+                                        <input type="text" class="form-control" value="@Model.category.Commission" asp-for="input.Commission">
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.Name"></span>
+                                </div>
+                                <div class="row mb-4">
+                                    <label for="inputCreatedDate" class="col-sm-5 col-form-label">CreatedDate</label>
+                                    <div class="col-sm-15">
+                                        <input type="date" class="form-control" value="@Model.category.CreatedDate?.ToString("yyyy-MM-dd")" disabled>
 
-                                        <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        int stt = 1;
-                                    }
-                                    @foreach (var item in Model.listcate)
-                                    {
-                                        <tr>
-                                            <td>@stt</td>
-                                            <td>@item.Name</td>
-                                            <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-                                            <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
+                                    </div>
+                                </div>
 
-                                            <td>
-                                                <!-- Nút Edit -->
-                                                <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                            </td>
-                                            <td>
-                                                <form method="post" asp-page-handler="Hidden">
-                                                    <!-- Hidden input để gửi id -->
-                                                    <input type="hidden" name="id" value="@item.Id" />
-                                                    <button type="submit" class="btn btn-danger">
-                                                        Hidden
-                                                    </button>
-                                                </form>
+                                <div class="row mb-4">
+                                    <label for="inputModifiedDate" class="col-sm-5 col-form-label">ModifiedDate</label>
+                                    <div class="col-sm-15">
+                                        <input type="date" class="form-control" value="@Model.category.ModifiedDate?.ToString("yyyy-MM-dd")" disabled>
+                                        <!-- Liên kết với ModifiedDate trong ViewModel -->
+                                        @*   <input type="date" class="form-control" asp-for="input.ModifiedDate" disabled> *@
+                                    </div>
+                                </div>
 
-                                                <!-- Nút Hidden -->
-                                                <!-- Modal -->
-                                                @*  <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title">Hidden that user</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                            Are you sure you want to hide this user?
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                            <button type="button" class="btn btn-primary">Yes</button>
-                                            <button type="button" class="btn btn-primary">No</button>
-                                            </div>
-                                            </div>
-                                            </div>
-                                            </div> *@
-                                            </td>
-                                        </tr>
-                                        stt++;
-                                    }
-                                </tbody>
-                            </table>
-                            <!-- End Table with stripped rows -->
+                                <div class="row mb-4">
+                                    <div class="col-sm-10">
+                                        <button type="button" onclick="window.location.href='/admin/StoreTypeList'" class="btn btn-secondary">Back To List</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </div>
+                            </form>
+
 
                         </div>
-
-                        <!-- Nút CreateCategory -->
-                        <button type="button" onclick="window.location.href='/admin/CreateCategory'" class="btn btn-secondary">CreateCategory</button>
                     </div>
+
                 </div>
             </div>
         </section>
-
 
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
