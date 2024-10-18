@@ -1,7 +1,8 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Seller.UpdateProductModel
+@model StoreMMO.Web.Pages.Admin.StoreListHiddenModel
 @{
 }
+
 
 
 <!DOCTYPE html>
@@ -11,7 +12,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Forms / Elements - NiceAdmin Bootstrap Template</title>
+    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -21,8 +22,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="~/assets_Admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -35,16 +35,7 @@
 
     <!-- Template Main CSS File -->
     <link href="~/assets_Admin/css/style.css" rel="stylesheet">
-    <style>
-        /* CSS để căn giữa form */
-        .form-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            /* Chiều cao của viewport */
-        }
-    </style>
+
     <!-- =======================================================
     * Template Name: NiceAdmin
     * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -52,6 +43,8 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+
+
 </head>
 
 <body>
@@ -61,7 +54,7 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="index.html" class="logo d-flex align-items-center">
-                <img src="assets/img/logo.png" alt="">
+                <img src="~/assets_Admin/img/logo.png" alt="">
                 <span class="d-none d-lg-block">NiceAdmin</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -302,18 +295,13 @@
                 </a>
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="" onclick="window.location.href='/admin/UserAccountList'">
-                            <i class="bi bi-circle"></i><span>Manage Product</span>
+                        <a href='/admin/UserAccountList' class="active">
+                            <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
-                        <a href="" >
-                            <i class=" bi bi-circle"></i><span>Create Product</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="active">
-                            <i class=" bi bi-circle"></i><span>Edit Product</span>
+                        <a href='/admin/UserHiddenAccountList'>
+                            <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
                 </ul>
@@ -394,14 +382,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Update User Information</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <!-- <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Forms</li>
-                    <li class="breadcrumb-item active">Elements</li> -->
-                </ol>
-            </nav>
+            <h1>User List Tables</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -410,55 +391,63 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Update Form</h5>
+                            <h5 class="card-title">User List</h5>
+                            @if (!string.IsNullOrEmpty(@Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(@Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            <!-- Table with stripped rows -->
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
 
-                            <!-- General Form Elements -->
-                            <form method="post">
-                                 <div class="row mb-3">
-                                    <label asp-for="EditProduct.Id" class="col-sm-2 col-form-label">Id</label>
-                                     <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Id" type="text" class="form-control" disabled>
-                                     </div>
-                                 </div>
-                                <div class="row mb-3">
-                                    <label asp-for="EditProduct.ProductTypeId" class="col-sm-2 col-form-label">Product Type</label>
-                                    <div class="col-sm-10">
-                                        <select asp-for="EditProduct.ProductTypeId" class="form-select">
-                                            <option value="">-- Select Product Type --</option>
-                                            @foreach (var type in Model.ProductTypes)
-                                            {
-                                                <!-- Gán giá trị Id, hiển thị tên Name -->
-                                                <option value="@type.Id">@type.Name</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label asp-for="EditProduct.Account" class="col-sm-2 col-form-label">Account</label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Account" type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label asp-for="EditProduct.Pwd" class="col-sm-2 col-form-label">Pwd</label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Pwd" type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label asp-for="EditProduct.Status" class="col-sm-2 col-form-label">Status</label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Status" type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label"></label>
-                                    <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-primary">Update</button>
-                                    </div>
-                                </div>
+                                        <th>Stt</th>
+                                        <th>Name Store</th>
+                                        <th>UserName</th>
 
-                            </form><!-- End General Form Elements -->
+
+                                        <th>imgStore</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int stt = 1;
+                                    }
+                                    @foreach (var item in @Model.list)
+                                    {
+                                        <tr>
+                                            <td>@stt</td>
+
+
+                                            <td>@item.nameStore</td>
+
+                                            <td>@item.UserName</td>
+
+                                            <td><img src="@item.imgStore" width="240" height="120" /> </td>
+
+
+
+
+                                            
+                                        </tr>
+                                        stt++;
+                                    }
+
+                                </tbody>
+                            </table>
+                            <!-- End Table with stripped rows -->
 
                         </div>
                     </div>
@@ -469,22 +458,20 @@
 
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+    @*     <footer id="footer" class="footer">
+    <div class="copyright">
+    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+    </footer><!-- End Footer --> *@
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
     <script src="~/assets_Admin/vendor/apexcharts/apexcharts.min.js"></script>
@@ -498,6 +485,7 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
+
 
 </body>
 

@@ -13,7 +13,6 @@ namespace StoreMMO.Core.Repositories.User
         }
         public IEnumerable<UserViewModel> GetAllUser(bool isDelete)
         {
-
             string sql = $"SELECT       Users.Id as UserID, Users.FullName, Users.DateOfBirth, Users.Address, Users.IsSeller, Users.UserName, Users.Email, Users.PhoneNumber, Roles.Name as RoleName,Users.PasswordHash, Users.CreatedDate FROM            Users INNER JOIN                         UserRoles ON Users.Id = UserRoles.UserId INNER JOIN                     Roles ON UserRoles.RoleId = Roles.Id where Users.IsDelete = '{isDelete}'";
             var list = this._context.Database.SqlQueryRaw<UserViewModel>(sql).ToList();
             return list;

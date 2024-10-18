@@ -441,9 +441,10 @@
                                                 @* <button type="button" class="btn btn-danger">Hidden</button> *@
 
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                        data-bs-target="#verticalycentered">
+                                                        data-bs-target="#verticalycentered" data-userid="@item.UserID">
                                                     Show
                                                 </button>
+                                                @* Hien thong bao check Yes/No *@
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
@@ -462,8 +463,8 @@
                                                                 </button>
 
 
-                                                                <form method="post" asp-route-id="@item.UserID" asp-page-handler="Asyns">
-                                                                    @* <input type="text" value="@item.UserID" hidden/> *@
+                                                                <form method="post" asp-page-handler="Asyns">
+                                                                    <input type="hidden" id="hiddenUserId" name="id" />
                                                                     <button type="submit" class="btn btn-primary">Yes</button>
                                                                 </form>
                                                                 <button type="button" class="btn btn-primary"
@@ -520,6 +521,21 @@
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
 
+
+    <!-- code js de lay id de hide -->
+    <script>
+        var modal = document.getElementById('verticalycentered');
+        modal.addEventListener('show.bs.modal', function (event) {
+            // Lấy nút đã kích hoạt modal
+            var button = event.relatedTarget;
+            // Lấy UserID từ thuộc tính data-userid
+            var userId = button.getAttribute('data-userid');
+            // Gán UserID vào input hidden trong form
+            var input = document.getElementById('hiddenUserId');
+            input.value = userId;
+        });
+    </script>
+    <!-- code js de lay id de hide -->
 
 </body>
 

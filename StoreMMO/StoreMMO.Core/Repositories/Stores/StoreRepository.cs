@@ -49,16 +49,16 @@ namespace StoreMMO.Core.Repositories.Stores
 
         public StoreAddViewModels Update(StoreAddViewModels store)
         {
-            var store1 = new Store
-            {
-                Id = store.Id,
-                UserId = store.UserId,
-                CreatedDate = store.CreatedDate,
-                ModifiedDate = DateTime.Now,
-                IsAccept = store.IsAccept,
-                Price = store.Price,
-            };
-            _context.Stores.Update(store1);
+            var s = this._context.Stores.Find(store.Id);
+
+            s.Id = store.Id;
+            s.UserId = store.UserId;
+            s.CreatedDate = store.CreatedDate;
+            s.ModifiedDate = DateTime.Now;
+            s.IsAccept = store.IsAccept;
+            s.Price = store.Price;
+            
+            _context.Stores.Update(s);
             _context.SaveChanges();
             return store;
         }

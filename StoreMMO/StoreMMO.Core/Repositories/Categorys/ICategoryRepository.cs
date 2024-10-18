@@ -12,12 +12,13 @@ namespace StoreMMO.Core.Repositories.Categorys
     {
         IEnumerable<CategoryViewModels> GetAll();
         CategoryViewModels getById(string id);
-
         CategoryViewModels Add(CategoryViewModels a);
         CategoryViewModels Update(CategoryViewModels a);
 
         void Delete(string id);
 
+        IEnumerable<CategoryViewModels> GetCategoryIsActive();
+     //   CategoryViewModels UpdateName(CategoryViewModels category);
 
     }
 }
