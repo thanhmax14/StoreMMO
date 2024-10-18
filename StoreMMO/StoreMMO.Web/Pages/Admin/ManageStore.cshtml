@@ -413,15 +413,27 @@
                                             <td>@item.UserName</td>
                                             <td>@item.ProductTypeName</td>
                                             <td>@item.CategoryName</td>
-                                            <td>@item.Price</td>
+                                            <td>@item.Price.ToString()</td>
                                             <td>@item.StoreDetailName</td>
                                             <td>
                                                 <!-- Accept Form -->
                                                 @* <form method="post" asp-page-handler="OnPostAsync" asp-route-Id="@item.Id">
+                                                    <input type="hidden" name="isAccept" value="@item.Id"  />
+                                                    <button type="submit" class="btn btn-primary">Accept</button>
+                                                </form> *@
+                                                <form method="post" asp-page-handler="OnPostAsync">
+                                                    <input type="hidden" name="Id" value="@item.Id" />
+                                                    <input type="hidden" name="isAccept" value="1" />
                                                     <button type="submit" class="btn btn-primary">Accept</button>
                                                 </form>
+                                                <form method="post" asp-page-handler="AsyncReject">
+                                                    <input type="hidden" name="Id" value="@item.Id" />
+                                                    <input type="hidden" name="isAccept" value="2" />
+                                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                                </form>
+
                                                 <!-- Reject Form -->
-                                                <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.Id">
+                                                @* <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.StoreId">
                                                     <button type="submit" class="btn btn-danger">Reject</button>
                                                 </form> *@
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
