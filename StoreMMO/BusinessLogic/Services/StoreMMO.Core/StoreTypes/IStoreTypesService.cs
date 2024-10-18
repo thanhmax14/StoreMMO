@@ -18,5 +18,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.StoreTypes
 
         IEnumerable<StoreTypeViewModels> GetStoreTypeIsActive();
 
+        IEnumerable<StoreTypeViewModels> GetStoreTypeHidden();
+
     }
 }

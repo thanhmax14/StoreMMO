@@ -18,7 +18,8 @@ namespace StoreMMO.Core.Repositories.Categorys
         void Delete(string id);
 
         IEnumerable<CategoryViewModels> GetCategoryIsActive();
-     //   CategoryViewModels UpdateName(CategoryViewModels category);
+        IEnumerable<CategoryViewModels> GetCategoryIsHidden();
+        //   CategoryViewModels UpdateName(CategoryViewModels category);
 
     }
 }

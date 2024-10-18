@@ -38,6 +38,12 @@ namespace BusinessLogic.Services.StoreMMO.Core.Categorys
           return _categoryRepository.GetCategoryIsActive();
         }
 
+
+        public IEnumerable<CategoryViewModels> GetCategoryIsHidden()
+        {
+            return _categoryRepository.GetCategoryIsHidden();
+        }
+
         public CategoryViewModels UpdateCategory(CategoryViewModels category)
         {
             return _categoryRepository.Update(category);

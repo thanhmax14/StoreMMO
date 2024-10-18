@@ -94,6 +94,27 @@ namespace StoreMMO.Core.Repositories.Categorys
             }
         }
 
+        public IEnumerable<CategoryViewModels> GetCategoryIsHidden()
+        {
+            var categoryIsActive = this._context.Categories.Where(x => x.IsActive == false).ToList();
+            try
+            {
+                List<CategoryViewModels> cateviewmodel = categoryIsActive.Select(x => new CategoryViewModels
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    //  Commission = x.Commission,
+                    CreatedDate = x.CreatedDate,
+                    ModifiedDate = x.ModifiedDate,
+                }).ToList();
+                return cateviewmodel;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public CategoryViewModels Update(CategoryViewModels category)
         {
           /*  var updateCategory = new Category

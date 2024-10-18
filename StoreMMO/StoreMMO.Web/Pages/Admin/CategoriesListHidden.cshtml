@@ -1,7 +1,8 @@
-@page
-@model StoreMMO.Web.Pages.Admin.StoreTypeListModel
+﻿@page
+@model StoreMMO.Web.Pages.Admin.CategoriesListHiddenModel
 @{
 }
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -406,7 +407,7 @@
                                         <th>
                                             <b>N</b>ame
                                         </th>
-                                        <th>Commission</th>
+
                                         <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
                                         <th></th>
@@ -422,20 +423,19 @@
                                         <tr>
                                             <td>@stt</td>
                                             <td>@item.Name</td>
-                                            <td>@item.Commission</td>
                                             <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
                                             <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
 
                                             <td>
                                                 <!-- Nút Edit -->
-                                                <button onclick="window.location.href='/admin/UpdateStoreType/@item.Id'" type="button" class="btn btn-primary">Edit</button>
+                                                <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
                                             </td>
                                             <td>
                                                 <form method="post" asp-page-handler="Hidden">
                                                     <!-- Hidden input để gửi id -->
                                                     <input type="hidden" name="id" value="@item.Id" />
                                                     <button type="submit" class="btn btn-danger">
-                                                        Hidden
+                                                        Active
                                                     </button>
                                                 </form>
 
@@ -470,7 +470,7 @@
                         </div>
 
                         <!-- Nút CreateCategory -->
-                        <button type="button" onclick="window.location.href='/admin/StoreTypeCreate'" class="btn btn-secondary">CreateCategory</button>
+                        <button type="button" onclick="window.location.href='/admin/CreateCategory'" class="btn btn-secondary">CreateCategory</button>
                     </div>
                 </div>
             </div>

@@ -14,6 +14,8 @@ namespace BusinessLogic.Services.StoreMMO.Core.Categorys
         void DeleteCategory(string id);
         IEnumerable<CategoryViewModels> GetCategoryIsActive();
 
+        IEnumerable<CategoryViewModels> GetCategoryIsHidden();
+
 
     }
 }
