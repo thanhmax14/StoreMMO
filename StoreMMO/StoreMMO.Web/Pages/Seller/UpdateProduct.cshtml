@@ -410,55 +410,80 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Update Form</h5>
+                            <h5 class="card-title">Manage Product</h5>
 
-                            <!-- General Form Elements -->
-                            <form method="post">
-                                 <div class="row mb-3">
-                                    <label asp-for="EditProduct.Id" class="col-sm-2 col-form-label">Id</label>
-                                     <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Id" type="text" class="form-control" disabled>
-                                     </div>
-                                 </div>
-                                <div class="row mb-3">
-                                    <label asp-for="EditProduct.ProductTypeId" class="col-sm-2 col-form-label">Product Type</label>
-                                    <div class="col-sm-10">
-                                        <select asp-for="EditProduct.ProductTypeId" class="form-select">
-                                            <option value="">-- Select Product Type --</option>
-                                            @foreach (var type in Model.ProductTypes)
-                                            {
-                                                <!-- Gán giá trị Id, hiển thị tên Name -->
-                                                <option value="@type.Id">@type.Name</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label asp-for="EditProduct.Account" class="col-sm-2 col-form-label">Account</label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Account" type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label asp-for="EditProduct.Pwd" class="col-sm-2 col-form-label">Pwd</label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Pwd" type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label asp-for="EditProduct.Status" class="col-sm-2 col-form-label">Status</label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="EditProduct.Status" type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label"></label>
-                                    <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-primary">Update</button>
-                                    </div>
-                                </div>
+                            <!-- Table with stripped rows -->
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
 
-                            </form><!-- End General Form Elements -->
+                                        <th>Stt</th>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>IsActive</th>
+                                        <th>Stock</th>
+                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int stt = 1;
+                                    }
+                                    @foreach (var item in Model.EditProduct)
+                                    {
+                                        <tr>
+                                            <td>@stt</td>
+                                            @*  @{
+                                        var productTypeName = Model.ProductTypes.FirstOrDefault(pt => pt.Id == item.ProductTypeId)?.Name;
+                                        } *@
+                                            <td>@item.Name</td> <!-- Hiển thị tên của ProductType -->
+                                            <td>@item.Price</td>
+                                            <td>@item.IsActive</td>
+                                            <td>@item.Stock</td>
+
+                                            <td>
+                                                @*  <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
+                                            <button type="button" class="btn btn-danger">Hidden</button>
+                                            *@
+@*                                                 <a asp-page="/Seller/UpdateProduct" asp-route-id="@item.Id" class="btn btn-primary">View Details</a>
+ *@                                                @Html.AntiForgeryToken()
+
+                                                @*                                                 <a href="#" class="btn btn-danger" onclick="confirmHide('@item.Id')">Hidden</a>
+                                            *@
+                                                @*   <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#verticalycentered">
+                                            Hidden
+                                            </button> *@
+                                                @* <div class="modal fade" id="verticalycentered" tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title">Hidden that user</h5>
+                                            <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            Are you sure you want to hide this user?
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button left" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">
+                                            Back
+                                            </button>
+                                            <button type="button" class="btn btn-primary">Yes</button>
+                                            <button type="button" class="btn btn-primary">No</button>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div> *@
+                                            </td>
+                                        </tr>
+                                        stt++;
+                                    }
+
+                                </tbody>
+                            </table>
+                            <!-- End Table with stripped rows -->
 
                         </div>
                     </div>

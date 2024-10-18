@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StoreMMO.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class v1 : Migration
+    public partial class v2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -187,8 +187,8 @@ namespace StoreMMO.Core.Migrations
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     ModifiedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    IsAccept = table.Column<bool>(type: "bit", nullable: true),
-                    Price = table.Column<double>(type: "float", nullable: true)
+                    IsAccept = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
