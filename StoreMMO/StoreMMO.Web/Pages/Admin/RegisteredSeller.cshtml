@@ -421,8 +421,6 @@
                                             <td>@(item.PhoneNumber ?? "Null Data")</td>
                                             <td>@item.RoleName</td>
                                             <td>
-                                            
-
                                                 <!-- Accept Form -->
                                                 <form method="post" asp-page-handler="OnPostAsync" asp-route-Id="@item.UserID">
                                                     <button type="submit" class="btn btn-primary">Accept</button>
@@ -431,13 +429,6 @@
                                                 <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.UserID">
                                                     <button type="submit" class="btn btn-danger">Reject</button>
                                                 </form>
-                                            
-                                                @* <button type="button" class="btn btn-danger">Hidden</button> *@
-
-                                                @* <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                        data-bs-target="#verticalycentered">
-                                                    Hidden
-                                                </button> *@
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
