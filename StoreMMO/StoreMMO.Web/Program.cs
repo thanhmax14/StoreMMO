@@ -1,10 +1,14 @@
 ﻿using System.Net.Http.Headers;
 using BusinessLogic.Config;
 using BusinessLogic.Services.Email;
+using BusinessLogic.Services.StoreMMO.Core.Products;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
+using StoreMMO.Core.Repositories.Products;
+using StoreMMO.Web.Mapper;
 
 
 
@@ -86,11 +90,13 @@ builder.Services.Configure<IdentityOptions>(options =>
 var mailsettings = builder.Configuration.GetSection("MailSettings");
 builder.Services.Configure<MailSettings>(mailsettings);
 builder.Services.AddTransient<IEmailSender, SendMailService>();
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 builder.Services.AddMvc();
-
+/*builder.Services.AddAutoMapper(typeof(Program));
+*/
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

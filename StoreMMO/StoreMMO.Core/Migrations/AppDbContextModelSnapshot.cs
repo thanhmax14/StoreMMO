@@ -439,14 +439,14 @@ namespace StoreMMO.Core.Migrations
                     b.Property<DateTimeOffset?>("CreatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<bool?>("IsAccept")
-                        .HasColumnType("bit");
+                    b.Property<string>("IsAccept")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<double?>("Price")
-                        .HasColumnType("float");
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()

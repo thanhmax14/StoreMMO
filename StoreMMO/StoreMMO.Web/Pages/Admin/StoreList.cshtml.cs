@@ -24,6 +24,14 @@ namespace StoreMMO.Web.Pages.Admin
             list = this._storeService.getAll(true);
         }
 
+        public void UpdateStoreIsAccept(StoreAddViewModels storeView)
+        {
+           
+            list = this._storeService.getAll(false);
+        }
+
+
+
 
     }
 }

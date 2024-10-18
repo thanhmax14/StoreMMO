@@ -23,14 +23,25 @@ namespace BusinessLogic.Services.StoreMMO.Core.Categorys
             _categoryRepository.Delete(id);
         }
 
-        public IEnumerable<Category> getAllCategory()
+        public IEnumerable<CategoryViewModels> GetAll()
         {
-           return _categoryRepository.getAll();
+           return _categoryRepository.GetAll();
         }
 
         public CategoryViewModels getByIdCategory(string id)
         {
             return _categoryRepository.getById(id);
+        }
+
+        public IEnumerable<CategoryViewModels> GetCategoryIsActive()
+        {
+          return _categoryRepository.GetCategoryIsActive();
+        }
+
+
+        public IEnumerable<CategoryViewModels> GetCategoryIsHidden()
+        {
+            return _categoryRepository.GetCategoryIsHidden();
         }
 
         public CategoryViewModels UpdateCategory(CategoryViewModels category)

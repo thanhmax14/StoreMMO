@@ -13,9 +13,9 @@ public partial class Store
 
     public DateTimeOffset? ModifiedDate { get; set; }
 
-    public bool? IsAccept { get; set; }
+    public string? IsAccept { get; set; }
 
-    public double? Price { get; set; }
+    public string? Price { get; set; }
 
     public virtual ICollection<StoreDetail> StoreDetails { get; set; } = new List<StoreDetail>();
     public virtual AppUser User { get; set; }

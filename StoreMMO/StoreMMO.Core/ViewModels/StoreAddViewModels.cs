@@ -16,8 +16,8 @@ namespace StoreMMO.Core.ViewModels
 
         public DateTimeOffset? ModifiedDate { get; set; }
 
-        public bool? IsAccept { get; set; }
+        public string? IsAccept { get; set; }
 
-        public double? Price { get; set; }
+        public string? Price { get; set; }
     }
 }

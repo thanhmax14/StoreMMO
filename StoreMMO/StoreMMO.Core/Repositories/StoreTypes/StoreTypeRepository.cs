@@ -23,8 +23,10 @@ namespace StoreMMO.Core.Repositories.StoreTypes
             {
                 Id = storeViewModels.Id,
                 Name = storeViewModels.Name,
+                Commission = storeViewModels.Commission,
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = storeViewModels.ModifiedDate,
+                IsActive = true,
             };
             _context.StoreTypes.Add(viewModel);
             _context.SaveChanges();
@@ -60,6 +62,7 @@ namespace StoreMMO.Core.Repositories.StoreTypes
             {
                 Id = findID.Id,
                 Name = findID.Name,
+                Commission = findID.Commission,
                 CreatedDate = findID.CreatedDate,
                 ModifiedDate = findID.ModifiedDate,
             };
@@ -68,16 +71,54 @@ namespace StoreMMO.Core.Repositories.StoreTypes
 
         public StoreTypeViewModels UpdateStoreType(StoreTypeViewModels storeViewModels)
         {
-            var viewModel = new StoreType
+            // Tìm đối tượng StoreType bằng Id
+            var findStoreType = _context.StoreTypes.FirstOrDefault(x => x.Id == storeViewModels.Id);
+
+            if (findStoreType != null)
             {
-                Id = storeViewModels.Id,
-                Name = storeViewModels.Name,
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = storeViewModels.ModifiedDate,
-            };
-            _context.StoreTypes.Update(viewModel);
-            _context.SaveChanges();
+                // Cập nhật các trường dữ liệu từ ViewModel
+                findStoreType.Name = storeViewModels.Name;
+                findStoreType.Commission = storeViewModels.Commission;  // Nếu có trường này
+                findStoreType.ModifiedDate = DateTime.UtcNow;
+                findStoreType.IsActive = storeViewModels.IsActive;
+
+                // Lưu thay đổi vào database
+                _context.SaveChanges();
+
+                // Cập nhật lại thông tin vào ViewModel để trả về
+                storeViewModels.Id = findStoreType.Id;
+                storeViewModels.CreatedDate = findStoreType.CreatedDate;
+                storeViewModels.ModifiedDate = findStoreType.ModifiedDate;
+                storeViewModels.IsActive = findStoreType.IsActive;
+            }
+
             return storeViewModels;
+        }
+
+        public IEnumerable<StoreTypeViewModels> GetStoreTypeIsActive()
+        {
+            var list = _context.StoreTypes.Where(x => x.IsActive == true).Select(x => new StoreTypeViewModels
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Commission = x.Commission,
+                CreatedDate = x.CreatedDate,
+                ModifiedDate = x.ModifiedDate,
+            }).ToList();
+            return list;
+        }
+
+        public IEnumerable<StoreTypeViewModels> GetStoreTypeHidden()
+        {
+            var list = _context.StoreTypes.Where(x => x.IsActive == false).Select(x => new StoreTypeViewModels
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Commission = x.Commission,
+                CreatedDate = x.CreatedDate,
+                ModifiedDate = x.ModifiedDate,
+            }).ToList();
+            return list;
         }
     }
 }

@@ -6,7 +6,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Newtonsoft.Json;
+using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
+using System.Text.Json;
 
 
 namespace StoreMMO.Web.Pages
@@ -17,16 +20,17 @@ namespace StoreMMO.Web.Pages
 		private readonly ProductApiService _productApi;
 		private readonly ICartService _cartService;
 		private readonly WishListApiService _wishListApi;
-
+		private readonly CategoryApiService _categoryApiService;
 
 
 		public IndexModel(StoreApiService storeApiService, ProductApiService productApi,
-			ICartService cartService, WishListApiService wishListApi)
+			ICartService cartService, WishListApiService wishListApi, CategoryApiService categoryApiService)
 		{
 			this._storeApi = storeApiService;
 			this._productApi = productApi;
 			this._cartService = cartService;
 			this._wishListApi = wishListApi;
+			_categoryApiService = categoryApiService;
 		}
 
 		public List<StoreViewModels> storeView = new List<StoreViewModels>();
@@ -35,6 +39,15 @@ namespace StoreMMO.Web.Pages
 		public async Task OnGetAsync()
 		{
 
+		   var listCate = await this._categoryApiService.GetAllCategoriesAsync();
+            if (listCate != null)
+            {
+                var jsonSettings = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
+                HttpContext.Session.SetString("ListCate", JsonConvert.SerializeObject(listCate, jsonSettings));
+			}
 
 			storeView = await this._storeApi.GetStoresAsync(true);
 			var useriD = HttpContext.Session.GetString("UserID");
@@ -159,13 +172,11 @@ namespace StoreMMO.Web.Pages
 						{
 							existingItem.quantity = (double.Parse(existingItem.quantity) + 1).ToString();
 							existingItem.subtotal = (item.price * (double.Parse(existingItem.quantity))).ToString();
-
 						}
 						subprice = existingItem.subtotal;
 						temquantit = existingItem.quantity;
 						this._cartService.SaveCartToSession(cart);
 					}
-
 				}
 				return new JsonResult(new
 				{

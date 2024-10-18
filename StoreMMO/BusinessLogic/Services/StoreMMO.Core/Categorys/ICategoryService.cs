@@ -5,13 +5,17 @@ namespace BusinessLogic.Services.StoreMMO.Core.Categorys
 {
     public interface ICategoryService
     {
-        IEnumerable<Category> getAllCategory();
+        IEnumerable<CategoryViewModels> GetAll();
         CategoryViewModels getByIdCategory(string id);
 
         CategoryViewModels AddCategory(CategoryViewModels category);
         CategoryViewModels UpdateCategory(CategoryViewModels category);
 
         void DeleteCategory(string id);
+        IEnumerable<CategoryViewModels> GetCategoryIsActive();
+
+        IEnumerable<CategoryViewModels> GetCategoryIsHidden();
+
 
     }
 }
