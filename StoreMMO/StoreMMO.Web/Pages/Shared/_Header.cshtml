@@ -3,10 +3,10 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     var categoryJson = HttpContextAccessor.HttpContext.Session.GetString("ListCate");
-    List<CategoryViewModels> listCate;
+    List<CategoryViewModels> listCat = new List<CategoryViewModels>();
     if (!string.IsNullOrEmpty(categoryJson))
     {
-        listCate = System.Text.Json.JsonSerializer.Deserialize<List<CategoryViewModels>>(categoryJson);
+        listCat = System.Text.Json.JsonSerializer.Deserialize<List<CategoryViewModels>>(categoryJson);
     }
 
 }
@@ -140,9 +140,9 @@
 
                     <select id="cat" name="cat">
                                     <option value="" selected>All Categories</option>
-                                    @if (listCate.Count > 0)
+                                    @if (listCat.Count > 0)
                                     {
-                                        foreach(var item in listCate)
+                                        foreach (var item in listCat)
                                         {
                                             <option value="@item.Name">@item.Name</option>
                                         }
