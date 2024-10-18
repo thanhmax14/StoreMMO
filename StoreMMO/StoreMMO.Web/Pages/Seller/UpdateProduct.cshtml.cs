@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
+using System.Collections;
 
 namespace StoreMMO.Web.Pages.Seller
 {
@@ -23,25 +24,25 @@ namespace StoreMMO.Web.Pages.Seller
         }
 
         [BindProperty]
-        public InputProductViewModel EditProduct { get; set; }
+        public IEnumerable <InputProductTypeViewModel> EditProduct { get; set; }
         [BindProperty]
         public IEnumerable<ProductType> ProductTypes { get; set; }
 
         public void OnGet(string id)
         {
             // Lấy đối tượng Product từ service
-            var product = _product.getByIdProduct(id);
+            var productType = _productTypeService.getByIDProduct(id); // Giả định trả về một đối tượng đơn lẻ
 
             // Kiểm tra nếu product tồn tại (không null)
-            if (product != null)
+            if (productType != null)
             {
-                // Sử dụng AutoMapper để map từ Product sang InputProductViewModel
-                EditProduct = _mapper.Map<InputProductViewModel>(product);
+                // Sử dụng AutoMapper để map từ ProductType sang InputProductTypeViewModel
+                EditProduct = new List<InputProductTypeViewModel> { _mapper.Map<InputProductTypeViewModel>(productType) };
             }
-            var productTypesViewModels = _productTypeService.GetAllProduct();
+            /*var productTypesViewModels = _productTypeService.GetAllProduct();
 
             // Ánh xạ danh sách ProductTypes
-            ProductTypes = _mapper.Map<IEnumerable<ProductType>>(productTypesViewModels);
+            ProductTypes = _mapper.Map<IEnumerable<ProductType>>(productTypesViewModels);*/
         }
 
         public IActionResult OnPost(string id)
