@@ -40,7 +40,6 @@ namespace StoreMMO.Core.Repositories.Stores
                 CreatedDate = DateTime.Now,
                 ModifiedDate = store.ModifiedDate,
                 IsAccept = "",
-                Price = store.Price,
             };
             _context.Stores.Add(store1);
             _context.SaveChanges();
@@ -56,7 +55,6 @@ namespace StoreMMO.Core.Repositories.Stores
             s.CreatedDate = store.CreatedDate;
             s.ModifiedDate = DateTime.Now;
             s.IsAccept = store.IsAccept;
-            s.Price = store.Price;
             
             _context.Stores.Update(s);
             _context.SaveChanges();
@@ -92,7 +90,6 @@ namespace StoreMMO.Core.Repositories.Stores
                 CreatedDate = store.CreatedDate,
                 ModifiedDate = DateTime.Now,
                 IsAccept = store.IsAccept,
-                Price = store.Price,
             };
 
             return viewModel;

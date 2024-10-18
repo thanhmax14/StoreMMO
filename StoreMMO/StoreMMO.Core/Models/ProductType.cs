@@ -26,4 +26,5 @@ public partial class ProductType
     public virtual ICollection<ProductConnect> ProductConnects { get; set; } = new List<ProductConnect>();
 
     public virtual ICollection<WishList> WishLists { get; set; } = new List<WishList>();
+    public virtual ICollection<OrderBuy> OrderBuys { get; set; } = new List<OrderBuy>();
 }
