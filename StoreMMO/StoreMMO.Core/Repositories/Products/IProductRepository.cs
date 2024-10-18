@@ -16,5 +16,6 @@ namespace StoreMMO.Core.Repositories.Products
         ProductViewModels UpdateProduct(ProductViewModels inforAddViewModels);
         void DeleteProduct(string id);
         IEnumerable<ManageStoreViewModels> ManageStore();
+        IEnumerable<ViewProductModels> GetProductsByStoreId(string storeId);
     }
 }

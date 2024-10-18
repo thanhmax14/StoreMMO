@@ -31,19 +31,14 @@ namespace StoreMMO.Web.Pages.Seller
         public void OnGet()
         {
             products = _product.ManageStore();
+            
 
-
-            var productTypesViewModels = _productTypeService.GetAllProduct();
-
-            // Ánh xạ danh sách ProductTypes
-            ProductTypes = _mapper.Map<IEnumerable<ProductType>>(productTypesViewModels);
         }
         public void OnPost() {
             
         }
         public IActionResult OnPostHideProduct(string Id)
         {
-
             var product = _product.getByIdProduct(Id);
 
             if (product != null)

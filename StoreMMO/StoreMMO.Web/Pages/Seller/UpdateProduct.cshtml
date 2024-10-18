@@ -416,7 +416,6 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-
                                         <th>Stt</th>
                                         <th>Name</th>
                                         <th>Price</th>
@@ -436,7 +435,7 @@
                                             @*  @{
                                         var productTypeName = Model.ProductTypes.FirstOrDefault(pt => pt.Id == item.ProductTypeId)?.Name;
                                         } *@
-                                            <td>@item.Name</td> <!-- Hiển thị tên của ProductType -->
+                                            <td>@item.ProductName</td> <!-- Hiển thị tên của ProductType -->
                                             <td>@item.Price</td>
                                             <td>@item.IsActive</td>
                                             <td>@item.Stock</td>
@@ -447,35 +446,48 @@
                                             *@
 @*                                                 <a asp-page="/Seller/UpdateProduct" asp-route-id="@item.Id" class="btn btn-primary">View Details</a>
  *@                                                @Html.AntiForgeryToken()
+                                                <!-- Trigger modal with Edit button -->
+                                                @foreach (var item1 in Model.ProductTypes)
+                                                {
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.ProductName">Edit</button>
 
-                                                @*                                                 <a href="#" class="btn btn-danger" onclick="confirmHide('@item.Id')">Hidden</a>
-                                            *@
-                                                @*   <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#verticalycentered">
-                                            Hidden
-                                            </button> *@
-                                                @* <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title">Hidden that user</h5>
-                                            <button type="button" class="btn-close"
-                                            data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                            Are you sure you want to hide this user?
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button type="button left" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">
-                                            Back
-                                            </button>
-                                            <button type="button" class="btn btn-primary">Yes</button>
-                                            <button type="button" class="btn btn-primary">No</button>
-                                            </div>
-                                            </div>
-                                            </div>
-                                            </div> *@
+                                                    <!-- Modal for each item -->
+                                                    <div class="modal fade" id="exampleModal-@item.ProductName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Edit Product</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <!-- Form to update product -->
+                                                                    <form id="editProductForm-@item.ProductName" method="post" class="editProductForm" action="/UpdateProduct">
+                                                                        <div class="form-group">
+                                                                            <label asp-for="@item.ProductName">Name</label>
+                                                                            <input asp-for="@item.ProductName" type="text" name="ProductName" class="form-control" value="@item.ProductName" />
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label asp-for="@item.Price">Price</label>
+                                                                            <input asp-for="@item.Price" type="text" name="Price" class="form-control" value="@item.Price" />
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label asp-for="@item.IsActive">Status</label>
+                                                                            <select name="IsActive" class="form-control">
+                                                                                <option value="1">Đang bán</option>
+                                                                                <option value="0">An</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <input type="submit" value="Save" class="btn btn-primary" />
+                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                           
                                             </td>
                                         </tr>
                                         stt++;

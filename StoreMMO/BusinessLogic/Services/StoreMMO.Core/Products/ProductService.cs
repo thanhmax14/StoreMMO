@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Products;
 using StoreMMO.Core.Repositories.ProductsTypes;
+using StoreMMO.Core.Repositories.StoreDetails;
 using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
         private readonly IProductRepository _productRepository;
         private readonly IProductTypeRepository _productTypeRepository;
         private readonly IMapper _mapper;
-
 
         public ProductService(IProductRepository productRepository, IProductTypeRepository productTypeRepository, IMapper mapper)
         {
@@ -77,6 +77,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
         public IEnumerable<ManageStoreViewModels> ManageStore()
         {
            return _productRepository.ManageStore();
+        }
+
+        public IEnumerable<ViewProductModels> GetProductsByStoreId(string storeId)
+        {
+           return _productRepository.GetProductsByStoreId(storeId); 
         }
     }
 }

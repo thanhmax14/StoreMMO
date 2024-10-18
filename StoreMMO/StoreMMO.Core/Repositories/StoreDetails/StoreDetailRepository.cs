@@ -80,6 +80,29 @@ namespace StoreMMO.Core.Repositories.StoreDetails
             };
             return viewModel;
         }
+        public StoreDetailViewModels GetByIdStoDetails1(string id)
+        {
+            var findID = _context.StoreDetails.FirstOrDefault(x => x.StoreId == id);
+            if (findID == null)
+            {
+                throw new Exception("Not found ID");
+            }
+            var viewModel = new StoreDetailViewModels
+            {
+                Id = findID.Id,
+                StoreId = findID.StoreId,
+                CategoryId = findID.CategoryId,
+                StoreTypeId = findID.StoreTypeId,
+                Name = findID.Name,
+                SubDescription = findID.SubDescription,
+                DescriptionDetail = findID.DescriptionDetail,
+                Img = findID.Img,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = findID.CreatedDate,
+                IsActive = findID.IsActive,
+            };
+            return viewModel;
+        }
 
         public StoreDetailViewModels UpdateStoDetails(StoreDetailViewModels storeDetailViewModels)
         {

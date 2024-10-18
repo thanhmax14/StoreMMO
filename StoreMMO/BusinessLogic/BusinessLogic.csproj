@@ -31,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Services\StoreMMO.Core\ProductsConnect\" />
-    <Folder Include="Services\StoreMMO.Core\StoreDetails\" />
   </ItemGroup>
 
 </Project>
