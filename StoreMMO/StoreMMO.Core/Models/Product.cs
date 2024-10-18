@@ -20,4 +20,5 @@ public partial class Product
     public DateTimeOffset? CreatedDate { get; set; }
 
     public virtual ProductType ProductType { get; set; }
+    public virtual ICollection<OrderDetail> StoreDetails { get; set; } = new List<OrderDetail>();
 }

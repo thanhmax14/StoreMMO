@@ -6,11 +6,22 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StoreMMO.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class v2 : Migration
+    public partial class v4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Balances",
+                columns: table => new
+                {
+                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Balances", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
@@ -89,6 +100,7 @@ namespace StoreMMO.Core.Migrations
                     IsSeller = table.Column<bool>(type: "bit", nullable: false),
                     RequestSellerDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     SellerApprovalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    BalanceID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -107,6 +119,12 @@ namespace StoreMMO.Core.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Balances_BalanceID",
+                        column: x => x.BalanceID,
+                        principalTable: "Balances",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,8 +205,7 @@ namespace StoreMMO.Core.Migrations
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     ModifiedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    IsAccept = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    IsAccept = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -312,6 +329,42 @@ namespace StoreMMO.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
+      name: "OrderBuys",
+      columns: table => new
+      {
+          ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+          UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+          StoreID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+          ProductTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+          Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+          OrderCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+          totalMoney = table.Column<string>(type: "nvarchar(max)", nullable: true)
+      },
+      constraints: table =>
+      {
+          table.PrimaryKey("PK_OrderBuys", x => x.ID);
+          table.ForeignKey(
+              name: "FK_OrderBuys_ProductTypes_ProductTypeId",
+              column: x => x.ProductTypeId,
+              principalTable: "ProductTypes",
+              principalColumn: "Id",
+              onDelete: ReferentialAction.Restrict); // Change to Restrict or SetNull
+          table.ForeignKey(
+              name: "FK_OrderBuys_Stores_StoreID",
+              column: x => x.StoreID,
+              principalTable: "Stores",
+              principalColumn: "Id",
+              onDelete: ReferentialAction.Cascade); // Keep as Cascade or modify if needed
+          table.ForeignKey(
+              name: "FK_OrderBuys_Users_UserID",
+              column: x => x.UserID,
+              principalTable: "Users",
+              principalColumn: "Id",
+              onDelete: ReferentialAction.Restrict); // Keep as Restrict
+      });
+
+
+            migrationBuilder.CreateTable(
                 name: "StoreDetails",
                 columns: table => new
                 {
@@ -346,6 +399,38 @@ namespace StoreMMO.Core.Migrations
                         name: "FK_StoreDetails_Stores_StoreId",
                         column: x => x.StoreId,
                         principalTable: "Stores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderDetails",
+                columns: table => new
+                {
+                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OrderBuyID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProductID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AdminMoney = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SellerMoney = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    quantity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Dates = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    stasusPayment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetails", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_OrderBuys_OrderBuyID",
+                        column: x => x.OrderBuyID,
+                        principalTable: "OrderBuys",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Products_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -406,6 +491,28 @@ namespace StoreMMO.Core.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Complaints",
+                columns: table => new
+                {
+                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OrderDetailID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Reply = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Complaints", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Complaints_OrderDetails_OrderDetailID",
+                        column: x => x.OrderDetailID,
+                        principalTable: "OrderDetails",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Carts_ProductTypeId",
                 table: "Carts",
@@ -417,6 +524,11 @@ namespace StoreMMO.Core.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Complaints_OrderDetailID",
+                table: "Complaints",
+                column: "OrderDetailID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FeedBacks_StoreDetailId",
                 table: "FeedBacks",
                 column: "StoreDetailId");
@@ -425,6 +537,31 @@ namespace StoreMMO.Core.Migrations
                 name: "IX_FeedBacks_UserId",
                 table: "FeedBacks",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderBuys_ProductTypeId",
+                table: "OrderBuys",
+                column: "ProductTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderBuys_StoreID",
+                table: "OrderBuys",
+                column: "StoreID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderBuys_UserID",
+                table: "OrderBuys",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_OrderBuyID",
+                table: "OrderDetails",
+                column: "OrderBuyID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_ProductID",
+                table: "OrderDetails",
+                column: "ProductID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductConnects_ProductTypeId",
@@ -494,6 +631,11 @@ namespace StoreMMO.Core.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_BalanceID",
+                table: "Users",
+                column: "BalanceID");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "Users",
                 column: "NormalizedUserName",
@@ -518,13 +660,13 @@ namespace StoreMMO.Core.Migrations
                 name: "Carts");
 
             migrationBuilder.DropTable(
+                name: "Complaints");
+
+            migrationBuilder.DropTable(
                 name: "FeedBacks");
 
             migrationBuilder.DropTable(
                 name: "ProductConnects");
-
-            migrationBuilder.DropTable(
-                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
@@ -545,13 +687,19 @@ namespace StoreMMO.Core.Migrations
                 name: "WishLists");
 
             migrationBuilder.DropTable(
+                name: "OrderDetails");
+
+            migrationBuilder.DropTable(
                 name: "StoreDetails");
 
             migrationBuilder.DropTable(
                 name: "Roles");
 
             migrationBuilder.DropTable(
-                name: "ProductTypes");
+                name: "OrderBuys");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Categories");
@@ -563,7 +711,13 @@ namespace StoreMMO.Core.Migrations
                 name: "Stores");
 
             migrationBuilder.DropTable(
+                name: "ProductTypes");
+
+            migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Balances");
         }
     }
 }

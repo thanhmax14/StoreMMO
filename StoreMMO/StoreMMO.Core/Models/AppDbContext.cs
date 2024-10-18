@@ -35,6 +35,10 @@ namespace StoreMMO.Core.Models
         public virtual DbSet<StoreType> StoreTypes { get; set; }
 
         public virtual DbSet<WishList> WishLists { get; set; }
+        public virtual DbSet<OrderBuy> OrderBuys { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+        public virtual DbSet<Complaint> Complaints { get; set; }
+        public virtual DbSet<Balance> Balances { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
@@ -73,6 +77,13 @@ namespace StoreMMO.Core.Models
           .WithMany()
           .HasForeignKey(s => s.UserId)
           .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<OrderBuy>()
+               .HasOne(o => o.AppUser) // Assuming AppUser is a navigation property to User
+               .WithMany() // Assuming no reverse navigation
+               .HasForeignKey(o => o.UserID)
+               .OnDelete(DeleteBehavior.Restrict);
+
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
