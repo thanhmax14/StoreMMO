@@ -16,7 +16,7 @@ namespace StoreMMO.Core.ViewModels
         public DateTimeOffset? CreatedDate { get; set; }
 
         public DateTimeOffset? ModifiedDate { get; set; }
-        public bool IsActive { get; set; }
+      //  public bool IsActive { get; set; }
 
     }
 }

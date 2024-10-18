@@ -1,7 +1,13 @@
-﻿@using StoreMMO.Core.ViewModels
+﻿@using Newtonsoft.Json
+@using StoreMMO.Core.ViewModels
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
-    
+    var categoryJson = HttpContextAccessor.HttpContext.Session.GetString("ListCate");
+    List<CategoryViewModels> listCate = new List<CategoryViewModels>();
+    if (!string.IsNullOrEmpty(categoryJson))
+    {
+        listCate = JsonConvert.DeserializeObject<List<CategoryViewModels>>(categoryJson);
+    }
 
 }
 
@@ -129,24 +135,23 @@
                     <div class="header-search-wrapper">
                             <input type="text" name="searchString" class="form-control" placeholder="Nhập tên cửa hàng..." />
                     <div class="select-custom">
+
+
+
                     <select id="cat" name="cat">
-                    <option value="">All Categories</option>
-                    <option value="4">Fashion</option>
-                    <option value="12">- Women</option>
-                    <option value="13">- Men</option>
-                    <option value="66">- Jewellery</option>
-                    <option value="67">- Kids Fashion</option>
-                    <option value="5">Electronics</option>
-                    <option value="21">- Smart TVs</option>
-                    <option value="22">- Cameras</option>
-                    <option value="63">- Games</option>
-                    <option value="7">Home &amp; Garden</option>
-                    <option value="11">Motors</option>
-                    <option value="31">- Cars and Trucks</option>
-                    <option value="32">- Motorcycles &amp; Powersports</option>
-                    <option value="33">- Parts &amp; Accessories</option>
-                    <option value="34">- Boats</option>
-                    <option value="57">- Auto Tools &amp; Supplies</option>
+                                    <option value="" selected>All Categories</option>
+                                    @if (listCate.Count > 0)
+                                    {
+                                        foreach(var item in listCate)
+                                        {
+                                            <option value="@item.Name">@item.Name</option>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <option value="">All Categories</option>
+                                    }
+
                     </select>
                     </div>
                     <!-- End .select-custom -->
