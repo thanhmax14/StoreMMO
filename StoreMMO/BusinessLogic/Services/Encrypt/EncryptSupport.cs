@@ -43,9 +43,43 @@ namespace BusinessLogic.Services.Encrypt
                 return default(T);
             }
         }
+		public static byte[] ObjectListToByteArray<T>(List<T> objList)
+		{
+			if (objList == null || objList.Count == 0)
+			{
+				return null;
+			}
+			try
+			{
+				// Serialize danh sách thành mảng byte
+				return JsonSerializer.SerializeToUtf8Bytes(objList);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Serialization failed: {ex.Message}");
+				return null;
+			}
+		}
+		public static List<T> ByteArrayToObjectList<T>(byte[] arrBytes)
+		{
+			if (arrBytes == null || arrBytes.Length == 0)
+			{
+				return default(List<T>);
+			}
+			try
+			{
+				// Deserialize mảng byte thành danh sách object
+				return JsonSerializer.Deserialize<List<T>>(arrBytes);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Deserialization failed: {ex.Message}");
+				return default(List<T>);
+			}
+		}
 
 
-        public static bool EncryptQuestions_SaveToFile(string fname, byte[] data, string key)
+		public static bool EncryptQuestions_SaveToFile(string fname, byte[] data, string key)
         {
             bool result;
             try
