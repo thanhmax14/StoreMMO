@@ -1,5 +1,5 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Admin.RegisteredSellerModel
+@model StoreMMO.Web.Pages.Admin.ManageStoreModel
 @{
 }
 <!DOCTYPE html>
@@ -377,7 +377,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Registered Seller Tables</h1>
+            <h1>Store Tables</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -386,22 +386,19 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Registered Seller List</h5>
+                            <h5 class="card-title">Store List</h5>
 
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Full Name</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">Create Date</th>
-                                        @* <th>Address</th> *@
-                                        @* <th>Is Seller</th> *@
-                                        <th>Email</th>
-                                        <th>UserName</th>
-                                        <th>Phone Number</th>
-                                        <th>Role Name</th>
-                                        <th>Actions</th>
+                                        <th>Store Type</th>
+                                        <th>Username</th>
+                                        <th>Product Type</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Store Detail</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -412,23 +409,21 @@
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td>@item.FullName</td>
-                                            <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-                                            @* <td>@(item.Address ?? "Null Data")</td> *@
-                                            @* <td>@item.IsSeller</td> *@
-                                            <td>@item.Email</td>
+                                            <td>@item.StoreTypeName</td>
                                             <td>@item.UserName</td>
-                                            <td>@(item.PhoneNumber ?? "Null Data")</td>
-                                            <td>@item.RoleName</td>
+                                            <td>@item.ProductTypeName</td>
+                                            <td>@item.CategoryName</td>
+                                            <td>@item.Price</td>
+                                            <td>@item.StoreDetailName</td>
                                             <td>
                                                 <!-- Accept Form -->
-                                                <form method="post" asp-page-handler="OnPostAsync" asp-route-Id="@item.UserID">
+                                                @* <form method="post" asp-page-handler="OnPostAsync" asp-route-Id="@item.Id">
                                                     <button type="submit" class="btn btn-primary">Accept</button>
                                                 </form>
                                                 <!-- Reject Form -->
-                                                <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.UserID">
+                                                <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.Id">
                                                     <button type="submit" class="btn btn-danger">Reject</button>
-                                                </form>
+                                                </form> *@
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
@@ -501,3 +496,4 @@
 </body>
 
 </html>
+
