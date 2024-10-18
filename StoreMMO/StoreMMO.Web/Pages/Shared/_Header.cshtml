@@ -1,7 +1,12 @@
 ﻿@using StoreMMO.Core.ViewModels
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
-    
+    var categoryJson = HttpContextAccessor.HttpContext.Session.GetString("ListCate");
+    List<CategoryViewModels> listCate;
+    if (!string.IsNullOrEmpty(categoryJson))
+    {
+        listCate = System.Text.Json.JsonSerializer.Deserialize<List<CategoryViewModels>>(categoryJson);
+    }
 
 }
 
