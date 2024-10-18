@@ -3,10 +3,10 @@
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
     var categoryJson = HttpContextAccessor.HttpContext.Session.GetString("ListCate");
-    List<CategoryViewModels> listCate = new List<CategoryViewModels>();
+    List<CategoryViewModels> listCate;
     if (!string.IsNullOrEmpty(categoryJson))
     {
-        listCate = JsonConvert.DeserializeObject<List<CategoryViewModels>>(categoryJson);
+        listCate = System.Text.Json.JsonSerializer.Deserialize<List<CategoryViewModels>>(categoryJson);
     }
 
 }
