@@ -34,6 +34,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.StoreTypes
           return _storeTypesRepository.getByIdStoreType(id);
         }
 
+        public IEnumerable<StoreTypeViewModels> GetStoreTypeHidden()
+        {
+            return _storeTypesRepository.GetStoreTypeHidden();
+        }
+
         public IEnumerable<StoreTypeViewModels> GetStoreTypeIsActive()
         {
            return _storeTypesRepository.GetStoreTypeIsActive();

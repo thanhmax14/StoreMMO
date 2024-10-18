@@ -1,34 +1,27 @@
-﻿
-using BusinessLogic.Services.StoreMMO.Core.StoreTypes;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using BusinessLogic.Services.StoreMMO.Core.Stores;
-using BusinessLogic.Services.StoreMMO.Core.StoreTypes;
+﻿using BusinessLogic.Services.StoreMMO.Core.StoreTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
-
 using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class StoreTypeListModel : PageModel
+    public class StoreTypeListHiddenModel : PageModel
     {
-
         private readonly IStoreTypesService _store;
- 
-       public StoreTypeListModel(IStoreTypesService store)
+
+        public StoreTypeListHiddenModel(IStoreTypesService store)
         {
             _store = store;
         }
-  
+
 
 
 
         public IEnumerable<StoreTypeViewModels> listcate = new List<StoreTypeViewModels>();
         public void OnGet()
         {
-            listcate = this._store.GetStoreTypeIsActive();
+            listcate = this._store.GetStoreTypeHidden();
         }
 
         public IActionResult OnPostHidden(string id)
@@ -45,7 +38,7 @@ namespace StoreMMO.Web.Pages.Admin
 
 
         private readonly IStoreTypeService _storeTypeService;
-        public StoreTypeListModel(IStoreTypeService storeTypeService)
+        public StoreTypeListHiddenModel(IStoreTypeService storeTypeService)
         {
             _storeTypeService = storeTypeService;
         }
@@ -56,6 +49,6 @@ namespace StoreMMO.Web.Pages.Admin
         public string success { get; set; }
         [TempData]
         public string fail { get; set; }
-       
+
     }
 }

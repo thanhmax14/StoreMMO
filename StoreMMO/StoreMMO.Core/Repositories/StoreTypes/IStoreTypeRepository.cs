@@ -15,7 +15,9 @@ namespace StoreMMO.Core.Repositories.StoreTypes
         StoreTypeViewModels UpdateStoreType(StoreTypeViewModels storeViewModels);
         StoreTypeViewModels getByIdStoreType(string id);
         void deleteByIdStoreType(string id);
-   IEnumerable<StoreTypeViewModels> GetStoreTypeIsActive();
+        IEnumerable<StoreTypeViewModels> GetStoreTypeIsActive();
+
+        IEnumerable<StoreTypeViewModels> GetStoreTypeHidden();
     }
 
 }

@@ -107,5 +107,18 @@ namespace StoreMMO.Core.Repositories.StoreTypes
             }).ToList();
             return list;
         }
+
+        public IEnumerable<StoreTypeViewModels> GetStoreTypeHidden()
+        {
+            var list = _context.StoreTypes.Where(x => x.IsActive == false).Select(x => new StoreTypeViewModels
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Commission = x.Commission,
+                CreatedDate = x.CreatedDate,
+                ModifiedDate = x.ModifiedDate,
+            }).ToList();
+            return list;
+        }
     }
 }
