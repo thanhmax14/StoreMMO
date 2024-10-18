@@ -28,6 +28,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.VisualStudio.Web.CodeGeneration.Design;
 using BusinessLogic.Services.AutoMapper;
+using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
+using StoreMMO.Core.Repositories.StoreDetails;
 namespace BusinessLogic.Config
 {
     public class ConfigServices
@@ -62,6 +64,7 @@ namespace BusinessLogic.Config
 
             services.AddScoped<IStoreTypeRepository, StoreTypeRepository>();
             services.AddScoped<IRegisteredSellerRepository, RegisteredSellerRepository>();
+            services.AddScoped<IStoreDetailsService, StoreDetailsService>();
 
 
 
@@ -79,6 +82,7 @@ namespace BusinessLogic.Config
 
             services.AddScoped<IStoreTypeService, StoreTypeService>();
             services.AddScoped<IRegisteredSellerService, RegisteredSellerService>();
+            services.AddScoped<IStoreDetailRepository, StoreDetailRepository>();
 
 
 

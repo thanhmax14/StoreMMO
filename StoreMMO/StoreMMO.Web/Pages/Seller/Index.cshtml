@@ -402,13 +402,12 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Manage Product</h5>
+                            <h5 class="card-title">Manage Store</h5>
 
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                       
                                         <th>Stt</th>
                                         <th>NameStore</th>
                                         <th>CateName</th>
@@ -430,23 +429,15 @@
                                            @*  @{
                                                 var productTypeName = Model.ProductTypes.FirstOrDefault(pt => pt.Id == item.ProductTypeId)?.Name;
                                             } *@
-                                            <td>@item.NameStore</td> <!-- Hiển thị tên của ProductType -->
-                                            <td>@item.CateName</td>
-                                           @*  <td>@item.Price</td>
-                                            <td>@item.Commission</td>
-                                            <td>@item.Stock</td>
-                                            <td>@item.CreatedDate?.ToString("dd/MM/yyyy")</td>
-                                            <td class="@(@item.IsAccept == true ? "text-success" : "text-danger")">
-                                                @if (@item.IsAccept == true)
-                                                {
-                                                    <text>Paid</text>
-                                                }
-                                                else
-                                                {
-                                                    <text>Wait Accept</text>
-                                                }
-                                            </td> *@
-
+                                            <td>@item.StoreName</td> <!-- Hiển thị tên của ProductType -->
+                                            <td>@item.CategoryName</td>
+                                             <td>@item.PriceRange</td>
+                                             <td>@item.Commission</td>
+                                             <td>@item.TotalStock</td>
+                                             <td>@item.CreatedDate?.ToString("dd/MM/yyyy")</td>
+                                            <td class="@(item.IsAccept == "1" ? "text-success" : "text-danger")">
+                                                @(item.IsAccept == "1" ? "Paid" : "Wait Accept")
+                                            </td>
 
                                               <td>
                                                  @*  <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
