@@ -17,7 +17,7 @@ namespace StoreMMO.Web.Pages.Admin
     {
 
         private readonly IStoreTypesService _store;
-
+        public string baoloi;
         public StoreTypeListModel(IStoreTypesService store)
         {
             _store = store;
@@ -26,6 +26,7 @@ namespace StoreMMO.Web.Pages.Admin
         public IEnumerable<StoreTypeViewModels> listcate = new List<StoreTypeViewModels>();
         public void OnGet()
         {
+            //baoloi = a;
             listcate = this._store.GetStoreTypeIsActive();
         }
         public IActionResult OnPostHidden(string id)

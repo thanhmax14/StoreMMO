@@ -11,7 +11,7 @@ namespace StoreMMO.Core.ViewModels
         
         public string Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public double? Commission { get; set; }
 

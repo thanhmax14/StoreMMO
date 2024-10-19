@@ -2,6 +2,9 @@
 @model StoreMMO.Web.Pages.Admin.StoreTypeCreateModel
 @{
 }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -337,7 +340,7 @@
                 </a>
                 <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/Admin/CategoriesList">
+                        <a href="/Admin/StoreTypeList">
                             <i class="bi bi-circle"></i><span>Active Category</span>
                         </a>
                     </li>
@@ -384,7 +387,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
                     <li class="breadcrumb-item">Forms</li>
-                    <li class="breadcrumb-item active">Elements</li>
+                    <li class="breadcrumb-item active">StoreTypeList</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -435,7 +438,7 @@
                                 <div class="row mb-4">
                                     <div class="col-sm-10">
                                         <button type="button" onclick="window.location.href='/admin/StoreTypeList'" class="btn btn-secondary">Back To List</button>
-                                        <button type="submit" class="btn btn-primary">Update</button>
+                                        <button type="submit" class="btn btn-primary">Add</button>
                                     </div>
                                 </div>
                             </form>

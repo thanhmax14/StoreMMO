@@ -189,7 +189,6 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
                         <li class="message-item">
                             <a href="#">
                                 <img src="~/assets_Admin/img/messages-3.jpg" alt="" class="rounded-circle">
@@ -207,11 +206,8 @@
                         <li class="dropdown-footer">
                             <a href="#">Show all messages</a>
                         </li>
-
                     </ul><!-- End Messages Dropdown Items -->
-
                 </li><!-- End Messages Nav -->
-
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
@@ -379,6 +375,7 @@
 
         <div class="pagetitle">
             <h1>Data Tables</h1>
+           
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -395,8 +392,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Datatables</h5>
-
-                            <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to convert to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p>
+                            <button type="button" onclick="window.location.href='/admin/CreateCategory'" class="btn btn-secondary">CreateCategory</button>
+                          
 
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
@@ -430,14 +427,19 @@
                                                 <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
                                             </td>
                                             <td>
-                                                <form method="post" asp-page-handler="Hidden">
+                                                <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
                                                     <!-- Hidden input để gửi id -->
                                                     <input type="hidden" name="id" value="@item.Id" />
                                                     <button type="submit" class="btn btn-danger">
                                                         Hidden
                                                     </button>
                                                 </form>
-
+                   
+                                                <script>
+                                                   function confirmHidden() {
+                                                        return confirm('Are you sure you want to hide this item?');
+                                                    }
+                                                </script>
                                                 <!-- Nút Hidden -->
                                                 <!-- Modal -->
                                                 @*  <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
@@ -469,7 +471,7 @@
                         </div>
 
                         <!-- Nút CreateCategory -->
-                        <button type="button" onclick="window.location.href='/admin/CreateCategory'" class="btn btn-secondary">CreateCategory</button>
+                      
                     </div>
                 </div>
             </div>
