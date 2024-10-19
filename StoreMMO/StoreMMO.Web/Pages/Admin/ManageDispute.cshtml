@@ -1,5 +1,5 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Admin.RegisteredSellerModel
+@model StoreMMO.Web.Pages.Admin.ManageDisputeModel
 @{
 }
 <!DOCTYPE html>
@@ -313,7 +313,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/admin/ManageStore" class="active">
+                        <a href="">
                             <i class="bi bi-circle"></i><span>Store Request</span>
                         </a>
                     </li>
@@ -377,7 +377,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Registered Seller Tables</h1>
+            <h1>Store Tables</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -386,22 +386,17 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Registered Seller List</h5>
+                            <h5 class="card-title">Store List</h5>
 
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Full Name</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">Create Date</th>
-                                        @* <th>Address</th> *@
-                                        @* <th>Is Seller</th> *@
-                                        <th>Email</th>
-                                        <th>UserName</th>
-                                        <th>Phone Number</th>
-                                        <th>Role Name</th>
-                                        <th>Actions</th>
+                                        <th>Orderdetail Id</th>
+                                        <th>Discription</th>
+                                        <th>Created Date</th>
+                                        <th>Reply</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -412,21 +407,19 @@
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td>@item.FullName</td>
-                                            <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-                                            @* <td>@(item.Address ?? "Null Data")</td> *@
-                                            @* <td>@item.IsSeller</td> *@
-                                            <td>@item.Email</td>
-                                            <td>@item.UserName</td>
-                                            <td>@(item.PhoneNumber ?? "Null Data")</td>
-                                            <td>@item.RoleName</td>
+                                            <td>@item.OrderDetailID</td>
+                                            <td>@item.Description</td>
+                                            <td>@item.CreateDate</td>
+                                            <td>@item.Reply</td>
                                             <td>
-                                                <!-- Accept Form -->
-                                                <form method="post" asp-page-handler="OnPostAsync" asp-route-Id="@item.UserID">
+                                                <form method="post" asp-page-handler="OnPostAsync">
+                                                    <input type="hidden" name="Id" value="@item.ID" />
+                                                    <input type="hidden" name="Status" value="1" />
                                                     <button type="submit" class="btn btn-primary">Accept</button>
                                                 </form>
-                                                <!-- Reject Form -->
-                                                <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.UserID">
+                                                <form method="post" asp-page-handler="AsyncReject">
+                                                    <input type="hidden" name="Id" value="@item.ID" />
+                                                    <input type="hidden" name="Status" value="2" />
                                                     <button type="submit" class="btn btn-danger">Reject</button>
                                                 </form>
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
@@ -501,3 +494,5 @@
 </body>
 
 </html>
+
+

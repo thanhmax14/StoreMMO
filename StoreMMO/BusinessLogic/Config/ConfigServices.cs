@@ -30,8 +30,13 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Design;
 using BusinessLogic.Services.AutoMapper;
 using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
 using StoreMMO.Core.Repositories.StoreDetails;
+
+using StoreMMO.Core.Repositories.Disputes;
+using BusinessLogic.Services.StoreMMO.Core.Disputes;
+
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using StoreMMO.Core.Repositories.Purchase;
+
 namespace BusinessLogic.Config
 {
     public class ConfigServices
@@ -61,7 +66,8 @@ namespace BusinessLogic.Config
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
-           
+            services.AddScoped<IDisputeRepository, DisputeRepository>();
+
 
             // Đăng ký StoreTypeRepository với DI container
             services.AddScoped<IStoreTypeRepository, StoreTypeRepository>();
@@ -86,7 +92,12 @@ namespace BusinessLogic.Config
             services.AddScoped<IStoreTypeService, StoreTypeService>();
             services.AddScoped<IRegisteredSellerService, RegisteredSellerService>();
             services.AddScoped<IStoreDetailRepository, StoreDetailRepository>();
+
+            services.AddScoped<IDisputeService, DisputeService>();
+
+
             services.AddScoped<IPurchaseService , PurchaseService>();
+
 
 
 
