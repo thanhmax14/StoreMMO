@@ -20,7 +20,9 @@ namespace BusinessLogic.Services.AutoMapper
             CreateMap<InputProductTypeViewModel, ProductTypesViewModels>().ReverseMap();
             CreateMap<ProductType, InputProductTypeViewModel>().ReverseMap();
             CreateMap<StoreAddViewModels, ViewProductModels>().ReverseMap();
-            CreateMap<StoreDetailViewModels, ViewProductModels>().ReverseMap();
+            CreateMap<StoreDetailViewModels, InputProductTypeViewModel>().ReverseMap();
+            CreateMap<StoreDetail, InputProductTypeViewModel>().ReverseMap();
+            CreateMap<ProductTypesViewModels, ProductViewModels>().ReverseMap();
 
 
         }

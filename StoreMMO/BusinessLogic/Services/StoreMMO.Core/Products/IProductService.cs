@@ -18,5 +18,6 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
         void DeleteProduct(string id);
         IEnumerable<ManageStoreViewModels> ManageStore();
         IEnumerable<ViewProductModels> GetProductsByStoreId(string storeId);
+        IEnumerable<Product> getProductsByTypeID(string id);
     }
 }
