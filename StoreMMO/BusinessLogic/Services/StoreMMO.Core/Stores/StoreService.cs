@@ -23,7 +23,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
              _storeRepo.Delete(id);
         }
 
-        public IEnumerable<StoreViewModels> getAll(bool sicbo)
+        public IEnumerable<StoreViewModels> getAll(string sicbo)
         {
             return this._storeRepo.getAll(sicbo);
         }

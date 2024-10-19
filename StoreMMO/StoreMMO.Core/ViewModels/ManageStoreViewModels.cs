@@ -10,13 +10,13 @@ namespace StoreMMO.Core.ViewModels
     {
 
         public string Id { get; set; }
-        public string NameStore { get; set; }
-        public string CateName { get; set; }
-        public double Price { get; set; }
+        public string StoreName { get; set; }
+        public string CategoryName { get; set; }
+        public string PriceRange { get; set; }
         public double Commission { get; set; }
-        public string Stock { get; set; }
+        public int TotalStock { get; set; }
         public DateTimeOffset? CreatedDate { get; set; }
-        public bool? IsAccept { get; set; }
+        public string? IsAccept { get; set; }
 
 
 

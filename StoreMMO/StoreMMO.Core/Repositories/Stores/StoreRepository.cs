@@ -20,7 +20,7 @@ namespace StoreMMO.Core.Repositories.Stores
             this._context = dbContext;
         }
 
-        public IEnumerable<StoreViewModels> getAll(bool sicbo)
+        public IEnumerable<StoreViewModels> getAll(string sicbo)
         {
 			string sql = $"SELECT s.Id AS storeID, us.id AS userid, sd.[Name] AS nameStore, ca.[Name] AS catename, us.UserName, sd.Img AS imgStore FROM Users us INNER JOIN Stores s ON us.Id = s.UserId INNER JOIN StoreDetails sd ON s.Id = sd.StoreId INNER JOIN StoreTypes st ON sd.StoreTypeId = st.Id INNER JOIN Categories ca ON sd.CategoryId = ca.Id WHERE s.IsAccept = '{sicbo}'\r\n";
 
@@ -38,7 +38,6 @@ namespace StoreMMO.Core.Repositories.Stores
                 CreatedDate = DateTime.Now,
                 ModifiedDate = store.ModifiedDate,
                 IsAccept = "",
-                Price = store.Price,
             };
             _context.Stores.Add(store1);
             _context.SaveChanges();
@@ -54,7 +53,6 @@ namespace StoreMMO.Core.Repositories.Stores
             s.CreatedDate = store.CreatedDate;
             s.ModifiedDate = DateTime.Now;
             s.IsAccept = store.IsAccept;
-            s.Price = store.Price;
             
             _context.Stores.Update(s);
             _context.SaveChanges();
@@ -90,7 +88,6 @@ namespace StoreMMO.Core.Repositories.Stores
                 CreatedDate = store.CreatedDate,
                 ModifiedDate = DateTime.Now,
                 IsAccept = store.IsAccept,
-                Price = store.Price,
             };
 
             return viewModel;
@@ -127,27 +124,32 @@ namespace StoreMMO.Core.Repositories.Stores
         public IEnumerable<StoreManageViewModels> getAllStore()
         {
             string sql = @"
-        SELECT 
-            Users.UserName, 
-            Stores.Price, 
-            StoreTypes.Name AS StoreTypeName, 
-            Categories.Name AS CategoryName, 
-            StoreDetails.Name AS StoreDetailName, 
-            ProductTypes.Name AS ProductTypeName
-        FROM 
-            Categories
-        INNER JOIN 
-            StoreDetails ON Categories.Id = StoreDetails.CategoryId
-        INNER JOIN 
-            Stores ON StoreDetails.StoreId = Stores.Id
-        INNER JOIN 
-            StoreTypes ON StoreDetails.StoreTypeId = StoreTypes.Id
-        INNER JOIN 
-            Users ON Stores.UserId = Users.Id
-        INNER JOIN 
-            ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId
-        INNER JOIN 
-            ProductTypes ON ProductConnects.ProductTypeId = ProductTypes.Id";
+SELECT 
+    Users.UserName, 
+    Stores.Price, 
+    Stores.IsAccept, 
+    Stores.Id,
+    StoreTypes.Name AS StoreTypeName, 
+    Categories.Name AS CategoryName, 
+    StoreDetails.Name AS StoreDetailName, 
+    ProductTypes.Name AS ProductTypeName
+FROM 
+    Categories
+INNER JOIN 
+    StoreDetails ON Categories.Id = StoreDetails.CategoryId
+INNER JOIN 
+    Stores ON StoreDetails.StoreId = Stores.Id
+INNER JOIN 
+    StoreTypes ON StoreDetails.StoreTypeId = StoreTypes.Id
+INNER JOIN 
+    Users ON Stores.UserId = Users.Id
+INNER JOIN 
+    ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId
+INNER JOIN 
+    ProductTypes ON ProductConnects.ProductTypeId = ProductTypes.Id
+WHERE 
+    Stores.IsAccept = '0'";
+
 
             var list = this._context.Database.SqlQueryRaw<StoreManageViewModels>(sql).ToList();
             return list;

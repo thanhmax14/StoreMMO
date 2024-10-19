@@ -166,6 +166,10 @@ namespace StoreMMO.Core.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("BalanceID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -242,6 +246,8 @@ namespace StoreMMO.Core.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BalanceID");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -251,6 +257,16 @@ namespace StoreMMO.Core.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("StoreMMO.Core.Models.Balance", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Balances");
                 });
 
             modelBuilder.Entity("StoreMMO.Core.Models.Cart", b =>
@@ -302,6 +318,34 @@ namespace StoreMMO.Core.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("StoreMMO.Core.Models.Complaint", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OrderDetailID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Reply")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("OrderDetailID");
+
+                    b.ToTable("Complaints");
+                });
+
             modelBuilder.Entity("StoreMMO.Core.Models.FeedBack", b =>
                 {
                     b.Property<string>("Id")
@@ -342,6 +386,86 @@ namespace StoreMMO.Core.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("FeedBacks");
+                });
+
+            modelBuilder.Entity("StoreMMO.Core.Models.OrderBuy", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OrderCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductTypeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StoreID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("totalMoney")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ProductTypeId");
+
+                    b.HasIndex("StoreID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("OrderBuys");
+                });
+
+            modelBuilder.Entity("StoreMMO.Core.Models.OrderDetail", b =>
+                {
+                    b.Property<string>("ID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AdminMoney")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Dates")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderBuyID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Price")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProductID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SellerMoney")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("quantity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("stasusPayment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("OrderBuyID");
+
+                    b.HasIndex("ProductID");
+
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("StoreMMO.Core.Models.Product", b =>
@@ -444,9 +568,6 @@ namespace StoreMMO.Core.Migrations
 
                     b.Property<DateTimeOffset?>("ModifiedDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Price")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -611,6 +732,17 @@ namespace StoreMMO.Core.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("StoreMMO.Core.Models.AppUser", b =>
+                {
+                    b.HasOne("StoreMMO.Core.Models.Balance", "Balance")
+                        .WithMany("ProductConnects")
+                        .HasForeignKey("BalanceID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Balance");
+                });
+
             modelBuilder.Entity("StoreMMO.Core.Models.Cart", b =>
                 {
                     b.HasOne("StoreMMO.Core.Models.ProductType", "ProductType")
@@ -630,6 +762,17 @@ namespace StoreMMO.Core.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("StoreMMO.Core.Models.Complaint", b =>
+                {
+                    b.HasOne("StoreMMO.Core.Models.OrderDetail", "OrderDetail")
+                        .WithMany("StoreDetails")
+                        .HasForeignKey("OrderDetailID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderDetail");
+                });
+
             modelBuilder.Entity("StoreMMO.Core.Models.FeedBack", b =>
                 {
                     b.HasOne("StoreMMO.Core.Models.StoreDetail", "StoreDetail")
@@ -647,6 +790,52 @@ namespace StoreMMO.Core.Migrations
                     b.Navigation("StoreDetail");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("StoreMMO.Core.Models.OrderBuy", b =>
+                {
+                    b.HasOne("StoreMMO.Core.Models.ProductType", "ProductType")
+                        .WithMany("OrderBuys")
+                        .HasForeignKey("ProductTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StoreMMO.Core.Models.Store", "Store")
+                        .WithMany("OrderBuys")
+                        .HasForeignKey("StoreID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StoreMMO.Core.Models.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("ProductType");
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("StoreMMO.Core.Models.OrderDetail", b =>
+                {
+                    b.HasOne("StoreMMO.Core.Models.OrderBuy", "orderBuy")
+                        .WithMany("StoreDetails")
+                        .HasForeignKey("OrderBuyID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StoreMMO.Core.Models.Product", "Product")
+                        .WithMany("StoreDetails")
+                        .HasForeignKey("ProductID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("orderBuy");
                 });
 
             modelBuilder.Entity("StoreMMO.Core.Models.Product", b =>
@@ -736,7 +925,27 @@ namespace StoreMMO.Core.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("StoreMMO.Core.Models.Balance", b =>
+                {
+                    b.Navigation("ProductConnects");
+                });
+
             modelBuilder.Entity("StoreMMO.Core.Models.Category", b =>
+                {
+                    b.Navigation("StoreDetails");
+                });
+
+            modelBuilder.Entity("StoreMMO.Core.Models.OrderBuy", b =>
+                {
+                    b.Navigation("StoreDetails");
+                });
+
+            modelBuilder.Entity("StoreMMO.Core.Models.OrderDetail", b =>
+                {
+                    b.Navigation("StoreDetails");
+                });
+
+            modelBuilder.Entity("StoreMMO.Core.Models.Product", b =>
                 {
                     b.Navigation("StoreDetails");
                 });
@@ -744,6 +953,8 @@ namespace StoreMMO.Core.Migrations
             modelBuilder.Entity("StoreMMO.Core.Models.ProductType", b =>
                 {
                     b.Navigation("Carts");
+
+                    b.Navigation("OrderBuys");
 
                     b.Navigation("ProductConnects");
 
@@ -754,6 +965,8 @@ namespace StoreMMO.Core.Migrations
 
             modelBuilder.Entity("StoreMMO.Core.Models.Store", b =>
                 {
+                    b.Navigation("OrderBuys");
+
                     b.Navigation("StoreDetails");
                 });
 

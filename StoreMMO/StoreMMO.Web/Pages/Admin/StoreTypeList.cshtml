@@ -382,7 +382,7 @@
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Categories</li>
+                    <li class="breadcrumb-item">StoreType</li>
                     <li class="breadcrumb-item active">DataList</li>
                 </ol>
             </nav>
@@ -395,8 +395,8 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Datatables</h5>
-
-                            <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to convert to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p>
+                            <button type="button" onclick="window.location.href='/admin/StoreTypeCreate'" class="btn btn-secondary">CreateStoreType</button>
+                            
 
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
@@ -431,13 +431,20 @@
                                                 <button onclick="window.location.href='/admin/UpdateStoreType/@item.Id'" type="button" class="btn btn-primary">Edit</button>
                                             </td>
                                             <td>
-                                                <form method="post" asp-page-handler="Hidden">
+                                                <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
                                                     <!-- Hidden input để gửi id -->
                                                     <input type="hidden" name="id" value="@item.Id" />
                                                     <button type="submit" class="btn btn-danger">
                                                         Hidden
                                                     </button>
                                                 </form>
+
+                                                <script>
+                                                    function confirmHidden() {
+                                                        return confirm('Are you sure you want to hide this item?');
+                                                    }
+                                                </script>
+
 
                                                 <!-- Nút Hidden -->
                                                 <!-- Modal -->
@@ -470,7 +477,7 @@
                         </div>
 
                         <!-- Nút CreateCategory -->
-                        <button type="button" onclick="window.location.href='/admin/StoreTypeCreate'" class="btn btn-secondary">CreateCategory</button>
+@*                         <button type="button" onclick="window.location.href='/admin/StoreTypeCreate'" class="btn btn-secondary">CreateCategory</button> *@
                     </div>
                 </div>
             </div>

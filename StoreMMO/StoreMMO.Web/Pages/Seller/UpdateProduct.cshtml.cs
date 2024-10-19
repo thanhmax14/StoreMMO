@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
+using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
+using BusinessLogic.Services.StoreMMO.Core.Stores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -15,34 +17,26 @@ namespace StoreMMO.Web.Pages.Seller
         private readonly IProductService _product;
         private readonly IMapper _mapper;
         private readonly IProductTypeService _productTypeService;
+        private readonly IStoreDetailsService _storeDetailsService;
 
-        public UpdateProductModel(IProductService product, IMapper mapper, IProductTypeService productTypeService)
+        public UpdateProductModel(IProductService product, IMapper mapper, IProductTypeService productTypeService, IStoreDetailsService storeDetailsService)
         {
             _product = product;
             _mapper = mapper;
             _productTypeService = productTypeService;
+            _storeDetailsService = storeDetailsService;
         }
 
         [BindProperty]
-        public IEnumerable <InputProductTypeViewModel> EditProduct { get; set; }
+        public IEnumerable<ViewProductModels> EditProduct { get; set; }
         [BindProperty]
-        public IEnumerable<ProductType> ProductTypes { get; set; }
+        public IEnumerable<InputProductTypeViewModel> ProductTypes { get; set; }
 
         public void OnGet(string id)
         {
-            // Lấy đối tượng Product từ service
-            var productType = _productTypeService.getByIDProduct(id); // Giả định trả về một đối tượng đơn lẻ
-
-            // Kiểm tra nếu product tồn tại (không null)
-            if (productType != null)
-            {
-                // Sử dụng AutoMapper để map từ ProductType sang InputProductTypeViewModel
-                EditProduct = new List<InputProductTypeViewModel> { _mapper.Map<InputProductTypeViewModel>(productType) };
-            }
-            /*var productTypesViewModels = _productTypeService.GetAllProduct();
-
-            // Ánh xạ danh sách ProductTypes
-            ProductTypes = _mapper.Map<IEnumerable<ProductType>>(productTypesViewModels);*/
+            EditProduct = _product.GetProductsByStoreId(id);
+            var obj = _storeDetailsService.GetAllStoreDetails();
+            ProductTypes = _mapper.Map<IEnumerable<InputProductTypeViewModel>>(obj);
         }
 
         public IActionResult OnPost(string id)

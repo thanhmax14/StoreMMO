@@ -15,8 +15,7 @@ public partial class Store
 
     public string? IsAccept { get; set; }
 
-    public string? Price { get; set; }
-
     public virtual ICollection<StoreDetail> StoreDetails { get; set; } = new List<StoreDetail>();
+    public virtual ICollection<OrderBuy> OrderBuys { get; set; } = new List<OrderBuy>();
     public virtual AppUser User { get; set; }
 }

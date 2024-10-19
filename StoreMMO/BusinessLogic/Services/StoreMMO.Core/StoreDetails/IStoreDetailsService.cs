@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StoreMMO.Core.Repositories.StoreDetails
+namespace BusinessLogic.Services.StoreMMO.Core.StoreDetails
 {
-    public interface IStoreDetailRepository
+    public interface IStoreDetailsService
     {
         IEnumerable<StoreDetail> GetAllStoreDetails();
         StoreDetailViewModels GetByIdStoDetails(string id);
@@ -16,5 +16,6 @@ namespace StoreMMO.Core.Repositories.StoreDetails
         StoreDetailViewModels UpdateStoDetails(StoreDetailViewModels idstoreDetailViewModels);
         void DeleteStoDetails(string id);
         StoreDetailViewModels GetByIdStoDetails1(string id);
+
     }
 }

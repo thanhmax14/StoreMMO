@@ -49,7 +49,7 @@ namespace StoreMMO.Web.Pages
                 HttpContext.Session.SetString("ListCate", JsonConvert.SerializeObject(listCate, jsonSettings));
 			}
 
-			storeView = await this._storeApi.GetStoresAsync(true);
+			storeView = await this._storeApi.GetStoresAsync("1");
 			var useriD = HttpContext.Session.GetString("UserID");
 			if (useriD != null)
 			{
