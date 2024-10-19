@@ -16,7 +16,7 @@ namespace StoreMMO.Core.Models
         public bool IsSeller { get; set; } = false;
         public DateTime? RequestSellerDate { get; set; }
         public DateTime? SellerApprovalDate { get; set; }
-        public string? BalanceID { get; set; }
-        public Balance Balance { get; set; }
+        public decimal CurrentBalance { get; set; } = 0.00m;
+
     }
 }

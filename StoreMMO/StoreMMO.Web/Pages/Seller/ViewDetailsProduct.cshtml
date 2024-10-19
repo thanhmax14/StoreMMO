@@ -1,5 +1,5 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Seller.HiddentProductModel
+@model ViewDetailsProductModel
 @{
 }
 
@@ -406,7 +406,6 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-
                                         <th>Stt</th>
                                         <th>Account</th>
                                         <th>Pwd</th>
@@ -415,9 +414,23 @@
                                         <th>CreatedDate</th>
                                     </tr>
                                 </thead>
+                            
                                 <tbody>
-                                   
-
+                                    @{
+                                        int count = 1;
+                                    }
+                                    @foreach (var item in Model.Products)
+                                    {
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@item.Account</td>
+                                            <td>@item.Pwd</td>
+                                            <td>@item.StatusUpload</td>
+                                            <td>@item.Status</td>
+                                            <td>@item.CreatedDate</td>
+                                        </tr>
+                                        ++count;
+                                    }
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->
@@ -462,3 +475,4 @@
 </body>
 
 </html>
+

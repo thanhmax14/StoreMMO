@@ -126,7 +126,7 @@ namespace StoreMMO.Core.Repositories.Stores
             string sql = @"
 SELECT 
     Users.UserName, 
-    Stores.Price, 
+    ProductTypes.Price, 
     Stores.IsAccept, 
     Stores.Id,
     StoreTypes.Name AS StoreTypeName, 

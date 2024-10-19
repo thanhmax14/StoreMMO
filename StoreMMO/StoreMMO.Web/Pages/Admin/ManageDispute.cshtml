@@ -1,9 +1,7 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Seller.UpdateProductModel
+@model StoreMMO.Web.Pages.Admin.ManageDisputeModel
 @{
 }
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +9,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Forms / Elements - NiceAdmin Bootstrap Template</title>
+    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -21,8 +19,7 @@
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="~/assets_Admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -35,16 +32,7 @@
 
     <!-- Template Main CSS File -->
     <link href="~/assets_Admin/css/style.css" rel="stylesheet">
-    <style>
-        /* CSS để căn giữa form */
-        .form-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            /* Chiều cao của viewport */
-        }
-    </style>
+
     <!-- =======================================================
     * Template Name: NiceAdmin
     * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -61,7 +49,7 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="index.html" class="logo d-flex align-items-center">
-                <img src="assets/img/logo.png" alt="">
+                <img src="~/assets_Admin/img/logo.png" alt="">
                 <span class="d-none d-lg-block">NiceAdmin</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -298,22 +286,17 @@
 
             <li class="nav-item">
                 <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                    <i class="ri-account-box-line"></i><span>Manage Store</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="ri-account-box-line"></i><span>Manage User Accounts</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/Seller/Index" onclick="window.location.href='/Seller/Index'">
-                            <i class="bi bi-circle"></i><span>Manage Store</span>
+                        <a href='/admin/UserAccountList' >
+                            <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
                         <a href="">
-                            <i class=" bi bi-circle"></i><span>Create Product</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/Seller/UpdateProduct" onclick="window.location.href='/Seller/UpdateProduct'" class="active">
-                            <i class=" bi bi-circle"></i><span>Manage ProductType</span>
+                            <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
                 </ul>
@@ -323,15 +306,15 @@
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-contacts-line"></i> <span>Manage Sellers and Stores</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="">
+                        <a href='/admin/RegisteredSeller' class="active">
                             <i class="bi bi-circle"></i><span>Sellers Request</span>
                         </a>
                     </li>
                     <li>
                         <a href="">
-                            <i class="bi bi-circle"></i><span>Stand Request</span>
+                            <i class="bi bi-circle"></i><span>Store Request</span>
                         </a>
                     </li>
                     <li>
@@ -394,14 +377,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Update User Information</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <!-- <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Forms</li>
-                    <li class="breadcrumb-item active">Elements</li> -->
-                </ol>
-            </nav>
+            <h1>Store Tables</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -410,87 +386,64 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Manage Product</h5>
+                            <h5 class="card-title">Store List</h5>
 
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Stt</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                        <th>IsActive</th>
-                                        <th>Stock</th>
-                                       
+                                        <th></th>
+                                        <th>Orderdetail Id</th>
+                                        <th>Discription</th>
+                                        <th>Created Date</th>
+                                        <th>Reply</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{
                                         int stt = 1;
                                     }
-                                    @foreach (var item in Model.EditProduct)
+                                    @foreach (var item in @Model.list)
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            @*  @{
-                                        var productTypeName = Model.ProductTypes.FirstOrDefault(pt => pt.Id == item.ProductTypeId)?.Name;
-                                        } *@
-                                            <td>@item.ProductName</td> <!-- Hiển thị tên của ProductType -->
-                                            <td>@item.Price</td>
-                                            <td class="@(item.IsActive == true ? "text-success" : "text-danger")">
-                                                @(item.IsActive == true ? "Active" : "Hidden")
-                                            </td>
-                                            <td>@item.Stock</td>
-
+                                            <td>@item.OrderDetailID</td>
+                                            <td>@item.Description</td>
+                                            <td>@item.CreateDate</td>
+                                            <td>@item.Reply</td>
                                             <td>
-                                                @*  <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
-                                            <button type="button" class="btn btn-danger">Hidden</button>
-                                            *@
-                                                <a asp-page="/Seller/ViewDetailsProduct" asp-route-id="@item.ProductTypeID" class="btn btn-primary">View Details</a>
-                                               @Html.AntiForgeryToken()
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.ProductTypeID">Edit</button>
-
-                                                <!-- Trigger modal with Edit button -->
-                                                @foreach (var item1 in Model.ProductTypes)
-                                                {
-                                                    <div class="modal fade" id="exampleModal-@item.ProductTypeID" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Edit Product</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <!-- Form to update product -->
-                                                                    <form id="editProductForm-@item.ProductTypeID" method="post" class="editProductForm" data-product-id="@item.ProductTypeID" action="/Seller/UpdateProduct">
-                                                                        @Html.AntiForgeryToken() <!-- Add this line -->
-
-                                                                        <div class="form-group">
-                                                                            <label asp-for="@item.ProductName">Name</label>
-                                                                            <input asp-for="@item.ProductName" type="text" name="ProductName" id="ProductName-@item.ProductTypeID" class="form-control" value="@item.ProductName" />
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label asp-for="@item.Price">Price</label>
-                                                                            <input asp-for="@item.Price" type="text" name="Price" id="Price-@item.ProductTypeID" class="form-control" value="@item.Price" />
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label asp-for="@item.IsActive">Status</label>
-                                                                            <select name="IsActive" class="form-control" id="IsActive-@item.ProductTypeID">
-                                                                                <option value="true">IsActive </option>
-                                                                                <option value="false">Hidden</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <input type="submit" value="Save" class="btn btn-primary" />
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
+                                                <form method="post" asp-page-handler="OnPostAsync">
+                                                    <input type="hidden" name="Id" value="@item.ID" />
+                                                    <input type="hidden" name="Status" value="1" />
+                                                    <button type="submit" class="btn btn-primary">Accept</button>
+                                                </form>
+                                                <form method="post" asp-page-handler="AsyncReject">
+                                                    <input type="hidden" name="Id" value="@item.ID" />
+                                                    <input type="hidden" name="Status" value="2" />
+                                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                                </form>
+                                                <div class="modal fade" id="verticalycentered" tabindex="-1">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Hidden that user</h5>
+                                                                <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you want to hide this user?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button left" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">
+                                                                    Back
+                                                                </button>
+                                                                <button type="button" class="btn btn-primary">Yes</button>
+                                                                <button type="button" class="btn btn-primary">No</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                }
-                                           
+                                                </div>
                                             </td>
                                         </tr>
                                         stt++;
@@ -509,22 +462,20 @@
 
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+    @*     <footer id="footer" class="footer">
+    <div class="copyright">
+    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+    </footer><!-- End Footer --> *@
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
-        <i class="bi bi-arrow-up-short"></i>
-    </a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
     <script src="~/assets_Admin/vendor/apexcharts/apexcharts.min.js"></script>
@@ -538,60 +489,10 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
-    @section Scripts {
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $(document).on('submit', '.editProductForm', function (event) {
-                    event.preventDefault(); // Prevent the default form submission
 
-                    var productId = $(this).data('product-id'); // Lấy product ID từ data attribute
-                    var ProductName = $('#ProductName-' + productId).val(); // Lấy giá trị từ input
-                    var Price = $('#Price-' + productId).val(); // Lấy giá trị từ input
-                    var IsActive = $('#IsActive-' + productId).val(); // Lấy giá trị từ select
-
-                    var formData = $(this).serialize(); // Serialize form data
-                    formData += '&' + $('input[name="__RequestVerificationToken"]').val(); // Include the token
-
-                    var temp = productId + "$" + Price + "$" + ProductName + "$" + IsActive; // Assuming product ID is stored as a data attribute
-                    console.log(productId);
-
-                    $.ajax({
-                        url: '/Seller/UpdateProduct?id=' + temp, // Pass product ID as a query parameter
-                        type: 'POST',
-                        data: formData,
-                        success: function (response) {
-                            if (response.success) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Update Successful',
-                                    text: 'Product information has been updated.'
-                                }).then(function () {
-                                    location.reload(); // Reload the page after successful hide
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'An Error Occurred',
-                                    text: response.message || 'Unable to update product information. Please try again later.'
-                                });
-                            }
-                        },
-                        error: function (error) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'An Error Occurred',
-                                text: 'Unable to update product information. Please try again later.'
-                            });
-                        }
-                    });
-                });
-            });
-        </script>
-    }
 
 </body>
 
 </html>
+
+
