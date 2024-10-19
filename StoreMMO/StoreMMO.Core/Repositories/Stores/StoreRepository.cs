@@ -20,7 +20,7 @@ namespace StoreMMO.Core.Repositories.Stores
             this._context = dbContext;
         }
 
-        public IEnumerable<StoreViewModels> getAll(bool sicbo)
+        public IEnumerable<StoreViewModels> getAll(string sicbo)
         {
 			string sql = $"SELECT s.Id AS storeID, us.id AS userid, sd.[Name] AS nameStore, ca.[Name] AS catename, us.UserName, sd.Img AS imgStore FROM Users us INNER JOIN Stores s ON us.Id = s.UserId INNER JOIN StoreDetails sd ON s.Id = sd.StoreId INNER JOIN StoreTypes st ON sd.StoreTypeId = st.Id INNER JOIN Categories ca ON sd.CategoryId = ca.Id WHERE s.IsAccept = '{sicbo}'\r\n";
 
