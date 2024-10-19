@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Services.Encrypt;
 using BusinessLogic.Services.StoreMMO.API;
+using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
@@ -13,13 +14,16 @@ namespace StoreMMO.Web.Pages.Home
         private readonly StoreApiService _storeApi;
         private readonly ProductApiService _productApi;
         private readonly WishListApiService _wishListApi;
+        private readonly IPurchaseService _puchae;
 
 
-        public StoredetailModel(StoreApiService storeApiService, ProductApiService productApi,WishListApiService wishListApiService)
+        public StoredetailModel(StoreApiService storeApiService, ProductApiService productApi,
+            WishListApiService wish, IPurchaseService purchaseService)
         {
             this._storeApi = storeApiService;
             this._productApi = productApi;
-            this._wishListApi = wishListApiService;
+            this._wishListApi = wish;
+            this._puchae = purchaseService;
         }
 
         [BindProperty]
@@ -35,6 +39,8 @@ namespace StoreMMO.Web.Pages.Home
 
         public async Task<IActionResult> OnGetAsync(string id)  
         {
+
+            this._puchae.SaveProductToSession(null);
             var useriD = HttpContext.Session.GetString("UserID");
             if (useriD != null)
             {
