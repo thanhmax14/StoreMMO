@@ -23,24 +23,30 @@ namespace StoreMMO.Web.Pages.Seller
         }
 
         [BindProperty]
-        public InputProductViewModel CreateProduct { get; set; }
+        public InputProductViewModel CreateProduct { get; set; }  // Sử dụng đối tượng đơn thay vì IEnumerable
         [BindProperty]
         public IEnumerable<ProductType> ProductTypes { get; set; }
-        public void OnGet()
+        public void OnGet(string id)
         {
-            var productTypesViewModels = _productTypeService.GetAllProduct();
-
-            // Ánh xạ danh sách ProductTypes
-            ProductTypes = _mapper.Map<IEnumerable<ProductType>>(productTypesViewModels);
+            // Lấy danh sách ProductType
+            ProductTypes = _productTypeService.GetAllProduct();
+            var obj = _productTypeService.getByIDProduct(id);
         }
+
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-            var productViewModels = _mapper.Map<ProductViewModels>(CreateProduct);  // Map ProductViewModel to ProductViewModels
-            _productService.AddProduct(productViewModels);  // Use the mapped ProductViewModels object
+            //if (!ModelState.IsValid)
+            //{
+            //    return Page();
+            //}
+
+            // Thực hiện việc tạo product
+            var productViewModels = _mapper.Map<ProductViewModels>(CreateProduct); // Map từ InputProductViewModel sang Product
+
+            // Lưu product mới
+            _productService.AddProduct(productViewModels);
+
+            // Redirect về trang Index sau khi tạo thành công
             return RedirectToPage("/Seller/Index");
         }
     }
