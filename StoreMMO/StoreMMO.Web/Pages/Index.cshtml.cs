@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Services.Encrypt;
 using BusinessLogic.Services.StoreMMO.API;
 using BusinessLogic.Services.StoreMMO.Core.Carts;
+using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -21,16 +22,19 @@ namespace StoreMMO.Web.Pages
 		private readonly ICartService _cartService;
 		private readonly WishListApiService _wishListApi;
 		private readonly CategoryApiService _categoryApiService;
+		private readonly IPurchaseService _purchase;
 
 
 		public IndexModel(StoreApiService storeApiService, ProductApiService productApi,
-			ICartService cartService, WishListApiService wishListApi, CategoryApiService categoryApiService)
+			ICartService cartService, WishListApiService wishListApi, CategoryApiService categoryApiService
+			, IPurchaseService purchaseService)
 		{
 			this._storeApi = storeApiService;
 			this._productApi = productApi;
 			this._cartService = cartService;
 			this._wishListApi = wishListApi;
 			_categoryApiService = categoryApiService;
+			this._purchase = purchaseService;
 		}
 
 		public List<StoreViewModels> storeView = new List<StoreViewModels>();
@@ -38,7 +42,7 @@ namespace StoreMMO.Web.Pages
 		public List<WishListViewModels> wishnew = new List<WishListViewModels>();
 		public async Task OnGetAsync()
 		{
-
+			this._purchase.SaveProductToSession(null);
 		   var listCate = await this._categoryApiService.GetAllCategoriesAsync();
             if (listCate != null)
             {
@@ -239,6 +243,8 @@ namespace StoreMMO.Web.Pages
 		[ValidateAntiForgeryToken]
 		public IActionResult OnPostAutocheck(string saveProID)
 		{
+
+
 			if (string.IsNullOrEmpty(saveProID))
 			{
 				return new JsonResult(new { success = false, mess = "" });
@@ -294,5 +300,48 @@ namespace StoreMMO.Web.Pages
 			}
 			return new JsonResult(new { success = true, message = $"Sản phẩm đã được thêm vào danh sách yêu thích: {saveProID}", login = true });
 		}
-	}
+
+        public IActionResult OnPostGetbuyOne(int quan, string saveProID)
+        {
+
+            if (string.IsNullOrEmpty(saveProID) || int.IsNegative(quan))
+            {
+                return new JsonResult(new { success = false, mess = "" });
+            }
+            else
+            {
+                var PurchaseItem = this._purchase.GetProductFromSession();
+				if(PurchaseItem.Count > 0)
+				{
+                    return new JsonResult(new { success = false, mess = "" });
+                }
+				else
+				{
+                    var getitem = this._cartService.getProductAddByID(saveProID);
+                    if (getitem != null || !getitem.IsNullOrEmpty())
+
+                    {
+                        foreach (var item in getitem)
+                        {
+
+							var tem = new PurchaseItem
+							{
+								ProductID = item.productID,
+								ProductName = item.proName,
+								quantity = quan.ToString(),
+								storeName = "thanh",
+								total = (item.price * quan)+"",
+							
+
+							};
+							PurchaseItem.Add(tem);
+                            this._purchase.SaveProductToSession(PurchaseItem);
+                        }
+					
+                    }
+                    return new JsonResult(new { success = true, message = "ok id la " + saveProID });
+                }
+            }
+        }
+    }
 }
