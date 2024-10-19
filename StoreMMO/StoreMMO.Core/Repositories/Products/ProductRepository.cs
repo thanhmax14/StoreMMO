@@ -154,6 +154,7 @@ SELECT
     p2.Name AS ProductName, 
     p2.Price, 
     p2.Stock, 
+    p2.Id as ProductTypeID,
     p2.IsActive
 FROM     
     StoreDetails s1 
@@ -171,11 +172,16 @@ WHERE
     p2.Name,
     p2.Stock,
     p2.IsActive,
+    p2.Id,
     p2.Price;";
 
             // Use FromSqlRaw with no parameters
             var list = this._context.Database.SqlQueryRaw<ViewProductModels>(sql).ToList();
             return list;
+        }
+        public IEnumerable<Product> getProductsByTypeID(string id)
+        {
+            return _context.Products.Where(x => x.ProductTypeId == id).ToList();
         }
     }
 }
