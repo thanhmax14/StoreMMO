@@ -77,7 +77,11 @@ namespace StoreMMO.Core.Models
           .WithMany()
           .HasForeignKey(s => s.UserId)
           .OnDelete(DeleteBehavior.Cascade);
-
+            builder.Entity<Balance>()
+       .HasOne(s => s.User)
+       .WithMany()
+       .HasForeignKey(s => s.UserId)
+       .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<OrderBuy>()
                .HasOne(o => o.AppUser) // Assuming AppUser is a navigation property to User
                .WithMany() // Assuming no reverse navigation
