@@ -41,24 +41,33 @@ namespace StoreMMO.Web.Pages.Seller
 
         public IActionResult OnPost(string id)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page(); // Trả về trang nếu ModelState không hợp lệ
-            //}
-            // Lấy đối tượng Product hiện tại để cập nhật
-            var existingProduct = _product.getByIdProduct(id);
+            if (id.Split('$').Length < 4) return new JsonResult(new { success = false });
+
+            var proID = id.Split('$')[0];
+            var Price = id.Split('$')[1];
+            var ProductName = id.Split('$')[2];
+            var isActive = id.Split('$')[3];
+
+            var existingProduct = _productTypeService.getByIDProduct(proID);
             if (existingProduct == null)
             {
-                return RedirectToPage("/Seller/UpdateProduct"); // Không tìm thấy sản phẩm
+                return new JsonResult(new { success = false });
             }
 
-            // Sử dụng AutoMapper để map từ InputProductViewModel về Product
-            var productToUpdate = _mapper.Map<ProductViewModels>(EditProduct);
+            // Map dữ liệu từ EditProduct vào ProductType tương ứng
+          
+            if (existingProduct != null)
+            {
+                existingProduct.Name = ProductName;
+                existingProduct.Price = Double.Parse(Price);
+                existingProduct.IsActive = isActive == "true"; // Cập nhật trạng thái
+                // Cập nhật ProductType trong cơ sở dữ liệu
+                _productTypeService.Update(existingProduct);
+                return new JsonResult(new { success = true });
 
-            // Cập nhật sản phẩm
-            _product.UpdateProduct(productToUpdate);
+            }
 
-            return RedirectToPage("/Seller/Index");
+            return new JsonResult(new { success = false });
         }
     }
 }

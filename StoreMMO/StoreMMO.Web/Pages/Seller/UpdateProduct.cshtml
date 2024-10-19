@@ -298,22 +298,22 @@
 
             <li class="nav-item">
                 <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                    <i class="ri-account-box-line"></i><span>Manage User Accounts</span><i class="bi bi-chevron-down ms-auto"></i>
+                    <i class="ri-account-box-line"></i><span>Manage Store</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="" onclick="window.location.href='/admin/UserAccountList'">
-                            <i class="bi bi-circle"></i><span>Manage Product</span>
+                        <a href="/Seller/Index" onclick="window.location.href='/Seller/Index'">
+                            <i class="bi bi-circle"></i><span>Manage Store</span>
                         </a>
                     </li>
                     <li>
-                        <a href="" >
+                        <a href="">
                             <i class=" bi bi-circle"></i><span>Create Product</span>
                         </a>
                     </li>
                     <li>
-                        <a href="" class="active">
-                            <i class=" bi bi-circle"></i><span>Edit Product</span>
+                        <a href="/Seller/UpdateProduct" onclick="window.location.href='/Seller/UpdateProduct'" class="active">
+                            <i class=" bi bi-circle"></i><span>Manage ProductType</span>
                         </a>
                     </li>
                 </ul>
@@ -437,22 +437,23 @@
                                         } *@
                                             <td>@item.ProductName</td> <!-- Hiển thị tên của ProductType -->
                                             <td>@item.Price</td>
-                                            <td>@item.IsActive</td>
+                                            <td class="@(item.IsActive == true ? "text-success" : "text-danger")">
+                                                @(item.IsActive == true ? "Active" : "Hidden")
+                                            </td>
                                             <td>@item.Stock</td>
 
                                             <td>
                                                 @*  <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
                                             <button type="button" class="btn btn-danger">Hidden</button>
                                             *@
-@*                                                 <a asp-page="/Seller/UpdateProduct" asp-route-id="@item.Id" class="btn btn-primary">View Details</a>
- *@                                                @Html.AntiForgeryToken()
+                                                <a asp-page="/Seller/ViewDetailsProduct" asp-route-id="@item.ProductTypeID" class="btn btn-primary">View Details</a>
+                                               @Html.AntiForgeryToken()
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.ProductTypeID">Edit</button>
+
                                                 <!-- Trigger modal with Edit button -->
                                                 @foreach (var item1 in Model.ProductTypes)
                                                 {
-                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.ProductName">Edit</button>
-
-                                                    <!-- Modal for each item -->
-                                                    <div class="modal fade" id="exampleModal-@item.ProductName" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="exampleModal-@item.ProductTypeID" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -461,20 +462,22 @@
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <!-- Form to update product -->
-                                                                    <form id="editProductForm-@item.ProductName" method="post" class="editProductForm" action="/UpdateProduct">
+                                                                    <form id="editProductForm-@item.ProductTypeID" method="post" class="editProductForm" data-product-id="@item.ProductTypeID" action="/Seller/UpdateProduct">
+                                                                        @Html.AntiForgeryToken() <!-- Add this line -->
+
                                                                         <div class="form-group">
                                                                             <label asp-for="@item.ProductName">Name</label>
-                                                                            <input asp-for="@item.ProductName" type="text" name="ProductName" class="form-control" value="@item.ProductName" />
+                                                                            <input asp-for="@item.ProductName" type="text" name="ProductName" id="ProductName-@item.ProductTypeID" class="form-control" value="@item.ProductName" />
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label asp-for="@item.Price">Price</label>
-                                                                            <input asp-for="@item.Price" type="text" name="Price" class="form-control" value="@item.Price" />
+                                                                            <input asp-for="@item.Price" type="text" name="Price" id="Price-@item.ProductTypeID" class="form-control" value="@item.Price" />
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label asp-for="@item.IsActive">Status</label>
-                                                                            <select name="IsActive" class="form-control">
-                                                                                <option value="1">Đang bán</option>
-                                                                                <option value="0">An</option>
+                                                                            <select name="IsActive" class="form-control" id="IsActive-@item.ProductTypeID">
+                                                                                <option value="true">IsActive </option>
+                                                                                <option value="false">Hidden</option>
                                                                             </select>
                                                                         </div>
                                                                         <div class="form-group">
@@ -535,6 +538,59 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(document).on('submit', '.editProductForm', function (event) {
+                    event.preventDefault(); // Prevent the default form submission
+
+                    var productId = $(this).data('product-id'); // Lấy product ID từ data attribute
+                    var ProductName = $('#ProductName-' + productId).val(); // Lấy giá trị từ input
+                    var Price = $('#Price-' + productId).val(); // Lấy giá trị từ input
+                    var IsActive = $('#IsActive-' + productId).val(); // Lấy giá trị từ select
+
+                    var formData = $(this).serialize(); // Serialize form data
+                    formData += '&' + $('input[name="__RequestVerificationToken"]').val(); // Include the token
+
+                    var temp = productId + "$" + Price + "$" + ProductName + "$" + IsActive; // Assuming product ID is stored as a data attribute
+                    console.log(productId);
+
+                    $.ajax({
+                        url: '/Seller/UpdateProduct?id=' + temp, // Pass product ID as a query parameter
+                        type: 'POST',
+                        data: formData,
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Update Successful',
+                                    text: 'Product information has been updated.'
+                                }).then(function () {
+                                    location.reload(); // Reload the page after successful hide
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'An Error Occurred',
+                                    text: response.message || 'Unable to update product information. Please try again later.'
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'An Error Occurred',
+                                text: 'Unable to update product information. Please try again later.'
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+    }
 
 </body>
 

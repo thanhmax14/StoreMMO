@@ -12,8 +12,8 @@ using StoreMMO.Core.Models;
 namespace StoreMMO.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241018152040_v4")]
-    partial class v4
+    [Migration("20241019101617_v3")]
+    partial class v3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,16 +169,15 @@ namespace StoreMMO.Core.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("BalanceID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<decimal>("CurrentBalance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("DateDelete")
                         .HasColumnType("datetime2");
@@ -249,8 +248,6 @@ namespace StoreMMO.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BalanceID");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -264,10 +261,36 @@ namespace StoreMMO.Core.Migrations
 
             modelBuilder.Entity("StoreMMO.Core.Models.Balance", b =>
                 {
-                    b.Property<string>("ID")
+                    b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ID");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("ApprovalDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TransactionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Balances");
                 });
@@ -735,15 +758,15 @@ namespace StoreMMO.Core.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("StoreMMO.Core.Models.AppUser", b =>
+            modelBuilder.Entity("StoreMMO.Core.Models.Balance", b =>
                 {
-                    b.HasOne("StoreMMO.Core.Models.Balance", "Balance")
-                        .WithMany("ProductConnects")
-                        .HasForeignKey("BalanceID")
+                    b.HasOne("StoreMMO.Core.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Balance");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("StoreMMO.Core.Models.Cart", b =>
@@ -926,11 +949,6 @@ namespace StoreMMO.Core.Migrations
                     b.Navigation("ProductType");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("StoreMMO.Core.Models.Balance", b =>
-                {
-                    b.Navigation("ProductConnects");
                 });
 
             modelBuilder.Entity("StoreMMO.Core.Models.Category", b =>
