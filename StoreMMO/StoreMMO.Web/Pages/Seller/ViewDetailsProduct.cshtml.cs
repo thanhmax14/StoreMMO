@@ -23,13 +23,24 @@ namespace StoreMMO.Web.Pages.Seller
         }
         [BindProperty]
         public IEnumerable<ProductViewModels> Products { get; set; } // Sử dụng danh sách thay vì đối tượng đơn
+        [BindProperty]
+        public string ProductTypeName { get; set; }  // Để hiển thị tên loại sản phẩm
 
         public void OnGet(string id)
         {
-            var productsList = _productService.getProductsByTypeID(id); // Lấy danh sách sản phẩm dựa vào ProductTypeID
+            // Lấy danh sách sản phẩm dựa trên ProductTypeID
+            var productsList = _productService.getProductsByTypeID(id);
+
+            // Lấy tên loại sản phẩm
+            var productType = _productTypeService.getByIDProduct(id);
+            if (productType != null)
+            {
+                ProductTypeName = productType.Name; // Gán tên loại sản phẩm
+            }
+
             if (productsList != null)
             {
-                Products = _mapper.Map<IEnumerable<ProductViewModels>>(productsList); // Ánh xạ danh sách sản phẩm sang ProductViewModels
+                Products = _mapper.Map<IEnumerable<ProductViewModels>>(productsList); // Ánh xạ sang ProductViewModels
             }
         }
     }

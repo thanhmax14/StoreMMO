@@ -401,7 +401,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Manage Product</h5>
-
+                            <h5>Đây là: @Model.ProductTypeName</h5> <!-- Hiển thị tên loại sản phẩm -->
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
@@ -427,7 +427,7 @@
                                             <td>@item.Pwd</td>
                                             <td>@item.StatusUpload</td>
                                             <td>@item.Status</td>
-                                            <td>@item.CreatedDate</td>
+                                            <td>@item.CreatedDate?.ToString("dd/MM/yyyy")</td>
                                         </tr>
                                         ++count;
                                     }
