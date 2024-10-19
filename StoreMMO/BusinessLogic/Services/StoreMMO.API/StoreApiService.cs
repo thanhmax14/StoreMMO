@@ -16,7 +16,7 @@ namespace BusinessLogic.Services.StoreMMO.API
             this._httpClient.DefaultRequestHeaders.Accept.Add(contentType);
             this.api = "https://localhost:7200/api/Store";
         }
-		public async Task<List<StoreViewModels>> GetStoresAsync(bool sicbo)
+		public async Task<List<StoreViewModels>> GetStoresAsync(string sicbo)
 		{
 			// Gọi API với query string thay vì truyền vào route
 			var response = await this._httpClient.GetAsync($"{this.api}/GetAll?sicbo={sicbo}");
