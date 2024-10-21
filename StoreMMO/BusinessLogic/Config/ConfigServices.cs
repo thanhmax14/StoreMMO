@@ -39,6 +39,8 @@ using StoreMMO.Core.Repositories.Purchase;
 using Net.payOS;
 using BusinessLogic.Services.Payments;
 using BusinessLogic.Services.CreateQR;
+using StoreMMO.Core.Repositories.Balances;
+using BusinessLogic.Services.StoreMMO.Core.Balances;
 
 namespace BusinessLogic.Config
 {
@@ -71,7 +73,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<IDisputeRepository, DisputeRepository>();
-
+            services.AddScoped<IBalanceRepository,BalanceRepository>(); 
 
             // Đăng ký StoreTypeRepository với DI container
             services.AddScoped<IStoreTypeRepository, StoreTypeRepository>();
@@ -80,7 +82,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IRegisteredSellerRepository, RegisteredSellerRepository>();
             services.AddScoped<IStoreDetailsService, StoreDetailsService>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
-
+            
 
 
 
@@ -96,6 +98,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IStoreTypeService, StoreTypeService>();
             services.AddScoped<IRegisteredSellerService, RegisteredSellerService>();
             services.AddScoped<IStoreDetailRepository, StoreDetailRepository>();
+            services.AddScoped<IBalanceService, BalanceService>();
 
             services.AddScoped<IDisputeService, DisputeService>();
 
