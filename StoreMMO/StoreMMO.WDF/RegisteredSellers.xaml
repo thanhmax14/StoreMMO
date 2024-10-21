@@ -1,0 +1,96 @@
+﻿<Page x:Class="StoreMMO.WDF.RegisteredSellers"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:StoreMMO.WDF"
+      mc:Ignorable="d" 
+      d:DesignHeight="850" d:DesignWidth="1261"
+      Title="RegisteredSellers">
+
+    <Grid>
+        <!-- Lưới chính chứa các phần tử -->
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <!-- Định nghĩa hàng cho Tên của page -->
+                <RowDefinition Height="45px"></RowDefinition>
+                <!-- Định nghĩa hàng cho ListView -->
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!-- Hiển thị Tên Page -->
+            <StackPanel  Height="40" Grid.Row="0">
+                <TextBlock Foreground="#2C3E50" FontWeight="Bold" HorizontalAlignment="Left"  FontSize="35">Regisered Sellers List</TextBlock>
+            </StackPanel>
+            <!-- Danh sách hiển thị-->
+            <ListView Name="lvEntried" ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
+                <ListView.View>
+                    <GridView>
+                        <!-- Cột FullName -->
+                        <GridViewColumn Header="Full Name" Width="180">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FullName}" Width="180" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!-- Cột CreateDate -->
+                        <GridViewColumn Header="Create Date" Width="130">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding CreateDate}" Width="130" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!-- Cột Email -->
+                        <GridViewColumn Header="Email" Width="220">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Email}" Width="220" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!-- Cột UserName -->
+                        <GridViewColumn Header="User Name" Width="160">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding UserName}" Width="160" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!-- Cột PhoneNumber -->
+                        <GridViewColumn Header="Phone Number" Width="180">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PhoneNumber}" Width="180" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!-- Cột RoleName -->
+                        <GridViewColumn Header="Role Name" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding RoleName}" Width="150" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!-- Cột Action -->
+                        <GridViewColumn Header="Action" Width="170">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Width="70" Margin="0,0,5,0" Command="{Binding Accept}" FontSize="16">
+                                            Accept
+                                        </Button>
+                                        <Button Width="70" Margin="0,0,5,0" Command="{Binding Reject}" FontSize="16">
+                                            Reject
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</Page>
