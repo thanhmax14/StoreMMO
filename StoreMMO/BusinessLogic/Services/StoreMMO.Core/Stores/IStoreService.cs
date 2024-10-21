@@ -15,5 +15,6 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
         IEnumerable<getProducInStoreViewModels> getAllProductInStore(string id);
         IEnumerable<StoreDetailViewModel> getStorDetailFullInfo(string id);
         IEnumerable<StoreManageViewModels> getAllStore();
+        IEnumerable<StoreSellerViewModels> getAllStoreSeller();
     }
 }
