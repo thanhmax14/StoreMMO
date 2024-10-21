@@ -49,17 +49,17 @@ namespace StoreMMO.WDF
 
         private void button_HiddenCategoryList(object sender, RoutedEventArgs e)
         {
-
+            frMain.Content = new HiddenCategoriesList();
         }
 
         private void button_StoreTypeList(object sender, RoutedEventArgs e)
         {
-
+            frMain.Content = new StoreTypeList();
         }
 
         private void button_HiddenStoreTypeList(object sender, RoutedEventArgs e)
         {
-
+            frMain.Content = new HiddenStoreTypeList();
         }
 
         private void button_DisputesList(object sender, RoutedEventArgs e)

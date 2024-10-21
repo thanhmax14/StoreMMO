@@ -18,7 +18,7 @@
         <!-- Hiển thị Tên Page -->
         <StackPanel Height="40" Grid.Row="0">
             <TextBlock Foreground="#2C3E50" FontWeight="Bold" 
-                   HorizontalAlignment="Left" FontSize="35">
+                   HorizontalAlignment="Left" FontSize="30">
             Registered Stores List
             </TextBlock>
         </StackPanel>
