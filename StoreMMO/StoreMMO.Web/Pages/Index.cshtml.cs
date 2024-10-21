@@ -54,26 +54,7 @@ namespace StoreMMO.Web.Pages
 			}
 
 			storeView = await this._storeApi.GetStoresAsync("1");
-			var useriD = HttpContext.Session.GetString("UserID");
-			if (useriD != null)
-			{
-				foreach (var storeViewModel in storeView)
-				{
-					var checktem = await this._storeApi.GetStoreDetail(storeViewModel.storeID);
-
-					wishList = await this._wishListApi.getByUserID(useriD);
-					foreach (var wish in wishList)
-					{
-						if (checktem.Any(u => u.ProductStock.ContainsValue(wish.ProductId)))
-						{
-							wish.ProductId = storeViewModel.storeID;
-						}
-						wishnew.Add(wish);
-					}
-
-
-				}
-			}
+			
 		}
 
 
@@ -289,17 +270,23 @@ namespace StoreMMO.Web.Pages
 				UserId = useriD,
 			};
 			var existingItems = await this._wishListApi.getByUserID(useriD);
-			if (existingItems.Any(item => saveProID == item.ProductId))
+
+			if(existingItems != null)
 			{
-				return new JsonResult(new { success = false, message = $"Sản phẩm đã tồn tại trong danh sách yêu thích: {saveProID}" , login = true });
-			}
-			var addedItem = await this._wishListApi.Add(wishListItem);
-			if (addedItem == null)
-			{
-				return new JsonResult(new { success = false, message = $"Thêm sản phẩm thất bại: {saveProID}", login = true });
-			}
-			return new JsonResult(new { success = true, message = $"Sản phẩm đã được thêm vào danh sách yêu thích: {saveProID}", login = true });
-		}
+                if (existingItems.Any(item => saveProID == item.ProductId))
+                {
+                    return new JsonResult(new { success = false, message = $"Sản phẩm đã tồn tại trong danh sách yêu thích: {saveProID}", login = true });
+                }
+                var addedItem = await this._wishListApi.Add(wishListItem);
+                if (addedItem == null)
+                {
+                    return new JsonResult(new { success = false, message = $"Thêm sản phẩm thất bại: {saveProID}", login = true });
+                }
+                return new JsonResult(new { success = true, message = $"Sản phẩm đã được thêm vào danh sách yêu thích: {saveProID}", login = true });
+            }
+            return new JsonResult(new { success = false, message = $"Thêm sản phẩm thất bại: {saveProID}", login = true });
+
+        }
 
         public IActionResult OnPostGetbuyOne(int quan, string saveProID)
         {

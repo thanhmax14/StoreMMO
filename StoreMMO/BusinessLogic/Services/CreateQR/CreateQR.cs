@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using System.Drawing.Drawing2D;
 
 namespace BusinessLogic.Services.CreateQR
 {
@@ -21,34 +22,57 @@ namespace BusinessLogic.Services.CreateQR
 
         public string GetQR(string text, string BackGroundColor, string qrColor1, int with, int heigh)
         {
-            // Tạo QR Code
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
             {
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrColor1, QRCodeGenerator.ECCLevel.Q);
                 using (QRCode qrCode = new QRCode(qrCodeData))
                 {
-                    
-                    Color qrColor = ColorTranslator.FromHtml(qrColor1); // Màu mã QR
-                    Color backgroundColor = ColorTranslator.FromHtml(BackGroundColor); // Màu nền
+                    // Màu nền trắng
+                    Color backgroundColor = Color.White;
 
-                   
-                    int moduleSize = 10; 
-                    Bitmap qrBitmap = qrCode.GetGraphic(moduleSize, qrColor, backgroundColor, true);
+                    // Tạo bitmap QR
+                    int moduleSize = 20; // Kích thước mỗi trái tim (tăng kích thước)
+                    Bitmap qrBitmap = new Bitmap(qrCodeData.ModuleMatrix.Count * moduleSize, qrCodeData.ModuleMatrix.Count * moduleSize);
 
-                    string imagePath = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "assets", "images", "8xbet.jpg");
-                    using (Bitmap logo = new Bitmap(imagePath))
+                    using (Graphics g = Graphics.FromImage(qrBitmap))
                     {
-                        int logoSize = qrBitmap.Width / 3;
-                        using (Graphics graphics = Graphics.FromImage(qrBitmap))
+                        g.Clear(backgroundColor); // Đặt nền trắng
+
+                        // Tạo hiệu ứng gradient từ màu hồng sang đỏ
+                        using (LinearGradientBrush brush = new LinearGradientBrush(
+                            new Rectangle(0, 0, qrBitmap.Width, qrBitmap.Height),
+                            Color.Pink,
+                            Color.Red,
+                            45f)) 
                         {
-                            // Vẽ logo lên mã QR
-                            graphics.DrawImage(logo, (qrBitmap.Width - logoSize) / 2, (qrBitmap.Height - logoSize) / 2, logoSize, logoSize);
+                            for (int x = 0; x < qrCodeData.ModuleMatrix.Count; x++)
+                            {
+                                for (int y = 0; y < qrCodeData.ModuleMatrix.Count; y++)
+                                {
+                                    if (qrCodeData.ModuleMatrix[x][y])
+                                    {
+                                        // Vẽ trái tim lớn hơn
+                                        DrawHeart(g, brush, x * moduleSize, y * moduleSize, moduleSize * 1.5f, moduleSize * 1.5f); // Tăng kích thước trái tim
+                                    }
+                                }
+                            }
+                        }
+
+                        string imagePath = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "assets", "images", "8xbet.jpg");
+                        using (Bitmap logo = new Bitmap(imagePath)) // Thay đường dẫn logo
+                        {
+                            int logoSize = qrBitmap.Width / 6; // Kích thước logo là 16% của mã QR
+                            using (Graphics graphics = Graphics.FromImage(qrBitmap))
+                            {
+                                // Vẽ logo lên mã QR
+                                graphics.DrawImage(logo, (qrBitmap.Width - logoSize) / 2, (qrBitmap.Height - logoSize) / 2, logoSize, logoSize);
+                            }
                         }
                     }
 
-                    // Đặt kích thước theo pixel cho ảnh QR cuối cùng
-                    int targetWidth = 300; // Đặt chiều rộng theo pixel
-                    int targetHeight = 300; // Đặt chiều cao theo pixel
+                    // Đặt kích thước cho ảnh QR cuối cùng
+                    int targetWidth = with; // Tăng chiều rộng theo pixel
+                    int targetHeight = heigh; // Tăng chiều cao theo pixel
 
                     using (Bitmap resizedQrBitmap = new Bitmap(targetWidth, targetHeight))
                     {
@@ -64,11 +88,37 @@ namespace BusinessLogic.Services.CreateQR
                             resizedQrBitmap.Save(memoryStream, ImageFormat.Png);
                             byte[] bitmapArray = memoryStream.ToArray();
                             string qrUri = string.Format("data:image/png;base64,{0}", Convert.ToBase64String(bitmapArray));
-                            return qrUri;
+                             return qrUri;
                         }
                     }
                 }
             }
         }
+
+        // Hàm vẽ hình trái tim tại vị trí (x, y) với kích thước width, height
+        private void DrawHeart(Graphics g, Brush brush, int x, int y, float width, float height)
+        {
+            // Định nghĩa hình trái tim với điểm mút
+            PointF[] points = new PointF[]
+            {
+        new PointF(x + width / 2, y + height),  // Điểm đáy của trái tim
+        new PointF(x + width, y + height / 3),  // Bên phải
+        new PointF(x + 3 * width / 4, y),       // Đỉnh phải
+        new PointF(x + width / 2, y + height / 4),  // Trung tâm trên
+        new PointF(x + width / 4, y),           // Đỉnh trái
+        new PointF(x, y + height / 3),          // Bên trái
+            };
+
+            // Vẽ trái tim
+            g.FillPolygon(brush, points);
+        }
+
+
+
+
+
+
+
+
     }
 }

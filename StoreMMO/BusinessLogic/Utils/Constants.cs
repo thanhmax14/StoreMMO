@@ -17,7 +17,14 @@ namespace BusinessLogic.Utils
             PAID
 
         }
+        public enum BalanceTransactionType
+        {
+            None,  //=> 0
+            Deposit,
+            withdraw,
+            Buy
 
+        }
 
 
     }

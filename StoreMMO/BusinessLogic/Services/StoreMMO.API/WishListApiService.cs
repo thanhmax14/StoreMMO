@@ -33,11 +33,11 @@ namespace BusinessLogic.Services.StoreMMO.API
             }
             catch (HttpRequestException ex)
             {
-                throw new Exception($"Đã xảy ra lỗi khi gọi API: {ex.Message}");
+                return null;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Đã xảy ra lỗi: {ex.Message}");
+                return null;
             }
         }
         public async Task<List<WishListViewModels>> GetByID(string id)
@@ -50,31 +50,37 @@ namespace BusinessLogic.Services.StoreMMO.API
             }
             catch (HttpRequestException ex)
             {
-                throw new Exception($"Đã xảy ra lỗi khi gọi API: {ex.Message}");
+                return null;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Đã xảy ra lỗi: {ex.Message}");
+                return null;
             }
 
         }
-            public async Task<List<WishListViewModels>> getByUserID(string userID)
+        public async Task<List<WishListViewModels>> getByUserID(string userID)
+        {
+            try
             {
-                try
-                {
-                    var respose = await this._httpClient.GetAsync($"{this.api}/GetByUserID/{userID}");
-                    respose.EnsureSuccessStatusCode();
-                    return await respose.Content.ReadFromJsonAsync<List<WishListViewModels>>();
-                }
-                catch (HttpRequestException ex)
-                {
-                    throw new Exception($"Đã xảy ra lỗi khi gọi API: {ex.Message}");
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Đã xảy ra lỗi: {ex.Message}");
-                }
+                var response = await this._httpClient.GetAsync($"{this.api}/GetByUserID/{userID}");
+                response.EnsureSuccessStatusCode(); // Nếu mã phản hồi không phải 2xx sẽ ném ngoại lệ
+
+                return await response.Content.ReadFromJsonAsync<List<WishListViewModels>>();
             }
+            catch (HttpRequestException ex) // Xử lý lỗi liên quan đến HTTP request
+            {
+                // Log lại lỗi để theo dõi chi tiết
+                Console.WriteLine($"Request error: {ex.Message}");
+                return null; // Có thể trả về thông báo lỗi hoặc dữ liệu mặc định
+            }
+            catch (Exception ex) // Xử lý các ngoại lệ khác
+            {
+                // Log lỗi không xác định
+                Console.WriteLine($"Unexpected error: {ex.Message}");
+                return null;
+            }
+        }
+
         public async Task DeleteByID(string id)
         {
             try

@@ -1,50 +1,55 @@
-﻿using StoreMMO.Core.Repositories.Balances;
+﻿using BusinessLogic.Services.Payments;
+using Net.payOS.Types;
+using StoreMMO.Core.Repositories.Balances;
 using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading.Tasks; // Nhớ import namespace này cho Task
 
 namespace BusinessLogic.Services.StoreMMO.Core.Balances
 {
     public class BalanceService : IBalanceService
     {
         private readonly IBalanceRepository _balance;
+
         public BalanceService(IBalanceRepository balance)
         {
             this._balance = balance;
         }
-        public bool add(BalanceViewModels balanceViewModels)
+
+        public async Task<bool> AddAsync(BalanceViewModels balanceViewModels)
         {
-          return this._balance.add(balanceViewModels);
+            return await this._balance.AddAsync(balanceViewModels); // Sử dụng AddAsync
         }
 
-        public bool Delete(BalanceViewModels balanceViewModels)
+        public async Task<bool> DeleteAsync(BalanceViewModels balanceViewModels)
         {
-         return this._balance.Delete(balanceViewModels);
+            return await this._balance.DeleteAsync(balanceViewModels); // Sử dụng DeleteAsync
         }
 
-
-
-        public IEnumerable<BalanceViewModels> getBalaceByUserID(string urserID)
+        public CreatePaymentResult Deposit(int price, int timeexpiration)
         {
-           return this._balance.getBalaceByUserID(urserID);
+            throw new NotImplementedException();
         }
 
-        public BalanceViewModels GetBalanceByID(string id)
+        public async Task<IEnumerable<BalanceViewModels>> GetBalanceByUserIDAsync(string userId)
         {
-            return this._balance.GetBalanceByID(id);
+            return await this._balance.GetBalanceByUserIDAsync(userId); // Sử dụng GetBalanceByUserIDAsync
         }
 
-        public BalanceViewModels GetBalanceByOrderCode(long orderCode)
+        public async Task<BalanceViewModels> GetBalanceByIDAsync(string id)
         {
-            return this._balance.GetBalanceByOrderCode(orderCode);
+            return await this._balance.GetBalanceByIDAsync(id); // Sử dụng GetBalanceByIDAsync
         }
 
-        public bool Update(BalanceViewModels balanceViewModels)
+        public async Task<BalanceViewModels> GetBalanceByOrderCodeAsync(long orderCode)
         {
-            return this._balance.Update(balanceViewModels);
+            return await this._balance.GetBalanceByOrderCodeAsync(orderCode); // Sử dụng GetBalanceByOrderCodeAsync
+        }
+
+        public async Task<bool> UpdateAsync(BalanceViewModels balanceViewModels)
+        {
+            return await this._balance.UpdateAsync(balanceViewModels); // Sử dụng UpdateAsync
         }
     }
 }

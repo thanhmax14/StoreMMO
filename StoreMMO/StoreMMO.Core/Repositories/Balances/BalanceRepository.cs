@@ -1,9 +1,10 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks; // Nhớ import namespace này cho Task
 
 namespace StoreMMO.Core.Repositories.Balances
 {
@@ -17,7 +18,7 @@ namespace StoreMMO.Core.Repositories.Balances
         }
 
         // Thêm mới Balance
-        public bool add(BalanceViewModels balanceViewModels)
+        public async Task<bool> AddAsync(BalanceViewModels balanceViewModels)
         {
             try
             {
@@ -29,11 +30,12 @@ namespace StoreMMO.Core.Repositories.Balances
                     TransactionDate = balanceViewModels.TransactionDate,
                     Description = balanceViewModels.Description,
                     Status = balanceViewModels.Status,
-                    OrderCode = balanceViewModels.OrderCode
+                    OrderCode = balanceViewModels.OrderCode,
+                    Id = balanceViewModels.Id,
                 };
 
-                _context.Balances.Add(balance);
-                _context.SaveChanges();
+                await _context.Balances.AddAsync(balance); // Sử dụng AddAsync để thêm
+                await _context.SaveChangesAsync(); // Sử dụng SaveChangesAsync để lưu
                 return true;
             }
             catch (Exception)
@@ -43,15 +45,15 @@ namespace StoreMMO.Core.Repositories.Balances
         }
 
         // Xóa Balance
-        public bool Delete(BalanceViewModels balanceViewModels)
+        public async Task<bool> DeleteAsync(BalanceViewModels balanceViewModels)
         {
             try
             {
-                var balance = _context.Balances.FirstOrDefault(b => b.Id == balanceViewModels.Id);
+                var balance = await _context.Balances.FirstOrDefaultAsync(b => b.Id == balanceViewModels.Id);
                 if (balance != null)
                 {
                     _context.Balances.Remove(balance);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync(); // Sử dụng SaveChangesAsync
                     return true;
                 }
                 return false;
@@ -63,11 +65,11 @@ namespace StoreMMO.Core.Repositories.Balances
         }
 
         // Sửa Balance
-        public bool Edit(BalanceViewModels balanceViewModels)
+        public async Task<bool> EditAsync(BalanceViewModels balanceViewModels)
         {
             try
             {
-                var balance = _context.Balances.FirstOrDefault(b => b.Id == balanceViewModels.Id);
+                var balance = await _context.Balances.FirstOrDefaultAsync(b => b.Id == balanceViewModels.Id);
                 if (balance != null)
                 {
                     balance.Amount = balanceViewModels.Amount;
@@ -76,8 +78,9 @@ namespace StoreMMO.Core.Repositories.Balances
                     balance.Description = balanceViewModels.Description;
                     balance.Status = balanceViewModels.Status;
                     balance.OrderCode = balanceViewModels.OrderCode;
+                    balance.ApprovalDate = balanceViewModels.approve;
                     _context.Balances.Update(balance);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync(); // Sử dụng SaveChangesAsync
                     return true;
                 }
                 return false;
@@ -89,15 +92,15 @@ namespace StoreMMO.Core.Repositories.Balances
         }
 
         // Cập nhật Balance (tương tự Edit)
-        public bool Update(BalanceViewModels balanceViewModels)
+        public Task<bool> UpdateAsync(BalanceViewModels balanceViewModels)
         {
-            return Edit(balanceViewModels);
+            return EditAsync(balanceViewModels);
         }
 
         // Lấy Balance theo OrderCode
-        public BalanceViewModels GetBalanceByOrderCode(long orderCode)
+        public async Task<BalanceViewModels> GetBalanceByOrderCodeAsync(long orderCode)
         {
-            var balance = _context.Balances.FirstOrDefault(b => b.OrderCode == orderCode.ToString());
+            var balance = await _context.Balances.FirstOrDefaultAsync(b => b.OrderCode == orderCode.ToString());
             if (balance != null)
             {
                 return new BalanceViewModels
@@ -114,9 +117,10 @@ namespace StoreMMO.Core.Repositories.Balances
             }
             return null;
         }
-        public BalanceViewModels GetBalanceByID(string id)
+
+        public async Task<BalanceViewModels> GetBalanceByIDAsync(string id)
         {
-            var balance = _context.Balances.Find(id);
+            var balance = await _context.Balances.FindAsync(id);
             if (balance != null)
             {
                 return new BalanceViewModels
@@ -128,14 +132,16 @@ namespace StoreMMO.Core.Repositories.Balances
                     TransactionDate = balance.TransactionDate,
                     Description = balance.Description,
                     Status = balance.Status,
-                    OrderCode = balance.OrderCode
+                    OrderCode = balance.OrderCode,
+                    approve = balance.ApprovalDate
                 };
             }
             return null;
         }
-        public IEnumerable<BalanceViewModels> getBalaceByUserID(string userId)
+
+        public async Task<IEnumerable<BalanceViewModels>> GetBalanceByUserIDAsync(string userId)
         {
-            return _context.Balances
+            return await _context.Balances
                 .Where(b => b.UserId == userId)
                 .Select(b => new BalanceViewModels
                 {
@@ -146,11 +152,10 @@ namespace StoreMMO.Core.Repositories.Balances
                     TransactionDate = b.TransactionDate,
                     Description = b.Description,
                     Status = b.Status,
-                    OrderCode = b.OrderCode
+                    OrderCode = b.OrderCode,
+                    approve = b.ApprovalDate
                 })
-                .ToList();
+                .ToListAsync(); // Sử dụng ToListAsync
         }
-
-
     }
 }

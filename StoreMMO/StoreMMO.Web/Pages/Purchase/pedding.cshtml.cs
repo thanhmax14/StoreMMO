@@ -27,8 +27,6 @@ namespace StoreMMO.Web.Pages.Purchase
 
         public async Task<IActionResult> OnGetAsync()
         {
-
-
             try
             {
                 sendInfo.Ordercode = EncryptSupport.DecodeBase64(getinfo.Ordercode);
@@ -39,10 +37,6 @@ namespace StoreMMO.Web.Pages.Purchase
                 sendInfo.amount =  getinfo.amount;
                 sendInfo.price = EncryptSupport.DecodeBase64(getinfo.Price);
                 sendInfo.img = EncryptSupport.DecodeBase64(getinfo.img);
-
-
-
-
                 var check = await this._Payos.getPaymentLinkInformation(long.Parse(sendInfo.Ordercode));
                 if (check != null)
                 {

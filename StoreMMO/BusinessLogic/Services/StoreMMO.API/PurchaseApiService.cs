@@ -20,7 +20,7 @@ namespace BusinessLogic.Services.StoreMMO.API
             this._httpClient = httpClient;
             var contentype = new MediaTypeWithQualityHeaderValue("application/json");
             this._httpClient.DefaultRequestHeaders.Accept.Add(contentype);
-            this.api = "";
+            this.api = "https://localhost:7200/api/Purchase";
             this._Payos = _Payos;
         }
 

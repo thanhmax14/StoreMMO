@@ -17,5 +17,6 @@ namespace StoreMMO.Core.ViewModels
         public string? Description { get; set; }
         public string Status { get; set; }
         public string? OrderCode { get; set; }
+        public DateTime? approve { get; set; }
     }
 }
