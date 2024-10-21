@@ -1,4 +1,5 @@
-﻿using StoreMMO.Core.ViewModels;
+﻿using Net.payOS.Types;
+using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ namespace BusinessLogic.Services.StoreMMO.Core.Balances
 {
    public interface IBalanceService
     {
-        bool add(BalanceViewModels balanceViewModels);
-        bool Delete(BalanceViewModels balanceViewModels);
-      
-        bool Update(BalanceViewModels balanceViewModels);
-        BalanceViewModels GetBalanceByOrderCode(long orderCode);
-        BalanceViewModels GetBalanceByID(string id);
-        IEnumerable<BalanceViewModels> getBalaceByUserID(string urserID);
+        Task<bool> AddAsync(BalanceViewModels balanceViewModels); 
+        Task<bool> DeleteAsync(BalanceViewModels balanceViewModels);
+        Task<bool> UpdateAsync(BalanceViewModels balanceViewModels); 
+        Task<BalanceViewModels> GetBalanceByOrderCodeAsync(long orderCode); 
+        Task<BalanceViewModels> GetBalanceByIDAsync(string id);
+        Task<IEnumerable<BalanceViewModels>> GetBalanceByUserIDAsync(string userID); 
+
     }
 }

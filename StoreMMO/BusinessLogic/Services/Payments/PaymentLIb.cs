@@ -48,5 +48,12 @@ namespace BusinessLogic.Services.Payments
             }
         }
 
+
+        public async Task<bool> cancelPay(string ordercode)
+        {
+            PaymentLinkInformation paymentLinkInformation = await this._payOS.cancelPaymentLink(long.Parse(ordercode));
+            return true;
+        }
+
     }
 }

@@ -113,6 +113,7 @@ app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
 app.UseMiddleware<CheckingMiddleware>();
+
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapRazorPages();

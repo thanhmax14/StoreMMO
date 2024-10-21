@@ -87,12 +87,13 @@ namespace StoreMMO.API.Controllers
             var find = this._sever.getAllByUserID(userId);
             if (find == null || !find.Any())
             {
-                return NotFound("No wishlists found for the specified user.");
+                // Trả về một danh sách rỗng với mã 200 OK thay vì 404
+                return Ok(new List<WishListViewModels>());
             }
 
-            return Ok(find);
-
+            return Ok(find); // Trả về danh sách wishlist nếu có
         }
+
     }
 
 
