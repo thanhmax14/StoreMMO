@@ -274,7 +274,6 @@
 
     </header><!-- End Header -->
     <!-- ======= Sidebar ======= -->
-
     <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
@@ -287,74 +286,73 @@
             </li><!-- End Dashboard Nav -->
 
             <li class="nav-item">
-                <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-account-box-line"></i><span>Manage User Accounts</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="" onclick="window.location.href='/admin/UserAccountList'" class="active">
+                        <a href='/admin/UserAccountList'>
                             <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/UserHiddenAccountList'>
                             <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End Components Nav -->
-            <!-- -->
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-contacts-line"></i> <span>Manage Sellers and Stores</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="">
+                        <a href='/admin/RegisteredSeller'>
                             <i class="bi bi-circle"></i><span>Sellers Request</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
-                            <i class="bi bi-circle"></i><span>Store Request</span>
+                        <a href='/admin/ManageStore'>
+                            <i class="bi bi-circle"></i><span>Stores Request</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/StoreList'>
                             <i class="bi bi-circle"></i><span>Active Stores</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/StoreListHidden'>
                             <i class="bi bi-circle"></i><span>Hidden Stores</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End Forms Nav -->
-            <!-- star sidebar-nav categories >
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-stack-line"></i><span>Manage Category and Type Stores</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/Admin/CategoriesList">
+                        <a href='/admin/CategoriesList'>
                             <i class="bi bi-circle"></i><span>Active Category</span>
                         </a>
                     </li>
                     <li>
-                        <a href="/Admin">
+                        <a href='/admin/CategoriesListHidden'>
                             <i class="bi bi-circle"></i><span>Hidden Category</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/StoreTypeList'>
                             <i class="bi bi-circle"></i><span>Active Type Stores</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/StoreTypeHidden' class="active">
                             <i class="bi bi-circle"></i><span>Hidden Type Stores</span>
                         </a>
                     </li>
@@ -362,14 +360,14 @@
             </li><!-- End Tables Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="">
+                <a class="nav-link collapsed" href='/admin/ManageDispute'>
                     <i class="ri-coupon-2-line"></i> <span>Manage Disputes Form</span>
                 </a>
 
             </li><!-- End Charts Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="">
+                <a class="nav-link collapsed" href='/admin/'>
                     <i class="ri-money-dollar-circle-line"></i><span>Manage Withdrawal Requests From Seller</span>
                 </a>
             </li><!-- End Icons Nav -->
@@ -379,14 +377,8 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Data Tables</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Categories</li>
-                    <li class="breadcrumb-item active">DataList</li>
-                </ol>
-            </nav>
+            <h1>List of Hidden Store Type</h1>
+           
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -395,10 +387,9 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Datatables</h5>
+                            <h5 class="card-title">List of Hidden Store Type</h5>
 
-                            <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to convert to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p>
-
+                            
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>

@@ -322,12 +322,12 @@
                 </a>
                 <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="">
+                        <a href='/admin/RegisteredSeller'>
                             <i class="bi bi-circle"></i><span>Sellers Request</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/ManageStore'>
                             <i class="bi bi-circle"></i><span>Stores Request</span>
                         </a>
                     </li>
@@ -365,7 +365,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/StoreTypeListHidden'>
+                        <a href='/admin/StoreTypeHidden'>
                             <i class="bi bi-circle"></i><span>Hidden Type Stores</span>
                         </a>
                     </li>
@@ -373,14 +373,14 @@
             </li><!-- End Tables Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="">
+                <a class="nav-link collapsed" href='/admin/ManageDispute'>
                     <i class="ri-coupon-2-line"></i> <span>Manage Disputes Form</span>
                 </a>
 
             </li><!-- End Charts Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="">
+                <a class="nav-link collapsed" href='/admin/'>
                     <i class="ri-money-dollar-circle-line"></i><span>Manage Withdrawal Requests From Seller</span>
                 </a>
             </li><!-- End Icons Nav -->
@@ -391,14 +391,8 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Update User Information</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <!-- <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Forms</li>
-                    <li class="breadcrumb-item active">Elements</li> -->
-                </ol>
-            </nav>
+            <h1>Update User Information Form</h1>
+            
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -407,7 +401,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Update Form</h5>
+                            <h5 class="card-title">Update User Information Form</h5>
                             @if (!string.IsNullOrEmpty(@Model.success))
                             {
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
