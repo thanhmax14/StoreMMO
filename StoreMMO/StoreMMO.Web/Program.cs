@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Products;
 using StoreMMO.Web.Mapper;
+using StoreMMO.Web.Middleware;
 
 
 
@@ -111,7 +112,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
-
+app.UseMiddleware<CheckingMiddleware>();
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapRazorPages();

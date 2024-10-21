@@ -1,0 +1,328 @@
+﻿@page
+@model StoreMMO.Web.Pages.Purchase.peddingModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charSet="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>payOS</title>
+    <meta property="og:title" content="payOS" />
+    <meta property="og:url" content="https://payos.vn" />
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+    <title>payOS - Checkout</title>
+    <link href="~/css/stylepayment.css" rel="stylesheet" />
+</head>
+
+<body>
+    <section class="h-full w-full">
+        <div class="flex flex-col items-center justify-center m-auto my-0 relative">
+            <section class="w-full h-full overflow-auto">
+                <div class="">
+                    <div class="shadow ">
+                        <div class="px-2 py-2 sm:px-5 md:px-lg sm:py-3.5 shadow-md rounded-t-xl w-full flex items-center justify-center bg-white"
+                             id="header-payment-link-payos">
+                            <div class="w-full max-w-screen-sm lg:max-w-[920px] ">
+                                <div class="w-full flex items-center justify-between">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <img alt="logo" loading="lazy" width="42" height="42" decoding="async"
+                                                 data-nimg="1" class=" w-[42px] h-[42px] rounded-full"
+                                                 style="color:transparent"
+                                                 src="https://pub-2a975c3c49bd40c7a7db9716a511518d.r2.dev/payment_gateway/b2843954-f3c7-4f7b-aafd-37533513003f.jpeg" />
+                                            <p class="uppercase font-medium text-xs text-[#555555]">
+                                               Chuyển tiền cho Thành đẹp Trai
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <img alt="VietQR.io logo" loading="lazy" width="98" height="42" decoding="async"
+                                         data-nimg="1" class="h-[42px]" style="color:transparent"
+                                         src="https://i.ibb.co/w73Z0sM/imresizer-1729421269735.jpg" />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="w-full flex flex-col items-center">
+                            <div class="max-w-screen-sm lg:max-w-[920px] mx-2">
+                                <p class="text-center my-4 !text-sm">
+                                    Thanh toán trước
+                                    <!-- -->
+                                    chủ nhật, 20 tháng 10 2024, 17:41:55
+                                </p>
+
+
+                                <div id="container-order" class="bg-white mt-3.5 w-full">
+                                    <div class="p-3.5">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-[17.5px]">Chi tiết đơn hàng</p>
+                                            </div>
+                                            <p class="text-right text-[17.5px] font-semibold my-2 cursor-pointer hover:underline text-[#4673fe]"
+                                               id="toggle-order-detail">Hiện</p>
+                                        </div>
+
+                                        <div class="px-6 hidden" id="detail-order">
+                                            <div id="orders">
+                                                <div class="flex items-center justify-between my-2">
+                                                    <div class="my-2">
+                                                        <p class="text-[17.5px] font-semibold">Mì tôm hảo hảo ly</p>
+                                                        <h4 class="text-sm">x 1</h4>
+                                                    </div>
+                                                    <div>
+                                                        <p class="font-semibold text-sm">2,000 VND</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+                                            <div class="text-right my-4">
+                                                <span class="font-semibold text-[17.5px]">Tổng cộng: </span>
+                                                <span class="text-[17.5px]">2,000 VND</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" mt-3 bg-white border border-600">
+                                    <div class="w-full flex lg:gap-4 items-center justify-center lg:px-3.5 py-3.5 text-center px-5">
+                                        <img alt="" loading="lazy" width="31.5" height="31.5" decoding="async"
+                                             data-nimg="1" class="h-8" style="color:transparent"
+                                             src="https://pay.payos.vn/images/lamp.svg" />
+                                        <p class="text-xs">
+                                            Mở App Ngân hàng bất kỳ để <b class="text-sm">Donate cho Thanh Dep Trai</b>
+                                            hoặc
+                                            <!-- -->
+                                            <b class="text-sm">chuyển khoản</b>
+                                            chính xác
+                                            <!-- -->
+                                            <!-- -->
+                                            số tiền, nội dung
+                                            <!-- -->
+                                            bên dưới
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center flex-wrap">
+                                        <div class="px-4 py-2 lg:basis-1/2">
+                                            <div class="flex items-center justify-center w-full text-center">
+                                                <img class="max-w-[80%] object-fill cursor-pointer" rel="preload"
+                                                     src="@Model.sendInfo.img"
+                                                     alt="qrcode" />
+                                            </div>
+                                        </div>
+                                        <div class="p-2 text-xs md:text-[15px] lg:basis-1/2 lg:px-3.5">
+                                            <div>
+                                                <div class="m-2 flex">
+                                                    <div class="mr-3 flex justify-center">
+                                                        <img alt="Girl in a jacket" loading="lazy" width="30"
+                                                             height="30" decoding="async" data-nimg="1"
+                                                             class="rounded-full m-auto self-center"
+                                                             style="color:transparent"
+                                                             src="https://img.bankhub.dev/rounded/vietinbank.png" />
+                                                    </div>
+                                                    <div>
+                                                        <p class="text-sm text-[#555555]">Ngân hàng</p>
+                                                        <p class="font-bold text-black text-sm">
+                                                            Ngân hàng TMCP Công
+                                                            thương Việt Nam
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="grid grid-cols-7 m-2">
+                                                    <div class="col-span-5 text-left">
+                                                        <p class="text-sm text-[#555555]">Chủ tài khoản:</p>
+                                                        <p class="font-bold text-black text-sm">@Model.sendInfo.NameBank</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="grid grid-cols-7 m-2">
+                                                    <div class="col-span-5 text-left">
+                                                        <p class="text-sm text-[#555555]">Số tài khoản:</p>
+                                                        <p id="numberBank" class="font-bold text-black text-sm">@Model.sendInfo.NumberBank</p>
+                                                    </div>
+                                                    <div class="col-span-2 text-right flex items-center justify-end">
+                                                        <button onclick="copyToClipboard('numberBank')" class="text-xs text-[#555555] bg-[#16AB651A] hover:bg-green-100 active:bg-green-500 focus:outline-none focus:ring focus:ring-green-300 py-1 px-2 rounded-md font-bold self-center">
+                                                            Sao chép
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+
+
+                                                <div class="grid grid-cols-7 m-2">
+                                                    <div class="col-span-5 text-left">
+                                                        <p class="text-sm text-[#555555]">Số tiền:</p>
+                                                        <p id="price" class="font-bold text-black text-sm">@Model.sendInfo.price vnd</p>
+                                                    </div>
+                                                    <div class="col-span-2 text-right flex items-center justify-end">
+                                                        <button onclick="copyToClipboard('price')" class="text-xs text-[#555555] bg-[#16AB651A] hover:bg-green-100 active:bg-green-500 focus:outline-none focus:ring focus:ring-green-300 py-1 px-2 rounded-md font-bold self-center">
+                                                            Sao chép
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                            <div>
+
+
+                                                <div class="grid grid-cols-8 m-2">
+                                                    <div class="col-span-6 text-left">
+                                                        <p class="text-sm text-[#555555]">Nội dung:</p>
+                                                        <p id="description" class="text-black font-bold text-sm">@Model.sendInfo.descrip</p>
+                                                    </div>
+                                                    <div class="col-span-2 text-right flex items-center justify-end">
+                                                        <button onclick="copyToClipboard('description')" class="text-xs text-[#555555] bg-[#16AB651A] hover:bg-green-100 active:bg-green-500 focus:outline-none focus:ring focus:ring-green-300 py-1 px-2 rounded-md font-bold self-center">
+                                                            Sao chép
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="lg:flex lg:flex-row-reverse lg:items-center lg:gap-6 my-3.5">
+                                        <p class="basis-1/2 px-2 lg:px-3.5 text-sm">
+                                            Lưu ý : Nhập chính xác
+                                            <!-- -->
+                                            <span>
+                                                số tiền <b>@Model.sendInfo.Price</b>
+                                                , nội dung <b>@Model.sendInfo.descrip</b>
+                                            </span>
+                                            <!-- -->
+                                            khi chuyển khoản
+                                        </p>
+                                        <div class="basis-1/2 text-center my-2 flex flex-row items-center justify-center">
+
+                                            <form method="post" asp-route-Ordercode="@Model.sendInfo.Ordercode">
+                                                <div id="icon-cancel">
+                                                    <button class="btn btn-outline-danger btn-rounded btn-md" type="submit">Huỷ</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="hidden ">
+                                        <hr class="!my-2" />
+                                        <div class="px-2">
+                                            <div class="text-center text-[#4D4D4D] ">
+                                                Nhấn vào logo ngân hàng để thanh
+                                                toán trực tiếp trên ứng dụng
+                                            </div>
+                                            <div class="flex items-center justify-between flex-wrap  mt-2 "></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+    <script>
+        function copyToClipboard(elementId) {
+            var textToCopy = document.getElementById(elementId).innerText;
+            textToCopy = textToCopy.replace('vnd', '').trim();
+            var tempTextArea = document.createElement("textarea");
+            tempTextArea.value = textToCopy;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            tempTextArea.setSelectionRange(0, 99999); 
+            document.execCommand("copy");
+            document.body.removeChild(tempTextArea);
+        }
+    </script>
+
+    <script>
+        const ipnElement = document.querySelector('input')
+        const btnElement = document.querySelector('button')
+
+        btnElement.addEventListener('click', function () {
+            btnElement.innerText = 'Copied!' // step 3
+            ipnElement.select()              // step 4
+            document.execCommand('copy')     // step 5
+        })
+    </script>
+    <script>
+        document.getElementById('toggle-order-detail').onclick = function () {
+            const detailOrder = document.getElementById('detail-order');
+            if (detailOrder.classList.contains('hidden')) {
+                detailOrder.classList.remove('hidden');
+                this.innerText = 'Ẩn'; // Thay đổi văn bản thành 'Ẩn'
+            } else {
+                detailOrder.classList.add('hidden');
+                this.innerText = 'Hiện'; // Thay đổi văn bản thành 'Hiện'
+            }
+        };
+        let intervalId;
+
+        function startCheckingOrder(orderCode) {
+            // Thiết lập interval để kiểm tra đơn hàng sau mỗi 2 giây
+            intervalId = setInterval(async () => {
+                await checkOrder(orderCode);
+            }, 1000); // 2 giây
+        }
+
+        async function checkOrder(orderCode) {
+            // Sử dụng API bạn cung cấp để kiểm tra trạng thái đơn hàng
+            const url = `https://localhost:7200/api/Purchase/CheckOrder/${orderCode}`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    if (data.status && data.status.toLowerCase() === 'paid') {
+                        console.log('Đơn hàng đã được thanh toán:', data);
+                        clearInterval(intervalId);
+                        window.location.href = '/Purchase/Success';
+                    }
+                    else if (data.status && data.status.toLowerCase() === 'expired') {
+                        console.log('Đơn hàng đã hết hạn:', data);
+                        clearInterval(intervalId);
+                        window.location.href = '/Purchase/fail';
+                    }
+                    else if (data.status && data.status.toLowerCase() === 'cancelled') {
+                        console.log('Đơn hàng đã bị hủy:', data);
+                        clearInterval(intervalId);
+                        window.location.href = '/Purchase/fail';
+                    }
+                } else {
+                    const errorData = await response.json();
+                    console.error('Lỗi:', errorData.message);
+                }
+            } catch (error) {
+                console.error('Lỗi khi gửi yêu cầu:', error);
+            }
+        }
+
+        // Gọi hàm để bắt đầu kiểm tra đơn hàng với mã orderCode
+        const orderCode = @Model.sendInfo.Ordercode;  // Thay bằng mã đơn hàng thực tế
+        startCheckingOrder(orderCode);
+
+
+
+
+    </script>
+
+
+
+</body>
+
+</html>

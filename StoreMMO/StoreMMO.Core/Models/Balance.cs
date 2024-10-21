@@ -12,6 +12,7 @@ namespace StoreMMO.Core.Models
         public DateTime TransactionDate { get; set; }   
         public string? Description { get; set; }           
         public string Status { get; set; }  
+    
         public DateTime? ApprovalDate { get; set; }       
 
         public virtual AppUser User { get; set; }        
