@@ -36,6 +36,9 @@ using BusinessLogic.Services.StoreMMO.Core.Disputes;
 
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using StoreMMO.Core.Repositories.Purchase;
+using NuGet.Configuration;
+using StoreMMO.Core.Repositories.Withdraw;
+using BusinessLogic.Services.StoreMMO.Core.Withdraws;
 
 namespace BusinessLogic.Config
 {
@@ -67,6 +70,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<IDisputeRepository, DisputeRepository>();
+            services.AddScoped<IWithdrawRepository, WithdrawRepository>();
 
 
             // Đăng ký StoreTypeRepository với DI container
@@ -92,15 +96,9 @@ namespace BusinessLogic.Config
             services.AddScoped<IStoreTypeService, StoreTypeService>();
             services.AddScoped<IRegisteredSellerService, RegisteredSellerService>();
             services.AddScoped<IStoreDetailRepository, StoreDetailRepository>();
-
             services.AddScoped<IDisputeService, DisputeService>();
-
-
             services.AddScoped<IPurchaseService , PurchaseService>();
-
-
-
-
+            services.AddScoped<IWithdrawService, WithdrawService>();
         }
     }
 }
