@@ -12,5 +12,6 @@ namespace StoreMMO.Core.Repositories.Stores
         IEnumerable<getProducInStoreViewModels> getAllProductInStore(string id);
         IEnumerable<StoreDetailViewModel> getStorDetailFullInfo(string id);
         IEnumerable<StoreManageViewModels> getAllStore();
+        public IEnumerable<StoreSellerViewModels> getAllStoreSeller();
     }
 }

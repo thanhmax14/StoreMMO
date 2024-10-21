@@ -50,5 +50,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
         {
             return this._storeRepo.getAllStore();
         }
+        public IEnumerable<StoreSellerViewModels> getAllStoreSeller()
+        {
+            return this._storeRepo.getAllStoreSeller();
+        }
     }
 }
