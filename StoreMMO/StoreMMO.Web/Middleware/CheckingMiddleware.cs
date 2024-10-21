@@ -16,10 +16,17 @@ namespace StoreMMO.Web.Middleware
         }
         public async Task Invoke(HttpContext context)
         {
-            var check = context.Session.GetString("UserID");
-            if (check != null)
+            var checkUserID = context.Session.GetString("UserID");
+            if (checkUserID != null)
             {
-                
+                var getListBalance = this._balance.getBalaceByUserID(checkUserID);
+                if (getListBalance != null)
+                {
+
+
+
+
+                }
             }
            
             Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
