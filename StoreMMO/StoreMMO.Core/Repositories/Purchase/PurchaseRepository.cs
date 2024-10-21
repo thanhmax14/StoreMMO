@@ -20,6 +20,75 @@ namespace StoreMMO.Core.Repositories.Purchase
             this._contextAccessor = contextAccessor;
         }
 
+        public bool add(OrderBuyViewModels orderBuyViewModels)
+        {
+            if(orderBuyViewModels == null) return false;
+            try
+            {
+                var tem = new OrderBuy {
+
+                    ID = orderBuyViewModels.ID,
+                    OrderCode = orderBuyViewModels.OrderCode,
+                    ProductTypeId = orderBuyViewModels.ProductTypeId,
+                    Status = orderBuyViewModels.Status,
+                    StoreID = orderBuyViewModels.StoreID,
+                    totalMoney = orderBuyViewModels.totalMoney,
+                    UserID = orderBuyViewModels.UserID,
+                };
+
+                this._context.OrderBuys.Add(tem);
+                return Save();
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool Delete(OrderBuyViewModels orderBuyViewModels)
+        {
+            var find = this._context.OrderBuys.Find(orderBuyViewModels.ID);
+              if(find == null)
+            {
+                return false;
+            }
+            return Save();
+        }
+
+        public bool Edit(OrderBuyViewModels orderBuyViewModels)
+        {
+            var find = _context.OrderBuys.Find(orderBuyViewModels.ID);
+            if (find != null)
+            {
+                find.totalMoney = orderBuyViewModels.totalMoney;
+                find.OrderCode = orderBuyViewModels.OrderCode;
+                find.Status = orderBuyViewModels.Status;
+                find.ProductTypeId = orderBuyViewModels.ProductTypeId;
+                find.StoreID = orderBuyViewModels.StoreID;
+                find.UserID = orderBuyViewModels.UserID;
+                return Save();
+            }
+            return false;
+        }
+        public OrderBuyViewModels GetByID(string id)
+        {
+            var obj = this._context.OrderBuys.Find(id);
+            var tem = new OrderBuyViewModels
+            {
+                ID = obj.ID,
+                OrderCode = obj.OrderCode,
+                ProductTypeId = obj.ProductTypeId,
+                Status = obj.Status,
+                StoreID = obj.StoreID,
+                totalMoney = obj.totalMoney,
+                UserID = obj.UserID,
+            };
+            return tem;
+        }
+        public bool Update(OrderBuyViewModels orderBuyViewModels)
+        {
+            throw new NotImplementedException();
+        }
         public List<PurchaseItem> GetProductFromSession()
         {
 
@@ -41,8 +110,13 @@ namespace StoreMMO.Core.Repositories.Purchase
                 };
                 _contextAccessor.HttpContext.Session.SetString("PurchaseItem", JsonConvert.SerializeObject(cart, jsonSettings));
             }
-
             
         }
+        private bool Save()
+        {
+            return _context.SaveChanges() > 0;
+        }
+
+
     }
 }
