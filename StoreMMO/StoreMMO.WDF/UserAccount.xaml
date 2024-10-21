@@ -22,7 +22,7 @@
             
             <!-- Hiển thị Tên Page -->
             <StackPanel  Height="40" Grid.Row="0">
-                <TextBlock Foreground="#2C3E50" FontWeight="Bold" HorizontalAlignment="Left"  FontSize="35">User Account List</TextBlock>
+                <TextBlock Foreground="#2C3E50" FontWeight="Bold" HorizontalAlignment="Left"  FontSize="30">User Account List</TextBlock>
             </StackPanel>
             <!-- Danh sách hiển thị thông tin người dùng -->
             <ListView Name="lvEntried" ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
@@ -126,7 +126,7 @@
                 <!-- Nút cập nhật và ẩn -->
                 <WrapPanel Margin="255,0,0,5" >
                     <Button Width="80" Margin="0,0,5,0" Command="{Binding Update}" FontSize="16">UPDATE</Button>
-                    <Button Width="80" Margin="0,0,5,0" Command="{Binding Hide}" FontSize="16">Hide</Button>
+                    <Button Width="80" Margin="0,0,5,0" Command="{Binding Hide}" FontSize="16">HIDE</Button>
                 </WrapPanel>
             </StackPanel>
         </Grid>
