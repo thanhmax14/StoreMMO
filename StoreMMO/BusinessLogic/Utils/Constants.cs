@@ -25,7 +25,30 @@ namespace BusinessLogic.Utils
             Buy
 
         }
+        public enum Order
+        {
+            None,  //=> 0
+            PAID,
+            fail
 
+        }
+        public enum OrderDetailStatus
+        {
+            None,  //=> 0
+            report,
+            ok,
+            refun,
+            backmoney
+
+        }
+        public enum Complaints
+        {
+            None,  //=> 0
+            done,
+            ReportAdmin,
+
+
+        }
 
     }
 }
