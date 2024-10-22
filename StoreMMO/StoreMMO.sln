@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreMMO.Web", "StoreMMO.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{7D75EC35-56F7-4FFE-B3AC-71BCC39F7BB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreMMO.WDF", "StoreMMO.WDF\StoreMMO.WDF.csproj", "{9EAC827E-8539-4A9A-B2B7-5CB12FAAE6C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreMMO.WDF", "StoreMMO.WDF\StoreMMO.WDF.csproj", "{9EAC827E-8539-4A9A-B2B7-5CB12FAAE6C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

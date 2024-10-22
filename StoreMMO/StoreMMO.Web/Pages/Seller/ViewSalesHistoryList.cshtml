@@ -1,7 +1,9 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Admin.StoreTypeHiddenModel
+@model StoreMMO.Web.Pages.Seller.ViewSalesHistoryListModel
 @{
 }
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +43,8 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+
+
 </head>
 
 <body>
@@ -304,10 +308,10 @@
             </li><!-- End Components Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link " data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-contacts-line"></i> <span>Manage Sellers and Stores</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href='/admin/RegisteredSeller'>
                             <i class="bi bi-circle"></i><span>Sellers Request</span>
@@ -319,7 +323,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/StoreList'>
+                        <a href='/admin/StoreList' class="active">
                             <i class="bi bi-circle"></i><span>Active Stores</span>
                         </a>
                     </li>
@@ -332,10 +336,10 @@
             </li><!-- End Forms Nav -->
 
             <li class="nav-item">
-                <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-stack-line"></i><span>Manage Category and Type Stores</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href='/admin/CategoriesList'>
                             <i class="bi bi-circle"></i><span>Active Category</span>
@@ -352,7 +356,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/StoreTypeHidden' class="active">
+                        <a href='/admin/StoreTypeHidden'>
                             <i class="bi bi-circle"></i><span>Hidden Type Stores</span>
                         </a>
                     </li>
@@ -374,11 +378,11 @@
         </ul>
 
     </aside><!-- End Sidebar-->
+
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>List of Hidden Store Type</h1>
-           
+            <h1>List of Stores</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -387,102 +391,87 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">List of Hidden Store Type</h5>
-
-                            
+                            <h5 class="card-title">List of Stores</h5>
+                            @if (!string.IsNullOrEmpty(@Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(@Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>
-                                            <b>N</b>ame
-                                        </th>
-                                        <th>Commission</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
-                                        <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>Stt</th>
+                                        <th>OrderID</th>
+                                        <th>Dates</th>
+                                        <th>NguoiMua</th>
+                                        <th>StoreName</th>
+                                        <th>ProductType</th>
+                                        <th>Price</th>
+                                        <th>Total Money</th>
+                                        <th>Admin Money</th>
+                                        <th>StatusPayment</th>
+                                      
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{
                                         int stt = 1;
                                     }
-                                    @foreach (var item in Model.listcate)
+                                    @foreach (var item in @Model.list)
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Commission</td>
-                                            <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-                                            <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-
-                                            <td>
-                                                <!-- Nút Edit -->
-                                                <button onclick="window.location.href='/admin/UpdateStoreType/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                            </td>
-                                            <td>
-                                                <form method="post" asp-page-handler="Hidden">
-                                                    <!-- Hidden input để gửi id -->
-                                                    <input type="hidden" name="id" value="@item.Id" />
-                                                    <button type="submit" class="btn btn-danger">
-                                                        Active
-                                                    </button>
-                                                </form>
-
-                                                <!-- Nút Hidden -->
-                                                <!-- Modal -->
-                                                @*  <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title">Hidden that user</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                            Are you sure you want to hide this user?
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                            <button type="button" class="btn btn-primary">Yes</button>
-                                            <button type="button" class="btn btn-primary">No</button>
-                                            </div>
-                                            </div>
-                                            </div>
-                                            </div> *@
-                                            </td>
+                                            <td><a href="/Seller/ViewOrderDetails/@item.OrderID">@item.OrderID</a></td>
+                                            <td>@item.Dates</td>
+                                            <td>@item.NguoiMua</td>
+                                            <td>@item.StoreName</td>
+                                            <td>@item.Productype</td>
+                                            <td>@item.Price</td>
+                                            <td>@item.totalMoney</td>
+                                            <td>@item.AdminMoney</td>
+                                            <td>@item.stasusPayment</td>
+                                           
                                         </tr>
                                         stt++;
                                     }
+
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->
 
                         </div>
-
-                        <!-- Nút CreateCategory -->
-                        <button type="button" onclick="window.location.href='/admin/StoreTypeCreate'" class="btn btn-secondary">CreateCategory</button>
                     </div>
+
                 </div>
             </div>
         </section>
 
-
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+    @*     <footer id="footer" class="footer">
+    <div class="copyright">
+    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+    </footer><!-- End Footer --> *@
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -498,6 +487,7 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
+
 
 </body>
 

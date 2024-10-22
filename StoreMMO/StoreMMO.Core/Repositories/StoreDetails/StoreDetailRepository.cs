@@ -104,24 +104,21 @@ namespace StoreMMO.Core.Repositories.StoreDetails
             return viewModel;
         }
 
-        public StoreDetailViewModels UpdateStoDetails(StoreDetailViewModels storeDetailViewModels)
+        public SaleHistoryViewModels UpdateStoDetails(SaleHistoryViewModels storeDetailViewModels)
         {
-            var viewModel = new StoreDetail
+            var viewModel = new SaleHistoryViewModels
             {
-                Id = storeDetailViewModels.Id,
-                StoreId = storeDetailViewModels.StoreId,
-                CategoryId = storeDetailViewModels.CategoryId,
-                StoreTypeId = storeDetailViewModels.StoreTypeId,
-                Name = storeDetailViewModels.Name,
-                SubDescription = storeDetailViewModels.SubDescription,
-                DescriptionDetail = storeDetailViewModels.DescriptionDetail,
-                Img = storeDetailViewModels.Img,
-                CreatedDate = storeDetailViewModels.CreatedDate,
-                ModifiedDate = DateTime.UtcNow,
-                IsActive = storeDetailViewModels.IsActive,
+              OrderID = storeDetailViewModels.OrderID,
+              Dates = storeDetailViewModels.Dates,
+                NguoiMua = storeDetailViewModels.NguoiMua,
+              StoreName = storeDetailViewModels.StoreName,
+              Productype = storeDetailViewModels.Productype,    
+              Price = storeDetailViewModels.Price,
+              totalMoney = storeDetailViewModels.totalMoney,
+              AdminMoney = storeDetailViewModels.AdminMoney,
+                stasusPayment = storeDetailViewModels.stasusPayment,
             };
-            _context.StoreDetails.Update(viewModel);
-            _context.SaveChanges();
+           
             return storeDetailViewModels;
         }
     }
