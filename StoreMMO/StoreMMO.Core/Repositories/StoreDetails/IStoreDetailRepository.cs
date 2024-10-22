@@ -13,7 +13,7 @@ namespace StoreMMO.Core.Repositories.StoreDetails
         IEnumerable<StoreDetail> GetAllStoreDetails();
         StoreDetailViewModels GetByIdStoDetails(string id);
         StoreDetailViewModels AddStoDetails(StoreDetailViewModels storeDetailViewModels);
-        StoreDetailViewModels UpdateStoDetails(StoreDetailViewModels idstoreDetailViewModels);
+        SaleHistoryViewModels UpdateStoDetails(SaleHistoryViewModels idstoreDetailViewModels);
         void DeleteStoDetails(string id);
         StoreDetailViewModels GetByIdStoDetails1(string id);
     }
