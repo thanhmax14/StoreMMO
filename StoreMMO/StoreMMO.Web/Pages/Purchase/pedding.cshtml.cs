@@ -29,45 +29,49 @@ namespace StoreMMO.Web.Pages.Purchase
         {
             try
             {
+                // Decode input information
                 sendInfo.Ordercode = EncryptSupport.DecodeBase64(getinfo.Ordercode);
                 sendInfo.descrip = EncryptSupport.DecodeBase64(getinfo.descrip);
                 sendInfo.NameBank = EncryptSupport.DecodeBase64(getinfo.NameBank);
                 sendInfo.NumberBank = EncryptSupport.DecodeBase64(getinfo.NumberBank);
                 sendInfo.thoigian = getinfo.thoigian;
-                sendInfo.amount =  getinfo.amount;
+                sendInfo.amount = getinfo.amount;
                 sendInfo.price = EncryptSupport.DecodeBase64(getinfo.Price);
                 sendInfo.img = EncryptSupport.DecodeBase64(getinfo.img);
-                var check = await this._Payos.getPaymentLinkInformation(long.Parse(sendInfo.Ordercode));
+
+                // Retrieve payment information
+                var check = await _Payos.getPaymentLinkInformation(long.Parse(sendInfo.Ordercode));
                 if (check != null)
                 {
-                    if (check.status.ToLower() == "EXPIRED".ToLower())
+                    var status = check.status.ToLower(); // Store status in lowercase
+                    switch (status)
                     {
-                        return Redirect("/Purchase/fail");
+                        case "expired":
+                        case "cancelled":
+                            return Redirect("/Purchase/fail");
+                        case "paid":
+                            return Redirect("/Purchase/Success");
+                        case "pending":
+                            string imgqr = _createQR.GetQR(sendInfo.img, "#FFFFFF", "#003366", 10042, 10042);
+                            sendInfo.img = imgqr;
+                            return Page();
+                        default:
+                            return Page(); // Unrecognized status, stay on page
                     }
-                    else if (check.status.ToLower() == "CANCELLED".ToLower())
-                    {
-                        return Redirect("/Purchase/fail");
-                    } else if(check.status.ToLower() == "paid".ToLower())
-                    {
-                        return Redirect("/Purchase/Success");
-                    }
-                    else if (check.status.ToLower() == "PENDING".ToLower())
-                    {
-                        string imgqr = this._createQR.GetQR(sendInfo.img, "#FFFFFF", "#003366", 342, 342);
-                        sendInfo.img = imgqr;
-                        return Page();
-                    }
-                    return Page();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
+                // Consider logging the exception
+                Console.Error.WriteLine(e);
                 return NotFound();
             }
-            return NotFound();
+
+            return Redirect("/Purchase/fail");
         }
 
-     public async Task<IActionResult>OnpostAsync(string Ordercode)
+
+        public async Task<IActionResult>OnpostAsync(string Ordercode)
         {
             PaymentLinkInformation paymentLinkInformation = await this._Payos.cancelPaymentLink(long.Parse(Ordercode));
             var a = paymentLinkInformation;

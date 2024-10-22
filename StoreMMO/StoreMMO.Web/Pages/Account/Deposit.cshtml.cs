@@ -33,7 +33,7 @@ namespace StoreMMO.Web.Pages.Account
             if (checkUser != null)
             {
                 var host = Request.Host.ToString();
-                var fullUrl = $"{Request.Scheme}://{host}/Purchase/pending";
+                var fullUrl = $"{Request.Scheme}://{host}/Purchase/pedding";
                 var failUrl = $"{Request.Scheme}://{host}/Purchase/fail";
 
                 // Tạo yêu cầu thanh toán
@@ -80,8 +80,6 @@ namespace StoreMMO.Web.Pages.Account
                     return NotFound();
                 }
             }
-
-            // Nếu không tìm thấy người dùng
             return NotFound();
         }
     }
