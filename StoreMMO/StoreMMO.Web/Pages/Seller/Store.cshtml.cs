@@ -26,5 +26,32 @@ namespace StoreMMO.Web.Pages.Seller
         {
             list = _storeService.getAllStoreSeller();
         }
+        //public IActionResult OnPostHidden(string id)
+        //{
+        //    var cate = _storeService.getStoreDetailById(id);
+        //    cate.IsActive = false;
+        //    var result = _storeService.UpdateCategory(cate);
+
+
+        //    // N?u thành công, chuy?n h??ng l?i danh sách categories
+        //    return RedirectToPage("/Admin/CategoriesList");
+        //}
+        public async Task<IActionResult> OnPostAsync(string Id)
+        {
+            // L?y c?a hàng t? database theo Id
+            var store = await _context.Stores.FindAsync(Id);
+            if (store != null)
+            {
+                // C?p nh?t tr?ng thái thành 2 khi nh?n "Reject"
+                if(isAccept == 2) 
+                    {
+                    store.IsAccept = "Pending"; // Gi? s? có thu?c tính IsAccept
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            // Quay l?i trang hi?n t?i sau khi th?c hi?n hành ??ng
+            return RedirectToPage("Store");
+        }
     }
 }

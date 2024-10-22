@@ -1,5 +1,5 @@
-﻿@page
-@model StoreMMO.Web.Pages.Seller.StoreModel
+﻿@page "{storeDetailId?}"
+@model StoreMMO.Web.Pages.Seller.UpdateStoreModel
 @{
 }
 <!DOCTYPE html>
@@ -290,16 +290,16 @@
                 </a>
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/Seller/Index" onclick="window.location.href='/Seller/Index'" >
+                        <a href="" onclick="window.location.href='/Seller/Index'" class="active">
                             <i class="bi bi-circle"></i><span>Manage Store</span>
                         </a>
                     </li>
-<li>
-                          <a href="/Seller/ViewDetailsProduct" class="active">
-                              <i class=" bi bi-circle"></i><span>ViewDetailsProduct</span>
-                          </a>
-                      </li> 
-                    @* <li>
+                 @*    <li>
+                        <a href="">
+                            <i class=" bi bi-circle"></i><span>Create Product</span>
+                        </a>
+                    </li> *@
+                 @*    <li>
                         <a href="/Seller/UpdateProduct" onclick="window.location.href='/Seller/UpdateProduct'">
                             <i class=" bi bi-circle"></i><span>Manage ProductType</span>
                         </a>
@@ -378,107 +378,100 @@
         </ul>
 
     </aside><!-- End Sidebar-->
-    <style>
-        .status-accepted {
-            color: green; /* Màu xanh lá cây cho Accepted */
-        }
-
-        .status-rejected {
-            color: red; /* Màu đỏ cho Rejected */
-        }
-
-        .status-pending {
-            color: blue; /* Màu vàng cho Pending */
-        }
-    </style>
-
 
     <main id="main" class="main">
+
+        <div class="pagetitle">
+            <h1>Update Store Details</h1>
+        </div><!-- End Page Title -->
+
         <section class="section">
-            <a asp-page="/Seller/CreateProduct" class="btn btn-primary">Create</a>
             <div class="row">
                 <div class="col-lg-12">
+
                     <div class="card">
                         <div class="card-body">
-                            <!-- Table with stripped rows -->
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Name</th>
-                                        <th>Sub Description</th>
-                                        <th>Description Detail</th>
-                                        <th>Created Date</th>
-                                        <th>Status</th>
-                                        <th>Actions</th> <!-- Thêm cột cho các hành động -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @{
-                                        int stt = 1;
-                                    }
-                                    @foreach (var item in @Model.list)
-                                    {
-                                        <tr>
-                                            <td>@stt</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.SubDescription</td>
-                                            <td>@item.DescriptionDetail</td>
-                                            <td>@item.CreatedDate</td>
-                                            <td>
-                                                @{
-                                                    string statusClass = item.IsAccept switch
-                                                    {
-                                                        "Approved" => "status-accepted",
-                                                        "Rejected" => "status-rejected",
-                                                        "Pending" => "status-pending",
-                                                        _ => "" // Không có giá trị nào khác
-                                                    };
-                                                }
-                                                <span class="@statusClass">@item.IsAccept</span>
-                                            </td>
+                            <h5 class="card-title">Update Store Details Form</h5>
+                            @if (!string.IsNullOrEmpty(Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
 
-                                            <td>
-                                                <button onclick="window.location.href='/seller/UpdateStore/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                                <form method="post" asp-page-handler="OnPostAsync" style="display:inline;">
-                                                    <input type="hidden" name="Id" value="@item.StoreId" />
-                                                    <input type="hidden" name="isAccept" value="2" />
-                                                    <button type="submit" class="btn btn-danger">Register Store</button>
-                                                </form>
-                                                <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Hide this user</h5>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to hide this user?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                                    Back
-                                                                </button>
-                                                                <button type="button" class="btn btn-primary">Yes</button>
-                                                                <button type="button" class="btn btn-primary">No</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        stt++;
-                                    }
-                                </tbody>
-                            </table>
-                            <!-- End Table with stripped rows -->
+                            <!-- Form -->
+                            <form method="post">
+                                <!-- ID (ẩn) -->
+                                <input hidden type="text" asp-for="input.Id" />
+
+                                <!-- Name -->
+                                <div class="row mb-4">
+                                    <label for="inputName" class="col-sm-5 col-form-label">Name</label>
+                                    <div class="col-sm-15">
+                                        <input type="text" class="form-control" asp-for="input.Name" />
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.Name"></span>
+                                </div>
+
+                                <!-- SubDescription -->
+                                <div class="row mb-4">
+                                    <label for="inputSubDescription" class="col-sm-5 col-form-label">Sub Description</label>
+                                    <div class="col-sm-15">
+                                        <input type="text" class="form-control" asp-for="input.SubDescription" />
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.SubDescription"></span>
+                                </div>
+
+                                <!-- Description Detail -->
+                                <div class="row mb-4">
+                                    <label for="inputDescriptionDetail" class="col-sm-5 col-form-label">Description Detail</label>
+                                    <div class="col-sm-15">
+                                        <input type="text" class="form-control" asp-for="input.DescriptionDetail" />
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.DescriptionDetail"></span>
+                                </div>
+
+                                <!-- CreatedDate -->
+                                <div class="row mb-4">
+                                    <label for="inputCreatedDate" class="col-sm-5 col-form-label">Created Date</label>
+                                    <div class="col-sm-15">
+                                        <input type="date" class="form-control" asp-for="input.CreatedDate" />
+                                    </div>
+                                </div>
+
+                                <!-- Img (Optional) -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Image URL (Optional)</label>
+                                    <div class="col-sm-15">
+                                        <input type="text" class="form-control" asp-for="input.Img" />
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="col-sm-10">
+                                        <button type="button" onclick="window.location.href='/seller/Store'" class="btn btn-secondary">Back To List</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
-    </main><!-- End #main -->
+
+    </main>
     <!-- ======= Footer ======= -->
     @*     <footer id="footer" class="footer">
     <div class="copyright">
@@ -507,7 +500,6 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
-
 </body>
 
 </html>
