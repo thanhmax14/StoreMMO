@@ -22,7 +22,7 @@ namespace StoreMMO.Core.ViewModels
 
         public string DescriptionDetail { get; set; }
 
-        public string Img { get; set; }
+        public string? Img { get; set; }
 
         public DateTimeOffset? CreatedDate { get; set; }
 
