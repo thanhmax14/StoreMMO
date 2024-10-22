@@ -37,7 +37,7 @@ namespace StoreMMO.Web.Middleware
                         foreach (var item in getListBalance)
                         {
                             if (item.TransactionType.Equals("Deposit", StringComparison.OrdinalIgnoreCase)
-                                && !item.Status.Equals("PAID", StringComparison.OrdinalIgnoreCase))
+                                && item.Status.Equals("PENDING", StringComparison.OrdinalIgnoreCase)) 
                             {
                                 await ProcessBalanceUpdate(item, balanceService);
                             }
@@ -49,6 +49,7 @@ namespace StoreMMO.Web.Middleware
             Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
             await _requestDelegate(context);
         }
+
 
         private async Task ProcessBalanceUpdate(BalanceViewModels item, IBalanceService balanceService)
         {
@@ -80,12 +81,12 @@ namespace StoreMMO.Web.Middleware
 
         private async Task UpdateBalanceStatus(string balanceId, string status, IBalanceService balanceService)
         {
-            var balance = await balanceService.GetBalanceByIDAsync(balanceId); // Sử dụng phương thức GetBalanceByIDAsync
+            var balance = await balanceService.GetBalanceByIDAsync(balanceId); 
             if (balance != null)
             {
                 balance.Status = status;
                 balance.approve = DateTime.Now;
-                bool updateBalance = await balanceService.UpdateAsync(balance); // Sử dụng phương thức UpdateAsync
+                bool updateBalance = await balanceService.UpdateAsync(balance); 
                 if (updateBalance)
                 {
                     Console.WriteLine($"Successfully updated balance ID: {balanceId} to status: {status}");
