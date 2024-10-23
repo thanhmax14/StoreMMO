@@ -36,6 +36,9 @@ using BusinessLogic.Services.StoreMMO.Core.Disputes;
 
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using StoreMMO.Core.Repositories.Purchase;
+using NuGet.Configuration;
+using StoreMMO.Core.Repositories.Withdraw;
+using BusinessLogic.Services.StoreMMO.Core.Withdraws;
 using Net.payOS;
 using BusinessLogic.Services.Payments;
 using BusinessLogic.Services.CreateQR;
@@ -76,6 +79,8 @@ namespace BusinessLogic.Config
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<IDisputeRepository, DisputeRepository>();
+            services.AddScoped<IWithdrawRepository, WithdrawRepository>();
+
             services.AddScoped<IBalanceRepository,BalanceRepository>();
             services.AddScoped<IOrderDeailsRepository, OrderDeailsRepository>();
 
@@ -102,6 +107,8 @@ namespace BusinessLogic.Config
             services.AddScoped<IStoreTypeService, StoreTypeService>();
             services.AddScoped<IRegisteredSellerService, RegisteredSellerService>();
             services.AddScoped<IStoreDetailRepository, StoreDetailRepository>();
+            services.AddScoped<IDisputeService, DisputeService>();
+            services.AddScoped<IWithdrawService, WithdrawService>();
             services.AddScoped<IBalanceService, BalanceService>();
 
             services.AddScoped<IDisputeService, DisputeService>();

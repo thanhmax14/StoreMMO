@@ -1,9 +1,6 @@
 ﻿@page
-@model StoreMMO.Web.Pages.Admin.StoreTypeCreateModel
+@model StoreMMO.Web.Pages.Admin.ManageWithdrawModel
 @{
-}
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +9,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Forms / Elements - NiceAdmin Bootstrap Template</title>
+    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -288,17 +285,17 @@
             </li><!-- End Dashboard Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-account-box-line"></i><span>Manage User Accounts</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href='/admin/UserAccountList'>
+                        <a href='/admin/UserAccountList' >
                             <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/UserHiddenAccountList'>
+                        <a href="">
                             <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
@@ -309,24 +306,24 @@
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-contacts-line"></i> <span>Manage Sellers and Stores</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href='/admin/RegisteredSeller'>
+                        <a href='/admin/RegisteredSeller' class="active">
                             <i class="bi bi-circle"></i><span>Sellers Request</span>
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/ManageStore'>
-                            <i class="bi bi-circle"></i><span>Stores Request</span>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Store Request</span>
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/StoreList'>
+                        <a href="">
                             <i class="bi bi-circle"></i><span>Active Stores</span>
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/StoreListHidden'>
+                        <a href="">
                             <i class="bi bi-circle"></i><span>Hidden Stores</span>
                         </a>
                     </li>
@@ -334,27 +331,27 @@
             </li><!-- End Forms Nav -->
 
             <li class="nav-item">
-                <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-stack-line"></i><span>Manage Category and Type Stores</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href='/admin/CategoriesList'>
+                        <a href="">
                             <i class="bi bi-circle"></i><span>Active Category</span>
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/CategoriesListHidden'>
+                        <a href="">
                             <i class="bi bi-circle"></i><span>Hidden Category</span>
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/StoreTypeList' class="active">
+                        <a href="">
                             <i class="bi bi-circle"></i><span>Active Type Stores</span>
                         </a>
                     </li>
                     <li>
-                        <a href='/admin/StoreTypeHidden'>
+                        <a href="">
                             <i class="bi bi-circle"></i><span>Hidden Type Stores</span>
                         </a>
                     </li>
@@ -362,16 +359,14 @@
             </li><!-- End Tables Nav -->
 
             <li class="nav-item">
-
-                <a class="nav-link collapsed" href='/admin/ManageDispute'>
-
+                <a class="nav-link collapsed" href="/Admin/ManageDispute">
                     <i class="ri-coupon-2-line"></i> <span>Manage Disputes Form</span>
                 </a>
 
             </li><!-- End Charts Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href='/admin/'>
+                <a class="nav-link collapsed" href="">
                     <i class="ri-money-dollar-circle-line"></i><span>Manage Withdrawal Requests From Seller</span>
                 </a>
             </li><!-- End Icons Nav -->
@@ -382,61 +377,81 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Create New Store Type Form</h1>
-           
+            <h1>Withdraw Tables</h1>
         </div><!-- End Page Title -->
-       
+
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Create New Store Type Form</h5>
-                            @if (!string.IsNullOrEmpty(@Model.success))
-                            {
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <i class="bi bi-check-circle me-1"></i>
-                                    @Model.success
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            }
-                            @if (!string.IsNullOrEmpty(@Model.fail))
-                            {
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <i class="bi bi-exclamation-octagon me-1"></i>
-                                    @Model.fail
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            }
-                            <!-- General Form Elements -->
-                            <form method="post">
-                           
-                                <div class="row mb-4">
-                                    <label for="inputName" class="col-sm-5 col-form-label">Name</label>
-                                    <div class="col-sm-15">
-                                        <!-- Liên kết với CateName trong ViewModel -->
-                                        <input type="text" class="form-control" asp-for="input.Name">
-                                    </div>
-                                    <span style="color:red" asp-validation-for="input.Name"></span>
-                                </div>
-                                <div class="row mb-4">
-                                    <label for="inputName" class="col-sm-5 col-form-label">Commission</label>
-                                    <div class="col-sm-15">
-                                        <!-- Liên kết với CateName trong ViewModel -->
-                                        <input type="text" class="form-control" asp-for="input.Commission">
-                                    </div>
-                                    <span style="color:red" asp-validation-for="input.Commission"></span>
-                                </div>
-                            
-                                <div class="row mb-4">
-                                    <div class="col-sm-10">
-                                        <button type="button" onclick="window.location.href='/admin/StoreTypeList'" class="btn btn-secondary">Back To List</button>
-                                        <button type="submit" class="btn btn-primary">Add</button>
-                                    </div>
-                                </div>
-                            </form>
+                            <h5 class="card-title">Withdraw List</h5>
 
+                            <!-- Table with stripped rows -->
+                            <table class="table datatable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Transaction Type</th>
+                                        <th>Transaction Date</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int stt = 1;
+                                    }
+                                    @foreach (var item in @Model.list)
+                                    {
+                                        <tr>
+                                            <td>@stt</td>
+                                            <td>@item.TransactionType</td>
+                                            <td>@(item.TransactionDate.ToString("yyyy/dd/MM") ?? "Null Data")</td>
+                                            <td>@item.Description</td>
+                                            <td>@item.Status</td>
+                                            <td>
+                                                <form method="post" asp-page-handler="OnPostAsync">
+                                                    <input type="hidden" name="Id" value="@item.Id" />
+                                                    <input type="hidden" name="isAccept" value="1" />
+                                                    <button type="submit" class="btn btn-primary">Accept</button>
+                                                </form>
+                                                <form method="post" asp-page-handler="AsyncReject">
+                                                    <input type="hidden" name="Id" value="@item.Id" />
+                                                    <input type="hidden" name="isAccept" value="2" />
+                                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                                </form>
+                                                <div class="modal fade" id="verticalycentered" tabindex="-1">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Hidden that user</h5>
+                                                                <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Are you sure you want to hide this user?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button left" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">
+                                                                    Back
+                                                                </button>
+                                                                <button type="button" class="btn btn-primary">Yes</button>
+                                                                <button type="button" class="btn btn-primary">No</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        stt++;
+                                    }
+
+                                </tbody>
+                            </table>
+                            <!-- End Table with stripped rows -->
 
                         </div>
                     </div>
@@ -447,18 +462,18 @@
 
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+    @*     <footer id="footer" class="footer">
+    <div class="copyright">
+    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+    </footer><!-- End Footer --> *@
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
@@ -475,6 +490,9 @@
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
 
+
 </body>
 
 </html>
+
+
