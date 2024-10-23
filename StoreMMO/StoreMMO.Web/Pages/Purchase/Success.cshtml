@@ -1,0 +1,117 @@
+﻿@page
+@model StoreMMO.Web.Pages.Purchase.SuccessModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charSet="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>payOS</title>
+   
+    <link href="~/css/stylepayment.css" rel="stylesheet" />
+</head>
+
+<body>
+    <section class="h-full w-full">
+        <div class="flex flex-col items-center justify-center m-auto my-0 relative">
+            <section class="w-full h-full overflow-auto">
+                <div class="">
+                    <div class="shadow ">
+                        <div class="px-2 py-2 sm:px-5 md:px-lg sm:py-3.5 shadow-md rounded-t-xl w-full flex items-center justify-center bg-white"
+                             id="header-payment-link-payos">
+                            <div class="w-full max-w-screen-sm lg:max-w-[920px] ">
+                                <div class="w-full flex items-center justify-between">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <img alt="logo" loading="lazy" width="42" height="42" decoding="async"
+                                                 data-nimg="1" class=" w-[42px] h-[42px] rounded-full"
+                                                 style="color:transparent"
+                                                 src="https://pub-2a975c3c49bd40c7a7db9716a511518d.r2.dev/payment_gateway/b2843954-f3c7-4f7b-aafd-37533513003f.jpeg" />
+                                            <p class="uppercase font-medium text-xs text-[#555555]">
+                                                hệ quản trị thanh
+                                                toán
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <img alt="VietQR.io logo" loading="lazy" width="98" height="42" decoding="async"
+                                         data-nimg="1" class="h-[42px]" style="color:transparent"
+                                         src="https://i.ibb.co/8jxT2fW/logo-Huy-01coppy.png" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center  m-auto my-0 relative h-full">
+                            <div class="max-w-screen-sm w-full lg:max-w-[920px] mx-2">
+                                <div class="mx-2 my-5 flex flex-col items-center justify-center">
+                                    <div id="container-order" class="bg-white mt-3.5 w-full">
+                                        <div class="p-3.5">
+                                            <div class="flex items-center justify-between">
+                                                <div class="flex items-center gap-2">
+                                                    <p class=" text-[17.5px]">Chi tiết đơn hàng</p>
+                                                </div>
+                                                <p class="text-right text-[17.5px] font-semibold my-2 cursor-pointer hover:underline text-[#4673fe]"
+                                                   id="display-order-detail">Ẩn</p>
+                                            </div>
+                                            <div class="px-6" id="detail-order">
+                                                <div id="orders">
+                                                    <div class="flex items-center justify-between my-2">
+                                                        <div class="my-2">
+                                                            <p class="text-[17.5px] font-semibold ">
+                                                                Mì tôm hảo hảo ly
+                                                            </p>
+                                                            <h4 class="text-sm">
+                                                                x
+                                                                <!-- -->
+                                                                1
+                                                            </h4>
+                                                        </div>
+                                                        <div>
+                                                            <p class="font-semibold text-sm">
+                                                                2,000
+                                                                <!-- -->
+                                                                <!-- -->
+                                                                VND
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <div class="text-right my-4">
+                                                    <span class="font-semibold text-[17.5px]">Tổng cộng: </span>
+                                                    <span class="text-[17.5px]">
+                                                        2,000
+                                                        <!-- -->
+                                                        <!-- -->
+                                                        VND
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center justify-center mt-10">
+                                        <img alt="Thành công" loading="lazy" width="92" height="92" decoding="async"
+                                             data-nimg="1" style="color:transparent"
+                                             src="https://pay.payos.vn/images/done.svg" />
+                                        <p class="text-base mb-4 text-black">Thanh toán thành công</p>
+                                        <p class="text-sm text-black">
+                                            Về lại cửa hàng sau (
+                                            <!-- -->
+                                            5
+                                            <!-- -->
+                                            ) giây
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+</body>
+
+</html>

@@ -21,7 +21,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.StoreDetails
 
         public StoreDetailViewModels AddStoDetails(StoreDetailViewModels storeDetailViewModels)
         {
-           return _storeDetailRepository.AddStoDetails(storeDetailViewModels);
+            return _storeDetailRepository.AddStoDetails(storeDetailViewModels);
         }
 
         public void DeleteStoDetails(string id)
@@ -29,9 +29,14 @@ namespace BusinessLogic.Services.StoreMMO.Core.StoreDetails
             _storeDetailRepository.DeleteStoDetails(id);
         }
 
+        public IEnumerable<StoreViewModels> getAll(string sicbo)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<StoreDetail> GetAllStoreDetails()
         {
-                return _storeDetailRepository.GetAllStoreDetails(); 
+            return _storeDetailRepository.GetAllStoreDetails();
         }
 
         public StoreDetailViewModels GetByIdStoDetails(string id)
@@ -44,9 +49,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.StoreDetails
             return _storeDetailRepository.GetByIdStoDetails1(id);
         }
 
-        public StoreDetailViewModels UpdateStoDetails(StoreDetailViewModels idstoreDetailViewModels)
+      
+
+        public SaleHistoryViewModels UpdateStoDetails(SaleHistoryViewModels idstoreDetailViewModels)
         {
-               return _storeDetailRepository.UpdateStoDetails(idstoreDetailViewModels);
+            return _storeDetailRepository.UpdateStoDetails(idstoreDetailViewModels);
         }
     }
 }

@@ -16,7 +16,38 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
         {
             this._purchase = purchase;
         }
-        public List<PurchaseItem> GetProductFromSession()
+
+        public bool add(OrderBuyViewModels orderBuyViewModels)
+        {
+           return this._purchase.add(orderBuyViewModels);
+        }
+
+        public bool Delete(OrderBuyViewModels orderBuyViewModels)
+        {
+            return this._purchase.Delete(orderBuyViewModels);
+        }
+
+        public bool Edit(OrderBuyViewModels orderBuyViewModels)
+        {
+            return this._purchase.Edit(orderBuyViewModels);
+        }
+
+		public IEnumerable<OrderBuyViewModels> GetAll()
+		{
+			return this._purchase.GetAll();
+		}
+
+		public OrderBuyViewModels GetByID(string id)
+        {
+            return this._purchase.GetByID(id);
+        }
+
+		public IEnumerable<OrderBuyViewModels> GetByUserID(string userID)
+		{
+			return this._purchase.GetByUserID(userID);
+		}
+
+		public List<PurchaseItem> GetProductFromSession()
         {
             return this._purchase.GetProductFromSession();
         }

@@ -21,6 +21,12 @@
 
 	<!-- Favicon -->
 	<link rel="icon" type="image/x-icon" href="~/assets/images/icons/favicon.png">
+	<!-- DataTables CSS -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+	<!-- jQuery và DataTables JS -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
 
 	<script>
@@ -467,7 +473,14 @@
 
 							<li class="nav-item">
 								<a class="nav-link" id="download-tab" data-toggle="tab" href="#download" role="tab"
-									aria-controls="download" aria-selected="false">Downloads</a>
+									aria-controls="download" aria-selected="false">Balance:
+								 <span style="margin-left:5px">
+										<i class="fas fa-coins"></i>
+									 
+									 
+									   1000</span>
+								</a>
+									
 							</li>
 
 							<li class="nav-item">
@@ -573,40 +586,416 @@
 								</div><!-- End .row -->
 							</div>
 						</div><!-- End .tab-pane -->
-
 						<div class="tab-pane fade" id="order" role="tabpanel">
 							<div class="order-content">
-								<h3 class="account-sub-title d-none d-md-block"><i
-										class="sicon-social-dropbox align-middle mr-3"></i>Orders</h3>
+								<h3 class="account-sub-title d-none d-md-block">
+									<i class="sicon-social-dropbox align-middle mr-3"></i>
+									<button class="btn btn-outline-primary btn-lg">Deposit</button>
+								</h3>
+
 								<div class="order-table-container text-center">
-									<table class="table table-order text-left">
+									<!-- Ô tìm kiếm -->
+									<div>
+										<label style="float:left" for="rowsPerPage">Rows per page:</label>
+										<select style="float:left" id="rowsPerPage" onchange="updateTable()">
+											<option value="5">5</option>
+											<option value="15">15</option>
+											<option value="25">25</option>
+											<option value="50">50</option>
+											<option value="100">100</option>
+										</select>
+										<input style="float:right" type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for descriptions...">
+									</div>
+
+									<!-- Bảng hiển thị dữ liệu -->
+									<table id="transactionTable" class="table table-order text-left">
 										<thead>
 											<tr>
-												<th class="order-id">ORDER</th>
-												<th class="order-date">DATE</th>
-												<th class="order-status">STATUS</th>
-												<th class="order-price">TOTAL</th>
-												<th class="order-action">ACTIONS</th>
+												<th onclick="sortTable(0)">NO.</th>
+												<th onclick="sortTable(1)">OrderCode</th>
+												<th onclick="sortTable(2)">Date</th>
+												<th onclick="sortTable(3)">Store Name</th>
+												<th onclick="sortTable(4)">Product Type</th>
+												<th onclick="sortTable(5)">Seller</th>
+												<th onclick="sortTable(6)">Quantity</th>
+												<th onclick="sortTable(7)">Total Price</th>
+												<th onclick="sortTable(8)">Status</th>
+												<th>ACTIONS</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody id="tableBody">
+
+											@* 						@for (var item = 0; item < 20; item++)
+											{
 											<tr>
-												<td class="text-center p-0" colspan="5">
-													<p class="mb-5 mt-5">
-														No Order has been made yet.
-													</p>
-												</td>
+											<td>@item</td>
+											<td>2024-10-20</td>
+											<td>$100</td>
+											<td>Deposit</td>
+											<td>Completed</td>
+											<td>Some description @item</td>
+											<td><button class="btn btn-primary">View</button></td>
 											</tr>
+											} *@
+
+											@if (Model.InfoBalance != null && Model.InfoBalance.Count() > 0)
+											{
+												var count = 1;
+												foreach (var item in Model.InfoBalance)
+												{
+													<tr>
+														<td>@count</td>
+														<td>@item.TransactionDate</td>
+														<td>@item.Amount</td>
+														<td>@item.TransactionType</td>
+														<td> <button class="btn btn-outline-primary btn-xs">@item.Status</button></td>
+														<td>@item.Description</td>
+														<td>
+															@if (item.TransactionType.ToLower().Equals("buy".ToLower()))
+															{
+																<button class="btn btn-primary">View</button>
+															}
+															else
+															{
+																// Bạn có thể thêm chức năng khác ở đây
+															}
+														</td>
+													</tr>
+													count++;
+												}
+											}
+											else
+											{
+												<tr>
+													<td class="text-center p-0" colspan="7">
+														<p class="mb-5 mt-5">
+															No Order has been made yet.
+														</p>
+													</td>
+												</tr>
+											}
+
+
+											<!-- Add more rows as needed -->
 										</tbody>
 									</table>
-									<hr class="mt-0 mb-3 pb-2" />
 
-									<a href="category.html" class="btn btn-dark">Go Shop</a>
+									<!-- Phân trang và chọn số hàng hiển thị -->
+									<div style="padding-top:10px" class="pagination-container">
+
+										<div id="pagination"></div>
+									</div>
 								</div>
 							</div>
-						</div><!-- End .tab-pane -->
+						</div>
 
-						<div class="tab-pane fade" id="download" role="tabpanel">
+
+		<div class="tab-pane fade" id="download" role="tabpanel">
+        <div class="order-content">
+            <h3 class="account-sub-title d-none d-md-block">
+                <i class="sicon-social-dropbox align-middle mr-3"></i>
+									<button class="btn btn-outline-primary btn-lg">Deposit</button>
+            </h3>
+	
+            <div class="order-table-container text-center">
+                <!-- Ô tìm kiếm -->
+               <div>
+				     <label style="float:left" for="rowsPerPage">Rows per page:</label>
+                        <select  style="float:left"  id="rowsPerPage" onchange="updateTable()">
+                            <option value="5">5</option>
+                            <option value="15">15</option>
+								<option value="25">25</option>
+								<option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+				    <input  style="float:right" type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for descriptions...">
+			   </div>
+
+                <!-- Bảng hiển thị dữ liệu -->
+                <table id="transactionTable" class="table table-order text-left">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">NO.</th>
+                            <th onclick="sortTable(1)">DATE</th>
+                            <th onclick="sortTable(2)">AMOUNT</th>
+                            <th onclick="sortTable(3)">TYPE</th>
+                            <th onclick="sortTable(4)">STATUS</th>
+                            <th onclick="sortTable(5)">Description</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                       
+@* 						@for (var item = 0; item < 20; item++)
+{
+    <tr>
+        <td>@item</td>
+        <td>2024-10-20</td>
+        <td>$100</td>
+        <td>Deposit</td>
+        <td>Completed</td>
+        <td>Some description @item</td>
+        <td><button class="btn btn-primary">View</button></td>
+    </tr>
+} *@
+ 
+											@if (Model.InfoBalance != null && Model.InfoBalance.Count() > 0)
+											{
+												var count = 1;
+												foreach (var item in Model.InfoBalance)
+												{
+													<tr>
+														<td>@count</td>
+														<td>@item.TransactionDate</td>
+														<td>@item.Amount</td>
+														<td>@item.TransactionType</td>
+														<td> <button class="btn btn-outline-primary btn-xs">@item.Status</button></td>
+														<td>@item.Description</td>
+														<td>
+															@if (item.TransactionType.ToLower().Equals("buy".ToLower()))
+															{
+																<button class="btn btn-primary">View</button>
+															}
+															else
+															{
+																// Bạn có thể thêm chức năng khác ở đây
+															}
+														</td>
+													</tr>
+													count++;
+												}
+											}
+											else
+											{
+												<tr>
+													<td class="text-center p-0" colspan="7">
+														<p class="mb-5 mt-5">
+															No Balance has been made yet.
+														</p>
+													</td>
+												</tr>
+											}
+
+
+                        <!-- Add more rows as needed -->
+                    </tbody>
+                </table>
+
+                <!-- Phân trang và chọn số hàng hiển thị -->
+                <div style="padding-top:10px" class="pagination-container">
+                    
+                    <div id="pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+		<script>
+        var currentPage = 1;
+        var rowsPerPage = 5;
+
+        // Function to filter table based on input
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("transactionTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 1; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[5]; // Search in Description column
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        // Function to sort table by clicking on the headers
+        function sortTable(columnIndex) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("transactionTable");
+            switching = true;
+            dir = "asc"; // Set the sorting direction to ascending initially
+            
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+                    
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        // Function to paginate and limit the number of rows displayed
+        function updateTable() {
+            rowsPerPage = parseInt(document.getElementById("rowsPerPage").value);
+            displayTable();
+        }
+
+        function displayTable() {
+            var table, tr, i, start, end;
+            table = document.getElementById("transactionTable");
+            tr = table.getElementsByTagName("tr");
+
+            start = (currentPage - 1) * rowsPerPage + 1;
+            end = currentPage * rowsPerPage + 1;
+
+            for (i = 1; i < tr.length; i++) {
+                if (i >= start && i < end) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+            updatePagination(tr.length - 1);
+        }
+
+        // Function to update pagination buttons
+        function updatePagination(totalRows) {
+            var totalPages = Math.ceil(totalRows / rowsPerPage);
+            var pagination = document.getElementById("pagination");
+            pagination.innerHTML = "";
+
+            for (var i = 1; i <= totalPages; i++) {
+                var button = document.createElement("button");
+                button.innerText = i;
+                button.onclick = function() {
+                    currentPage = parseInt(this.innerText);
+                    displayTable();
+                };
+                pagination.appendChild(button);
+            }
+        }
+
+        // Initial table display
+        displayTable();
+    </script>
+
+ <style>
+        /* CSS cho ô tìm kiếm */
+        #searchInput {
+            width: 250px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        /* CSS cho nút phân trang */
+        .pagination-container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 0 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .pagination-container button.active {
+            background-color: #0056b3;
+            font-weight: bold;
+        }
+
+        /* CSS cho bảng */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        .table th, .table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+            word-wrap: break-word;
+            max-width: 200px;
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .table th.sort-asc::after {
+            content: " ▲";
+        }
+
+        .table th.sort-desc::after {
+            content: " ▼";
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+        /* Nút xem và nút phân trang */
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            padding: 8px 12px;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        /* Phần chọn số hàng hiển thị */
+        #rowsPerPage {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+    </style>
+
+						@* <div class="tab-pane fade" id="download" role="tabpanel">
 							<div class="download-content">
 								<h3 class="account-sub-title d-none d-md-block"><i
 										class="sicon-cloud-download align-middle mr-3"></i>Downloads</h3>
@@ -615,7 +1004,7 @@
 										class="btn btn-primary text-transform-none mb-2">GO SHOP</a>
 								</div>
 							</div>
-						</div><!-- End .tab-pane -->
+						</div><!-- End .tab-pane --> *@
 
 						<div class="tab-pane fade" id="address" role="tabpanel">
 							<h3 class="account-sub-title d-none d-md-block mb-1"><i

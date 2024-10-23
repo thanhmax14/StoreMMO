@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreMMO.Web", "StoreMMO.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{7D75EC35-56F7-4FFE-B3AC-71BCC39F7BB6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreMMO.WDF", "StoreMMO.WDF\StoreMMO.WDF.csproj", "{9EAC827E-8539-4A9A-B2B7-5CB12FAAE6C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7D75EC35-56F7-4FFE-B3AC-71BCC39F7BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D75EC35-56F7-4FFE-B3AC-71BCC39F7BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D75EC35-56F7-4FFE-B3AC-71BCC39F7BB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EAC827E-8539-4A9A-B2B7-5CB12FAAE6C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EAC827E-8539-4A9A-B2B7-5CB12FAAE6C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EAC827E-8539-4A9A-B2B7-5CB12FAAE6C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EAC827E-8539-4A9A-B2B7-5CB12FAAE6C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

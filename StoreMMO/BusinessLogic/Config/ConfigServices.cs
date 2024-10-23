@@ -39,6 +39,14 @@ using StoreMMO.Core.Repositories.Purchase;
 using NuGet.Configuration;
 using StoreMMO.Core.Repositories.Withdraw;
 using BusinessLogic.Services.StoreMMO.Core.Withdraws;
+using Net.payOS;
+using BusinessLogic.Services.Payments;
+using BusinessLogic.Services.CreateQR;
+using StoreMMO.Core.Repositories.Balances;
+using BusinessLogic.Services.StoreMMO.Core.Balances;
+using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
+using StoreMMO.Core.Repositories.OrderDetails;
+using StoreMMO.Core.Repositories.orderDetailViewModels;
 
 namespace BusinessLogic.Config
 {
@@ -59,6 +67,7 @@ namespace BusinessLogic.Config
             services.AddHttpClient<ProductApiService>(ConfigureHttpClient);
             services.AddHttpClient<WishListApiService>(ConfigureHttpClient);
             services.AddHttpClient<CategoryApiService>(ConfigureHttpClient);
+            services.AddHttpClient<PurchaseApiService>(ConfigureHttpClient);
 
 
 
@@ -72,6 +81,8 @@ namespace BusinessLogic.Config
             services.AddScoped<IDisputeRepository, DisputeRepository>();
             services.AddScoped<IWithdrawRepository, WithdrawRepository>();
 
+            services.AddScoped<IBalanceRepository,BalanceRepository>();
+            services.AddScoped<IOrderDeailsRepository, OrderDeailsRepository>();
 
             // Đăng ký StoreTypeRepository với DI container
             services.AddScoped<IStoreTypeRepository, StoreTypeRepository>();
@@ -80,7 +91,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IRegisteredSellerRepository, RegisteredSellerRepository>();
             services.AddScoped<IStoreDetailsService, StoreDetailsService>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
-
+            
 
 
 
@@ -97,8 +108,21 @@ namespace BusinessLogic.Config
             services.AddScoped<IRegisteredSellerService, RegisteredSellerService>();
             services.AddScoped<IStoreDetailRepository, StoreDetailRepository>();
             services.AddScoped<IDisputeService, DisputeService>();
-            services.AddScoped<IPurchaseService , PurchaseService>();
             services.AddScoped<IWithdrawService, WithdrawService>();
+            services.AddScoped<IBalanceService, BalanceService>();
+
+            services.AddScoped<IDisputeService, DisputeService>();
+            services.AddScoped<IOderDetailsService, OrderDetailsService>();
+
+
+            services.AddScoped<IPurchaseService , PurchaseService>();
+
+            services.AddTransient<PaymentLIb>();
+            PayOS payOS = new PayOS("fa2021f3-d725-4587-a48f-8b55bccf7744" ?? throw new Exception("Cannot find environment"),
+                    "143f45b5-d1d7-40e4-82e9-00ea8217ab33" ?? throw new Exception("Cannot find environment"),
+                   "7861335ef9257ac91143d4de7b9f6ce64c864608defe1e31906510e95b345ee5" ?? throw new Exception("Cannot find environment"));
+             services.AddSingleton(payOS);
+            services.AddTransient<CreateQR>();
         }
     }
 }

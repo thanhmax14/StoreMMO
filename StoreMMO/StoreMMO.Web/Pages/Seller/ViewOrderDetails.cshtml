@@ -1,0 +1,46 @@
+﻿@page
+@model StoreMMO.Web.Pages.Seller.ViewOrderDetailsModel
+@{
+}
+
+
+<h2>Order Details</h2>
+
+<table class="table">
+    <tr>
+        <th>Order ID</th>
+        <td>@Model.OrderDetail.OrderID</td>
+    </tr>
+    <tr>
+        <th>Date</th>
+        <td>@Model.OrderDetail.Dates.ToString("yyyy-MM-dd")</td>
+    </tr>
+    <tr>
+        <th>Buyer</th>
+        <td>@Model.OrderDetail.NguoiMua</td>
+    </tr>
+    <tr>
+        <th>Store Name</th>
+        <td>@Model.OrderDetail.StoreName</td>
+    </tr>
+    <tr>
+        <th>Product Type</th>
+        <td>@Model.OrderDetail.Productype</td>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>@Model.OrderDetail.Price</td>
+    </tr>
+    <tr>
+        <th>Total Money</th>
+        <td>@Model.OrderDetail.totalMoney</td>
+    </tr>
+    <tr>
+        <th>Admin Money</th>
+        <td>@Model.OrderDetail.AdminMoney</td>
+    </tr>
+    <tr>
+        <th>Status Payment</th>
+        <td>@Model.OrderDetail.stasusPayment</td>
+    </tr>
+</table>

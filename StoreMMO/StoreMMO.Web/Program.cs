@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Products;
 using StoreMMO.Web.Mapper;
+using StoreMMO.Web.Middleware;
 
 
 
@@ -106,11 +107,12 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+await SeedDataAsync(app);
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
+app.UseMiddleware<CheckingMiddleware>();
 
 app.UseAuthorization();
 app.UseAuthentication();

@@ -1,0 +1,67 @@
+﻿@page
+@model StoreMMO.Web.Pages.Purchase.failModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charSet="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>payOS</title>
+    <meta property="og:title" content="payOS" />
+    <meta property="og:url" content="https://payos.vn" />
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+    <title>payOS - Đơn hàng hết hạn </title>
+    <link href="~/css/stylepayment.css" rel="stylesheet" />
+</head>
+
+<body>
+    <section class="h-full w-full">
+        <div class="flex flex-col items-center justify-center m-auto my-0 relative">
+            <div class="px-2 py-2 sm:px-5 md:px-lg sm:py-3.5 shadow-md rounded-t-xl w-full flex items-center justify-center bg-white"
+                 id="header-payment-link-payos">
+                <div class="w-full max-w-screen-sm lg:max-w-[920px] ">
+                    <div class="w-full flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <img alt="logo" loading="lazy" width="42" height="42" decoding="async" data-nimg="1"
+                                     class=" w-[42px] h-[42px] rounded-full" style="color:transparent"
+                                     src="https://pub-2a975c3c49bd40c7a7db9716a511518d.r2.dev/payment_gateway/b2843954-f3c7-4f7b-aafd-37533513003f.jpeg" />
+                                <p class="uppercase font-medium text-xs text-[#555555]">hệ quản trị thanh toán</p>
+                            </div>
+                        </div>
+                        <img alt="VietQR.io logo" loading="lazy" width="98" height="42" decoding="async" data-nimg="1"
+                             class="h-[42px]" style="color:transparent" src="https://i.ibb.co/8jxT2fW/logo-Huy-01coppy.png" />
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <div class="shadow ">
+                    <div class="h-full">
+                        <div class="mx-2 my-5 flex flex-col items-center justify-center max-w-screen-sm mt-10">
+                            <div class="flex flex-col items-center justify-center ">
+                                <img alt="" loading="lazy" width="64" height="64" decoding="async" data-nimg="1"
+                                     style="color:transparent"
+                                     src="https://icon-library.com/images/danger-icon-png/danger-icon-png-16.jpg" />
+                                <p class="font-semibold text-red-500 text-xl">Thông báo</p>
+                            </div>
+                            <div class="font-semibold text-xl mt-6">Đơn hàng của bạn đã hết hạn</div>
+                            <div class="text-xl mt-4">
+                                Xin lỗi, vui lòng liên hệ
+                                <!-- -->
+                                <b>Thanh Dep Trai</b>
+                                <!-- -->
+                                để tạo hoá đơn mới.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

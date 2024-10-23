@@ -11,5 +11,12 @@ namespace StoreMMO.Core.Repositories.Purchase
     {
         List<PurchaseItem> GetProductFromSession();
         void SaveProductToSession(List<PurchaseItem>  product);
+        bool add(OrderBuyViewModels orderBuyViewModels);
+		bool Delete(OrderBuyViewModels orderBuyViewModels);
+		bool Edit(OrderBuyViewModels orderBuyViewModels);
+        OrderBuyViewModels GetByID(string  id);
+        IEnumerable<OrderBuyViewModels> GetAll();
+        IEnumerable<OrderBuyViewModels> GetByUserID(string userID);
+
     }
 }

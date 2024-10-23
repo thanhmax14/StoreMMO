@@ -29,13 +29,7 @@ namespace StoreMMO.Web.Pages.Admin
 
 
             // Nếu thành công, chuyển hướng lại danh sách categories
-            return RedirectToPage("/Admin/CategoriesListHidden");
-
+            return RedirectToPage("/Admin/CategoriesList");
         }
-
-
-
-
-
     }
 }

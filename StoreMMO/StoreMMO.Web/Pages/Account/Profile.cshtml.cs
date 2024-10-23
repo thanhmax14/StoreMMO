@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BusinessLogic.Services.StoreMMO.Core.Balances;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
+using StoreMMO.Core.ViewModels;
 using System.Threading.Tasks;
 
 namespace StoreMMO.Web.Pages.Account
@@ -9,18 +11,29 @@ namespace StoreMMO.Web.Pages.Account
 	public class ProfileModel : PageModel
 	{
 		private readonly UserManager<AppUser> _userManager;
+		private readonly IBalanceService _balance;
 
-		public ProfileModel(UserManager<AppUser> userManager)
+		public ProfileModel(UserManager<AppUser> userManager, IBalanceService balance)
 		{
 			_userManager = userManager;
+			this._balance = balance;
 		}
 		[BindProperty]
 		public AppUser AppUser { get; set; }
+        public IEnumerable<BalanceViewModels> InfoBalance = new List<BalanceViewModels> ();
+
 		public async Task OnGet()
 		{
 			var email = HttpContext.Session.GetString("Email");
 			var UserName = HttpContext.Session.GetString("UserName");
+
+			InfoBalance = await this._balance.GetBalanceByUserIDAsync("1f0dbbe2-2a81-43e9-8272-117507ac9c45");
+
 			AppUser = await this._userManager.FindByEmailAsync("ANHLDCE171348@FPT.EDU.VN");
+
+
+
+
 
 			// Kiểm tra nếu người dùng tồn tại
 			if (AppUser != null)

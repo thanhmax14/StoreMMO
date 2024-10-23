@@ -270,6 +270,9 @@ namespace StoreMMO.Core.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OrderCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -387,6 +390,10 @@ namespace StoreMMO.Core.Migrations
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<string>("OrderBuyId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Relay")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -403,6 +410,8 @@ namespace StoreMMO.Core.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderBuyId");
 
                     b.HasIndex("StoreDetailId");
 
@@ -798,6 +807,12 @@ namespace StoreMMO.Core.Migrations
 
             modelBuilder.Entity("StoreMMO.Core.Models.FeedBack", b =>
                 {
+                    b.HasOne("StoreMMO.Core.Models.OrderBuy", "OrderBuy")
+                        .WithMany("FeedBacks")
+                        .HasForeignKey("OrderBuyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("StoreMMO.Core.Models.StoreDetail", "StoreDetail")
                         .WithMany("FeedBacks")
                         .HasForeignKey("StoreDetailId")
@@ -809,6 +824,8 @@ namespace StoreMMO.Core.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("OrderBuy");
 
                     b.Navigation("StoreDetail");
 
@@ -955,6 +972,8 @@ namespace StoreMMO.Core.Migrations
 
             modelBuilder.Entity("StoreMMO.Core.Models.OrderBuy", b =>
                 {
+                    b.Navigation("FeedBacks");
+
                     b.Navigation("StoreDetails");
                 });
 

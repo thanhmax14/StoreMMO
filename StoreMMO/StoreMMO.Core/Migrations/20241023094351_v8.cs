@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace StoreMMO.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class v3 : Migration
+    public partial class v8 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -165,6 +165,7 @@ namespace StoreMMO.Core.Migrations
                     TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApprovalDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -336,41 +337,39 @@ namespace StoreMMO.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-       name: "OrderBuys",
-       columns: table => new
-       {
-           ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-           UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-           StoreID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-           ProductTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-           Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-           OrderCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-           totalMoney = table.Column<string>(type: "nvarchar(max)", nullable: true)
-       },
-       constraints: table =>
-       {
-           table.PrimaryKey("PK_OrderBuys", x => x.ID);
-           table.ForeignKey(
-               name: "FK_OrderBuys_ProductTypes_ProductTypeId",
-               column: x => x.ProductTypeId,
-               principalTable: "ProductTypes",
-               principalColumn: "Id",
-               onDelete: ReferentialAction.Restrict); // Change to Restrict or SetNull
-           table.ForeignKey(
-               name: "FK_OrderBuys_Stores_StoreID",
-               column: x => x.StoreID,
-               principalTable: "Stores",
-               principalColumn: "Id",
-               onDelete: ReferentialAction.Cascade); // Keep as Cascade or modify if needed
-           table.ForeignKey(
-               name: "FK_OrderBuys_Users_UserID",
-               column: x => x.UserID,
-               principalTable: "Users",
-               principalColumn: "Id",
-               onDelete: ReferentialAction.Restrict); // Keep as Restrict
-       });
-
-
+                name: "OrderBuys",
+                columns: table => new
+                {
+                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StoreID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProductTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrderCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    totalMoney = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderBuys", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_OrderBuys_ProductTypes_ProductTypeId",
+                        column: x => x.ProductTypeId,
+                        principalTable: "ProductTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderBuys_Stores_StoreID",
+                        column: x => x.StoreID,
+                        principalTable: "Stores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderBuys_Users_UserID",
+                        column: x => x.UserID,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateTable(
                 name: "StoreDetails",
@@ -411,70 +410,85 @@ namespace StoreMMO.Core.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "OrderDetails",
-                columns: table => new
-                {
-                    ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    OrderBuyID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProductID = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AdminMoney = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SellerMoney = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    quantity = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Dates = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    stasusPayment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderDetails", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_OrderDetails_OrderBuys_OrderBuyID",
-                        column: x => x.OrderBuyID,
-                        principalTable: "OrderBuys",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderDetails_Products_ProductID",
-                        column: x => x.ProductID,
-                        principalTable: "Products",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+			migrationBuilder.CreateTable(
+	 name: "OrderDetails",
+	 columns: table => new
+	 {
+		 ID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+		 OrderBuyID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+		 ProductID = table.Column<string>(type: "nvarchar(450)", nullable: false),
+		 AdminMoney = table.Column<string>(type: "nvarchar(max)", nullable: true),
+		 SellerMoney = table.Column<string>(type: "nvarchar(max)", nullable: true),
+		 quantity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+		 Dates = table.Column<DateTime>(type: "datetime2", nullable: true),
+		 status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+		 stasusPayment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+		 Price = table.Column<string>(type: "nvarchar(max)", nullable: true)
+	 },
+	 constraints: table =>
+	 {
+		 table.PrimaryKey("PK_OrderDetails", x => x.ID);
+		 table.ForeignKey(
+			 name: "FK_OrderDetails_OrderBuys_OrderBuyID",
+			 column: x => x.OrderBuyID,
+			 principalTable: "OrderBuys",
+			 principalColumn: "ID",
+			 onDelete: ReferentialAction.Cascade);  // Cascade xóa liên quan đến OrderBuys
 
-            migrationBuilder.CreateTable(
-                name: "FeedBacks",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StoreDetailId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    Stars = table.Column<double>(type: "float", nullable: true),
-                    Relay = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateRelay = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FeedBacks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_FeedBacks_StoreDetails_StoreDetailId",
-                        column: x => x.StoreDetailId,
-                        principalTable: "StoreDetails",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FeedBacks_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+		 table.ForeignKey(
+			 name: "FK_OrderDetails_Products_ProductID",
+			 column: x => x.ProductID,
+			 principalTable: "Products",
+			 principalColumn: "Id",
+			 onDelete: ReferentialAction.Restrict);  // Sử dụng Restrict thay vì Cascade
+	 });
 
-            migrationBuilder.CreateTable(
+			migrationBuilder.CreateTable(
+	name: "FeedBacks",
+	columns: table => new
+	{
+		Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+		UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+		StoreDetailId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+		Comments = table.Column<string>(type: "nvarchar(max)", nullable: false),
+		CreatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+		Stars = table.Column<double>(type: "float", nullable: true),
+		Relay = table.Column<string>(type: "nvarchar(max)", nullable: false),
+		DateRelay = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+		IsActive = table.Column<bool>(type: "bit", nullable: true),
+		OrderBuyId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+	},
+	constraints: table =>
+	{
+		table.PrimaryKey("PK_FeedBacks", x => x.Id);
+
+		// Cascade xóa FeedBack nếu OrderBuy bị xóa
+		table.ForeignKey(
+			name: "FK_FeedBacks_OrderBuys_OrderBuyId",
+			column: x => x.OrderBuyId,
+			principalTable: "OrderBuys",
+			principalColumn: "ID",
+			onDelete: ReferentialAction.Cascade);
+
+		// Sử dụng Restrict để tránh nhiều đường dẫn cascade
+		table.ForeignKey(
+			name: "FK_FeedBacks_StoreDetails_StoreDetailId",
+			column: x => x.StoreDetailId,
+			principalTable: "StoreDetails",
+			principalColumn: "Id",
+			onDelete: ReferentialAction.Restrict);  // Đổi từ Cascade sang Restrict
+
+		// Restrict xóa User nếu có phản hồi liên quan
+		table.ForeignKey(
+			name: "FK_FeedBacks_Users_UserId",
+			column: x => x.UserId,
+			principalTable: "Users",
+			principalColumn: "Id",
+			onDelete: ReferentialAction.Restrict);
+	});
+
+
+			migrationBuilder.CreateTable(
                 name: "ProductConnects",
                 columns: table => new
                 {
@@ -540,6 +554,11 @@ namespace StoreMMO.Core.Migrations
                 name: "IX_Complaints_OrderDetailID",
                 table: "Complaints",
                 column: "OrderDetailID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FeedBacks_OrderBuyId",
+                table: "FeedBacks",
+                column: "OrderBuyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FeedBacks_StoreDetailId",

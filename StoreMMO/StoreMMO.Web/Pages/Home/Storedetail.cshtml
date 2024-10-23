@@ -233,7 +233,8 @@
                                                     if(index == 0)
                                                     {
                                                         var userid = TempData["defauUSerid"].ToString();
-                                                        flags = Model.wishnew.Any(u => u.UserId == userid.Split("$")[1] && u.ProductId == product.Value);
+                                                         flags = Model.wishnew != null && Model.wishnew.Any(u => u.UserId == userid.Split("$")[1] && u.ProductId == product.Value);
+
                                                     }
                                                    
                                                 }

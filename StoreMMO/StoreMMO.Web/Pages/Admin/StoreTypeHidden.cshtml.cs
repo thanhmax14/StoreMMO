@@ -19,13 +19,15 @@ namespace StoreMMO.Web.Pages.Admin
         {
             listcate = this._store.GetStoreTypeHidden();
         }
-        public IActionResult OnPostHidden(string id)
+        public IActionResult OnPostActive(string id)
         {
             var cate = _store.getByIdStoreTypes(id);
             cate.IsActive = true;
             var result = _store.UpdateStoreType(cate);
+
+
             // Nếu thành công, chuyển hướng lại danh sách categories
-            return RedirectToPage("/Admin/StoreTypeList");
+            return RedirectToPage("/Admin/StoreList");
 
         }
 
