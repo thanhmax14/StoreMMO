@@ -85,10 +85,7 @@ namespace StoreMMO.Core.Repositories.Purchase
             };
             return tem;
         }
-        public bool Update(OrderBuyViewModels orderBuyViewModels)
-        {
-            throw new NotImplementedException();
-        }
+      
         public List<PurchaseItem> GetProductFromSession()
         {
 
@@ -117,6 +114,38 @@ namespace StoreMMO.Core.Repositories.Purchase
             return _context.SaveChanges() > 0;
         }
 
+		public IEnumerable<OrderBuyViewModels> GetAll()
+		{
+			var find = _context.OrderBuys.ToList();
+			List<OrderBuyViewModels> temp = find.Select(b => new OrderBuyViewModels
+			{
+				UserID = b.UserID,
+				ID = b.ID,
+				OrderCode = b.OrderCode,
+				ProductTypeId = b.ProductTypeId,
+				Status = b.Status,
+				StoreID = b.StoreID,
+				totalMoney = b.totalMoney
+			}).ToList();
+			return temp;
+		}
 
-    }
+		public IEnumerable<OrderBuyViewModels> GetByUserID(string userID)
+		{
+			var find = _context.OrderBuys.Where(w => w.UserID == userID).ToList();
+			List<OrderBuyViewModels> temp = find.Select(b => new OrderBuyViewModels
+			{
+				UserID = b.UserID,
+				ID = b.ID,
+				OrderCode = b.OrderCode,
+				ProductTypeId = b.ProductTypeId,
+				Status = b.Status,
+				StoreID = b.StoreID,
+				totalMoney = b.totalMoney
+			}).ToList();
+			return temp;
+		}
+
+		
+	}
 }

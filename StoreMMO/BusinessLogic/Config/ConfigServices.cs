@@ -37,13 +37,21 @@ using BusinessLogic.Services.StoreMMO.Core.Disputes;
 
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using StoreMMO.Core.Repositories.Purchase;
+using NuGet.Configuration;
+using StoreMMO.Core.Repositories.Withdraw;
+using BusinessLogic.Services.StoreMMO.Core.Withdraws;
 using Net.payOS;
 using BusinessLogic.Services.Payments;
 using BusinessLogic.Services.CreateQR;
 using StoreMMO.Core.Repositories.Balances;
 using BusinessLogic.Services.StoreMMO.Core.Balances;
+
 using StoreMMO.Core.Repositories.ComplaintsN;
 using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
+
+using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
+using StoreMMO.Core.Repositories.OrderDetails;
+using StoreMMO.Core.Repositories.orderDetailViewModels;
 
 namespace BusinessLogic.Config
 {
@@ -77,8 +85,14 @@ namespace BusinessLogic.Config
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<IDisputeRepository, DisputeRepository>();
-            services.AddScoped<IBalanceRepository,BalanceRepository>(); 
+
             services.AddScoped<IComplaintsRepository, ComplaintsRepository>();
+
+            services.AddScoped<IWithdrawRepository, WithdrawRepository>();
+
+            services.AddScoped<IBalanceRepository,BalanceRepository>();
+            services.AddScoped<IOrderDeailsRepository, OrderDeailsRepository>();
+
             // Đăng ký StoreTypeRepository với DI container
             services.AddScoped<IStoreTypeRepository, StoreTypeRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -103,9 +117,12 @@ namespace BusinessLogic.Config
             services.AddScoped<IStoreTypeService, StoreTypeService>();
             services.AddScoped<IRegisteredSellerService, RegisteredSellerService>();
             services.AddScoped<IStoreDetailRepository, StoreDetailRepository>();
+            services.AddScoped<IDisputeService, DisputeService>();
+            services.AddScoped<IWithdrawService, WithdrawService>();
             services.AddScoped<IBalanceService, BalanceService>();
             services.AddScoped<IComplaintsService, ComplaintsService>();
             services.AddScoped<IDisputeService, DisputeService>();
+            services.AddScoped<IOderDetailsService, OrderDetailsService>();
 
 
             services.AddScoped<IPurchaseService , PurchaseService>();

@@ -378,25 +378,26 @@
         </ul>
 
     </aside><!-- End Sidebar-->
+    <style>
+        .status-accepted {
+            color: green; /* Màu xanh lá cây cho Accepted */
+        }
+
+        .status-rejected {
+            color: red; /* Màu đỏ cho Rejected */
+        }
+
+        .status-pending {
+            color: blue; /* Màu vàng cho Pending */
+        }
+    </style>
+
 
     <main id="main" class="main">
-@* 
-        <div class="pagetitle">
-            <h1>User List Tables</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Tables</li>
-                    <li class="breadcrumb-item active">Data</li>
-                </ol>
-            </nav>
-        </div><!-- End Page Title --> *@
-
         <section class="section">
             <a asp-page="/Seller/CreateProduct" class="btn btn-primary">Create</a>
             <div class="row">
                 <div class="col-lg-12">
-
                     <div class="card">
                         <div class="card-body">
                             <!-- Table with stripped rows -->
@@ -406,8 +407,10 @@
                                         <th></th>
                                         <th>Name</th>
                                         <th>Sub Description</th>
-                                        <th>Modified Date</th>
+                                        <th>Description Detail</th>
+                                        <th>Created Date</th>
                                         <th>Status</th>
+                                        <th>Actions</th> <!-- Thêm cột cho các hành động -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -420,24 +423,33 @@
                                             <td>@stt</td>
                                             <td>@item.Name</td>
                                             <td>@item.SubDescription</td>
-                                            <td>@item.ModifiedDate</td>
-                                            <td>@item.IsAccept</td>
+                                            <td>@item.DescriptionDetail</td>
+                                            <td>@item.CreatedDate</td>
                                             <td>
-                                                @* <form method="post" asp-page-handler="OnPostAsync">
-                                                    <input type="hidden" name="Id" value="@item.Id" />
-                                                    <input type="hidden" name="isAccept" value="1" />
-                                                    <button type="submit" class="btn btn-primary">Accept</button>
-                                                </form>
-                                                <form method="post" asp-page-handler="AsyncReject">
-                                                    <input type="hidden" name="Id" value="@item.Id" />
+                                                @{
+                                                    string statusClass = item.IsAccept switch
+                                                    {
+                                                        "Approved" => "status-accepted",
+                                                        "Rejected" => "status-rejected",
+                                                        "Pending" => "status-pending",
+                                                        _ => "" // Không có giá trị nào khác
+                                                    };
+                                                }
+                                                <span class="@statusClass">@item.IsAccept</span>
+                                            </td>
+
+                                            <td>
+                                                <button onclick="window.location.href='/seller/UpdateStore/@item.Id'" type="button" class="btn btn-primary">Edit</button>
+                                                <form method="post" asp-page-handler="OnPostAsync" style="display:inline;">
+                                                    <input type="hidden" name="Id" value="@item.StoreId" />
                                                     <input type="hidden" name="isAccept" value="2" />
-                                                    <button type="submit" class="btn btn-danger">Reject</button>
-                                                </form> *@
+                                                    <button type="submit" class="btn btn-danger">Register Store</button>
+                                                </form>
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title">Hidden that user</h5>
+                                                                <h5 class="modal-title">Hide this user</h5>
                                                                 <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
@@ -445,8 +457,7 @@
                                                                 Are you sure you want to hide this user?
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button left" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                                     Back
                                                                 </button>
                                                                 <button type="button" class="btn btn-primary">Yes</button>
@@ -459,18 +470,14 @@
                                         </tr>
                                         stt++;
                                     }
-
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->
-
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
-
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
     @*     <footer id="footer" class="footer">

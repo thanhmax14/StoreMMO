@@ -363,7 +363,7 @@
             </li><!-- End Charts Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href='/admin/'>
+                <a class="nav-link collapsed" href='/admin/ManageWithdraw'>
                     <i class="ri-money-dollar-circle-line"></i><span>Manage Withdrawal Requests From Seller</span>
                 </a>
             </li><!-- End Icons Nav -->
@@ -398,8 +398,9 @@
 
                                         <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>
+                                            Action
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -415,10 +416,10 @@
                                             <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
 
                                             <td>
+                                                <div style="display: flex; gap: 5px;">
                                                 <!-- Nút Edit -->
                                                 <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                            </td>
-                                            <td>
+                                            
                                                 <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
                                                     <!-- Hidden input để gửi id -->
                                                     <input type="hidden" name="id" value="@item.Id" />
@@ -452,6 +453,7 @@
                                             </div>
                                             </div>
                                             </div> *@
+                                                </div>
                                             </td>
                                         </tr>
                                         stt++;

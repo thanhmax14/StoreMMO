@@ -56,7 +56,7 @@ namespace StoreMMO.API.Controllers
         [HttpPut("Update")]
         public IActionResult Update(OrderBuyViewModels orderBuyViewModels)
         {
-            if (_purchase.Update(orderBuyViewModels))
+            if (_purchase.Edit(orderBuyViewModels))
             {
                 return Ok(new { message = "Order updated successfully." });
             }

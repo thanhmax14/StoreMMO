@@ -149,21 +149,75 @@ INNER JOIN
     ProductTypes ON ProductConnects.ProductTypeId = ProductTypes.Id
 WHERE 
     Stores.IsAccept = '0'";
-
-
             var list = this._context.Database.SqlQueryRaw<StoreManageViewModels>(sql).ToList();
             return list;
         }
+
+        //        public IEnumerable<StoreSellerViewModels> getAllStoreSeller()
+        //        {
+        //            string sql = @"
+        //SELECT sd.Name, sd.SubDescription, sd.ModifiedDate, s.IsAccept
+        //    FROM StoreMMO.dbo.StoreDetails sd
+        //    JOIN StoreMMO.dbo.Stores s ON sd.StoreId = s.Id";
+
+
+        //            var list = this._context.Database.SqlQueryRaw<StoreSellerViewModels>(sql).ToList();
+        //            return list;
+        //        }
+
         public IEnumerable<StoreSellerViewModels> getAllStoreSeller()
         {
             string sql = @"
-    SELECT sd.Id, sd.Name, sd.SubDescription, sd.ModifiedDate, s.IsAccept
-    FROM StoreMMO.dbo.StoreDetails sd
-    JOIN StoreMMO.dbo.Stores s ON sd.StoreId = s.Id";
-
-
+    SELECT 
+    sd.Id,
+    s.Id AS StoreId,
+    sd.Name,
+    sd.SubDescription,
+    sd.DescriptionDetail,
+    sd.CreatedDate,
+    s.IsAccept
+FROM 
+    Stores s
+INNER JOIN 
+    StoreDetails sd ON s.Id = sd.StoreId";
             var list = this._context.Database.SqlQueryRaw<StoreSellerViewModels>(sql).ToList();
             return list;
+        }
+        public StoreDetailViewModels UpdateStore(StoreDetailViewModels store)
+        {
+            var fine = this._context.StoreDetails.FirstOrDefault(x => x.Id == store.Id);
+            fine.Name = store.Name;
+            fine.SubDescription = store.SubDescription;
+            fine.DescriptionDetail = store.DescriptionDetail;
+            fine.ModifiedDate = DateTime.UtcNow;
+            //fine.Img = store.Img;
+            this._context.SaveChanges();
+            store.Id = fine.Id;
+            store.Name = fine.Name;
+            store.SubDescription = fine.SubDescription;
+            store.DescriptionDetail = fine.DescriptionDetail;
+            store.ModifiedDate = fine.ModifiedDate;
+            //store.Img = fine.Img;
+            return store;
+
+        }
+        public StoreDetailViewModels getStoreDetailById(string id)
+        {
+            var findId = _context.StoreDetails.SingleOrDefault(x => x.Id == id);
+            if (findId == null)
+            {
+                throw new Exception("Id not found");
+            }
+            var storedetail = new StoreDetailViewModels
+            {
+                Id = findId.Id,
+                Name = findId.Name,
+                SubDescription = findId.SubDescription,
+                DescriptionDetail = findId.DescriptionDetail,
+                //Img = findId.Img,
+                ModifiedDate = findId.ModifiedDate,
+            };
+            return storedetail;
         }
     }
 }

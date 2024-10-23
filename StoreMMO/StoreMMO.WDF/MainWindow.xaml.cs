@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using BusinessLogic.Services.StoreMMO.Core.Categorys;
+using StoreMMO.WDF.ViewModels;
+using System.Windows;
 
 namespace StoreMMO.WDF
 {
@@ -7,9 +9,11 @@ namespace StoreMMO.WDF
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly CategoryViewModel _categoryService;
+        public MainWindow(CategoryViewModel categoryService)
         {
             InitializeComponent();
+              _categoryService = categoryService;
         }
 
         private void button_UserAccountList(object sender, RoutedEventArgs e)
@@ -44,7 +48,9 @@ namespace StoreMMO.WDF
 
         private void button_CategoryList(object sender, RoutedEventArgs e)
         {
-            frMain.Content = new CategoriesList();
+
+            // Truyền đối tượng categoryViewModel vào hàm khởi tạo
+            frMain.Content = new CategoriesList(_categoryService);
         }
 
         private void button_HiddenCategoryList(object sender, RoutedEventArgs e)

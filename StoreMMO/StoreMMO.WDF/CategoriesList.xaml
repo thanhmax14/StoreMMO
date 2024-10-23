@@ -26,14 +26,14 @@
             </StackPanel>
 
             <!-- Danh sách hiển thị thông tin người dùng -->
-            <ListView Name="lvEntried" ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
+            <ListView Name="lvEntried" ItemsSource="{Binding CategoryViewModels}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
                 <ListView.View>
                     <GridView>
                         <!-- Cột Category Name -->
                         <GridViewColumn Header="Category Name" Width="400">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding CategoryName}" Width="400" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding Name}" Width="400" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -41,7 +41,7 @@
                         <GridViewColumn Header="Created Date" Width="390">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding CreatedDate}" Width="390" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding CreatedDate, StringFormat='{}{0:dd/MM/yyyy}'}" Width="390" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -49,7 +49,7 @@
                         <GridViewColumn Header="Modified Date" Width="390">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ModifiedDate}" Width="400" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding ModifiedDate, StringFormat='{}{0:dd/MM/yyyy}'}" Width="400" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -68,24 +68,24 @@
                 <!-- Ô nhập Name -->
                 <WrapPanel Margin="0,5,0,5">
                     <TextBlock VerticalAlignment="Center" Width="250" TextAlignment="Right" FontSize="16" FontWeight="Bold">Category Name:</TextBlock>
-                    <TextBox Text="{Binding DisplayCategoryName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="categoryname" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
+                    <TextBox x:Name="Name" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
                 </WrapPanel>
 
                 <!-- Ô nhập CreatedDate -->
-                <WrapPanel Margin="0,0,0,5">
+              <!--<WrapPanel Margin="0,0,0,5">
                     <TextBlock VerticalAlignment="Center" Width="250" TextAlignment="Right" FontSize="16" FontWeight="Bold">Created Date:</TextBlock>
-                    <DatePicker SelectedDate="{Binding DisplayCreatedDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="createdate" Width="450" Height="30" Margin="5,0,0,0" FontSize="16" ></DatePicker>
-                </WrapPanel>
+                    <DatePicker Text="{Binding CreatedDateInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Width="450" Height="30" Margin="5,0,0,0" FontSize="16" ></DatePicker>
+                </WrapPanel>-->
 
                 <!-- Ô nhập ModifiedDate -->
-                <WrapPanel Margin="0,0,0,5">
+                <!--<WrapPanel Margin="0,0,0,5">
                     <TextBlock VerticalAlignment="Center" Width="250" TextAlignment="Right" FontSize="16" FontWeight="Bold">Modified Date:</TextBlock>
-                    <DatePicker SelectedDate="{Binding DisplayModifiedDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="modifieddate" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></DatePicker>
-                </WrapPanel>
+                    <DatePicker Text="{Binding ModifiedDateInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></DatePicker>
+                </WrapPanel>-->
                 
                 <!-- Nút thêm và cập nhật và ẩn-->
                 <WrapPanel Margin="255,0,0,5">
-                    <Button Width="80" Margin="0,0,5,0" Command="{Binding AddNew}" FontSize="16">ADD</Button>
+                    <Button x:Name="Add" Width="80" Margin="0,0,5,0" Command="{Binding AddNew}" CommandParameter="{Binding SelectedCategorys}" FontSize="16">ADD</Button>
                     <Button Width="80" Margin="0,0,5,0" Command="{Binding Update}" FontSize="16">UPDATE</Button>
                     <Button Width="80" Margin="0,0,5,0" Command="{Binding Hide}" FontSize="16">HIDE</Button>
                 </WrapPanel>

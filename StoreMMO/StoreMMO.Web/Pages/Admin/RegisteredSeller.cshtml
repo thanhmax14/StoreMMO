@@ -359,14 +359,16 @@
             </li><!-- End Tables Nav -->
 
             <li class="nav-item">
+
                 <a class="nav-link collapsed" href='/admin/ManageDispute'>
+
                     <i class="ri-coupon-2-line"></i> <span>Manage Disputes Form</span>
                 </a>
 
             </li><!-- End Charts Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href='/admin/'>
+                <a class="nav-link collapsed" href='/admin/ManageWithdraw'>
                     <i class="ri-money-dollar-circle-line"></i><span>Manage Withdrawal Requests From Seller</span>
                 </a>
             </li><!-- End Icons Nav -->
@@ -420,15 +422,19 @@
                                             <td>@item.UserName</td>
                                             <td>@(item.PhoneNumber ?? "Null Data")</td>
                                             <td>@item.RoleName</td>
-                                            <td>
-                                                <!-- Accept Form -->
-                                                <form method="post" asp-page-handler="OnPostAsync" asp-route-Id="@item.UserID">
-                                                    <button type="submit" class="btn btn-primary">Accept</button>
-                                                </form>
-                                                <!-- Reject Form -->
-                                                <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.UserID">
-                                                    <button type="submit" class="btn btn-danger">Reject</button>
-                                                </form>
+                                            <td >
+                                                <div style="display: flex; gap: 5px;">
+                                                    <!-- Accept Form -->
+                                                    <form method="post" asp-page-handler="OnPostAsync" asp-route-Id="@item.UserID">
+                                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                                    </form>
+                                                    <br />
+                                                    <!-- Reject Form -->
+                                                    <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.UserID">
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </form>
+                                                </div>
+                                               
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
