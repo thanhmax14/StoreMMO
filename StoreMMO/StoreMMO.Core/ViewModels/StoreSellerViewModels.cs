@@ -12,9 +12,10 @@ namespace StoreMMO.Core.ViewModels
         public string StoreId { get; set; }
         public string Name { get; set; }
         public string SubDescription { get; set; }
-        public DateTime? ModifiedDate { get; set; }
+        public DateTimeOffset? ModifiedDate { get; set; }
         public string DescriptionDetail { get; set; }
         public DateTimeOffset? CreatedDate { get; set; }
         public string IsAccept { get; set; }
+        public string Img { get; set; }
     }
 }

@@ -1,9 +1,11 @@
-﻿using System.Net.Http.Headers;
+
+using System.Net.Http.Headers;
 using BusinessLogic.Services.AutoMapper;
 using BusinessLogic.Services.CreateQR;
 using BusinessLogic.Services.Payments;
 using BusinessLogic.Services.StoreMMO.API;
 using BusinessLogic.Services.StoreMMO.Core.Balances;
+using BusinessLogic.Services.StoreMMO.API;
 using BusinessLogic.Services.StoreMMO.Core.Carts;
 using BusinessLogic.Services.StoreMMO.Core.Categorys;
 using BusinessLogic.Services.StoreMMO.Core.Disputes;
@@ -38,6 +40,20 @@ using StoreMMO.Core.Repositories.StoreTypes;
 using StoreMMO.Core.Repositories.User;
 using StoreMMO.Core.Repositories.WishLists;
 using StoreMMO.Core.Repositories.Withdraw;
+using BusinessLogic.Services.StoreMMO.Core.Withdraws;
+using Net.payOS;
+using BusinessLogic.Services.Payments;
+using BusinessLogic.Services.CreateQR;
+using StoreMMO.Core.Repositories.Balances;
+using BusinessLogic.Services.StoreMMO.Core.Balances;
+
+using StoreMMO.Core.Repositories.ComplaintsN;
+using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
+
+using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
+using StoreMMO.Core.Repositories.OrderDetails;
+using StoreMMO.Core.Repositories.orderDetailViewModels;
+
 
 namespace BusinessLogic.Config
 {
@@ -47,6 +63,7 @@ namespace BusinessLogic.Config
         public static void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(cfg => cfg.AddProfile<AutoMappers>());
+
 
             static void ConfigureHttpClient(HttpClient client)
             {
@@ -70,6 +87,9 @@ namespace BusinessLogic.Config
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<IDisputeRepository, DisputeRepository>();
+
+            services.AddScoped<IComplaintsRepository, ComplaintsRepository>();
+
             services.AddScoped<IWithdrawRepository, WithdrawRepository>();
 
             services.AddScoped<IBalanceRepository, BalanceRepository>();
@@ -83,8 +103,6 @@ namespace BusinessLogic.Config
             services.AddScoped<IStoreDetailsService, StoreDetailsService>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IFeedBackRepository, FeedBackRepository>();
-
-
 
             //Services for Services
             services.AddScoped<IStoreService, StoreService>();
@@ -101,7 +119,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IDisputeService, DisputeService>();
             services.AddScoped<IWithdrawService, WithdrawService>();
             services.AddScoped<IBalanceService, BalanceService>();
-
+            services.AddScoped<IComplaintsService, ComplaintsService>();
             services.AddScoped<IDisputeService, DisputeService>();
             services.AddScoped<IOderDetailsService, OrderDetailsService>();
             services.AddScoped<IFeedBackService, FeedBackService>();

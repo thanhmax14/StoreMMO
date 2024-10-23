@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
+using System.Security.Claims;
 
 namespace StoreMMO.Web.Pages.Seller
 {
@@ -24,8 +25,22 @@ namespace StoreMMO.Web.Pages.Seller
 
         public void OnGet()
         {
-            list = _storeService.getAllStoreSeller();
+            // L?y UserID t? session
+            var currentUserId = HttpContext.Session.GetString("UserID");
+            //if (currentUserId != null)
+            //{
+            //    // L?y danh sách c?a hàng c?a seller d?a trên UserID
+            //    list = _storeService.getAllStoreSeller("5921c651-d855-408a-9f37-e10405250f63");
+            //}
+            //else
+            //{
+            //    // X? lý khi không có UserID trong session (ví d?: chuy?n h??ng ??n trang ??ng nh?p)
+            //    RedirectToPage("/Account/Login");
+            //}
+            list = _storeService.getAllStoreSeller("5921c651-d855-408a-9f37-e10405250f63");
         }
+
+
         //public IActionResult OnPostHidden(string id)
         //{
         //    var cate = _storeService.getStoreDetailById(id);
