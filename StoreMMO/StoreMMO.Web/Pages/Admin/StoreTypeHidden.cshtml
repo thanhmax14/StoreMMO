@@ -403,8 +403,8 @@
                                         <th>Commission</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>Action</th>
+                                       
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -423,8 +423,7 @@
                                             <td>
                                                 <!-- Nút Edit -->
                                                 <button onclick="window.location.href='/admin/UpdateStoreType/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                            </td>
-                                            <td>
+
                                                 <form method="post" asp-page-handler="Hidden">
                                                     <!-- Hidden input để gửi id -->
                                                     <input type="hidden" name="id" value="@item.Id" />
@@ -432,28 +431,10 @@
                                                         Active
                                                     </button>
                                                 </form>
-
-                                                <!-- Nút Hidden -->
-                                                <!-- Modal -->
-                                                @*  <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title">Hidden that user</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                            Are you sure you want to hide this user?
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                            <button type="button" class="btn btn-primary">Yes</button>
-                                            <button type="button" class="btn btn-primary">No</button>
-                                            </div>
-                                            </div>
-                                            </div>
-                                            </div> *@
                                             </td>
+                                            <td>
+                                            
+
                                         </tr>
                                         stt++;
                                     }
@@ -464,7 +445,7 @@
                         </div>
 
                         <!-- Nút CreateCategory -->
-                        <button type="button" onclick="window.location.href='/admin/StoreTypeCreate'" class="btn btn-secondary">CreateCategory</button>
+                      
                     </div>
                 </div>
             </div>
