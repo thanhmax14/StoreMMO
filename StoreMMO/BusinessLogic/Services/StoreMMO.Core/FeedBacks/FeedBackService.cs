@@ -22,9 +22,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.FeedBacks
             _feedBackRepository.DeleteFeedBack(id);
         }
 
-        public IEnumerable<FeedBack> getAllFeedBack()
+        public IEnumerable<FeedBackViewModels> getAllFeedBack(string StoreOwnerId)
         {
-            return _feedBackRepository.getAll();
+            return _feedBackRepository.getAll(StoreOwnerId);
         }
 
         public FeedBackViewModels getByIdFeedBack(string id)
@@ -32,9 +32,21 @@ namespace BusinessLogic.Services.StoreMMO.Core.FeedBacks
             return _feedBackRepository.getById(id);
         }
 
+
+
         public FeedBackViewModels UpdatefeedBack(FeedBackViewModels feedBack)
         {
-          return _feedBackRepository.UpdatefeedBack(feedBack);
+            return _feedBackRepository.UpdatefeedBack(feedBack);
+        }
+
+        public IEnumerable<FeedBackViewModels> getFeedbackCustomerById(string feedbackID)
+        {
+            return _feedBackRepository.getFeedbackCustomerById(feedbackID);
+        }
+
+        public FeedBack replyFeedback(string id, string reply)
+        {
+            return _feedBackRepository.replyFeedback(id, reply);
         }
     }
 }

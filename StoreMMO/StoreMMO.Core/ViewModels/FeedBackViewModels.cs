@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StoreMMO.Core.ViewModels
+﻿namespace StoreMMO.Core.ViewModels
 {
     public class FeedBackViewModels
     {
@@ -20,11 +14,17 @@ namespace StoreMMO.Core.ViewModels
 
         public double? Stars { get; set; }
 
-        public string Relay { get; set; }
+        public string? Relay { get; set; }
 
         public DateTimeOffset? DateRelay { get; set; }
 
         public bool? IsActive { get; set; }
+        public string OrderBuyId { get; set; }
+
+        public string StoreName { get; set; }
+        public string OrderCode { get; set; }
+        public string UserName { get; set; }
+        public string StoreOwnerId { get; set; }
 
     }
 }
