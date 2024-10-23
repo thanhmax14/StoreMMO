@@ -17,7 +17,7 @@ public partial class FeedBack
 
     public double? Stars { get; set; }
 
-    public string Relay { get; set; }
+    public string? Relay { get; set; }
 
     public DateTimeOffset? DateRelay { get; set; }
 
