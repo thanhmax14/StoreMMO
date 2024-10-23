@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Services.StoreMMO.API;
+﻿
+using BusinessLogic.Services.StoreMMO.API;
 using BusinessLogic.Services.StoreMMO.Core.Carts;
 using BusinessLogic.Services.StoreMMO.Core.Categorys;
 using BusinessLogic.Services.StoreMMO.Core.Products;
@@ -41,6 +42,8 @@ using BusinessLogic.Services.Payments;
 using BusinessLogic.Services.CreateQR;
 using StoreMMO.Core.Repositories.Balances;
 using BusinessLogic.Services.StoreMMO.Core.Balances;
+using StoreMMO.Core.Repositories.ComplaintsN;
+using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 
 namespace BusinessLogic.Config
 {
@@ -50,6 +53,7 @@ namespace BusinessLogic.Config
         public static void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(cfg => cfg.AddProfile<AutoMappers>());
+
 
             static void ConfigureHttpClient(HttpClient client)
             {
@@ -74,7 +78,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
             services.AddScoped<IDisputeRepository, DisputeRepository>();
             services.AddScoped<IBalanceRepository,BalanceRepository>(); 
-
+            services.AddScoped<IComplaintsRepository, ComplaintsRepository>();
             // Đăng ký StoreTypeRepository với DI container
             services.AddScoped<IStoreTypeRepository, StoreTypeRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -82,6 +86,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IRegisteredSellerRepository, RegisteredSellerRepository>();
             services.AddScoped<IStoreDetailsService, StoreDetailsService>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            
             
 
 
@@ -99,7 +104,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IRegisteredSellerService, RegisteredSellerService>();
             services.AddScoped<IStoreDetailRepository, StoreDetailRepository>();
             services.AddScoped<IBalanceService, BalanceService>();
-
+            services.AddScoped<IComplaintsService, ComplaintsService>();
             services.AddScoped<IDisputeService, DisputeService>();
 
 
