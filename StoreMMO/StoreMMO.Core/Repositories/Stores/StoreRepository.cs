@@ -153,17 +153,18 @@ WHERE
             return list;
         }
 
-        public IEnumerable<StoreSellerViewModels> getAllStoreSeller()
-        {
-            string sql = @"
-SELECT sd.Name, sd.SubDescription, sd.ModifiedDate, s.IsAccept
-    FROM StoreMMO.dbo.StoreDetails sd
-    JOIN StoreMMO.dbo.Stores s ON sd.StoreId = s.Id";
+        //        public IEnumerable<StoreSellerViewModels> getAllStoreSeller()
+        //        {
+        //            string sql = @"
+        //SELECT sd.Name, sd.SubDescription, sd.ModifiedDate, s.IsAccept
+        //    FROM StoreMMO.dbo.StoreDetails sd
+        //    JOIN StoreMMO.dbo.Stores s ON sd.StoreId = s.Id";
 
 
-            var list = this._context.Database.SqlQueryRaw<StoreSellerViewModels>(sql).ToList();
-            return list;
-        }
+        //            var list = this._context.Database.SqlQueryRaw<StoreSellerViewModels>(sql).ToList();
+        //            return list;
+        //        }
+
         public IEnumerable<StoreSellerViewModels> getAllStoreSeller()
         {
             string sql = @"
@@ -179,9 +180,6 @@ FROM
     Stores s
 INNER JOIN 
     StoreDetails sd ON s.Id = sd.StoreId";
-
-
-
             var list = this._context.Database.SqlQueryRaw<StoreSellerViewModels>(sql).ToList();
             return list;
         }
