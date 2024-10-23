@@ -21,9 +21,10 @@ namespace StoreMMO.Core.Models
         public virtual Store Store { get; set; }
         public virtual ProductType ProductType { get; set; }
         public virtual ICollection<OrderDetail> StoreDetails { get; set; } = new List<OrderDetail>();
+		public virtual ICollection<FeedBack> FeedBacks { get; set; } = new List<FeedBack>();
 
 
 
 
-    }
+	}
 }

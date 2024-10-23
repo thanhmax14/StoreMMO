@@ -22,7 +22,10 @@ public partial class FeedBack
     public DateTimeOffset? DateRelay { get; set; }
 
     public bool? IsActive { get; set; }
+    public string OrderBuyId { get; set; }
 
     public virtual StoreDetail StoreDetail { get; set; }
     public virtual AppUser User { get; set; }
+    public virtual OrderBuy OrderBuy { get; set; }
+
 }
