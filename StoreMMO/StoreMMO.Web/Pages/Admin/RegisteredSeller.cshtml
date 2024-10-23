@@ -422,15 +422,19 @@
                                             <td>@item.UserName</td>
                                             <td>@(item.PhoneNumber ?? "Null Data")</td>
                                             <td>@item.RoleName</td>
-                                            <td>
-                                                <!-- Accept Form -->
-                                                <form method="post" asp-page-handler="OnPostAsync" asp-route-Id="@item.UserID">
-                                                    <button type="submit" class="btn btn-primary">Accept</button>
-                                                </form>
-                                                <!-- Reject Form -->
-                                                <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.UserID">
-                                                    <button type="submit" class="btn btn-danger">Reject</button>
-                                                </form>
+                                            <td >
+                                                <div style="display: flex; gap: 5px;">
+                                                    <!-- Accept Form -->
+                                                    <form method="post" asp-page-handler="OnPostAsync" asp-route-Id="@item.UserID">
+                                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                                    </form>
+                                                    <br />
+                                                    <!-- Reject Form -->
+                                                    <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.UserID">
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </form>
+                                                </div>
+                                               
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
