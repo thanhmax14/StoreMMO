@@ -396,15 +396,15 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>
-                                            <b>N</b>ame
-                                        </th>
+                                        <th>Stt</th>
+                                        <th>Name</th>
+                                       
 
                                         <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
-                                        <th></th>
-                                        <th></th>
+                                       
+                                        <th>Action</th>
+                                      
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -418,12 +418,11 @@
                                             <td>@item.Name</td>
                                             <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
                                             <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
+                                            <td>
 
-                                            <td>
-                                                <!-- Nút Edit -->
+                                        
+                                            <div style="display: flex; gap: 5px;">
                                                 <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                            </td>
-                                            <td>
                                                 <form method="post" asp-page-handler="Hidden">
                                                     <!-- Hidden input để gửi id -->
                                                     <input type="hidden" name="id" value="@item.Id" />
@@ -432,6 +431,14 @@
                                                     </button>
                                                 </form>
 
+
+                                            </div>
+                                            </td>
+                                                <!-- Nút Edit -->
+                                               
+                                      
+                                            
+                                                
                                                 <!-- Nút Hidden -->
                                                 <!-- Modal -->
                                                 @*  <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
@@ -452,7 +459,7 @@
                                             </div>
                                             </div>
                                             </div> *@
-                                            </td>
+                                            
                                         </tr>
                                         stt++;
                                     }
@@ -463,7 +470,7 @@
                         </div>
 
                         <!-- Nút CreateCategory -->
-                        <button type="button" onclick="window.location.href='/admin/CreateCategory'" class="btn btn-secondary">CreateCategory</button>
+                    
                     </div>
                 </div>
             </div>
