@@ -473,7 +473,14 @@
 
 							<li class="nav-item">
 								<a class="nav-link" id="download-tab" data-toggle="tab" href="#download" role="tab"
-									aria-controls="download" aria-selected="false">Balance</a>
+									aria-controls="download" aria-selected="false">Balance:
+								 <span style="margin-left:5px">
+										<i class="fas fa-coins"></i>
+									 
+									 
+									   1000</span>
+								</a>
+									
 							</li>
 
 							<li class="nav-item">
@@ -579,46 +586,115 @@
 								</div><!-- End .row -->
 							</div>
 						</div><!-- End .tab-pane -->
-
 						<div class="tab-pane fade" id="order" role="tabpanel">
 							<div class="order-content">
-								<h3 class="account-sub-title d-none d-md-block"><i
-										class="sicon-social-dropbox align-middle mr-3"></i>Orders</h3>
+								<h3 class="account-sub-title d-none d-md-block">
+									<i class="sicon-social-dropbox align-middle mr-3"></i>
+									<button class="btn btn-outline-primary btn-lg">Deposit</button>
+								</h3>
+
 								<div class="order-table-container text-center">
-									<table class="table table-order text-left">
+									<!-- Ô tìm kiếm -->
+									<div>
+										<label style="float:left" for="rowsPerPage">Rows per page:</label>
+										<select style="float:left" id="rowsPerPage" onchange="updateTable()">
+											<option value="5">5</option>
+											<option value="15">15</option>
+											<option value="25">25</option>
+											<option value="50">50</option>
+											<option value="100">100</option>
+										</select>
+										<input style="float:right" type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for descriptions...">
+									</div>
+
+									<!-- Bảng hiển thị dữ liệu -->
+									<table id="transactionTable" class="table table-order text-left">
 										<thead>
 											<tr>
-												<th class="order-id">ORDER</th>
-												<th class="order-date">DATE</th>
-												<th class="order-status">STATUS</th>
-												<th class="order-price">TOTAL</th>
-
-												<th class="order-action">ACTIONS</th>
+												<th onclick="sortTable(0)">NO.</th>
+												<th onclick="sortTable(1)">OrderCode</th>
+												<th onclick="sortTable(2)">Date</th>
+												<th onclick="sortTable(3)">Store Name</th>
+												<th onclick="sortTable(4)">Product Type</th>
+												<th onclick="sortTable(5)">Seller</th>
+												<th onclick="sortTable(6)">Quantity</th>
+												<th onclick="sortTable(7)">Total Price</th>
+												<th onclick="sortTable(8)">Status</th>
+												<th>ACTIONS</th>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody id="tableBody">
+
+											@* 						@for (var item = 0; item < 20; item++)
+											{
 											<tr>
-												<td class="text-center p-0" colspan="5">
-													<p class="mb-5 mt-5">
-														No Order has been made yet.
-													</p>
-												</td>
+											<td>@item</td>
+											<td>2024-10-20</td>
+											<td>$100</td>
+											<td>Deposit</td>
+											<td>Completed</td>
+											<td>Some description @item</td>
+											<td><button class="btn btn-primary">View</button></td>
 											</tr>
+											} *@
+
+											@if (Model.InfoBalance != null && Model.InfoBalance.Count() > 0)
+											{
+												var count = 1;
+												foreach (var item in Model.InfoBalance)
+												{
+													<tr>
+														<td>@count</td>
+														<td>@item.TransactionDate</td>
+														<td>@item.Amount</td>
+														<td>@item.TransactionType</td>
+														<td> <button class="btn btn-outline-primary btn-xs">@item.Status</button></td>
+														<td>@item.Description</td>
+														<td>
+															@if (item.TransactionType.ToLower().Equals("buy".ToLower()))
+															{
+																<button class="btn btn-primary">View</button>
+															}
+															else
+															{
+																// Bạn có thể thêm chức năng khác ở đây
+															}
+														</td>
+													</tr>
+													count++;
+												}
+											}
+											else
+											{
+												<tr>
+													<td class="text-center p-0" colspan="7">
+														<p class="mb-5 mt-5">
+															No Order has been made yet.
+														</p>
+													</td>
+												</tr>
+											}
+
+
+											<!-- Add more rows as needed -->
 										</tbody>
 									</table>
-									<hr class="mt-0 mb-3 pb-2" />
 
-									<a href="category.html" class="btn btn-dark">Go Shop</a>
+									<!-- Phân trang và chọn số hàng hiển thị -->
+									<div style="padding-top:10px" class="pagination-container">
+
+										<div id="pagination"></div>
+									</div>
 								</div>
 							</div>
 						</div>
 
 
-					<div class="tab-pane fade" id="download" role="tabpanel">
+		<div class="tab-pane fade" id="download" role="tabpanel">
         <div class="order-content">
             <h3 class="account-sub-title d-none d-md-block">
                 <i class="sicon-social-dropbox align-middle mr-3"></i>
-                <button>Deposit</button>
+									<button class="btn btn-outline-primary btn-lg">Deposit</button>
             </h3>
 	
             <div class="order-table-container text-center">
@@ -627,8 +703,10 @@
 				     <label style="float:left" for="rowsPerPage">Rows per page:</label>
                         <select  style="float:left"  id="rowsPerPage" onchange="updateTable()">
                             <option value="5">5</option>
-                            <option value="10">10</option>
                             <option value="15">15</option>
+								<option value="25">25</option>
+								<option value="50">50</option>
+                            <option value="100">100</option>
                         </select>
 				    <input  style="float:right" type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for descriptions...">
 			   </div>
@@ -661,31 +739,50 @@
     </tr>
 } *@
  
-											@if (Model.InfoBalance != null)
+											@if (Model.InfoBalance != null && Model.InfoBalance.Count() > 0)
 											{
 												var count = 1;
-												foreach(var item in Model.InfoBalance)
+												foreach (var item in Model.InfoBalance)
 												{
-
 													<tr>
 														<td>@count</td>
 														<td>@item.TransactionDate</td>
-														<td>$@item.Amount</td>
+														<td>@item.Amount</td>
 														<td>@item.TransactionType</td>
-														<td>@item.approve</td>
+														<td> <button class="btn btn-outline-primary btn-xs">@item.Status</button></td>
 														<td>@item.Description</td>
-														<td><button class="btn btn-primary">View</button></td>
+														<td>
+															@if (item.TransactionType.ToLower().Equals("buy".ToLower()))
+															{
+																<button class="btn btn-primary">View</button>
+															}
+															else
+															{
+																// Bạn có thể thêm chức năng khác ở đây
+															}
+														</td>
 													</tr>
 													count++;
 												}
 											}
+											else
+											{
+												<tr>
+													<td class="text-center p-0" colspan="7">
+														<p class="mb-5 mt-5">
+															No Balance has been made yet.
+														</p>
+													</td>
+												</tr>
+											}
+
 
                         <!-- Add more rows as needed -->
                     </tbody>
                 </table>
 
                 <!-- Phân trang và chọn số hàng hiển thị -->
-                <div class="pagination-container">
+                <div style="padding-top:10px" class="pagination-container">
                     
                     <div id="pagination"></div>
                 </div>

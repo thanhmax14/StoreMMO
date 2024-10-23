@@ -181,5 +181,22 @@ namespace BusinessLogic.Services.Encrypt
             var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
             return Encoding.UTF8.GetString(base64EncodedBytes);
         }
-    }
+
+		public static string GenerateRandomString(int length)
+		{
+			const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			StringBuilder randomString = new StringBuilder();
+			Random random = new Random();
+
+			for (int i = 0; i < length; i++)
+			{
+				int index = random.Next(characters.Length);
+				char randomChar = characters[index];
+				randomString.Append(randomChar);
+			}
+
+			return randomString.ToString().ToUpper();
+		}
+
+	}
 }

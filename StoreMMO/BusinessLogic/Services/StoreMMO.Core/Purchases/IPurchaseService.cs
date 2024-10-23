@@ -14,7 +14,8 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
         bool add(OrderBuyViewModels orderBuyViewModels);
         bool Delete(OrderBuyViewModels orderBuyViewModels);
         bool Edit(OrderBuyViewModels orderBuyViewModels);
-        bool Update(OrderBuyViewModels orderBuyViewModels);
         OrderBuyViewModels GetByID(string id);
-    }
+		IEnumerable<OrderBuyViewModels> GetAll();
+		IEnumerable<OrderBuyViewModels> GetByUserID(string userID);
+	}
 }

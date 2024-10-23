@@ -32,12 +32,22 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
             return this._purchase.Edit(orderBuyViewModels);
         }
 
-        public OrderBuyViewModels GetByID(string id)
+		public IEnumerable<OrderBuyViewModels> GetAll()
+		{
+			return this._purchase.GetAll();
+		}
+
+		public OrderBuyViewModels GetByID(string id)
         {
             return this._purchase.GetByID(id);
         }
 
-        public List<PurchaseItem> GetProductFromSession()
+		public IEnumerable<OrderBuyViewModels> GetByUserID(string userID)
+		{
+			return this._purchase.GetByUserID(userID);
+		}
+
+		public List<PurchaseItem> GetProductFromSession()
         {
             return this._purchase.GetProductFromSession();
         }
@@ -45,11 +55,6 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
         public void SaveProductToSession(List<PurchaseItem> product)
         {
             this._purchase.SaveProductToSession(product);
-        }
-
-        public bool Update(OrderBuyViewModels orderBuyViewModels)
-        {
-            throw new NotImplementedException();
         }
     }
 }
