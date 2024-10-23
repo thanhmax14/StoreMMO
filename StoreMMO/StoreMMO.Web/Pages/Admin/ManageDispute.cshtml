@@ -393,7 +393,22 @@
                         <div class="card-body">
 
                             <h5 class="card-title">Dispute List</h5>
-
+                            @if (!string.IsNullOrEmpty(Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
 
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
@@ -419,16 +434,18 @@
                                             <td>@item.CreateDate</td>
                                             <td>@item.Reply</td>
                                             <td>
-                                                <form method="post" asp-page-handler="OnPostAsync">
-                                                    <input type="hidden" name="Id" value="@item.ID" />
-                                                    <input type="hidden" name="Status" value="1" />
-                                                    <button type="submit" class="btn btn-primary">Accept</button>
-                                                </form>
-                                                <form method="post" asp-page-handler="AsyncReject">
-                                                    <input type="hidden" name="Id" value="@item.ID" />
-                                                    <input type="hidden" name="Status" value="2" />
-                                                    <button type="submit" class="btn btn-danger">Reject</button>
-                                                </form>
+                                                <div style="display: flex; gap: 5px;">
+                                                    <form method="post" asp-page-handler="OnPostAsync">
+                                                        <input type="hidden" name="Id" value="@item.ID" />
+                                                        <input type="hidden" name="Status" value="1" />
+                                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                                    </form>
+                                                    <form method="post" asp-page-handler="AsyncReject">
+                                                        <input type="hidden" name="Id" value="@item.ID" />
+                                                        <input type="hidden" name="Status" value="2" />
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </form>
+                                                </div>
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">

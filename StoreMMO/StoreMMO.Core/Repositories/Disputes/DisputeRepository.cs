@@ -24,7 +24,7 @@ namespace StoreMMO.Core.Repositories.Disputes
     FROM 
         Complaints
     WHERE 
-        Status = '0'";
+        Status = 'none'";
 
             var list = this._context.Database.SqlQueryRaw<DisputeViewModels>(sql).ToList();
             return list;

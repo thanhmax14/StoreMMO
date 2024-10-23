@@ -12,7 +12,7 @@ namespace StoreMMO.Core.ViewModels
         public string OrderDetailID { get; set; }
         public string Description { get; set; }
         public DateTime CreateDate { get; set; }
-        public string Reply { get; set; }
+        public string? Reply { get; set; }
         public string Status { get; set; }
         //public string Id { get; internal set; }
     }

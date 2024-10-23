@@ -11,7 +11,11 @@ namespace StoreMMO.Web.Pages.Admin
     {
         private readonly IWithdrawService _withdrawService;
         private readonly AppDbContext _context;
+        [TempData]
+        public string success { get; set; }
 
+        [TempData]
+        public string fail { get; set; }
         [BindProperty]
         public int isAccept { get; set; }
 
@@ -39,7 +43,12 @@ namespace StoreMMO.Web.Pages.Admin
                     // C?p nh?t tr?ng thái ch?p nh?n (accept)
                     withdraw.Status = "EXPIRED"; // Gi? s? có thu?c tính IsAccept
                     await _context.SaveChangesAsync();
+                    success = "Update success!";
                 }
+            }
+            else
+            {
+                fail = "Update fail!";
             }
 
             // Quay l?i trang hi?n t?i
@@ -68,6 +77,11 @@ namespace StoreMMO.Web.Pages.Admin
 
                         // L?u các thay ??i vào c? s? d? li?u
                         await _context.SaveChangesAsync();
+                        success = "Update success! The money has been refunded to the customer's account.";
+                    }
+                    else
+                    {
+                        fail = "Update fail!";
                     }
                 }
             }
