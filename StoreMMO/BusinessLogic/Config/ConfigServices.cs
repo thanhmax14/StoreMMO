@@ -1,52 +1,43 @@
-﻿using BusinessLogic.Services.StoreMMO.API;
+﻿using System.Net.Http.Headers;
+using BusinessLogic.Services.AutoMapper;
+using BusinessLogic.Services.CreateQR;
+using BusinessLogic.Services.Payments;
+using BusinessLogic.Services.StoreMMO.API;
+using BusinessLogic.Services.StoreMMO.Core.Balances;
 using BusinessLogic.Services.StoreMMO.Core.Carts;
 using BusinessLogic.Services.StoreMMO.Core.Categorys;
+using BusinessLogic.Services.StoreMMO.Core.Disputes;
+using BusinessLogic.Services.StoreMMO.Core.FeedBacks;
+using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
 using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
+using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using BusinessLogic.Services.StoreMMO.Core.RegisteredSeller;
+using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
 using BusinessLogic.Services.StoreMMO.Core.StoreTypes;
 using BusinessLogic.Services.StoreMMO.Core.User;
 using BusinessLogic.Services.StoreMMO.Core.WishLists;
+using BusinessLogic.Services.StoreMMO.Core.Withdraws;
 using Microsoft.Extensions.DependencyInjection;
+using Net.payOS;
+using StoreMMO.Core.Repositories.Balances;
 using StoreMMO.Core.Repositories.Carts;
 using StoreMMO.Core.Repositories.Categorys;
+using StoreMMO.Core.Repositories.Disputes;
+using StoreMMO.Core.Repositories.FeedBacks;
+using StoreMMO.Core.Repositories.OrderDetails;
+using StoreMMO.Core.Repositories.orderDetailViewModels;
 using StoreMMO.Core.Repositories.Products;
 using StoreMMO.Core.Repositories.ProductsTypes;
+using StoreMMO.Core.Repositories.Purchase;
 using StoreMMO.Core.Repositories.RegisteredSeller;
+using StoreMMO.Core.Repositories.StoreDetails;
 using StoreMMO.Core.Repositories.Stores;
 using StoreMMO.Core.Repositories.StoreTypes;
 using StoreMMO.Core.Repositories.User;
 using StoreMMO.Core.Repositories.WishLists;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.VisualStudio.Web.CodeGeneration.Design;
-using BusinessLogic.Services.AutoMapper;
-using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
-using StoreMMO.Core.Repositories.StoreDetails;
-
-using StoreMMO.Core.Repositories.Disputes;
-using BusinessLogic.Services.StoreMMO.Core.Disputes;
-
-using BusinessLogic.Services.StoreMMO.Core.Purchases;
-using StoreMMO.Core.Repositories.Purchase;
-using NuGet.Configuration;
 using StoreMMO.Core.Repositories.Withdraw;
-using BusinessLogic.Services.StoreMMO.Core.Withdraws;
-using Net.payOS;
-using BusinessLogic.Services.Payments;
-using BusinessLogic.Services.CreateQR;
-using StoreMMO.Core.Repositories.Balances;
-using BusinessLogic.Services.StoreMMO.Core.Balances;
-using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
-using StoreMMO.Core.Repositories.OrderDetails;
-using StoreMMO.Core.Repositories.orderDetailViewModels;
 
 namespace BusinessLogic.Config
 {
@@ -81,7 +72,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IDisputeRepository, DisputeRepository>();
             services.AddScoped<IWithdrawRepository, WithdrawRepository>();
 
-            services.AddScoped<IBalanceRepository,BalanceRepository>();
+            services.AddScoped<IBalanceRepository, BalanceRepository>();
             services.AddScoped<IOrderDeailsRepository, OrderDeailsRepository>();
 
             // Đăng ký StoreTypeRepository với DI container
@@ -91,7 +82,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IRegisteredSellerRepository, RegisteredSellerRepository>();
             services.AddScoped<IStoreDetailsService, StoreDetailsService>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
-            
+            services.AddScoped<IFeedBackRepository, FeedBackRepository>();
 
 
 
@@ -113,15 +104,15 @@ namespace BusinessLogic.Config
 
             services.AddScoped<IDisputeService, DisputeService>();
             services.AddScoped<IOderDetailsService, OrderDetailsService>();
+            services.AddScoped<IFeedBackService, FeedBackService>();
 
-
-            services.AddScoped<IPurchaseService , PurchaseService>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
 
             services.AddTransient<PaymentLIb>();
             PayOS payOS = new PayOS("fa2021f3-d725-4587-a48f-8b55bccf7744" ?? throw new Exception("Cannot find environment"),
                     "143f45b5-d1d7-40e4-82e9-00ea8217ab33" ?? throw new Exception("Cannot find environment"),
                    "7861335ef9257ac91143d4de7b9f6ce64c864608defe1e31906510e95b345ee5" ?? throw new Exception("Cannot find environment"));
-             services.AddSingleton(payOS);
+            services.AddSingleton(payOS);
             services.AddTransient<CreateQR>();
         }
     }

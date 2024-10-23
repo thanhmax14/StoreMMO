@@ -6,11 +6,14 @@ namespace BusinessLogic.Services.StoreMMO.Core.FeedBacks
 {
     public interface IFeedBackService
     {
-        IEnumerable<FeedBack> getAllFeedBack();
+        IEnumerable<FeedBackViewModels> getAllFeedBack(string StoreOwnerId);
         FeedBackViewModels getByIdFeedBack(string id);
         FeedBackViewModels AddFeedBacK(FeedBackViewModels feedBack);
         FeedBackViewModels UpdatefeedBack(FeedBackViewModels feedBack);
 
         void DeleteFeedBack(string id);
+        IEnumerable<FeedBackViewModels> getFeedbackCustomerById(string feedbackID);
+        FeedBack replyFeedback(string id, string reply);
+
     }
 }
