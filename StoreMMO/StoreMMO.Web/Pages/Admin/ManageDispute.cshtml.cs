@@ -11,6 +11,11 @@ namespace StoreMMO.Web.Pages.Admin
     {
         private readonly IDisputeService _disputeService;
         private readonly AppDbContext _context;
+        [TempData]
+        public string success { get; set; }
+
+        [TempData]
+        public string fail { get; set; }
         [BindProperty]
         public int Status { get; set; }
 
@@ -37,9 +42,14 @@ namespace StoreMMO.Web.Pages.Admin
                 if (Status == 1)
                 {
                     // Cập nhật trạng thái chấp nhận (accept)
-                    dispute.Status = "1"; // Giả sử có thuộc tính IsAccept
+                    dispute.Status = "done"; // Giả sử có thuộc tính IsAccept
                     await _context.SaveChangesAsync();
+                    success = "Update success!";
                 }
+            }
+            else
+            {
+                fail = "Update fail!";
             }
 
             // Quay lại trang hiện tại
@@ -52,8 +62,13 @@ namespace StoreMMO.Web.Pages.Admin
             if (dispute != null)
             {
                 // Cập nhật trạng thái thành 2 khi nhấn "Reject"
-                dispute.Status = "2"; // Giả sử có thuộc tính IsAccept
+                dispute.Status = "ReportAdmin"; // Giả sử có thuộc tính IsAccept
                 await _context.SaveChangesAsync();
+                success = "Update success!";
+            }
+            else
+            {
+                fail = "Update fail!";
             }
 
             // Quay lại trang hiện tại sau khi thực hiện hành động

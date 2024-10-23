@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 using System;
@@ -153,36 +154,40 @@ WHERE
             return list;
         }
 
-        //        public IEnumerable<StoreSellerViewModels> getAllStoreSeller()
-        //        {
-        //            string sql = @"
-        //SELECT sd.Name, sd.SubDescription, sd.ModifiedDate, s.IsAccept
-        //    FROM StoreMMO.dbo.StoreDetails sd
-        //    JOIN StoreMMO.dbo.Stores s ON sd.StoreId = s.Id";
-
-
-        //            var list = this._context.Database.SqlQueryRaw<StoreSellerViewModels>(sql).ToList();
-        //            return list;
-        //        }
-
-        public IEnumerable<StoreSellerViewModels> getAllStoreSeller()
+        public IEnumerable<StoreSellerViewModels> getAllStoreSeller(string currentUserId)
         {
             string sql = @"
     SELECT 
-    sd.Id,
-    s.Id AS StoreId,
-    sd.Name,
-    sd.SubDescription,
-    sd.DescriptionDetail,
-    sd.CreatedDate,
-    s.IsAccept
-FROM 
-    Stores s
-INNER JOIN 
-    StoreDetails sd ON s.Id = sd.StoreId";
-            var list = this._context.Database.SqlQueryRaw<StoreSellerViewModels>(sql).ToList();
+        sd.Id,
+        s.Id AS StoreId,
+        sd.Name,
+        sd.SubDescription,
+        s.ModifiedDate,
+        sd.DescriptionDetail,
+        sd.CreatedDate,
+        s.IsAccept,
+        sd.Img
+    FROM 
+        Stores s
+    INNER JOIN 
+        StoreDetails sd ON s.Id = sd.StoreId
+    WHERE 
+        s.UserId = @UserId"; // Giả sử Store có trường UserId để xác định người sở hữu.
+
+            var list = this._context.Database.SqlQueryRaw<StoreSellerViewModels>(sql, new SqlParameter("@UserId", currentUserId)).ToList();
             return list;
         }
+
+
+        //    public IEnumerable<StoreSellerViewModels> getAllStoreSeller()
+        //    {
+        //        string sql = @"
+        //SELECT sd.Id, sd.Name, sd.SubDescription, sd.ModifiedDate, s.IsAccept
+        //FROM StoreMMO.dbo.StoreDetails sd
+        //JOIN StoreMMO.dbo.Stores s ON sd.StoreId = s.Id";
+        //        var list = this._context.Database.SqlQueryRaw<StoreSellerViewModels>(sql).ToList();
+        //        return list;
+        //    }
         public StoreDetailViewModels UpdateStore(StoreDetailViewModels store)
         {
             var fine = this._context.StoreDetails.FirstOrDefault(x => x.Id == store.Id);
@@ -190,14 +195,14 @@ INNER JOIN
             fine.SubDescription = store.SubDescription;
             fine.DescriptionDetail = store.DescriptionDetail;
             fine.ModifiedDate = DateTime.UtcNow;
-            //fine.Img = store.Img;
+            fine.Img = store.Img;
             this._context.SaveChanges();
             store.Id = fine.Id;
             store.Name = fine.Name;
             store.SubDescription = fine.SubDescription;
             store.DescriptionDetail = fine.DescriptionDetail;
             store.ModifiedDate = fine.ModifiedDate;
-            //store.Img = fine.Img;
+            store.Img = fine.Img;
             return store;
 
         }
@@ -214,7 +219,7 @@ INNER JOIN
                 Name = findId.Name,
                 SubDescription = findId.SubDescription,
                 DescriptionDetail = findId.DescriptionDetail,
-                //Img = findId.Img,
+                Img = findId.Img,
                 ModifiedDate = findId.ModifiedDate,
             };
             return storedetail;
