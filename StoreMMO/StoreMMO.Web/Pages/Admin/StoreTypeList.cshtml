@@ -403,8 +403,8 @@
                                         <th>Commission</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>Action</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -419,12 +419,12 @@
                                             <td>@item.Commission</td>
                                             <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
                                             <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
-
+                                            
                                             <td>
+                                                <div style="display: flex; gap: 5px;">
                                                 <!-- Nút Edit -->
                                                 <button onclick="window.location.href='/admin/UpdateStoreType/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                            </td>
-                                            <td>
+                                            
                                                 <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
                                                     <!-- Hidden input để gửi id -->
                                                     <input type="hidden" name="id" value="@item.Id" />
@@ -460,6 +460,7 @@
                                             </div>
                                             </div>
                                             </div> *@
+                                                </div>
                                             </td>
                                         </tr>
                                         stt++;

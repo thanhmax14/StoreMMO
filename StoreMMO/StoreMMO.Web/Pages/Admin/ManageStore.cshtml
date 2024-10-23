@@ -402,6 +402,7 @@
                                         <th>Category</th>
                                         <th>Price</th>
                                         <th>Store Detail</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -424,17 +425,19 @@
                                                     <input type="hidden" name="isAccept" value="@item.Id"  />
                                                     <button type="submit" class="btn btn-primary">Accept</button>
                                                 </form> *@
-                                                <form method="post" asp-page-handler="OnPostAsync">
-                                                    <input type="hidden" name="Id" value="@item.Id" />
-                                                    <input type="hidden" name="isAccept" value="1" />
-                                                    <button type="submit" class="btn btn-primary">Accept</button>
-                                                </form>
-                                                <form method="post" asp-page-handler="AsyncReject">
-                                                    <input type="hidden" name="Id" value="@item.Id" />
-                                                    <input type="hidden" name="isAccept" value="2" />
-                                                    <button type="submit" class="btn btn-danger">Reject</button>
-                                                </form>
+                                                <div style="display: flex; gap: 5px;">
+                                                    <form method="post" asp-page-handler="OnPostAsync">
+                                                        <input type="hidden" name="Id" value="@item.Id" />
+                                                        <input type="hidden" name="isAccept" value="1" />
+                                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                                    </form>
 
+                                                    <form method="post" asp-page-handler="AsyncReject">
+                                                        <input type="hidden" name="Id" value="@item.Id" />
+                                                        <input type="hidden" name="isAccept" value="2" />
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </form>
+                                                </div>
                                                 <!-- Reject Form -->
                                                 @* <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.StoreId">
                                                     <button type="submit" class="btn btn-danger">Reject</button>
