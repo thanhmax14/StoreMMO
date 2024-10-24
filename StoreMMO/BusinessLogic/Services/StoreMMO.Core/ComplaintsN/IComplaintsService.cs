@@ -10,6 +10,8 @@ namespace BusinessLogic.Services.StoreMMO.Core.ComplaintsN
     public interface IComplaintsService
     {
         IEnumerable<ComplaintsMapper> GetAll();
+        public bool ReportAdmin(string id);
+        IEnumerable<ComplaintsMapper> GetAllReportAdmin();
 
     }
 }

@@ -10,5 +10,7 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
     public interface IComplaintsRepository
     {
         IEnumerable<ComplaintsMapper> GetAll();
+        public bool ReportAdmin(string id);
+        IEnumerable<ComplaintsMapper> GetAllReportAdmin();
     }
 }

@@ -18,8 +18,19 @@ namespace StoreMMO.Web.Pages.Seller.Complain
         {
             listcomplaints = this._complaintsServices.GetAll();
             var temp = listcomplaints;
-/*            listcomplaints = new List<ComplaintsMapper>();*/
+            /*            listcomplaints = new List<ComplaintsMapper>();*/
 
+        }
+
+        public IActionResult OnPostReportAdmin()
+        {
+            var id = Request.Form["id"];
+            var result = this._complaintsServices.ReportAdmin(id);
+            if (result)
+            {
+                return RedirectToPage("ComplainList");
+            }
+            return Page();
         }
     }
 }
