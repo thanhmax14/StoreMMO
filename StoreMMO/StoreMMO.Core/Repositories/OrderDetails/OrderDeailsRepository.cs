@@ -87,7 +87,7 @@ namespace StoreMMO.Core.Repositories.orderDetailViewModels
             return null;
         }
 
-        public async Task<OrderDetailsViewModels> GetOrderDetailByproductIDAsync(long productID)
+        public async Task<OrderDetailsViewModels> GetOrderDetailByOrderCodeAsync(string productID)
         {
             var orderDetail = await _context.OrderDetails.FirstOrDefaultAsync(b => b.ProductID == productID.ToString());
             if (orderDetail != null)
@@ -172,6 +172,6 @@ namespace StoreMMO.Core.Repositories.orderDetailViewModels
             return list;
         }
 
-       
+    
     }
 }

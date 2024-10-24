@@ -13,7 +13,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.OrderDetails
         Task<bool> AddAsync(OrderDetailsViewModels orderDetailViewModels);
         Task<bool> DeleteAsync(OrderDetailsViewModels orderDetailViewModels);
         Task<bool> UpdateAsync(SaleHistoryViewModels orderDetailViewModels);
-        Task<OrderDetailsViewModels> GetOrderDetailByproductIDAsync(long orderCode);
+        Task<OrderDetailsViewModels> GetOrderDetailByproductIDAsync(string orderCode);
         Task<OrderDetailsViewModels> GetOrderDeailByIDAsync(string id);
         Task<IEnumerable<OrderDetailsViewModels>> GetOrderDetailsByOrderBuyIDAsync(string userID);
     }
