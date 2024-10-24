@@ -3,48 +3,117 @@
 @{
 }
 
+<h2 class="order-title">Order Details</h2>
 
-<h2>Order Details</h2>
+<div class="order-details-container">
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Order Details</th>
+                <th>Information</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Order ID</td>
+                <td>@Model.OrderDetail.ID</td>
+            </tr>
+            <tr>
+                <td>Order Buy ID</td>
+                <td>@Model.OrderDetail.OrderBuyID</td>
+            </tr>
+            <tr>
+                <td>Product ID</td>
+                <td>@Model.OrderDetail.ProductID</td>
+            </tr>
+            <tr>
+                <td>Admin Money</td>
+                <td>@Model.OrderDetail.AdminMoney</td>
+            </tr>
+            <tr>
+                <td>Seller Money</td>
+                <td>@Model.OrderDetail.SellerMoney</td>
+            </tr>
+            <tr>
+                <td>Quantity</td>
+                <td>@Model.OrderDetail.quantity</td>
+            </tr>
+            <tr>
+                <td>Dates</td>
+                <td>@Model.OrderDetail.Dates</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>@Model.OrderDetail.status</td>
+            </tr>
+            <tr>
+                <td>Status Payment</td>
+                <td>@Model.OrderDetail.stasusPayment</td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td>@Model.OrderDetail.Price</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-<table class="table">
-    <tr>
-        <th>Order ID</th>
-        <td>@Model.OrderDetail.ID</td>
-    </tr>
-    <tr>
-        <th>Date</th>
-        <td>@Model.OrderDetail.OrderBuyID</td>
-    </tr>
-    <tr>
-        <th>Buyer</th>
-        <td>@Model.OrderDetail.ProductID</td>
-    </tr>
-    <tr>
-        <th>Store Name</th>
-        <td>@Model.OrderDetail.AdminMoney</td>
-    </tr>
-    <tr>
-        <th>Product Type</th>
-        <td>@Model.OrderDetail.SellerMoney</td>
-    </tr>
-    <tr>
-        <th>Price</th>
-        <td>@Model.OrderDetail.quantity</td>
-    </tr>
-    <tr>
-        <th>Total Money</th>
-        <td>@Model.OrderDetail.Dates</td>
-    </tr>
-    <tr>
-        <th>Admin Money</th>
-        <td>@Model.OrderDetail.status</td>
-    </tr>
-    <tr>
-        <th>Status Payment</th>
-        <td>@Model.OrderDetail.stasusPayment</td>
-    </tr>
-    <tr>
-        <th>Status Payment</th>
-        <td>@Model.OrderDetail.Price</td>
-    </tr>
-</table>
+<style>
+    .order-title {
+        text-align: center;
+        font-size: 24px;
+        color: #4a4a4a;
+        margin-bottom: 20px;
+    }
+
+    .order-details-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .styled-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 18px;
+        text-align: left;
+        color: #333;
+    }
+
+    .styled-table th, .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table th {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .styled-table tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+    .styled-table td {
+        font-size: 16px;
+    }
+
+    .styled-table td:first-of-type {
+        font-weight: bold;
+        color: #333;
+    }
+</style>
