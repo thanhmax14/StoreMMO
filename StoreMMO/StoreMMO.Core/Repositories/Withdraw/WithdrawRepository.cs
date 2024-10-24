@@ -49,8 +49,7 @@ namespace StoreMMO.Core.Repositories.Withdraw
     FROM 
         Balances
     WHERE 
-        Status = 'PENDING'
-        AND TransactionType = 'withdraw'";  // Điều kiện lọc theo trạng thái (hoặc tuỳ chỉnh)
+        Status = 'PENDING'";  // Điều kiện lọc theo trạng thái (hoặc tuỳ chỉnh)
 
             // Thực hiện truy vấn SQL thô và ánh xạ kết quả vào danh sách BalanceViewModel
             var list = this._context.Database.SqlQueryRaw<WithdrawViewModels>(sql).ToList();

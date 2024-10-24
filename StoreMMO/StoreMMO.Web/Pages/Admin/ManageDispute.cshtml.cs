@@ -1,7 +1,9 @@
-﻿using BusinessLogic.Services.StoreMMO.Core.Disputes;
+﻿using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
+using BusinessLogic.Services.StoreMMO.Core.Disputes;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 
@@ -10,6 +12,7 @@ namespace StoreMMO.Web.Pages.Admin
     public class ManageDisputeModel : PageModel
     {
         private readonly IDisputeService _disputeService;
+        private readonly IComplaintsService _complaintService;
         private readonly AppDbContext _context;
         [TempData]
         public string success { get; set; }
@@ -20,9 +23,11 @@ namespace StoreMMO.Web.Pages.Admin
         public int Status { get; set; }
 
         public IEnumerable<DisputeViewModels> list = new List<DisputeViewModels>();
+        public IEnumerable<ComplaintsMapper> listC = new List<ComplaintsMapper>();
 
-        public ManageDisputeModel(IDisputeService disputeService, AppDbContext context)
+        public ManageDisputeModel(IComplaintsService complaintService, IDisputeService disputeService, AppDbContext context)
         {
+            _complaintService = complaintService;
             _disputeService = disputeService;
             _context = context;
         }
@@ -30,7 +35,8 @@ namespace StoreMMO.Web.Pages.Admin
         public void OnGet()
         {
             //list = _disputeService.Getcomstatus();
-            list = _disputeService.getAllDispute();
+            //list = _disputeService.GetAllReportAdmin();
+            listC = _complaintService.GetAllReportAdmin();
         }
         public async Task<IActionResult> OnPostAsync(string Id)
         {

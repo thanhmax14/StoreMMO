@@ -410,32 +410,36 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Transaction Type</th>
-                                        <th>Transaction Date</th>
+                                        <td>Seller</td>
+                                        <td>Customer</td>
                                         <th>Description</th>
-                                        <th>Status</th>
+                                        <th>Price</th> <!-- Thêm cột cho Price -->
+                                        <th>OrderCode</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{
                                         int stt = 1;
                                     }
-                                    @foreach (var item in @Model.list)
+                                    @foreach (var item in @Model.listC)
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td>@item.TransactionType</td>
-                                            <td>@(item.TransactionDate.ToString("yyyy/dd/MM") ?? "Null Data")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.FullName ?? "Not found!")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.UserMap?.FullName ?? "Not found!")</td>
                                             <td>@item.Description</td>
-                                            <td>@item.Status</td>
+                                            <td>@(item.OrderDetailmap.Price ?? "Not found!")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.OrderCode ?? "Not found!")</td>
                                             <td>
                                                 <form method="post" asp-page-handler="OnPostAsync">
-                                                    <input type="hidden" name="Id" value="@item.Id" />
+                                                    <input type="hidden" name="Id" value="@item.ID" />
                                                     <input type="hidden" name="isAccept" value="1" />
                                                     <button type="submit" class="btn btn-primary">Accept</button>
                                                 </form>
                                                 <form method="post" asp-page-handler="AsyncReject">
-                                                    <input type="hidden" name="Id" value="@item.Id" />
+                                                    <input type="hidden" name="Id" value="@item.ID" />
                                                     <input type="hidden" name="isAccept" value="2" />
                                                     <button type="submit" class="btn btn-danger">Reject</button>
                                                 </form>
