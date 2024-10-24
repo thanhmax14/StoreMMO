@@ -35,7 +35,6 @@ namespace BusinessLogic.Utils
         }
         public enum OrderDetailStatus
         {
-
             None,  //=> 0// don bth khong co compaint
             report, // don co complaint dang trang thai none
             ok,  // complaint done
