@@ -14,7 +14,7 @@ namespace StoreMMO.Core.Repositories.OrderDetails
         Task<bool> DeleteAsync(OrderDetailsViewModels orderDetailViewModels);
         Task<bool> UpdateAsync(SaleHistoryViewModels orderDetailViewModels);
         Task<OrderDetailsViewModels> GetOrderDetailByproductIDAsync(long orderCode);
-        Task<SaleHistoryViewModels> GetOrderDeailByIDAsync(string id);
+        Task<OrderDetailsViewModels> GetOrderDeailByIDAsync(string id);
         Task<IEnumerable<OrderDetailsViewModels>> GetOrderDetailsByOrderBuyIDAsync(string userID);
     }
 }
