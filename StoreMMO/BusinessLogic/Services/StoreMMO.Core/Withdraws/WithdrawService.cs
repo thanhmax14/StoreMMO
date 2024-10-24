@@ -1,4 +1,5 @@
-﻿using StoreMMO.Core.Repositories.Disputes;
+﻿using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
+using StoreMMO.Core.Repositories.Disputes;
 using StoreMMO.Core.Repositories.Withdraw;
 using StoreMMO.Core.ViewModels;
 using System;
@@ -16,6 +17,12 @@ namespace BusinessLogic.Services.StoreMMO.Core.Withdraws
         {
             this._withdrawRepository = withdrawRepository;
         }
+
+        public IEnumerable<BalanceMapper> getAllBalance()
+        {
+            return _withdrawRepository.getAllBalance(); 
+        }
+
         public IEnumerable<WithdrawViewModels> getAllWithdraw()
         {
             return _withdrawRepository.getAllWithdraw();

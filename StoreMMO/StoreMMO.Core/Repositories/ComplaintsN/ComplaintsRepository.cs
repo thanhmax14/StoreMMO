@@ -45,6 +45,7 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
           .Include(c => c.OrderDetail)                        // Include OrderDetail của Complaint
               .ThenInclude(od => od.orderBuy)                // Then Include OrderBuy của OrderDetail
           .Include(c => c.OrderDetail.orderBuy.AppUser)       // Include AppUser của OrderBuy
+          
           .Include(c => c.OrderDetail.orderBuy.Store)         // Include Store của OrderBuy
           .Include(c => c.OrderDetail.Product)                // Include Product của OrderDetail
               .ThenInclude(p => p.ProductType)               // Then Include ProductType của Product
