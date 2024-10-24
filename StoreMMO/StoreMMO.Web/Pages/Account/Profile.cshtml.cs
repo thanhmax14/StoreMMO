@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.Balances;
+using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -12,21 +13,27 @@ namespace StoreMMO.Web.Pages.Account
 	{
 		private readonly UserManager<AppUser> _userManager;
 		private readonly IBalanceService _balance;
+		private readonly IPurchaseService _pur;
 
-		public ProfileModel(UserManager<AppUser> userManager, IBalanceService balance)
+		public ProfileModel(UserManager<AppUser> userManager, IBalanceService balance, IPurchaseService purchase)
 		{
 			_userManager = userManager;
 			this._balance = balance;
+			this._pur= purchase;
 		}
 		[BindProperty]
 		public AppUser AppUser { get; set; }
         public IEnumerable<BalanceViewModels> InfoBalance = new List<BalanceViewModels> ();
+		public IEnumerable<GetOrderByUserViewModel> InfOrderUser = new List<GetOrderByUserViewModel>();
+		public IEnumerable<GetOrderDetailsViewModel> InfoOrdeTailUser = new List<GetOrderDetailsViewModel>();
 
 		public async Task OnGet()
 		{
 			var email = HttpContext.Session.GetString("Email");
 			var UserName = HttpContext.Session.GetString("UserName");
 
+			InfOrderUser = this._pur.GetAllByUserID("1f0dbbe2-2a81-43e9-8272-117507ac9c45");
+			InfoOrdeTailUser = this._pur.getOrderDetails("132F4145-876C-46B0-963B-E621B28479A1");
 			InfoBalance = await this._balance.GetBalanceByUserIDAsync("1f0dbbe2-2a81-43e9-8272-117507ac9c45");
 
 			AppUser = await this._userManager.FindByEmailAsync("ANHLDCE171348@FPT.EDU.VN");

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
@@ -146,6 +148,79 @@ namespace StoreMMO.Core.Repositories.Purchase
 			return temp;
 		}
 
-		
+		public IEnumerable<GetOrderByUserViewModel> GetAllByUserID(string userID)
+		{
+			string sql = @"SELECT 
+                        OrderBuys.OrderCode,
+                        OrderBuys.ID as OrderID, 
+                        OrderDetails.Dates as OrderDate, 
+                        StoreDetails.Name as StoreName, 
+                        ProductTypes.Name as ProName,
+                        [Users].UserName as Seller, 
+                        COUNT(OrderDetails.ID) as Quantity, 
+                        OrderBuys.totalMoney as TotalPrice, 
+                        OrderBuys.Status 
+                   FROM 
+                        OrderBuys 
+                   INNER JOIN 
+                        OrderDetails ON OrderBuys.ID = OrderDetails.OrderBuyID 
+                   INNER JOIN 
+                        Products ON OrderDetails.ProductID = Products.Id 
+                   INNER JOIN 
+                        ProductTypes ON OrderBuys.ProductTypeId = ProductTypes.Id 
+                        AND Products.ProductTypeId = ProductTypes.Id 
+                   INNER JOIN 
+                        Stores ON OrderBuys.StoreID = Stores.Id 
+                   INNER JOIN 
+                        StoreDetails ON Stores.Id = StoreDetails.StoreId 
+                   INNER JOIN 
+                        Users ON OrderBuys.UserID = Users.Id 
+                        AND Stores.UserId = Users.Id 
+                   WHERE 
+                        OrderBuys.UserID = @userID 
+                   GROUP BY 
+                        OrderBuys.ID, 
+                        OrderDetails.Dates, 
+                        StoreDetails.Name, 
+                        ProductTypes.Name, 
+                        [Users].UserName, 
+                        OrderBuys.totalMoney, 
+                        OrderBuys.Status,
+                        OrderBuys.OrderCode;";
+
+			var result = _context.Database.SqlQueryRaw<GetOrderByUserViewModel>(sql, new SqlParameter("@userID", userID)).ToList();
+			if (!result.Any())
+			{
+				Console.WriteLine("Không tìm thấy đơn hàng cho người dùng với ID: " + userID);
+			}
+
+			return result;
+		}
+
+
+
+		public IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID)
+		{
+			string sql = @"SELECT 
+                        Products.Account, 
+                        Products.Pwd AS Password, 
+                        OrderDetails.Quantity, 
+                        OrderDetails.Price, 
+                        OrderDetails.Dates, 
+                        OrderDetails.stasusPayment, 
+                        OrderDetails.Status
+                   FROM 
+                        OrderDetails 
+                   INNER JOIN 
+                        Products ON OrderDetails.ProductID = Products.Id 
+                   WHERE 
+                        OrderDetails.OrderBuyID = @orderID;";
+
+			var parameters = new[] { new SqlParameter("@orderID", orderID) };
+			var result = _context.Database.SqlQueryRaw<GetOrderDetailsViewModel>(sql, parameters).ToList();
+
+			return result;
+		}
+
 	}
 }

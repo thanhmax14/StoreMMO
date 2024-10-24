@@ -35,7 +35,7 @@ namespace BusinessLogic.Utils
         public enum OrderDetailStatus
         {
             None,  //=> 0
-            report,
+            report,  //
             ok,
             refun,
             backmoney

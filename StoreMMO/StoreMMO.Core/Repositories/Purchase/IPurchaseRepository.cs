@@ -17,6 +17,7 @@ namespace StoreMMO.Core.Repositories.Purchase
         OrderBuyViewModels GetByID(string  id);
         IEnumerable<OrderBuyViewModels> GetAll();
         IEnumerable<OrderBuyViewModels> GetByUserID(string userID);
-
+        IEnumerable<GetOrderByUserViewModel> GetAllByUserID(string userID);
+        IEnumerable<GetOrderDetailsViewModel>getOrderDetails(string orderID);
     }
 }

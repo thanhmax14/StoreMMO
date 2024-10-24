@@ -37,6 +37,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
 			return this._purchase.GetAll();
 		}
 
+		public IEnumerable<GetOrderByUserViewModel> GetAllByUserID(string userID)
+		{
+			return this._purchase.GetAllByUserID(userID);
+		}
+
 		public OrderBuyViewModels GetByID(string id)
         {
             return this._purchase.GetByID(id);
@@ -45,6 +50,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
 		public IEnumerable<OrderBuyViewModels> GetByUserID(string userID)
 		{
 			return this._purchase.GetByUserID(userID);
+		}
+
+		public IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID)
+		{
+			return this._purchase.getOrderDetails(orderID);
 		}
 
 		public List<PurchaseItem> GetProductFromSession()
