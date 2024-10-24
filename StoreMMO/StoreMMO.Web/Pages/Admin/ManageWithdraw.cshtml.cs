@@ -1,7 +1,9 @@
+using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
 using BusinessLogic.Services.StoreMMO.Core.Withdraws;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 
@@ -10,6 +12,7 @@ namespace StoreMMO.Web.Pages.Admin
     public class ManageWithdrawModel : PageModel
     {
         private readonly IWithdrawService _withdrawService;
+        private readonly IComplaintsService _complaintService;
         private readonly AppDbContext _context;
         [TempData]
         public string success { get; set; }
@@ -20,16 +23,19 @@ namespace StoreMMO.Web.Pages.Admin
         public int isAccept { get; set; }
 
         public IEnumerable<WithdrawViewModels> list = new List<WithdrawViewModels>();
+        public IEnumerable<ComplaintsMapper> listC = new List<ComplaintsMapper>();
 
-        public ManageWithdrawModel(IWithdrawService withdrawService, AppDbContext context)
+        public ManageWithdrawModel(IComplaintsService complaintService, IWithdrawService withdrawService, AppDbContext context)
         {
+            _complaintService = complaintService;
             _withdrawService = withdrawService;
             _context = context;
         }
 
         public void OnGet()
         {
-            list = _withdrawService.getAllWithdraw();
+            //list = _withdrawService.getAllWithdraw();
+            listC = _complaintService.GetAllReportAdmin();
         }
         public async Task<IActionResult> OnPostAsync(string Id)
         {

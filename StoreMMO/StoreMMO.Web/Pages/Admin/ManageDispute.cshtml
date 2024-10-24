@@ -415,24 +415,29 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Orderdetail Id</th>
-                                        <th>Discription</th>
-                                        <th>Created Date</th>
-                                        <th>Reply</th>
+                                        <td>Seller</td>
+                                        <td>Customer</td>
+                                        <th>Description</th>
+                                        <th>Price</th> <!-- Thêm cột cho Price -->
+                                        <th>OrderCode</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{
                                         int stt = 1;
                                     }
-                                    @foreach (var item in @Model.list)
+                                    @foreach (var item in @Model.listC)
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td>@item.OrderDetailID</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.FullName ?? "Not found!")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.UserMap?.FullName ?? "Not found!")</td>
                                             <td>@item.Description</td>
-                                            <td>@item.CreateDate</td>
-                                            <td>@item.Reply</td>
+
+                                            <td>@(item.OrderDetailmap.Price ?? "Not found!")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.OrderCode ?? "Not found!")</td>
                                             <td>
                                                 <div style="display: flex; gap: 5px;">
                                                     <form method="post" asp-page-handler="OnPostAsync">
