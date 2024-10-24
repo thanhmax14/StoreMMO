@@ -32,7 +32,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.OrderDetails
             return  this._oderDetailsRepository.getAll();
         }
 
-        public async Task<SaleHistoryViewModels> GetOrderDeailByIDAsync(string id)
+        public async Task<OrderDetailsViewModels> GetOrderDeailByIDAsync(string id)
         {
             return await this._oderDetailsRepository.GetOrderDeailByIDAsync(id);
         }

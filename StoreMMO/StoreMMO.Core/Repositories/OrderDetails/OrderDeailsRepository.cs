@@ -172,9 +172,6 @@ namespace StoreMMO.Core.Repositories.orderDetailViewModels
             return list;
         }
 
-        Task<SaleHistoryViewModels> IOrderDeailsRepository.GetOrderDeailByIDAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }

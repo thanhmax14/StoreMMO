@@ -9,38 +9,42 @@
 <table class="table">
     <tr>
         <th>Order ID</th>
-        <td>@Model.OrderDetail.OrderID</td>
+        <td>@Model.OrderDetail.ID</td>
     </tr>
     <tr>
         <th>Date</th>
-        <td>@Model.OrderDetail.Dates.ToString("yyyy-MM-dd")</td>
+        <td>@Model.OrderDetail.OrderBuyID</td>
     </tr>
     <tr>
         <th>Buyer</th>
-        <td>@Model.OrderDetail.NguoiMua</td>
+        <td>@Model.OrderDetail.ProductID</td>
     </tr>
     <tr>
         <th>Store Name</th>
-        <td>@Model.OrderDetail.StoreName</td>
+        <td>@Model.OrderDetail.AdminMoney</td>
     </tr>
     <tr>
         <th>Product Type</th>
-        <td>@Model.OrderDetail.Productype</td>
+        <td>@Model.OrderDetail.SellerMoney</td>
     </tr>
     <tr>
         <th>Price</th>
-        <td>@Model.OrderDetail.Price</td>
+        <td>@Model.OrderDetail.quantity</td>
     </tr>
     <tr>
         <th>Total Money</th>
-        <td>@Model.OrderDetail.totalMoney</td>
+        <td>@Model.OrderDetail.Dates</td>
     </tr>
     <tr>
         <th>Admin Money</th>
-        <td>@Model.OrderDetail.AdminMoney</td>
+        <td>@Model.OrderDetail.status</td>
     </tr>
     <tr>
         <th>Status Payment</th>
         <td>@Model.OrderDetail.stasusPayment</td>
+    </tr>
+    <tr>
+        <th>Status Payment</th>
+        <td>@Model.OrderDetail.Price</td>
     </tr>
 </table>
