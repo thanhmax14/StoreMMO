@@ -13,7 +13,7 @@ namespace StoreMMO.Web.Pages.Seller
         {
             _orderDetail = orderDetail;
         }
-        public SaleHistoryViewModels OrderDetail { get; set; }
+        public OrderDetailsViewModels OrderDetail { get; set; }
         public async Task<IActionResult> OnGetAsync(string id)
         {
 

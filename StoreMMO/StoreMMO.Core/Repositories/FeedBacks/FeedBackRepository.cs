@@ -1,10 +1,6 @@
-﻿using StoreMMO.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.FeedBacks
 {
@@ -48,11 +44,7 @@ namespace StoreMMO.Core.Repositories.FeedBacks
             _context.SaveChanges();
         }
 
-        public IEnumerable<FeedBack> getAll()
-        {
-            var list = _context.FeedBacks.ToList();
-            return list;
-        }
+
 
         public FeedBackViewModels getById(string id)
         {
@@ -94,6 +86,37 @@ namespace StoreMMO.Core.Repositories.FeedBacks
             _context.FeedBacks.Update(feebBackUpdate);
             _context.SaveChanges();
             return feedBack;
+        }
+
+        public IEnumerable<FeedBackViewModels> getAll(string StoreOwnerId)
+        {
+
+            string sql = $"SELECT        FeedBacks.*, StoreDetails.Name AS [StoreName], OrderBuys.OrderCode, \r\n                         Users.UserName, Stores.UserId AS [StoreOwnerId]\r\nFROM            FeedBacks INNER JOIN\r\n                         OrderBuys ON FeedBacks.OrderBuyId = OrderBuys.ID INNER JOIN\r\n                         StoreDetails ON FeedBacks.StoreDetailId = StoreDetails.Id INNER JOIN\r\n                         Users ON FeedBacks.UserId = Users.Id AND OrderBuys.UserID = Users.Id INNER JOIN\r\n                         Stores ON OrderBuys.StoreID = Stores.Id \r\n\t\t\t\t\t\t where Stores.UserId = '{StoreOwnerId}'";
+
+            var list = this._context.Database.SqlQueryRaw<FeedBackViewModels>(sql).ToList();
+            return list;
+        }
+
+
+
+        public IEnumerable<FeedBackViewModels> getFeedbackCustomerById(string feedbackID)
+        {
+            string sql = $"SELECT        FeedBacks.*, StoreDetails.Name AS [StoreName], OrderBuys.OrderCode, \r\n                         Users.UserName, Stores.UserId AS [StoreOwnerId]\r\nFROM            FeedBacks INNER JOIN\r\n                         OrderBuys ON FeedBacks.OrderBuyId = OrderBuys.ID INNER JOIN\r\n                         StoreDetails ON FeedBacks.StoreDetailId = StoreDetails.Id INNER JOIN\r\n                         Users ON FeedBacks.UserId = Users.Id AND OrderBuys.UserID = Users.Id INNER JOIN\r\n                         Stores ON OrderBuys.StoreID = Stores.Id \r\n\t\t\t\t\t\t where FeedBacks.Id = '{feedbackID}'";
+
+            var list = this._context.Database.SqlQueryRaw<FeedBackViewModels>(sql).ToList();
+            return list;
+        }
+
+        public FeedBack replyFeedback(string id, string reply)
+        {
+            var temp = this._context.FeedBacks.FirstOrDefault(x => x.Id == id);
+            if (temp != null)
+            {
+                temp.Relay = reply;
+                _context.SaveChanges();
+                return temp;
+            }
+            return null;
         }
     }
 }

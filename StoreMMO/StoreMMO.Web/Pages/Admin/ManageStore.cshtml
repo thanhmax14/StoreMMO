@@ -368,7 +368,7 @@
             </li><!-- End Charts Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href='/admin/'>
+                <a class="nav-link collapsed" href='/admin/ManageWithdraw'>
                     <i class="ri-money-dollar-circle-line"></i><span>Manage Withdrawal Requests From Seller</span>
                 </a>
             </li><!-- End Icons Nav -->
@@ -390,7 +390,22 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">List of Stores Request</h5>
-
+                            @if (!string.IsNullOrEmpty(Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
@@ -402,6 +417,7 @@
                                         <th>Category</th>
                                         <th>Price</th>
                                         <th>Store Detail</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -424,17 +440,19 @@
                                                     <input type="hidden" name="isAccept" value="@item.Id"  />
                                                     <button type="submit" class="btn btn-primary">Accept</button>
                                                 </form> *@
-                                                <form method="post" asp-page-handler="OnPostAsync">
-                                                    <input type="hidden" name="Id" value="@item.Id" />
-                                                    <input type="hidden" name="isAccept" value="1" />
-                                                    <button type="submit" class="btn btn-primary">Accept</button>
-                                                </form>
-                                                <form method="post" asp-page-handler="AsyncReject">
-                                                    <input type="hidden" name="Id" value="@item.Id" />
-                                                    <input type="hidden" name="isAccept" value="2" />
-                                                    <button type="submit" class="btn btn-danger">Reject</button>
-                                                </form>
+                                                <div style="display: flex; gap: 5px;">
+                                                    <form method="post" asp-page-handler="OnPostAsync">
+                                                        <input type="hidden" name="Id" value="@item.Id" />
+                                                        <input type="hidden" name="isAccept" value="1" />
+                                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                                    </form>
 
+                                                    <form method="post" asp-page-handler="AsyncReject">
+                                                        <input type="hidden" name="Id" value="@item.Id" />
+                                                        <input type="hidden" name="isAccept" value="2" />
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </form>
+                                                </div>
                                                 <!-- Reject Form -->
                                                 @* <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.StoreId">
                                                     <button type="submit" class="btn btn-danger">Reject</button>

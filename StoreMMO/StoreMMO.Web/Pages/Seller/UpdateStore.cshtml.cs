@@ -49,10 +49,6 @@ namespace StoreMMO.Web.Pages.Seller
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
 
             try
             {
@@ -65,23 +61,39 @@ namespace StoreMMO.Web.Pages.Seller
                     return Page();
                 }
 
-                // Cập nhật dữ liệu
+                // Kiểm tra nếu có file được upload
+                if (input.InputImage != null)
+                {
+                    // Tạo tên file duy nhất để lưu vào máy chủ
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(input.InputImage.FileName);
+                    var filePath = Path.Combine("wwwroot/images", fileName);
+
+                    // Lưu file vào thư mục wwwroot/images
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        input.InputImage.CopyTo(stream);
+                    }
+
+                    // Lưu đường dẫn ảnh vào cơ sở dữ liệu
+                    storeDetail.Img = "/images/" + fileName;
+                }
+
+                // Cập nhật dữ liệu khác
                 storeDetail.Name = input.Name;
                 storeDetail.SubDescription = input.SubDescription;
                 storeDetail.DescriptionDetail = input.DescriptionDetail;
                 storeDetail.CreatedDate = input.CreatedDate;
-                storeDetail.Img = input.Img;
 
                 // Gọi service để update
                 var result = _storeServices.UpdateStore(storeDetail);
 
                 if (result != null)
                 {
-                    success = "Update thành công!";
+                    success = "Update success!";
                 }
                 else
                 {
-                    fail = "Cập nhật thất bại!";
+                    fail = "Update fail!";
                 }
 
                 return RedirectToPage("/Seller/Store", new { storeDetailId = input.Id });

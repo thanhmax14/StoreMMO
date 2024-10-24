@@ -1,7 +1,9 @@
+using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
 using BusinessLogic.Services.StoreMMO.Core.Withdraws;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 
@@ -10,22 +12,30 @@ namespace StoreMMO.Web.Pages.Admin
     public class ManageWithdrawModel : PageModel
     {
         private readonly IWithdrawService _withdrawService;
+        private readonly IComplaintsService _complaintService;
         private readonly AppDbContext _context;
+        [TempData]
+        public string success { get; set; }
 
+        [TempData]
+        public string fail { get; set; }
         [BindProperty]
         public int isAccept { get; set; }
 
         public IEnumerable<WithdrawViewModels> list = new List<WithdrawViewModels>();
+        public IEnumerable<ComplaintsMapper> listC = new List<ComplaintsMapper>();
 
-        public ManageWithdrawModel(IWithdrawService withdrawService, AppDbContext context)
+        public ManageWithdrawModel(IComplaintsService complaintService, IWithdrawService withdrawService, AppDbContext context)
         {
+            _complaintService = complaintService;
             _withdrawService = withdrawService;
             _context = context;
         }
 
         public void OnGet()
         {
-            list = _withdrawService.getAllWithdraw();
+            //list = _withdrawService.getAllWithdraw();
+            listC = _complaintService.GetAllReportAdmin();
         }
         public async Task<IActionResult> OnPostAsync(string Id)
         {
@@ -39,7 +49,12 @@ namespace StoreMMO.Web.Pages.Admin
                     // C?p nh?t tr?ng thái ch?p nh?n (accept)
                     withdraw.Status = "EXPIRED"; // Gi? s? có thu?c tính IsAccept
                     await _context.SaveChangesAsync();
+                    success = "Update success!";
                 }
+            }
+            else
+            {
+                fail = "Update fail!";
             }
 
             // Quay l?i trang hi?n t?i
@@ -68,6 +83,11 @@ namespace StoreMMO.Web.Pages.Admin
 
                         // L?u các thay ??i vào c? s? d? li?u
                         await _context.SaveChangesAsync();
+                        success = "Update success! The money has been refunded to the customer's account.";
+                    }
+                    else
+                    {
+                        fail = "Update fail!";
                     }
                 }
             }

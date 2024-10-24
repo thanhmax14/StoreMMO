@@ -285,17 +285,17 @@
             </li><!-- End Dashboard Nav -->
 
             <li class="nav-item">
-                <a class="nav-link" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-account-box-line"></i><span>Manage User Accounts</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href='/admin/UserAccountList' >
+                        <a href='/admin/UserAccountList'>
                             <i class="bi bi-circle"></i><span>Active User Accounts</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/UserHiddenAccountList'>
                             <i class=" bi bi-circle"></i><span>Hidden User Accounts</span>
                         </a>
                     </li>
@@ -306,24 +306,24 @@
                 <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-contacts-line"></i> <span>Manage Sellers and Stores</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="forms-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href='/admin/RegisteredSeller' class="active">
                             <i class="bi bi-circle"></i><span>Sellers Request</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
-                            <i class="bi bi-circle"></i><span>Store Request</span>
+                        <a href='/admin/ManageStore'>
+                            <i class="bi bi-circle"></i><span>Stores Request</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/StoreList'>
                             <i class="bi bi-circle"></i><span>Active Stores</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/StoreListHidden'>
                             <i class="bi bi-circle"></i><span>Hidden Stores</span>
                         </a>
                     </li>
@@ -334,24 +334,24 @@
                 <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
                     <i class="ri-stack-line"></i><span>Manage Category and Type Stores</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="tables-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="">
+                        <a href='/admin/CategoriesList'>
                             <i class="bi bi-circle"></i><span>Active Category</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/CategoriesListHidden'>
                             <i class="bi bi-circle"></i><span>Hidden Category</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/StoreTypeList'>
                             <i class="bi bi-circle"></i><span>Active Type Stores</span>
                         </a>
                     </li>
                     <li>
-                        <a href="">
+                        <a href='/admin/StoreTypeHidden'>
                             <i class="bi bi-circle"></i><span>Hidden Type Stores</span>
                         </a>
                     </li>
@@ -359,14 +359,16 @@
             </li><!-- End Tables Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/Admin/ManageDispute">
+
+                <a class="nav-link collapsed" href='/admin/ManageDispute'>
+
                     <i class="ri-coupon-2-line"></i> <span>Manage Disputes Form</span>
                 </a>
 
             </li><!-- End Charts Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="">
+                <a class="nav-link " href='/admin/ManageWithdraw'>
                     <i class="ri-money-dollar-circle-line"></i><span>Manage Withdrawal Requests From Seller</span>
                 </a>
             </li><!-- End Icons Nav -->
@@ -387,38 +389,57 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Withdraw List</h5>
-
+                            @if (!string.IsNullOrEmpty(Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Transaction Type</th>
-                                        <th>Transaction Date</th>
+                                        <td>Seller</td>
+                                        <td>Customer</td>
                                         <th>Description</th>
-                                        <th>Status</th>
+                                        <th>Price</th> <!-- Thêm cột cho Price -->
+                                        <th>OrderCode</th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @{
                                         int stt = 1;
                                     }
-                                    @foreach (var item in @Model.list)
+                                    @foreach (var item in @Model.listC)
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td>@item.TransactionType</td>
-                                            <td>@(item.TransactionDate.ToString("yyyy/dd/MM") ?? "Null Data")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.FullName ?? "Not found!")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.UserMap?.FullName ?? "Not found!")</td>
                                             <td>@item.Description</td>
-                                            <td>@item.Status</td>
+                                            <td>@(item.OrderDetailmap.Price ?? "Not found!")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.OrderCode ?? "Not found!")</td>
                                             <td>
                                                 <form method="post" asp-page-handler="OnPostAsync">
-                                                    <input type="hidden" name="Id" value="@item.Id" />
+                                                    <input type="hidden" name="Id" value="@item.ID" />
                                                     <input type="hidden" name="isAccept" value="1" />
                                                     <button type="submit" class="btn btn-primary">Accept</button>
                                                 </form>
                                                 <form method="post" asp-page-handler="AsyncReject">
-                                                    <input type="hidden" name="Id" value="@item.Id" />
+                                                    <input type="hidden" name="Id" value="@item.ID" />
                                                     <input type="hidden" name="isAccept" value="2" />
                                                     <button type="submit" class="btn btn-danger">Reject</button>
                                                 </form>

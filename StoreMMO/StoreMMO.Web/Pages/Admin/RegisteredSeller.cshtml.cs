@@ -48,10 +48,6 @@ namespace StoreMMO.Web.Pages.Admin
             {
                     // Accept logic: Cập nhật IsSeller thành true
                     find.IsSeller = true;
-               
-                
-          
-
                     var update = await _userManager.UpdateAsync(find);
 
                     if (update.Succeeded)
@@ -113,7 +109,7 @@ namespace StoreMMO.Web.Pages.Admin
                             var addRoleResult = await _userManager.AddToRoleAsync(find, "User");
                             if (addRoleResult.Succeeded)
                             {
-                                success = "User successfully updated to 'User'.";
+                                success = "User successfully reject user!";
                             }
                             else
                             {
@@ -138,8 +134,5 @@ namespace StoreMMO.Web.Pages.Admin
             // Điều hướng trở lại trang danh sách người dùng
             return RedirectToPage("RegisteredSeller");
         }
-
-
-
     }
 }

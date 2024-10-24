@@ -22,7 +22,8 @@ namespace BusinessLogic.Utils
             None,  //=> 0
             Deposit,
             withdraw,
-            Buy
+            Buy,
+            Complaint
 
         }
         public enum Order
@@ -34,20 +35,18 @@ namespace BusinessLogic.Utils
         }
         public enum OrderDetailStatus
         {
-            None,  //=> 0
-            report,  //
-            ok,
-            refun,
+            None,  //=> 0// don bth khong co compaint
+            report, // don co complaint dang trang thai none
+            ok,  // complaint done
+            refun,  // admin / seller chon 1 torng 2 set thanh done trong complaint 
             backmoney
 
         }
-        public enum Complaints
+        public enum ComplaintsStatus
         {
             None,  //=> 0
-            done,
-            ReportAdmin,
-
-
+            done, 
+            ReportAdmin,// gui tiep admin set lai thanh done
         }
 
     }

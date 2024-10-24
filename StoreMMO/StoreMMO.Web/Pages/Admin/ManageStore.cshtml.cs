@@ -11,6 +11,11 @@ namespace StoreMMO.Web.Pages.Admin
     {
         private readonly IStoreService _storeService;
         private readonly AppDbContext _context;
+        [TempData]
+        public string success { get; set; }
+
+        [TempData]
+        public string fail { get; set; }
 
         [BindProperty]
         public int isAccept { get; set; }
@@ -40,7 +45,12 @@ namespace StoreMMO.Web.Pages.Admin
                     // Cập nhật trạng thái chấp nhận (accept)
                     store.IsAccept = "1"; // Giả sử có thuộc tính IsAccept
                     await _context.SaveChangesAsync();
+                    success = "Update success!";
                 }
+            }
+            else
+            {
+                fail = "Update fail!";
             }
 
             // Quay lại trang hiện tại
@@ -55,6 +65,11 @@ namespace StoreMMO.Web.Pages.Admin
                 // Cập nhật trạng thái thành 2 khi nhấn "Reject"
                 store.IsAccept = "2"; // Giả sử có thuộc tính IsAccept
                 await _context.SaveChangesAsync();
+                success = "Update success!";
+            }
+            else
+            {
+                fail = "Update fail!";
             }
 
             // Quay lại trang hiện tại sau khi thực hiện hành động
