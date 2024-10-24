@@ -20,8 +20,8 @@
                                 <th>Mô Tả</th>
                                                      
                                 <th>Giá</th> <!-- Thêm cột cho Price -->
-                                <th>OrderCode</th>
-                             
+                                <th>OrderCode</th>                            
+                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -35,16 +35,23 @@
                                     <td>@stt</td>
                                     <td>@(item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.FullName ?? "khong tim thay")</td>
                                     <td>@(item.OrderDetailmap?.orderBuymap?.UserMap?.FullName ?? "notfound")</td>
-                                    <td>@item.Description</td>                                 
+                                    <td>@item.Description</td>     
+                                    
                                     <td>@(item.OrderDetailmap.Price ?? "Chưa xác định")</td>
-                                    <td>@(item.OrderDetailmap?.orderBuymap?.OrderCode ?? "Chưa xác định")</td>
-                                   
-
-
+                                    <td>@(item.OrderDetailmap?.orderBuymap?.OrderCode ?? "Chưa xác định")</td>                                 
                                     <td>
-                                        <!-- Nút Edit -->
-                                        <button onclick="window.location.href='/admin/UpdateCategories/@item.ID'" type="button" class="btn btn-primary">Sửa</button>
+                                        <form method="post" asp-page-handler="ReportAdmin">
+                                            <input type="hidden" name="id" value="@item.ID" />
+                                            <button type="submit" class="btn btn-primary">ReportAdmin</button>
+                                        </form>
                                     </td>
+                                    <td>
+                                        <form method="post" asp-page-handler="BackMoney">
+                                            <input type="hidden" name="id" value="@item.ID" />
+                                            <button type="submit" class="btn btn-primary">ReportAdmin</button>
+                                        </form>
+                                        </td>
+                                                                    
                                 </tr>
                                 stt++;
                             }

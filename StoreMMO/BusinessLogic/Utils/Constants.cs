@@ -22,7 +22,8 @@ namespace BusinessLogic.Utils
             None,  //=> 0
             Deposit,
             withdraw,
-            Buy
+            Buy,
+            Complaint
 
         }
         public enum Order

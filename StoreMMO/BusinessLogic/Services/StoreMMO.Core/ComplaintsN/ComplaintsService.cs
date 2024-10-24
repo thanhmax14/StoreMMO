@@ -21,5 +21,15 @@ namespace BusinessLogic.Services.StoreMMO.Core.ComplaintsN
             var complaints = _complaintsRepository.GetAll();
             return complaints;
         }
+
+        public IEnumerable<ComplaintsMapper> GetAllReportAdmin()
+        {
+            return _complaintsRepository.GetAllReportAdmin();
+        }
+
+        public bool ReportAdmin(string id)
+        {
+            return _complaintsRepository.ReportAdmin(id);
+        }
     }
 }
