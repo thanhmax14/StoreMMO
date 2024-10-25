@@ -28,8 +28,8 @@ namespace StoreMMO.Web.Pages.Seller.Complain
 
         public void OnGet()
         {
-            string UserId = HttpContext.Session.GetString("UserID");
-          //  string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
+          //  string UserId = HttpContext.Session.GetString("UserID");
+            string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
             listcomplaints = _complaintsServices.GetAll(UserId);
         }
 
