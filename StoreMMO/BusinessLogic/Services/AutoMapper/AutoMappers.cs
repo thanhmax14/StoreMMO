@@ -55,7 +55,11 @@ namespace BusinessLogic.Services.AutoMapper
                 .ForMember(dest => dest.Usermapper, opt => opt.MapFrom(src => src.User));
 
             // UserMapper mapping
-            CreateMap<AppUser, UserMapper>();
+            //
+            //CreateMap<AppUser, UserMapper>();
+            CreateMap<AppUser, UserMapper>()
+     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+
             // New BalanceMapper mapping
             CreateMap<Balance, BalanceMapper>()
                 .ForMember(dest => dest.Usermapforbalance, opt => opt.MapFrom(src => src.User)); // Map User to Usermapforbalance

@@ -20,14 +20,18 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
             _context = context;
             _mapper = mapper;
         }
-        public IEnumerable<ComplaintsMapper> GetAll()
+
+        public IEnumerable<ComplaintsMapper> GetAll(string id)
         {
             var complaints = _context.Complaints
-                .Where(c => c.Status == "none")      
+                .Where(c => c.Status == "none" &&
+                c.OrderDetail.orderBuy.Store.User.Id == id
+                )      
           .Include(c => c.OrderDetail)                        // Include OrderDetail của Complaint
               .ThenInclude(od => od.orderBuy)                // Then Include OrderBuy của OrderDetail
           .Include(c => c.OrderDetail.orderBuy.AppUser)       // Include AppUser của OrderBuy
           .Include(c => c.OrderDetail.orderBuy.Store)         // Include Store của OrderBuy
+           
           .Include(c => c.OrderDetail.Product)                // Include Product của OrderDetail
               .ThenInclude(p => p.ProductType)               // Then Include ProductType của Product
           .ToList();
@@ -57,16 +61,27 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
             return mappedComplaints;
         }
 
-        public bool ReportAdmin(string id)
+        public bool ReportAdmin(string id,string status)
         {
            var complaint = _context.Complaints.FirstOrDefault(c => c.ID == id);
             if (complaint == null)
             {
                 return false;
             }
-            complaint.Status = "ReportAdmin";
+            complaint.Status = status;
             _context.SaveChanges();
             return true;
+        }
+
+        public UserMapper GetUserById(string id)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+            {
+                return null;
+            }
+            var mappedUser = _mapper.Map<UserMapper>(user);
+            return mappedUser;
         }
     }
 }

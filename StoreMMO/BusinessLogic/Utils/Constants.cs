@@ -14,7 +14,8 @@ namespace BusinessLogic.Utils
             EXPIRED,
             CANCELLED,
             PENDING,
-            PAID
+            PAID // done
+
 
         }
         public enum BalanceTransactionType
@@ -29,7 +30,7 @@ namespace BusinessLogic.Utils
         public enum Order
         {
             None,  //=> 0
-            PAID,
+            PAID,  // done 
             fail
 
         }
