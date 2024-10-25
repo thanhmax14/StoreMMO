@@ -17,7 +17,7 @@ namespace StoreMMO.API.Controllers
         [HttpGet("{id}")]
         public IActionResult getByIdCategory(string id)
         {
-            var obj = _categoryService.getByIdCategory(id);
+            var obj = _categoryService.getById(id);
             if (obj == null)
             {
                 return BadRequest("Not found Id");

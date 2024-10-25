@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.ViewModels;
+using static QRCoder.PayloadGenerator;
 
 namespace StoreMMO.Web.Pages.Admin
 {
@@ -20,16 +21,40 @@ namespace StoreMMO.Web.Pages.Admin
         {
             listcate = this._categoryServices.GetCategoryIsActive();
         }
+        [BindProperty]
+        public string id { get; set; }
 
+        [TempData]
+        public string success { get; set; }
+
+        [TempData]
+        public string fail { get; set; }
         public IActionResult OnPostHidden(string id)
         {
-            var cate = _categoryServices.getByIdCategory(id);
-            cate.IsActive = false;
-            var result = _categoryServices.UpdateCategory(cate);
+
+            var category = _categoryServices.getById(id);
+
+            if (category != null)
+            {
+                category.IsActive = false; // Ẩn danh mục
+                var result = _categoryServices.UpdateCategory(category); // Cập nhật danh mục
+
+                success = "Hide category successfully";
+            }
+            else
+            {
+                fail = "Hide failed category";
+            }
+
+            // Chuyển hướng lại trang danh sách danh mục ẩn sau khi xử lý
+            return RedirectToPage("CategoriesList");
+           
+           
+            
 
 
             // Nếu thành công, chuyển hướng lại danh sách categories
-            return RedirectToPage("/Admin/CategoriesList");
+           
         }
     }
 }

@@ -439,14 +439,25 @@
                                             <td><img src="@item.imgStore" width="240" height="120"/> </td>
 
 
-                                           
 
-                                          <td>
+
+                                            <td>
                                                 <div style="display: flex; gap: 5px;">
-                                                <button onclick="window.location.href='/admin/StoreList/UpdateStoreIsAccept/@item.storeID'" type="button" class="btn btn-primary">View Detail</button>
-                                                <button type="button" class="btn btn-danger" >Hidden</button>
+                                                    <!-- Nút Edit -->
 
+                                                    <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
+                                                        <!-- Hidden input để gửi id -->
+                                                        <input type="hidden" name="id" value="@item.storeID" />
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Active
+                                                        </button>
+                                                    </form>
 
+                                                    <script>
+                                                        function confirmHidden() {
+                                                            return confirm('Are you sure you want to hide this item?');
+                                                        }
+                                                    </script>
 
                                                 </div>
                                             </td>
