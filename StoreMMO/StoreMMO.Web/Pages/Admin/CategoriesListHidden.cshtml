@@ -383,28 +383,48 @@
             <h1>List of Hidden Categories</h1>
            
         </div><!-- End Page Title -->
+        <!-- Cập nhật Modal với ID động -->
+        <script>
+                // Gán ID cho in p ut ẩn khi mở modal
+            $('#verticalycentered').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Nút đã được nhấn để mở modal
+                var userId = button.data('userid');  // Lấy giá trị của data-userid từ nút
+                var modal = $(this);
+                modal.find('#hiddenUserId').val(userId); // Gán giá trị cho input ẩn
+            });
+        </script>
 
         <section class="section">
             <div class="row">
                 <div class="col-lg-12">
-
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">List of Hidden Categories</h5>
-
-                                                        <!-- Table with stripped rows -->
+                            @if (!string.IsNullOrEmpty(@Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(@Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
                                     <tr>
                                         <th>Stt</th>
                                         <th>Name</th>
-                                       
-
                                         <th data-type="date" data-format="YYYY/DD/MM">CreatedDate</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">ModifiedDate</th>
-                                       
                                         <th>Action</th>
-                                      
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -418,48 +438,27 @@
                                             <td>@item.Name</td>
                                             <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
                                             <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
+
                                             <td>
+                                                <div style="display: flex; gap: 5px;">
+                                                    <!-- Nút Edit -->
 
-                                        
-                                            <div style="display: flex; gap: 5px;">
-                                                <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                                <form method="post" asp-page-handler="Hidden">
-                                                    <!-- Hidden input để gửi id -->
-                                                    <input type="hidden" name="id" value="@item.Id" />
-                                                    <button type="submit" class="btn btn-danger">
-                                                        Active
-                                                    </button>
-                                                </form>
+                                                    <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
+                                                        <!-- Hidden input để gửi id -->
+                                                        <input type="hidden" name="id" value="@item.Id" />
+                                                        <button type="submit" class="btn btn-danger">
+                                                            Active
+                                                        </button>
+                                                    </form>
 
+                                                    <script>
+                                                        function confirmHidden() {
+                                                             return confirm('Are you sure you want to hide this item?');
+                                                         }
+                                                    </script>
 
-                                            </div>
+                                                </div>
                                             </td>
-                                                <!-- Nút Edit -->
-                                               
-                                      
-                                            
-                                                
-                                                <!-- Nút Hidden -->
-                                                <!-- Modal -->
-                                                @*  <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                            <div class="modal-header">
-                                            <h5 class="modal-title">Hidden that user</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                            Are you sure you want to hide this user?
-                                            </div>
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                            <button type="button" class="btn btn-primary">Yes</button>
-                                            <button type="button" class="btn btn-primary">No</button>
-                                            </div>
-                                            </div>
-                                            </div>
-                                            </div> *@
-                                            
                                         </tr>
                                         stt++;
                                     }
@@ -468,9 +467,6 @@
                             <!-- End Table with stripped rows -->
 
                         </div>
-
-                        <!-- Nút CreateCategory -->
-                    
                     </div>
                 </div>
             </div>

@@ -26,14 +26,14 @@ namespace StoreMMO.Web.Pages.Admin
 
         public IActionResult OnGet(string categoryId)
         {
-            category = this._categoryServices.getByIdCategory(categoryId); // Directly assign the returned object
+            category = this._categoryServices.getById(categoryId); // Directly assign the returned object
             return Page();
         }
 
         public async Task<IActionResult> OnPost()
         {
 
-            var check = this._categoryServices.getByIdCategory(input.Id);
+            var check = this._categoryServices.getById(input.Id);
             // check = new Category {
 
                 check.Name = input.Name;

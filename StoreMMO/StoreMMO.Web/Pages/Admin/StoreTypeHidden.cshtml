@@ -391,7 +391,23 @@
                         <div class="card-body">
                             <h5 class="card-title">List of Hidden Store Type</h5>
 
-                            
+                            @if (!string.IsNullOrEmpty(@Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(@Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
@@ -424,8 +440,7 @@
                                             <td>
                                                 <div style="display: flex; gap: 5px;">
                                                     <!-- Nút Edit -->
-                                                    <button onclick="window.location.href='/admin/UpdateStoreType/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-
+                                                 
                                                     <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
                                                         <!-- Hidden input để gửi id -->
                                                         <input type="hidden" name="id" value="@item.Id" />
@@ -441,26 +456,7 @@
                                                     </script>
 
 
-                                                    <!-- Nút Hidden -->
-                                                    <!-- Modal -->
-                                                    @*  <div class="modal fade" id="modalHidden_@item.Id" tabindex="-1">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                <div class="modal-header">
-                                                <h5 class="modal-title">Hidden that user</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                Are you sure you want to hide this user?
-                                                </div>
-                                                <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                                <button type="button" class="btn btn-primary">Yes</button>
-                                                <button type="button" class="btn btn-primary">No</button>
-                                                </div>
-                                                </div>
-                                                </div>
-                                                </div> *@
+                                                  
                                                 </div>
                                             </td>
                                             

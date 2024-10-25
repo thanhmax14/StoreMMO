@@ -156,7 +156,7 @@ namespace StoreMMO.WDF.ViewModels
             string categoryId = SelectedCategory.Id;
 
             // Lấy danh mục từ cơ sở dữ liệu bằng Id
-            var categoryToHide = _categoryService.getByIdCategory(categoryId); // Giả định bạn đã có phương thức này
+            var categoryToHide = _categoryService.getById(categoryId); // Giả định bạn đã có phương thức này
 
             if (categoryToHide != null)
             {
