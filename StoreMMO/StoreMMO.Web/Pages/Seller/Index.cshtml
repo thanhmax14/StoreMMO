@@ -434,8 +434,8 @@
                                              <td>@item.Commission</td>
                                              <td>@item.TotalStock</td>
                                              <td>@item.CreatedDate?.ToString("dd/MM/yyyy")</td>
-                                            <td class="@(item.IsAccept == "1" ? "text-success" : "text-danger")">
-                                                @(item.IsAccept == "1" ? "Paid" : "Wait Accept")
+                                            <td class="@(item.IsAccept == "0" ? "text-success" : item.IsAccept == "1" ? "text-danger" : "text-warning")">
+                                                @(item.IsAccept == "0" ? "APPROVED" : item.IsAccept == "1" ? "REJECTED" : "PENDING")
                                             </td>
 
                                               <td>
