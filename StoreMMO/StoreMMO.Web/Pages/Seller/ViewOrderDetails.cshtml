@@ -436,8 +436,14 @@
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td>@detail.Account</td>
-                                            <td>@detail.Password</td>
+                                            <td>
+                                                <span>@detail.Account</span>   <button onclick="copyToClipboard('@detail.Account')">Copy</button>
+                                              
+                                            </td>
+                                            <td>
+                                                <span>@detail.Password</span>  <button onclick="copyToClipboard('@detail.Password')">Copy</button>
+                                               
+                                            </td>
                                             <td>@detail.quantity</td>
                                             <td>@detail.Price</td>
                                             <td>@detail.Dates</td>
@@ -448,6 +454,17 @@
                                     }
                                 </tbody>
                             </table>
+
+                            <script>
+                                function copyToClipboard(text) {
+                                    navigator.clipboard.writeText(text).then(() => {
+                                        alert("Copied to clipboard: " + text);
+                                    }).catch(err => {
+                                        console.error("Failed to copy: ", err);
+                                    });
+                                }
+                            </script>
+
                             <!-- End Table with stripped rows -->
                         </div>
 
