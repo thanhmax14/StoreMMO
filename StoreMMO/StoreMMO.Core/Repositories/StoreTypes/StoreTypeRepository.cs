@@ -1,4 +1,5 @@
-﻿using StoreMMO.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace StoreMMO.Core.Repositories.StoreTypes
 
         public StoreTypeViewModels getByIdStoreType(string id)
         {
-            var findID = _context.StoreTypes.SingleOrDefault(x => x.Id == id);
+            var findID = _context.StoreTypes.FirstOrDefault(x => x.Id == id);
             if(findID == null)
             {
                 throw new Exception("Not found ID");
@@ -119,6 +120,27 @@ namespace StoreMMO.Core.Repositories.StoreTypes
                 ModifiedDate = x.ModifiedDate,
             }).ToList();
             return list;
+        }
+
+        public StoreTypeViewModels UpdateStoreType1(StoreTypeViewModels inforAddViewModels)
+        {
+            // Tìm sản phẩm hiện tại dựa trên ID từ view model
+            var existingProduct = _context.StoreTypes.FirstOrDefault(x => x.Id == inforAddViewModels.Id);
+
+            // Kiểm tra nếu sản phẩm tồn tại trong cơ sở dữ liệu
+            if (existingProduct != null)
+            {
+                // Cập nhật các trường từ view model sang thực thể cơ sở dữ liệu
+                existingProduct.Name = inforAddViewModels.Name;
+                existingProduct.Commission = inforAddViewModels.Commission;
+                existingProduct.ModifiedDate = DateTimeOffset.UtcNow;
+                existingProduct.IsActive = inforAddViewModels.IsActive;
+
+                // Lưu các thay đổi vào cơ sở dữ liệu
+                _context.SaveChanges();
+            }
+
+            return inforAddViewModels;
         }
     }
 }
