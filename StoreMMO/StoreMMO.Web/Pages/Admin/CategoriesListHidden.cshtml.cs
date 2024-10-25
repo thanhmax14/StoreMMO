@@ -34,7 +34,7 @@ namespace StoreMMO.Web.Pages.Admin
         public async Task<IActionResult> OnPostAsync(string id)
         {
             // Sử dụng category service để lấy thông tin danh mục dựa trên id
-            var category = _categoryServices.getById(id);
+            var category = _categoryServices.getByIdCategory(id);
 
             if (category != null)
             {

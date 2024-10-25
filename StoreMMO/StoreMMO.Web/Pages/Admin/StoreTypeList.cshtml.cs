@@ -22,6 +22,14 @@ namespace StoreMMO.Web.Pages.Admin
         {
             _store = store;
         }
+        [BindProperty]
+        public string id { get; set; }
+
+        [TempData]
+        public string success { get; set; }
+
+        [TempData]
+        public string fail { get; set; }
 
         public IEnumerable<StoreTypeViewModels> listcate = new List<StoreTypeViewModels>();
         public void OnGet()
@@ -31,11 +39,27 @@ namespace StoreMMO.Web.Pages.Admin
         }
         public IActionResult OnPostHidden(string id)
         {
-            var cate = _store.getByIdStoreTypes(id);
-            cate.IsActive = false;
-            var result = _store.UpdateStoreType(cate);
+
+            var storeType = _store.getByIdStoreTypes(id);
+
+            if (storeType != null)
+            {
+                storeType.IsActive = false; // Ẩn danh mục
+                var result = _store.UpdateStoreType(storeType); // Cập nhật danh mục
+
+                success = "Active category successfully";
+            }
+            else
+            {
+                fail = "Active failed category";
+            }
+
+            // Chuyển hướng lại trang danh sách danh mục ẩn sau khi xử lý
+            return RedirectToPage("StoreTypeList");
+           
+           
             // Nếu thành công, chuyển hướng lại danh sách categories
-            return RedirectToPage("/Admin/StoreTypeList");
+            
 
         }
 

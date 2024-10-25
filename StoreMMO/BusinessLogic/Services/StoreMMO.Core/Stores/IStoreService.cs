@@ -10,13 +10,13 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
         StoreAddViewModels AddStore(StoreAddViewModels store);
         StoreAddViewModels Update(StoreAddViewModels store);
         void Delete(string id);
-        StoreAddViewModels getById(string id);
+        StoreAddViewModels getByIdCategory(string id);
 
         IEnumerable<getProducInStoreViewModels> getAllProductInStore(string id);
         IEnumerable<StoreDetailViewModel> getStorDetailFullInfo(string id);
         IEnumerable<StoreManageViewModels> getAllStore();
         IEnumerable<StoreSellerViewModels> getAllStoreSeller(string currentUserId);
-        public StoreDetailViewModels UpdateStore(StoreDetailViewModel store);
+        public StoreDetailViewModels UpdateStore(StoreDetailViewModels store);
         public StoreDetailViewModels getStoreDetailById(string id);
     }
 }

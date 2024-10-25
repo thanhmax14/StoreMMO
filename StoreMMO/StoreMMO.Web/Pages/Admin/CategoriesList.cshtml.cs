@@ -32,7 +32,7 @@ namespace StoreMMO.Web.Pages.Admin
         public IActionResult OnPostHidden(string id)
         {
 
-            var category = _categoryServices.getById(id);
+            var category = _categoryServices.getByIdCategory(id);
 
             if (category != null)
             {

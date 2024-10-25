@@ -6,7 +6,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Categorys
     public interface ICategoryService
     {
         IEnumerable<CategoryViewModels> GetAll();
-        CategoryViewModels getById(string id);
+        CategoryViewModels getByIdCategory(string id);
 
         CategoryViewModels AddCategory(CategoryViewModels category);
         CategoryViewModels UpdateCategory(CategoryViewModels category);

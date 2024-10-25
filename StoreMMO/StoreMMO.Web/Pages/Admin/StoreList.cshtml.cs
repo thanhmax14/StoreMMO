@@ -25,10 +25,10 @@ namespace StoreMMO.Web.Pages.Admin
             list = this._storeService.getAll("1");
         }
         StoreViewModels stores { get; set; }
-        public async Task<IActionResult> OnPostAsync(string id)
+        public async Task<IActionResult> OnPost(string id)
         {
             // Sử dụng category service để lấy thông tin danh mục dựa trên id
-            var category = _storeService.getById(id);
+            var category = _storeService.getByIdCategory(id);
 
             if (category != null)
             {
