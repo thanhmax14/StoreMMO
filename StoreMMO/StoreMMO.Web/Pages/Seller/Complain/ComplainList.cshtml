@@ -433,12 +433,12 @@
                                                     @if (price <= currentBalance)
                                                     {
                                                     <form method="post" asp-page-handler="BackMoney">
-                                                        <input type="hidden" name="idseller" value="@item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.Id" />
-                                                        <input type="hidden" name="id" value="@item.ID" />
-                                                        <input type="hidden" name="iduser" value="@item.OrderDetailmap?.orderBuymap?.UserMap?.Id" />
-                                                        <input type="hidden" name="price" value="@item.OrderDetailmap.Price" />
-                                                        <input type="hidden" name="idorderdetail" value="@item.OrderDetailmap?.ID" />
-                                                        <input type="hidden" name="ordercode" value="@item.OrderDetailmap?.orderBuymap?.OrderCode" />
+                                                            <input type="hidden" name="idseller" value="@item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.Id" />
+                                                            <input type="hidden" name="id" value="@item.ID" />
+                                                            <input type="hidden" name="iduser" value="@item.OrderDetailmap?.orderBuymap?.UserMap?.Id" />
+                                                            <input type="hidden" name="price" value="@item.OrderDetailmap.Price" />
+                                                            <input type="hidden" name="idorderdetail" value="@item.OrderDetailmap?.ID" />
+                                                            <input type="hidden" name="ordercode" value="@item.OrderDetailmap?.orderBuymap?.OrderCode" />
                                                         <button type="button" class="btn btn-primary confirm-btn"
                                                                 data-action="BackMoney"
                                                                 data-id="@item.ID"
