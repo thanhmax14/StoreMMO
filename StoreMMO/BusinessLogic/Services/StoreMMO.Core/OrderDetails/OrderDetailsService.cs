@@ -56,5 +56,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.OrderDetails
         {
             return await this._oderDetailsRepository.UpdateAsync(orderDetailViewModels);
         }
+
+        public IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID)
+        {
+            return this._oderDetailsRepository.getOrderDetails(orderID);
+        }
     }
 }

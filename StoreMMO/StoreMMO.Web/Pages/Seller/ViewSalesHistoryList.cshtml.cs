@@ -35,7 +35,7 @@ namespace StoreMMO.Web.Pages.Seller
 
         public void UpdateStoreIsAccept(SaleHistoryViewModels storeView)
         {
-
+            
             list = this._orderDetailService.getAll();
         }
 
