@@ -487,6 +487,7 @@
                 </div>
             </div>
             <!-- Modal Xác Nhận Chung -->
+            <!-- Modal Xác Nhận Chung -->
             <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -499,15 +500,52 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                            <form id="confirmationForm" method="post">
-                                <input type="hidden" id="modalHiddenId" name="id" />
-                                <button type="submit" class="btn btn-primary">Yes</button>
-                            </form>
+                            <!-- No form here; submit dynamically in JS -->
+                            <button type="button" class="btn btn-primary" id="modalConfirmBtn">Yes</button>
                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- JavaScript to Handle Form Submission -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const confirmationModal = document.getElementById("confirmationModal");
+                    const modalConfirmBtn = document.getElementById("modalConfirmBtn");
+                    const modalTitle = document.getElementById("modalTitle");
+                    const modalBody = document.getElementById("modalBody");
+
+                    let selectedForm = null;
+
+                    // Add event listeners to confirmation buttons in each form row
+                    document.querySelectorAll(".confirm-btn").forEach(button => {
+                        button.addEventListener("click", function () {
+                            const action = button.getAttribute("data-action");
+                            const itemId = button.getAttribute("data-id");
+                            const title = button.getAttribute("data-title");
+                            const message = button.getAttribute("data-message");
+
+                            // Find the parent form and store it
+                            selectedForm = button.closest("form");
+
+                            modalTitle.innerText = title;
+                            modalBody.innerText = message;
+
+                            // Show the modal
+                            new bootstrap.Modal(confirmationModal).show();
+                        });
+                    });
+
+                    // Attach a submit event to the "Yes" button in the modal
+                    modalConfirmBtn.addEventListener("click", function () {
+                        if (selectedForm) {
+                            selectedForm.submit();
+                        }
+                    });
+                });
+            </script>
+
 
         </section>
 
@@ -533,35 +571,7 @@
     <script src="~/assets_Admin/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="~/assets_Admin/vendor/tinymce/tinymce.min.js"></script>
     <script src="~/assets_Admin/vendor/php-email-form/validate.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const confirmationModal = document.getElementById("confirmationModal");
-            const confirmationForm = document.getElementById("confirmationForm");
-            const modalHiddenId = document.getElementById("modalHiddenId");
-            const modalTitle = document.getElementById("modalTitle");
-            const modalBody = document.getElementById("modalBody");
-
-            // Bắt sự kiện nhấn các nút xác nhận
-            document.querySelectorAll(".confirm-btn").forEach(button => {
-                button.addEventListener("click", function () {
-                    // Lấy thông tin từ các thuộc tính `data` của nút
-                    const action = button.getAttribute("data-action");
-                    const itemId = button.getAttribute("data-id");
-                    const title = button.getAttribute("data-title");
-                    const message = button.getAttribute("data-message");
-
-                    // Cập nhật form với thông tin động
-                    confirmationForm.action = `?handler=${action}`;
-                    modalHiddenId.value = itemId;
-                    modalTitle.innerText = title;
-                    modalBody.innerText = message;
-
-                    // Hiển thị modal
-                    new bootstrap.Modal(confirmationModal).show();
-                });
-            });
-        });
-    </script>
+  
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>

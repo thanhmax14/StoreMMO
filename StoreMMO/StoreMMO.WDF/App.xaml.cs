@@ -1,9 +1,13 @@
-﻿using BusinessLogic.Services.StoreMMO.Core.Categorys;
+﻿using BusinessLogic.Services.AutoMapper;
+using BusinessLogic.Services.StoreMMO.Core.Categorys;
+using BusinessLogic.Services.StoreMMO.Core.StoreTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Org.BouncyCastle.Utilities.Collections;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Categorys;
+using StoreMMO.Core.Repositories.StoreTypes;
 using StoreMMO.WDF.ViewModels;
 using System.Configuration;
 using System.Data;
@@ -48,12 +52,18 @@ namespace StoreMMO.WDF
             });     // Đăng ký các service, repository, DAO mà bạn đã có sẵn
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IStoreTypeService, StoreTypeService>();
+            services.AddTransient<IStoreTypeRepository, StoreTypeRepository>();
             //services.AddTransient<IStudentRepository, StudentRepository>();
             services.AddTransient<CategoryViewModel>();
+            services.AddTransient<HiddenCategoriesListModel>();
+            services.AddTransient<StoreTypeListViewModel>();
+            services.AddTransient<HiddenStoreTypeListViewModel>();
             services.AddTransient<AppDbContext>();
             //services.AddTransient<StudentViewModel>();
             //services.AddTransient<ClassViewModel>();
 
+            services.AddAutoMapper(typeof(AutoMappers));
 
             // Đăng ký MainWindow   
             services.AddSingleton<MainWindow>();

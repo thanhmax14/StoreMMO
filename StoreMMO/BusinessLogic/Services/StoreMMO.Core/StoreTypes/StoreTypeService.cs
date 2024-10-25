@@ -41,5 +41,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.StoreTypes
         {
             return _storeTypeRepository.UpdateStoreType(storeViewModels);
         }
+
+        public StoreTypeViewModels UpdateStoreType1(StoreTypeViewModels storeViewModels)
+        {
+            return _storeTypeRepository.UpdateStoreType1(storeViewModels);
+        }
     }
 }

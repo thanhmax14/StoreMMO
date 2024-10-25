@@ -22,14 +22,14 @@
                 <TextBlock Foreground="#2C3E50" FontWeight="Bold" HorizontalAlignment="Left"  FontSize="30">Hidden Store Type List</TextBlock>
             </StackPanel>
             <!-- Danh sách hiển thị thông tin người dùng -->
-            <ListView Name="lvEntried" ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
+            <ListView Name="lvEntried" ItemsSource="{Binding StoreTypeViewModels}" SelectedItem="{Binding SelectedStore, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
                 <ListView.View>
                     <GridView>
                         <!-- Cột Category Name -->
-                        <GridViewColumn Header="Category Name" Width="230">
+                        <GridViewColumn Header="Name" Width="230">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding CategoryName}" Width="230" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding Name}" Width="230" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -45,7 +45,7 @@
                         <GridViewColumn Header="Created Date" Width="230">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding CreatedDate}" Width="230" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding CreatedDate, StringFormat='{}{0:dd/MM/yyyy}'}" Width="230" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -53,7 +53,7 @@
                         <GridViewColumn Header="Modified Date" Width="230">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ModifiedDate}" Width="230" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding ModifiedDate, StringFormat='{}{0:dd/MM/yyyy}'}" Width="230" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -61,7 +61,8 @@
                         <GridViewColumn Header="Action" Width="230">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Width="80" Margin="0,0,5,0" Command="{Binding Show}" FontSize="16">Show</Button>
+                                    <Button Width="80" Margin="0,0,5,0" Command="{Binding DataContext.Show, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" FontSize="16">Show</Button>
+
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

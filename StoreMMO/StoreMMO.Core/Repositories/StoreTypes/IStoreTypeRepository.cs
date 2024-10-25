@@ -18,6 +18,7 @@ namespace StoreMMO.Core.Repositories.StoreTypes
         IEnumerable<StoreTypeViewModels> GetStoreTypeIsActive();
 
         IEnumerable<StoreTypeViewModels> GetStoreTypeHidden();
+        StoreTypeViewModels UpdateStoreType1(StoreTypeViewModels storeViewModels);
     }
 
 }
