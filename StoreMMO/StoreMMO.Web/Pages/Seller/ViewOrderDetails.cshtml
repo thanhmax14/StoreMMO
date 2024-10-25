@@ -3,6 +3,7 @@
 @{
 }
 
+
 <h2 class="order-title">Order Details</h2>
 
 <div class="order-details-container">
@@ -14,46 +15,37 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Order ID</td>
-                <td>@Model.OrderDetail.ID</td>
-            </tr>
-            <tr>
-                <td>Order Buy ID</td>
-                <td>@Model.OrderDetail.OrderBuyID</td>
-            </tr>
-            <tr>
-                <td>Product ID</td>
-                <td>@Model.OrderDetail.ProductID</td>
-            </tr>
-            <tr>
-                <td>Admin Money</td>
-                <td>@Model.OrderDetail.AdminMoney</td>
-            </tr>
-            <tr>
-                <td>Seller Money</td>
-                <td>@Model.OrderDetail.SellerMoney</td>
-            </tr>
-            <tr>
-                <td>Quantity</td>
-                <td>@Model.OrderDetail.quantity</td>
-            </tr>
-            <tr>
-                <td>Dates</td>
-                <td>@Model.OrderDetail.Dates</td>
-            </tr>
-            <tr>
-                <td>Status</td>
-                <td>@Model.OrderDetail.status</td>
-            </tr>
-            <tr>
-                <td>Status Payment</td>
-                <td>@Model.OrderDetail.stasusPayment</td>
-            </tr>
-            <tr>
-                <td>Price</td>
-                <td>@Model.OrderDetail.Price</td>
-            </tr>
+            @foreach (var detail in Model.OrderDetail)
+            {
+                <tr>
+                    <td>Order ID</td>
+                    <td>@detail.Account</td>
+                </tr>
+                <tr>
+                    <td>Order Buy ID</td>
+                    <td>@detail.Password</td>
+                </tr>
+                <tr>
+                    <td>Product ID</td>
+                    <td>@detail.quantity</td>
+                </tr>
+                <tr>
+                    <td>Admin Money</td>
+                    <td>@detail.Price</td>
+                </tr>
+                <tr>
+                    <td>Seller Money</td>
+                    <td>@detail.Dates</td>
+                </tr>
+                <tr>
+                    <td>Quantity</td>
+                    <td>@detail.stasusPayment</td>
+                </tr>
+                <tr>
+                    <td>Dates</td>
+                    <td>@detail.status</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

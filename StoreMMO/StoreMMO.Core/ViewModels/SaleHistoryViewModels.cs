@@ -8,6 +8,8 @@ namespace StoreMMO.Core.ViewModels
 {
     public class SaleHistoryViewModels
     {
+        
+        public string OrderCode { get; set; }
         public string OrderID { get; set; }
         public DateTime Dates { get; set; }
         public string NguoiMua { get; set; }

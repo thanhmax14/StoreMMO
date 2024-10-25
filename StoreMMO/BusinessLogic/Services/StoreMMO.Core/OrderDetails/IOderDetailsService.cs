@@ -16,5 +16,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.OrderDetails
         Task<OrderDetailsViewModels> GetOrderDetailByproductIDAsync(string orderCode);
         Task<OrderDetailsViewModels> GetOrderDeailByIDAsync(string id);
         Task<IEnumerable<OrderDetailsViewModels>> GetOrderDetailsByOrderBuyIDAsync(string userID);
+
+        IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID);
     }
 }
