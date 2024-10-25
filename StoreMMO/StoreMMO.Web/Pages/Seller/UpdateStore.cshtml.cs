@@ -49,7 +49,6 @@ namespace StoreMMO.Web.Pages.Seller
 
         public IActionResult OnPost()
         {
-
             try
             {
                 // Lấy thông tin hiện tại của StoreDetail từ DB
@@ -64,9 +63,27 @@ namespace StoreMMO.Web.Pages.Seller
                 // Kiểm tra nếu có file được upload
                 if (input.InputImage != null)
                 {
+                    // Kiểm tra định dạng file hợp lệ (chỉ cho phép .jpg, .png)
+                    var allowedExtensions = new[] { ".jpg", ".png" };
+                    var fileExtension = Path.GetExtension(input.InputImage.FileName).ToLower();
+
+                    if (!allowedExtensions.Contains(fileExtension))
+                    {
+                        fail = "Only .jpg and .png files are allowed.";
+                        return Page();
+                    }
+
                     // Tạo tên file duy nhất để lưu vào máy chủ
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(input.InputImage.FileName);
-                    var filePath = Path.Combine("wwwroot/images", fileName);
+                    var fileName = Guid.NewGuid().ToString() + fileExtension;
+                    var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images");
+
+                    // Tạo thư mục nếu chưa tồn tại
+                    if (!Directory.Exists(uploadsFolderPath))
+                    {
+                        Directory.CreateDirectory(uploadsFolderPath);
+                    }
+
+                    var filePath = Path.Combine(uploadsFolderPath, fileName);
 
                     // Lưu file vào thư mục wwwroot/images
                     using (var stream = new FileStream(filePath, FileMode.Create))
@@ -78,7 +95,7 @@ namespace StoreMMO.Web.Pages.Seller
                     storeDetail.Img = "/images/" + fileName;
                 }
 
-                // Cập nhật dữ liệu khác
+                // Cập nhật các trường khác
                 storeDetail.Name = input.Name;
                 storeDetail.SubDescription = input.SubDescription;
                 storeDetail.DescriptionDetail = input.DescriptionDetail;
@@ -89,18 +106,19 @@ namespace StoreMMO.Web.Pages.Seller
 
                 if (result != null)
                 {
-                    success = "Update success!";
+                    success = "Update successful!";
                 }
                 else
                 {
-                    fail = "Update fail!";
+                    fail = "Failed to update store details!";
                 }
 
                 return RedirectToPage("/Seller/Store", new { storeDetailId = input.Id });
             }
             catch (Exception ex)
             {
-                fail = $"Có lỗi xảy ra: {ex.Message}";
+                // Log lỗi nếu cần thiết
+                fail = $"An error occurred: {ex.Message}";
                 return Page();
             }
         }

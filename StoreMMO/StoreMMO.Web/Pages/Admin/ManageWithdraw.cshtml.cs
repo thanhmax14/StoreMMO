@@ -23,7 +23,7 @@ namespace StoreMMO.Web.Pages.Admin
         public int isAccept { get; set; }
 
         public IEnumerable<WithdrawViewModels> list = new List<WithdrawViewModels>();
-        public IEnumerable<ComplaintsMapper> listC = new List<ComplaintsMapper>();
+        public IEnumerable<BalanceMapper> listC = new List<BalanceMapper>();
 
         public ManageWithdrawModel(IComplaintsService complaintService, IWithdrawService withdrawService, AppDbContext context)
         {
@@ -35,32 +35,9 @@ namespace StoreMMO.Web.Pages.Admin
         public void OnGet()
         {
             //list = _withdrawService.getAllWithdraw();
-            listC = _complaintService.GetAllReportAdmin();
+            listC = _withdrawService.getAllBalance();
         }
         public async Task<IActionResult> OnPostAsync(string Id)
-        {
-            // L?y c?a hàng t? database theo Id
-            var withdraw = await _context.Balances.FindAsync(Id);
-            if (withdraw != null)
-            {
-                // Ki?m tra giá tr? isAccept
-                if (isAccept == 1)
-                {
-                    // C?p nh?t tr?ng thái ch?p nh?n (accept)
-                    withdraw.Status = "EXPIRED"; // Gi? s? có thu?c tính IsAccept
-                    await _context.SaveChangesAsync();
-                    success = "Update success!";
-                }
-            }
-            else
-            {
-                fail = "Update fail!";
-            }
-
-            // Quay l?i trang hi?n t?i
-            return RedirectToPage("ManageWithdraw");
-        }
-        public async Task<IActionResult> OnPostAsyncReject(string Id)
         {
             // L?y giao d?ch t? b?ng Balances theo Id
             var withdraw = await _context.Balances.FindAsync(Id);
@@ -68,10 +45,10 @@ namespace StoreMMO.Web.Pages.Admin
             if (withdraw != null)
             {
                 // Ki?m tra tr?ng thái và x? lý h?y b?
-                if (isAccept == 2)  // '2' ??i di?n cho tr?ng thái t? ch?i
+                if (isAccept == 1)  // '2' ??i di?n cho tr?ng thái t? ch?i
                 {
                     // C?p nh?t tr?ng thái giao d?ch thành "CANCELLED"
-                    withdraw.Status = "CANCELLED";
+                    withdraw.Status = "EXPIRED";
 
                     // Tìm ng??i dùng liên quan b?ng UserId t? b?ng Balances
                     var user = await _context.Users.FindAsync(withdraw.UserId);
@@ -79,15 +56,15 @@ namespace StoreMMO.Web.Pages.Admin
                     if (user != null)
                     {
                         // C?ng Amount t? giao d?ch vào CurrentBalance c?a ng??i dùng
-                        user.CurrentBalance += withdraw.Amount;
+                        user.CurrentBalance -= withdraw.Amount;
 
                         // L?u các thay ??i vào c? s? d? li?u
                         await _context.SaveChangesAsync();
-                        success = "Update success! The money has been refunded to the customer's account.";
+                        success = "Accept success! The money will refund to the customer's account.";
                     }
                     else
                     {
-                        fail = "Update fail!";
+                        fail = "Accept fail!";
                     }
                 }
             }
@@ -95,6 +72,28 @@ namespace StoreMMO.Web.Pages.Admin
             // Quay l?i trang hi?n t?i
             return RedirectToPage("ManageWithdraw");
         }
+        public async Task<IActionResult> OnPostAsyncReject(string Id)
+        {
+            // L?y c?a hàng t? database theo Id
+            var withdraw = await _context.Balances.FindAsync(Id);
+            if (withdraw != null)
+            {
+                // Ki?m tra giá tr? isAccept
+                if (isAccept == 2)
+                {
+                    // C?p nh?t tr?ng thái ch?p nh?n (accept)
+                    withdraw.Status = "CANCELLED"; // Gi? s? có thu?c tính IsAccept
+                    await _context.SaveChangesAsync();
+                    success = "Reject success!";
+                }
+            }
+            else
+            {
+                fail = "Reject fail!";
+            }
 
+            // Quay l?i trang hi?n t?i
+            return RedirectToPage("ManageWithdraw");
+        }
     }
 }

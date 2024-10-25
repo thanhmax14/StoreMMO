@@ -410,7 +410,7 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th>STT</th>
                                         <th>Store Type</th>
                                         <th>Username</th>
                                         <th>Product Type</th>
@@ -418,6 +418,7 @@
                                         <th>Price</th>
                                         <th>Store Detail</th>
                                         <th>Action</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -432,7 +433,7 @@
                                             <td>@item.UserName</td>
                                             <td>@item.ProductTypeName</td>
                                             <td>@item.CategoryName</td>
-                                            <td>@item.Price.ToString()</td>
+                                            <td>$@item.Price.ToString()</td>
                                             <td>@item.StoreDetailName</td>
                                             <td>
                                                 <!-- Accept Form -->

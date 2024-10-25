@@ -27,17 +27,17 @@ namespace StoreMMO.Web.Pages.Seller
         {
             // L?y UserID t? session
             var currentUserId = HttpContext.Session.GetString("UserID");
-            //if (currentUserId != null)
-            //{
-            //    // L?y danh sách c?a hàng c?a seller d?a trên UserID
-            //    list = _storeService.getAllStoreSeller("5921c651-d855-408a-9f37-e10405250f63");
-            //}
-            //else
-            //{
-            //    // X? lý khi không có UserID trong session (ví d?: chuy?n h??ng ??n trang ??ng nh?p)
-            //    RedirectToPage("/Account/Login");
-            //}
-            list = _storeService.getAllStoreSeller("5921c651-d855-408a-9f37-e10405250f63");
+            if (currentUserId != null)
+            {
+                // L?y danh sách c?a hàng c?a seller d?a trên UserID
+                list = _storeService.getAllStoreSeller(currentUserId);
+            }
+            else
+            {
+                // X? lý khi không có UserID trong session (ví d?: chuy?n h??ng ??n trang ??ng nh?p)
+                RedirectToPage("/Account/Login");
+            }
+            //list = _storeService.getAllStoreSeller("5921c651-d855-408a-9f37-e10405250f63");
         }
 
 
@@ -60,7 +60,7 @@ namespace StoreMMO.Web.Pages.Seller
                 // C?p nh?t tr?ng thái thành 2 khi nh?n "Reject"
                 if(isAccept == 2) 
                     {
-                    store.IsAccept = "Pending"; // Gi? s? có thu?c tính IsAccept
+                    store.IsAccept = "PENDING"; // Gi? s? có thu?c tính IsAccept
                     await _context.SaveChangesAsync();
                 }
             }
