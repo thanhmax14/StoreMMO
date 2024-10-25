@@ -17,15 +17,25 @@ namespace StoreMMO.Web.Pages.Seller
             _purchaseService = purchaseService;
         }
         public OrderDetailsViewModels orderDetail { get; set; }
-
+        public SaleHistoryViewModels list { get; set; }
+        [BindProperty]
+        public string id { get; set; }
+        [TempData]
+        public string success { get; set; }
+        [TempData]
+        public string fail { get; set; }
+        [TempData]
+        public string OrderCode { get; set; }
         public IEnumerable<GetOrderDetailsViewModel> OrderDetail { get; set; }
         public async Task<IActionResult> OnGetAsync(string id)
         {
-
-
-            // Lấy thông tin đơn hàng từ service
-            OrderDetail =  _purchaseService.getOrderDetails(id);
-          
+         
+            var orcode = id.Split('$');
+           OrderCode ="Order Detail of: "+orcode[1];
+            OrderDetail = _purchaseService.getOrderDetails(orcode[0]);
+           
+           
+           
             if (OrderDetail == null)
             {
                 return NotFound();

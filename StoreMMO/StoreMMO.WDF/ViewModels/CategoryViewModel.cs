@@ -3,6 +3,7 @@ using StoreMMO.Core.ViewModels;
 using StoreMMO.WDF.Utilities;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace StoreMMO.WDF.ViewModels
@@ -11,7 +12,7 @@ namespace StoreMMO.WDF.ViewModels
     {
         private readonly ICategoryService _categoryService;
 
-        public ObservableCollection<CategoryViewModels> CategoryViewModels { get; set; }
+        public ObservableCollection<CategoryViewModels> CategoryViewModels {get; set; }
         public ICommand AddNew { get; }
         public ICommand Update { get; }
         public ICommand Hide { get; }
@@ -118,6 +119,8 @@ namespace StoreMMO.WDF.ViewModels
 
                 // Reset dữ liệu
                 ResetCategoryInfo();
+                MessageBox.Show("Add successful!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
             }
             catch (Exception ex)
             {
@@ -140,6 +143,8 @@ namespace StoreMMO.WDF.ViewModels
             SelectedCategory.ModifiedDate = DateTimeOffset.Now;
 
             _categoryService.UpdateCategory(SelectedCategory);
+            MessageBox.Show("Update successful!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+
             loadData();
         }
 
@@ -147,7 +152,7 @@ namespace StoreMMO.WDF.ViewModels
         {
             if (SelectedCategory == null) return;
 
-            // Lấy Id từ danh mục đã chọn
+            // Lấy Id từ danh mục đã chọn   
             string categoryId = SelectedCategory.Id;
 
             // Lấy danh mục từ cơ sở dữ liệu bằng Id

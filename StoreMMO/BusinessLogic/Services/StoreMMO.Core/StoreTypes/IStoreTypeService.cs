@@ -15,5 +15,6 @@ namespace BusinessLogic.Services.StoreMMO.Core.StoreTypes
         StoreTypeViewModels UpdateStoreType(StoreTypeViewModels storeViewModels);
         StoreTypeViewModels getByIdStoreType(string id);
         void deleteByIdStoreType(string id);
+        StoreTypeViewModels UpdateStoreType1(StoreTypeViewModels storeViewModels);
     }
 }

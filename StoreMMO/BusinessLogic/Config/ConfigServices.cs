@@ -53,6 +53,7 @@ using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
 using StoreMMO.Core.Repositories.OrderDetails;
 using StoreMMO.Core.Repositories.orderDetailViewModels;
+using CloudinaryDotNet;
 
 
 namespace BusinessLogic.Config
@@ -132,6 +133,21 @@ namespace BusinessLogic.Config
                    "7861335ef9257ac91143d4de7b9f6ce64c864608defe1e31906510e95b345ee5" ?? throw new Exception("Cannot find environment"));
             services.AddSingleton(payOS);
             services.AddTransient<CreateQR>();
+
+            var account = new Account(
+                "do9bojdku", // Cloud Name
+                "949824695166918", // API Key
+                "cXZp8UJwFvIQi5D0HtK94MqOASA" // API Secret
+            );
+
+            Cloudinary cloudinary = new Cloudinary(account);
+
+         
+
+            // Đăng ký Cloudinary vào DI container
+            services.AddSingleton(cloudinary);
+
+
         }
     }
 }
