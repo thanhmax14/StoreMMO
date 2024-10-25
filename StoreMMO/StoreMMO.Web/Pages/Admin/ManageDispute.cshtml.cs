@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 using BusinessLogic.Services.StoreMMO.Core.Disputes;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
+using BusinessLogic.Services.StoreMMO.Core.Withdraws;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
@@ -13,6 +14,8 @@ namespace StoreMMO.Web.Pages.Admin
     {
         private readonly IDisputeService _disputeService;
         private readonly IComplaintsService _complaintService;
+        private readonly IWithdrawService _withdrawService;
+
         private readonly AppDbContext _context;
         [TempData]
         public string success { get; set; }
@@ -24,9 +27,11 @@ namespace StoreMMO.Web.Pages.Admin
 
         public IEnumerable<DisputeViewModels> list = new List<DisputeViewModels>();
         public IEnumerable<ComplaintsMapper> listC = new List<ComplaintsMapper>();
+        public IEnumerable<BalanceMapper> listE = new List<BalanceMapper>();
 
-        public ManageDisputeModel(IComplaintsService complaintService, IDisputeService disputeService, AppDbContext context)
+        public ManageDisputeModel(IWithdrawService withdrawService, IComplaintsService complaintService, IDisputeService disputeService, AppDbContext context)
         {
+            _withdrawService = withdrawService;
             _complaintService = complaintService;
             _disputeService = disputeService;
             _context = context;
@@ -37,6 +42,7 @@ namespace StoreMMO.Web.Pages.Admin
             //list = _disputeService.Getcomstatus();
             //list = _disputeService.GetAllReportAdmin();
             listC = _complaintService.GetAllReportAdmin();
+            //listE = _withdrawService.getAllBalance();
         }
         public async Task<IActionResult> OnPostAsync(string Id)
         {
@@ -50,12 +56,12 @@ namespace StoreMMO.Web.Pages.Admin
                     // Cập nhật trạng thái chấp nhận (accept)
                     dispute.Status = "done"; // Giả sử có thuộc tính IsAccept
                     await _context.SaveChangesAsync();
-                    success = "Update success!";
+                    success = "Accept success!";
                 }
             }
             else
             {
-                fail = "Update fail!";
+                fail = "Accept fail!";
             }
 
             // Quay lại trang hiện tại
@@ -70,11 +76,11 @@ namespace StoreMMO.Web.Pages.Admin
                 // Cập nhật trạng thái thành 2 khi nhấn "Reject"
                 dispute.Status = "ReportAdmin"; // Giả sử có thuộc tính IsAccept
                 await _context.SaveChangesAsync();
-                success = "Update success!";
+                success = "Reject success!";
             }
             else
             {
-                fail = "Update fail!";
+                fail = "Reject fail!";
             }
 
             // Quay lại trang hiện tại sau khi thực hiện hành động

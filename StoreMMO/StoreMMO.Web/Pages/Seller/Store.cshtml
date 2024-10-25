@@ -439,43 +439,25 @@
                                                 @{
                                                     string statusClass = item.IsAccept switch
                                                     {
-                                                        "Approved" => "status-accepted",
-                                                        "Rejected" => "status-rejected",
-                                                        "Pending" => "status-pending",
+                                                        "APPROVED" => "status-accepted",
+                                                        "REJECTED" => "status-rejected",
+                                                        "PENDING" => "status-pending",
                                                         _ => "" // Không có giá trị nào khác
                                                     };
                                                 }
                                                 <span class="@statusClass">@item.IsAccept</span>
                                             </td>
-
                                             <td>
                                                 <button onclick="window.location.href='/seller/UpdateStore/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                                <form method="post" asp-page-handler="OnPostAsync" style="display:inline;">
-                                                    <input type="hidden" name="Id" value="@item.StoreId" />
-                                                    <input type="hidden" name="isAccept" value="2" />
-                                                    <button type="submit" class="btn btn-danger">Register Store</button>
-                                                </form>
-                                                <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Hide this user</h5>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to hide this user?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                                    Back
-                                                                </button>
-                                                                <button type="button" class="btn btn-primary">Yes</button>
-                                                                <button type="button" class="btn btn-primary">No</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
+                                                    @if (item.IsAccept == "REJECTED")
+                                                    {
+                                                    <form method="post" asp-page-handler="OnPostAsync" style="display:inline;">
+                                                        <input type="hidden" name="Id" value="@item.StoreId" />
+                                                        <input type="hidden" name="isAccept" value="2" />
+                                                        <button type="submit" class="btn btn-danger">Register Store</button>
+                                                    </form>
+                                                    }
                                             </td>
                                         </tr>
                                         stt++;

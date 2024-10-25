@@ -149,7 +149,7 @@ INNER JOIN
 INNER JOIN 
     ProductTypes ON ProductConnects.ProductTypeId = ProductTypes.Id
 WHERE 
-    Stores.IsAccept = '0'";
+    Stores.IsAccept = 'PENDING'";
             var list = this._context.Database.SqlQueryRaw<StoreManageViewModels>(sql).ToList();
             return list;
         }

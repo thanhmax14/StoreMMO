@@ -45,7 +45,6 @@ namespace StoreMMO.Web.Middleware
                     }
                 }
             }
-
             Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
             await _requestDelegate(context);
         }

@@ -43,14 +43,14 @@ namespace StoreMMO.Web.Pages.Admin
                 if (isAccept == 1)
                 {
                     // Cập nhật trạng thái chấp nhận (accept)
-                    store.IsAccept = "1"; // Giả sử có thuộc tính IsAccept
+                    store.IsAccept = "APPROVED"; // Giả sử có thuộc tính IsAccept
                     await _context.SaveChangesAsync();
-                    success = "Update success!";
+                    success = "Accept success!";
                 }
             }
             else
             {
-                fail = "Update fail!";
+                fail = "Accept fail!";
             }
 
             // Quay lại trang hiện tại
@@ -63,13 +63,13 @@ namespace StoreMMO.Web.Pages.Admin
             if (store != null)
             {
                 // Cập nhật trạng thái thành 2 khi nhấn "Reject"
-                store.IsAccept = "2"; // Giả sử có thuộc tính IsAccept
+                store.IsAccept = "REJECTED"; // Giả sử có thuộc tính IsAccept
                 await _context.SaveChangesAsync();
-                success = "Update success!";
+                success = "Reject success!";
             }
             else
             {
-                fail = "Update fail!";
+                fail = "Reject fail!";
             }
 
             // Quay lại trang hiện tại sau khi thực hiện hành động
