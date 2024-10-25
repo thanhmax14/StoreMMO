@@ -59,7 +59,7 @@ namespace StoreMMO.API.Controllers
         }
         [HttpGet("{id}")]
         public IActionResult GetById(string id) {
-            var store = _storeService.getById(id);
+            var store = _storeService.getByIdCategory(id);
 
             if (store == null)
             {

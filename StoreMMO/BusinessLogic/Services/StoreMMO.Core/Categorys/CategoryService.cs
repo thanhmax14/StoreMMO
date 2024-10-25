@@ -28,7 +28,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Categorys
            return _categoryRepository.GetAll();
         }
 
-        public CategoryViewModels getById(string id)
+        public CategoryViewModels getByIdCategory(string id)
         {
             return _categoryRepository.getById(id);
         }
