@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http.Timeouts;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
@@ -70,6 +71,26 @@ namespace StoreMMO.Core.Repositories.ProductsTypes
             };
             return viewModel;
         }
+
+        public IEnumerable<GetInfoByProductypeID> GetInfoByProductid(string id)
+        {
+            var sql = @"
+        SELECT Stores.Id AS StoreID, ProductTypes.Id AS ProductTypeID
+        FROM Stores 
+        INNER JOIN StoreDetails ON Stores.Id = StoreDetails.StoreId
+        INNER JOIN ProductConnects ON StoreDetails.Id = ProductConnects.StoreDetailId
+        INNER JOIN ProductTypes ON ProductConnects.ProductTypeId = ProductTypes.Id
+        WHERE ProductTypes.Id = @ProductTypeID";
+
+            // Tạo SqlParameter cho tham số ProductTypeID
+            var parameter = new SqlParameter("@ProductTypeID", id);
+
+            // Sử dụng SqlParameter trong SqlQueryRaw
+            var list = _context.Database.SqlQueryRaw<GetInfoByProductypeID>(sql, parameter).ToList();
+
+            return list;
+        }
+
 
         public ProductTypesViewModels Update(ProductTypesViewModels productViewModels)
         {

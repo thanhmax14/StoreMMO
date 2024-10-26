@@ -123,6 +123,41 @@ namespace StoreMMO.Web.Pages.Account
 				return new JsonResult(new { success = false, message = "Failed to register seller." });
 			}
 		}
+		public async Task<IActionResult> OnPostViewOrdetail(string id)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				return new JsonResult(new { success = false, message = "ID is null or empty." });
+			}
+			var orderDetailsFromDb =  this._pur.getOrderDetails(id);
+
+			if (orderDetailsFromDb == null || !orderDetailsFromDb.Any())
+			{
+				return new JsonResult(new { success = false, message = "No order found with the specified ID." });
+			}
+
+			// Chuyển đổi dữ liệu từ cơ sở dữ liệu thành định dạng JSON
+			var orderDetails = new
+			{
+				items = orderDetailsFromDb.Select(order => new
+				{
+					account = order.Account,           // Tên tài khoản
+					password = order.Password,         // Mật khẩu (nên không trả về mật khẩu trong phản hồi thực tế)
+					quantity = order.quantity,         // Số lượng
+					price = order.Price,               // Giá sản phẩm
+					totalPrice = order.Price,     // Tổng giá
+					orderDate = order.Dates.ToString("yyyy-MM-dd"), // Ngày đặt hàng
+					status = order.status               // Trạng thái đơn hàng
+				}).ToArray()
+			};
+
+			return new JsonResult(new { success = true, items = orderDetails.items });
+		}
+
+
+
+
+
 
 	}
 }

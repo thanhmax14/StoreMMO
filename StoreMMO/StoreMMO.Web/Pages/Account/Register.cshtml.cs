@@ -63,17 +63,17 @@ namespace StoreMMO.Web.Pages.Account
                     await _emailSender.SendEmailAsync(inputRegister.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
+                    
+                    if (!await _roleManager.RoleExistsAsync("USER"))
+					{
+						await _roleManager.CreateAsync(new IdentityRole("USER"));
+					}
+					await _userManager.AddToRoleAsync(user, "USER");
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("WaitVerifyEmail", new { email = inputRegister.Email });
-                    }                 
-                    if (!await _roleManager.RoleExistsAsync("User"))
-					{
-						await _roleManager.CreateAsync(new IdentityRole("User"));
-					}
-					await _userManager.AddToRoleAsync(user, "User");
-
-					return RedirectToPage("./Login");
+                    }
+                    return RedirectToPage("./Login");
 				}
 				foreach (var error in result.Errors)
 				{

@@ -662,7 +662,8 @@
 
 
 														<td> <button class="btn btn-outline-primary btn-xs">@item.Status</button></td>
-														<td> <button onclick="VewDetail()" class="btn btn-outline-primary btn-xs">View Details</button></td>
+														<td><button onclick="ViewDetail('@item.OrderID')" class="btn btn-outline-primary btn-xs">View Details</button></td>
+
 													</tr>
 													count++;
 												}
@@ -701,80 +702,14 @@
 									<button class="btn btn-outline-primary btn-lg">Detail</button>
 								</h3>
 
-								<div class="order-table-container text-center">
-									<!-- Ô tìm kiếm -->
-									<div>
-										<label style="float:left" for="rowsPerPage">Rows per page:</label>
-										<select style="float:left" id="rowsPerPage" onchange="updateTable()">
-											<option value="5">5</option>
-											<option value="15">15</option>
-											<option value="25">25</option>
-											<option value="50">50</option>
-											<option value="100">100</option>
-										</select>
-										<input style="float:right" type="text" id="searchInput" onkeyup="filterTable()" placeholder="Search for descriptions...">
-									</div>
-
-									<!-- Bảng hiển thị dữ liệu -->
-									<table id="transactionTable" class="table table-order text-left">
-										<thead>
-											<tr>
-												<th onclick="sortTable(0)">NO.</th>
-												<th onclick="sortTable(1)">Account</th>
-												<th onclick="sortTable(2)">PassWord</th>
-												<th onclick="sortTable(3)">Quality</th>
-												<th onclick="sortTable(4)">Price</th>
-												<th onclick="sortTable(5)">Dates</th>
-												<th onclick="sortTable(6)">Status</th>
-												
-												<th>ACTIONS</th>
-											</tr>
-										</thead>
-										<tbody id="tableBody">
-											@if (Model.InfoOrdeTailUser != null && Model.InfoOrdeTailUser.Count() > 0)
-											{
-												var count = 1;
-												foreach (var item in Model.InfoOrdeTailUser)
-												{
-													<tr>
-														<td>@count</td>
-														<td>@item.Account</td>
-														<td>@item.Password</td>
-														<td>@item.quantity</td>
-														<td>@item.Price</td>
-														<td>@item.Dates</td>
-														<td>@item.stasusPayment</td>
-														@* <td>@item.TotalPrice</td>
-														<td> <button class="btn btn-outline-primary btn-xs">@item.Status</button></td>
-														<td> <button ondblclick="" class="btn btn-outline-primary btn-xs">View Details</button></td> *@
-													</tr>
-													count++;
-												}
-											}
-											else
-											{
-												<tr>
-													<td class="text-center p-0" colspan="7">
-														<p class="mb-5 mt-5">
-															No Order has been made yet.
-														</p>
-													</td>
-												</tr>
-											}
-
-
-											<!-- Add more rows as needed -->
-										</tbody>
-									</table>
-
-									<!-- Phân trang và chọn số hàng hiển thị -->
-									<div style="padding-top:10px" class="pagination-container">
-
-										<div id="pagination"></div>
-									</div>
+								<div id="orderDetailContainer" class="order-table-container text-center">
+									<!-- Nội dung chi tiết đơn hàng sẽ được tải về qua AJAX -->
+									<p>Select an order to view details.</p>
 								</div>
+								<button onclick="BackOrder()">Back To Order</button>
 							</div>
 						</div>
+
 
 
 		<div class="tab-pane fade" id="download" role="tabpanel">
@@ -866,13 +801,77 @@
     </div>
 
 		<script>
-			function VewDetail(){
-								
+							function ViewDetail(orderId) {
+								$.ajax({
+									type: "POST",
+									url: "/account/Profile?handler=ViewOrdetail",
+									beforeSend: function (xhr) {
+										// Set the XSRF token in the request header
+										xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+									},
+									data: {
+										id: orderId // Sửa lại để truyền đúng orderId
+									},
+									dataType: "json",
+									success: function (data) {
+										// Kiểm tra xem dữ liệu có trả về không
+										if (data && data.items) {
+											$('#orderDetailContainer').html(`
+												<table class="table table-order text-left">
+													<thead>
+														<tr>
+															<th>NO.</th>
+															<th>Account</th>
+															<th>Password</th>
+															<th>Quantity</th>
+															<th>Price</th>
+															<th>Order Date</th>
+															<th>Status</th>
+															<th>Total Price</th>
+														</tr>
+													</thead>
+													<tbody>
+														${data.items.map((item, index) => `
+															<tr>
+																<td>${index + 1}</td>
+																<td>${item.account}</td>
+																<td>${item.password}</td>
+																<td>${item.quantity}</td>
+																<td>${item.price}</td>
+																<td>${item.orderDate}</td>
+																<td>${item.status}</td>
+																<td>${item.totalPrice}</td>
+															</tr>
+														`).join('')}
+													</tbody>
+												</table>
+											`);
 
-								$('#OrderDetail-tab').tab('show'); // Chuyển qua tab
-								$('#order-tab').addClass('nav-link active');
+											// Kích hoạt tab OrderDetail để hiển thị chi tiết đơn hàng
+											$('#OrderDetail').addClass('show active').siblings().removeClass('show active');
+										} else {
+											$('#orderDetailContainer').html('<p>No details found for this order.</p>');
+										}
+									},
+									error: function (error) {
+										console.error("Error occurred:", error);
+										$('#orderDetailContainer').html('<p>An error occurred while fetching the order details.</p>');
+									}
+								});
+							}
 
-			}
+							function BackOrder() {
+								// Đảm bảo luôn loại bỏ các lớp để thiết lập trạng thái ban đầu
+								$('#order-tab').removeClass('active show');
+								$('#order-tab').removeClass('nav-link active');
+
+								// Chuyển qua tab OrderDetail
+								$('#order-tab').tab('show'); // Hiển thị lại tab
+								$('#order-tab').addClass('nav-link active'); // Đặt lại trạng thái active
+
+							}
+
+
         var currentPage = 1;
         var rowsPerPage = 5;
 

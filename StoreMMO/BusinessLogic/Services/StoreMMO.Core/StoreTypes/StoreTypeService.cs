@@ -37,6 +37,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.StoreTypes
             return _storeTypeRepository.getByIdStoreType(id);
         }
 
+        public double GetCommitssionByStoreID(string id)
+        {
+            return this._storeTypeRepository.GetCommitssionByStoreID(id);
+        }
+
         public StoreTypeViewModels UpdateStoreType(StoreTypeViewModels storeViewModels)
         {
             return _storeTypeRepository.UpdateStoreType(storeViewModels);

@@ -1,4 +1,4 @@
-﻿using StoreMMO.Core.Models;
+using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,6 +18,7 @@ namespace StoreMMO.Core.Repositories.StoreTypes
         IEnumerable<StoreTypeViewModels> GetStoreTypeIsActive();
 
         IEnumerable<StoreTypeViewModels> GetStoreTypeHidden();
+        double GetCommitssionByStoreID(string id);
         StoreTypeViewModels UpdateStoreType1(StoreTypeViewModels storeViewModels);
     }
 
