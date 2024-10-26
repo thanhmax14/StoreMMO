@@ -181,7 +181,10 @@ WHERE
         }
         public IEnumerable<Product> getProductsByTypeID(string id)
         {
-            return _context.Products.Where(x => x.ProductTypeId == id).ToList();
+            return _context.Products
+                 .Where(p => p.ProductTypeId == id && !p.Status.ToLower().Equals("paid"))
+                 .OrderByDescending(x => x.CreatedDate)
+                 .ToList();
         }
     }
 }

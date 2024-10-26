@@ -120,5 +120,15 @@ namespace StoreMMO.Core.Repositories.StoreTypes
             }).ToList();
             return list;
         }
+
+        public double GetCommitssionByStoreID(string id)
+        {
+            var commission = (from store in _context.Stores
+                              join storeDetail in _context.StoreDetails on store.Id equals storeDetail.StoreId
+                              join storeType in _context.StoreTypes on storeDetail.StoreTypeId equals storeType.Id
+                              where store.Id == id
+                              select storeType.Commission).FirstOrDefault();
+            return commission??1;
+        }
     }
 }

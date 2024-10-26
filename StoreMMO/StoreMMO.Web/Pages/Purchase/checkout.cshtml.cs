@@ -63,120 +63,84 @@ namespace StoreMMO.Web.Pages.Purchase
                 purchaseItems = this._purchase.GetProductFromSession();
                 if (purchaseItems.Count > 0 || !purchaseItems.IsNullOrEmpty())
                 {
+                    var commission = 0.0;
                     foreach(var item in purchaseItems)
                     {
 
                         var getInfo = this._productType.GetInfoByProductid(item.ProductID);
                           if(getInfo.Count()> 0 ||  !getInfo.IsNullOrEmpty())
                         {
-                               foreach(var intemPro in getInfo)
+
+                            var tempid = Guid.NewGuid().ToString();
+                            bool Buy = false;
+                            var productTypeTem = "";
+                            foreach (var intemPro in getInfo)
                             {
-                                var tempid = Guid.NewGuid().ToString();
-                                var tem = new OrderBuyViewModels
+                                productTypeTem= item.ProductID;
+                                 var tem = new OrderBuyViewModels
                                 {
                                     ID = tempid,
                                     OrderCode = EncryptSupport.GenerateRandomString(10),
-                                    ProductTypeId = item.ProductID,
+                                    ProductTypeId = productTypeTem,
                                     StoreID = intemPro.StoreID,
                                     UserID = checkUser,
                                     Status = "PAID",
                                     totalMoney = "" + purchaseItems.Sum(u => decimal.Parse(u.total))
                                 };
-                                var Buy = this._purchase.add(tem);
-                                if (Buy)
+                                commission = this._storeType.GetCommitssionByStoreID(intemPro.StoreID);
+                                Buy = this._purchase.add(tem);
+                                break;
+                            }
+                            var getInfoByProductType = this._productType.getByIDProduct(productTypeTem);
+                            if (getInfoByProductType != null)
+                            {
+                                if(int.Parse(item.quantity) < int.Parse(getInfoByProductType.Stock))
                                 {
-                                    var getStoreDetail = this._storeDetails.GetAllStoreDetails();
-                                      var detail = getStoreDetail.Where(u => u.StoreId == intemPro.StoreID).FirstOrDefault();
-                                    if (detail != null)
+                                       var getProduct = this._product.getProductsByTypeID(getInfoByProductType.Id);
+                                    var cout = int.Parse(item.quantity);
+                                    foreach (var productItem in getProduct)
                                     {
-                                        var getComietsion = this._storeType.getByIdStoreType(detail.StoreTypeId);
-                                        if(getComietsion != null)
+                                        if (cout > 0)
                                         {
-                                            var infoProduct = this._product.GetProductsByStoreId(intemPro.StoreID);
-                                            if (infoProduct.Count() > 0 || !infoProduct.IsNullOrEmpty())
+                                            var tempDetail = new OrderDetailsViewModels
                                             {
-                                                var getinfoProduct = this._product.getProductsByTypeID(intemPro.ProductTypeID);
-                                                        if(getinfoProduct!= null)
-                                                {
-                                                    foreach (var product in infoProduct)
-                                                    {
-                                                          if(product.ProductTypeID == intemPro.ProductTypeID)
-                                                        {
-                                                            if (int.Parse(item.quantity) < int.Parse(product.Stock))
-                                                            {
-
-                                                                var getproduct = this._product.getAllProduct().Where(u => !u.Status.ToLower().Equals("PAID".ToLower()));
-                                                                var count = int.Parse(item.quantity);
-                                                                foreach (var product2 in getproduct)
-                                                                {
-                                                                    if (count > 0)
-                                                                    {
-                                                                        if (product.ProductTypeID == intemPro.ProductTypeID)
-                                                                        {
-                                                                            var temDetail = new OrderDetailsViewModels
-                                                                            {
-                                                                                ID = Guid.NewGuid().ToString(),
-                                                                                AdminMoney = (product.Price * (getComietsion.Commission / 100)).ToString(),
-                                                                                Dates = DateTime.Now,
-                                                                                Price = product.Price.ToString(),
-                                                                                OrderBuyID = tempid,
-                                                                                SellerMoney = (product.Price - product.Price * (getComietsion.Commission / 100)).ToString(),
-                                                                                ProductID = product2.Id,
-                                                                                quantity = "1",
-                                                                                stasusPayment = "PAID",
-                                                                                status = "ok"
-                                                                            };
-
-                                                                            var addDetail = await this._Detail.AddAsync(temDetail);
-
-                                                                            // Cập nhật trạng thái của sản phẩm
-                                                                            product2.Status = "PAID";
-
-                                                                            var update = new ProductViewModels
-                                                                            {
-                                                                                Account = product2.Account,
-                                                                                CreatedDate = product2.CreatedDate,
-                                                                                Id = product2.Id,
-                                                                                ProductTypeId = product2.ProductTypeId,
-                                                                                Pwd = product2.Pwd,
-                                                                                Status = product2.Status,
-                                                                                StatusUpload = product2.StatusUpload,
-                                                                            };
-                                                                            this._product.UpdateProduct(update); // Xóa [0] ở đây
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-
-                                                      /*  var gettems = this._productType.getByIDProduct(product.ProductTypeID);
-                                                           
-
-                                                        var upDateStock = this._productType.Update(new ProductTypesViewModels { 
-                                                        CreatedDate = gettems.CreatedDate,
-                                                        Id = gettems.Id,
-                                                        IsActive = gettems.IsActive,
-                                                        Stock= int.Parse(gettems.Stock)-1 +"",
-                                                        ModifiedDate = gettems.ModifiedDate,
-                                                        Name = gettems.Name ,
-                                                        Price = gettems.Price   
-                                                        
-                                                        });*/
-
-
-
-
-                                                    }
-
-
-
-
-                                                }
-                                            }
-                                        }             
+                                                ID = Guid.NewGuid().ToString(),
+                                                AdminMoney = getInfoByProductType.Price * (commission/100) +"",
+                                                Price = getInfoByProductType.Price.ToString(),
+                                                Dates = DateTime.Now,
+                                                OrderBuyID = tempid,
+                                                ProductID = productItem.Id,
+                                                quantity = "1",
+                                                SellerMoney = getInfoByProductType.Price - getInfoByProductType.Price * (commission / 100)+"",
+                                                stasusPayment = "PAID",
+                                                status = "ok"
+                                            };
+                                            var addDetail = await this._Detail.AddAsync(tempDetail);
+                                            var temProductPaid = new ProductViewModels
+                                            {
+                                                Id = productItem.Id,
+                                                Account =productItem.Account,
+                                                CreatedDate= productItem.CreatedDate,
+                                                ProductTypeId = productItem.ProductTypeId,
+                                                Pwd =productItem.Pwd,
+                                                Status = "PAID",
+                                                StatusUpload = DateTime.Now.ToString()
+                                            };
+                                            var updatePaidProduct = this._product.UpdateProduct(temProductPaid);
+                                            cout--; 
+                                        }
                                     }
+                                    return Redirect("/Purchase/OrderComplete");
                                 }
                             }
+
+
+
+
+
+
+
+
                         }
                     }
                 }
