@@ -28,7 +28,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
             return this._storeRepo.getAll(sicbo);
         }
 
-        public StoreAddViewModels getById(string id)
+        public StoreAddViewModels getByIdCategory(string id)
         {
             return _storeRepo.getById(id);
         }

@@ -75,7 +75,7 @@ namespace StoreMMO.Core.Repositories.Categorys
 
         public IEnumerable<CategoryViewModels> GetCategoryIsActive()
         {
-            var categoryIsActive = this._context.Categories.Where(x => x.IsActive).ToList();
+            var categoryIsActive = this._context.Categories.Where(x => x.IsActive == true).ToList();
             try
             {
                 List<CategoryViewModels> cateviewmodel = categoryIsActive.Select(x => new CategoryViewModels
@@ -138,38 +138,7 @@ namespace StoreMMO.Core.Repositories.Categorys
           
         }
 
-        //public CategoryViewModels UpdateName(int check, string id, string name, bool isactive, CategoryViewModels cate)
-        //{ var updateCategory = new CategoryViewModels;
-        //    if (updateCategory == null)
-        //    {
-        //        throw new Exception("Id not found");
-        //    }
-        //    else
-        //    {
-        //        if (check != 0) // o thay name dùng update 
-        //        {
-        //            updateCategory.Name = name;
-        //        }
-        //        else   // khac 0 là dùng hidden 
-        //        {
-        //            updateCategory.IsActive = isactive;
-        //        }
-        //        updateCategory.ModifiedDate = DateTime.UtcNow;   // auto update thời gian mỗi lần update 
-
-        //        _context.Categories.Update(updateCategory);
-        //        _context.SaveChanges();
-        //    }
         
-        //    return new CategoryViewModels
-        //    {
-        //        Id = updateCategory.Id,
-        //        Name = updateCategory.Name,
-        //        CreatedDate = updateCategory.CreatedDate,
-        //        ModifiedDate = updateCategory.ModifiedDate,
-        //    }
-            
-        //    ;
-        //}
 
     }
 }

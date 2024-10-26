@@ -19,6 +19,9 @@ namespace StoreMMO.Web.Pages.Seller
             _orderDetailService = orderDetailService;
         }
         public IEnumerable<SaleHistoryViewModels> list = new List<SaleHistoryViewModels>();
+        public IEnumerable<OrderBuyViewModels> listOrderBuy = new List<OrderBuyViewModels>();
+
+
         [BindProperty]
         public string id { get; set; }
         [TempData]
@@ -32,7 +35,7 @@ namespace StoreMMO.Web.Pages.Seller
 
         public void UpdateStoreIsAccept(SaleHistoryViewModels storeView)
         {
-
+            
             list = this._orderDetailService.getAll();
         }
 

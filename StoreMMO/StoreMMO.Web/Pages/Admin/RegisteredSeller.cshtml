@@ -379,7 +379,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>List of Sellers Request</h1>
+            <h1>Sellers's Request Table</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -388,7 +388,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">List of Sellers Request</h5>
+                            <h5 class="card-title">Sellers's Request List</h5>
                             @if (!string.IsNullOrEmpty(Model.success))
                             {
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -409,7 +409,7 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th>STT</th>
                                         <th>Full Name</th>
                                         <th data-type="date" data-format="YYYY/DD/MM">Create Date</th>
                                         @* <th>Address</th> *@
@@ -417,8 +417,9 @@
                                         <th>Email</th>
                                         <th>UserName</th>
                                         <th>Phone Number</th>
-                                        <th>Role Name</th>
+@*                                         <th>Role Name</th> *@
                                         <th>Actions</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -436,7 +437,7 @@
                                             <td>@item.Email</td>
                                             <td>@item.UserName</td>
                                             <td>@(item.PhoneNumber ?? "Null Data")</td>
-                                            <td>@item.RoleName</td>
+@*                                             <td>@item.RoleName</td> *@
                                             <td >
                                                 <div style="display: flex; gap: 5px;">
                                                     <!-- Accept Form -->

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.OrderDetails;
 using StoreMMO.Core.ViewModels;
@@ -87,7 +88,7 @@ namespace StoreMMO.Core.Repositories.orderDetailViewModels
             return null;
         }
 
-        public async Task<OrderDetailsViewModels> GetOrderDetailByproductIDAsync(long productID)
+        public async Task<OrderDetailsViewModels> GetOrderDetailByOrderCodeAsync(string productID)
         {
             var orderDetail = await _context.OrderDetails.FirstOrDefaultAsync(b => b.ProductID == productID.ToString());
             if (orderDetail != null)
@@ -167,11 +168,20 @@ namespace StoreMMO.Core.Repositories.orderDetailViewModels
 
         public IEnumerable<SaleHistoryViewModels> getAll()
         {
-            string sql = $"SELECT    od.ID as [OrderID], od.Dates, us.UserName as [NguoiMua], sd.Name as [StoreName],pt.Name as[Productype],od.Price,OrderBuys.totalMoney,od.AdminMoney,od.stasusPayment\r\nFROM         OrderBuys INNER JOIN\r\n                      OrderDetails od ON OrderBuys.ID = od.OrderBuyID INNER JOIN\r\n   Stores st ON OrderBuys.StoreID = st.Id INNER JOIN\r\n  StoreDetails sd ON st.Id = sd.StoreId INNER JOIN\r\n                      ProductTypes pt ON OrderBuys.ProductTypeId = pt.Id INNER JOIN\r\n                      Users  us ON OrderBuys.UserID = us.Id AND st.UserId = us.Id";
+            string sql = $"SELECT OrderBuys.ID AS [OrderID], od.Dates, OrderBuys.OrderCode, us.UserName AS [NguoiMua], sd.Name AS [StoreName], pt.Name AS [Productype], od.Price, OrderBuys.totalMoney, od.AdminMoney, od.stasusPayment FROM OrderBuys INNER JOIN OrderDetails od ON OrderBuys.ID = od.OrderBuyID INNER JOIN Stores st ON OrderBuys.StoreID = st.Id INNER JOIN StoreDetails sd ON st.Id = sd.StoreId INNER JOIN ProductTypes pt ON OrderBuys.ProductTypeId = pt.Id INNER JOIN Users us ON OrderBuys.UserID = us.Id AND st.UserId = us.Id;\r\n";
             var list =  this._context.Database.SqlQueryRaw<SaleHistoryViewModels>(sql).ToList();
             return list;
         }
 
-       
+        public IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID)
+        {
+            string sql = @"SELECT Products.Account, Products.Pwd AS Password, OrderDetails.Quantity, OrderDetails.Price, OrderDetails.Dates, OrderDetails.stasusPayment, OrderDetails.Status FROM OrderDetails INNER JOIN Products ON OrderDetails.ProductID = Products.Id WHERE OrderDetails.OrderBuyID = OrderBuyID;
+";
+
+            var parameters = new[] { new SqlParameter("@orderID", orderID) };
+            var result = _context.Database.SqlQueryRaw<GetOrderDetailsViewModel>(sql, parameters).ToList();
+
+            return result;
+        }
     }
 }

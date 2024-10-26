@@ -37,9 +37,14 @@ namespace BusinessLogic.Services.StoreMMO.Core.OrderDetails
             return await this._oderDetailsRepository.GetOrderDeailByIDAsync(id);
         }
 
-        public async Task<OrderDetailsViewModels> GetOrderDetailByproductIDAsync(long orderCode)
+        public Task<OrderDetailsViewModels> GetOrderDetailByproductIDAsync(string orderCode)
         {
-            return await this._oderDetailsRepository.GetOrderDetailByproductIDAsync(orderCode);
+            throw new NotImplementedException();
+        }
+
+        public async Task<OrderDetailsViewModels> GetOrderDetailByOrderCodeAsync(string orderCode)
+        {
+            return await this._oderDetailsRepository.GetOrderDetailByOrderCodeAsync(orderCode);
         }
 
         public async Task<IEnumerable<OrderDetailsViewModels>> GetOrderDetailsByOrderBuyIDAsync(string userID)
@@ -50,6 +55,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.OrderDetails
         public  async Task<bool> UpdateAsync(SaleHistoryViewModels orderDetailViewModels)
         {
             return await this._oderDetailsRepository.UpdateAsync(orderDetailViewModels);
+        }
+
+        public IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID)
+        {
+            return this._oderDetailsRepository.getOrderDetails(orderID);
         }
     }
 }

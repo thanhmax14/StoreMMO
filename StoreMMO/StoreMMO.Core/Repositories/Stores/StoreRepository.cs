@@ -2,12 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StoreMMO.Core.Repositories.Stores
 {
@@ -23,10 +17,10 @@ namespace StoreMMO.Core.Repositories.Stores
 
         public IEnumerable<StoreViewModels> getAll(string sicbo)
         {
-			string sql = $"SELECT s.Id AS storeID, us.id AS userid, sd.[Name] AS nameStore, ca.[Name] AS catename, us.UserName, sd.Img AS imgStore FROM Users us INNER JOIN Stores s ON us.Id = s.UserId INNER JOIN StoreDetails sd ON s.Id = sd.StoreId INNER JOIN StoreTypes st ON sd.StoreTypeId = st.Id INNER JOIN Categories ca ON sd.CategoryId = ca.Id WHERE s.IsAccept = '{sicbo}'\r\n";
+            string sql = $"SELECT s.Id AS storeID, us.id AS userid, sd.[Name] AS nameStore, ca.[Name] AS catename, us.UserName, sd.Img AS imgStore FROM Users us INNER JOIN Stores s ON us.Id = s.UserId INNER JOIN StoreDetails sd ON s.Id = sd.StoreId INNER JOIN StoreTypes st ON sd.StoreTypeId = st.Id INNER JOIN Categories ca ON sd.CategoryId = ca.Id WHERE s.IsAccept = '{sicbo}'\r\n";
 
 
-			var list = this._context.Database.SqlQueryRaw<StoreViewModels>(sql).ToList();
+            var list = this._context.Database.SqlQueryRaw<StoreViewModels>(sql).ToList();
             return list;
         }
 
@@ -54,7 +48,7 @@ namespace StoreMMO.Core.Repositories.Stores
             s.CreatedDate = store.CreatedDate;
             s.ModifiedDate = DateTime.Now;
             s.IsAccept = store.IsAccept;
-            
+
             _context.Stores.Update(s);
             _context.SaveChanges();
             return store;
@@ -149,7 +143,7 @@ INNER JOIN
 INNER JOIN 
     ProductTypes ON ProductConnects.ProductTypeId = ProductTypes.Id
 WHERE 
-    Stores.IsAccept = '0'";
+    Stores.IsAccept = 'PENDING'";
             var list = this._context.Database.SqlQueryRaw<StoreManageViewModels>(sql).ToList();
             return list;
         }

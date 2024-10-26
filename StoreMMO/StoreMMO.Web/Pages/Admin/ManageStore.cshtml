@@ -380,7 +380,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>List of Stores Request</h1>
+            <h1>Stores's Request Table</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -389,7 +389,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">List of Stores Request</h5>
+                            <h5 class="card-title">Stores's Request List</h5>
                             @if (!string.IsNullOrEmpty(Model.success))
                             {
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -410,7 +410,7 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th>STT</th>
                                         <th>Store Type</th>
                                         <th>Username</th>
                                         <th>Product Type</th>
@@ -418,6 +418,7 @@
                                         <th>Price</th>
                                         <th>Store Detail</th>
                                         <th>Action</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -432,7 +433,7 @@
                                             <td>@item.UserName</td>
                                             <td>@item.ProductTypeName</td>
                                             <td>@item.CategoryName</td>
-                                            <td>@item.Price.ToString()</td>
+                                            <td>$@item.Price.ToString()</td>
                                             <td>@item.StoreDetailName</td>
                                             <td>
                                                 <!-- Accept Form -->

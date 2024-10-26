@@ -382,7 +382,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>List of Stores</h1>
+            <h1>View Sales HistoryList</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -391,7 +391,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">List of Stores</h5>
+                            
                             @if (!string.IsNullOrEmpty(@Model.success))
                             {
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -408,6 +408,8 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             }
+
+
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
@@ -433,7 +435,7 @@
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td><a href="/Seller/ViewOrderDetails/@item.OrderID">@item.OrderID</a></td>
+                                            <td><a href='/Seller/ViewOrderDetails/@item.OrderID$@item.OrderCode'>@item.OrderCode</a></td>
                                             <td>@item.Dates</td>
                                             <td>@item.NguoiMua</td>
                                             <td>@item.StoreName</td>

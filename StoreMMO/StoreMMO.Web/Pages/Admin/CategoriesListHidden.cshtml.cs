@@ -9,33 +9,47 @@ namespace StoreMMO.Web.Pages.Admin
     {
         private readonly ICategoryService _categoryServices;
 
-
         public CategoriesListHiddenModel(ICategoryService categoryServices)
         {
             _categoryServices = categoryServices;
         }
 
+        [BindProperty]
+        public string id { get; set; }
+
+        [TempData]
+        public string success { get; set; }
+
+        [TempData]
+        public string fail { get; set; }
+
         public IEnumerable<CategoryViewModels> listcate = new List<CategoryViewModels>();
+
         public void OnGet()
         {
-            listcate = this._categoryServices.GetCategoryIsHidden();
+            // Lấy danh sách các danh mục đã bị ẩn
+            listcate = _categoryServices.GetCategoryIsHidden();
         }
 
-        public IActionResult OnPostHidden(string id)
+        public async Task<IActionResult> OnPostAsync(string id)
         {
-            var cate = _categoryServices.getByIdCategory(id);
-            cate.IsActive = true;
-            var result = _categoryServices.UpdateCategory(cate);
+            // Sử dụng category service để lấy thông tin danh mục dựa trên id
+            var category = _categoryServices.getByIdCategory(id);
 
+            if (category != null)
+            {
+                category.IsActive = true; // Ẩn danh mục
+                _categoryServices.UpdateCategory(category); // Cập nhật danh mục
 
-            // Nếu thành công, chuyển hướng lại danh sách categories
-            return RedirectToPage("/Admin/CategoriesList");
+                success = "Active category successfully";
+            }
+            else
+            {
+                fail = "Active failed category";
+            }
 
+            // Chuyển hướng lại trang danh sách danh mục ẩn sau khi xử lý
+            return RedirectToPage("CategoriesListHidden");
         }
-
     }
-
-
-
-    }
-
+}

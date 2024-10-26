@@ -379,7 +379,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Withdraw Tables</h1>
+            <h1>Withdrawal Tables</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -388,7 +388,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Withdraw List</h5>
+                            <h5 class="card-title">Withdrawal List</h5>
                             @if (!string.IsNullOrEmpty(Model.success))
                             {
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -409,13 +409,13 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <td>Seller</td>
-                                        <td>Customer</td>
-                                        <th>Description</th>
-                                        <th>Price</th> <!-- Thêm cột cho Price -->
-                                        <th>OrderCode</th>
-                                        <th></th>
+                                        <th>STT</th>
+                                        <th>Name</th>
+                                        <th>Amount</th>
+                                        <th>Transaction Date</th>
+                                        <th>Description</th> <!-- Thêm cột cho Price -->
+                                        <th>Order Code</th>
+                                        <th>Action</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -427,22 +427,24 @@
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td>@(item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.FullName ?? "Not found!")</td>
-                                            <td>@(item.OrderDetailmap?.orderBuymap?.UserMap?.FullName ?? "Not found!")</td>
-                                            <td>@item.Description</td>
-                                            <td>@(item.OrderDetailmap.Price ?? "Not found!")</td>
-                                            <td>@(item.OrderDetailmap?.orderBuymap?.OrderCode ?? "Not found!")</td>
+                                            <td>@(item.Usermapforbalance.FullName ?? "Not found!")</td>
+                                            <td>$@(item.Amount.ToString() ?? "Not found!")</td>
+                                            <td>@(item.TransactionDate.ToString("yyyy/MM/dd") ?? "Not found!")</td>
+                                            <td>@(item.Description ?? "Not found!")</td>
+                                            <td>@(item.OrderCode ?? "Not found!")</td>
                                             <td>
-                                                <form method="post" asp-page-handler="OnPostAsync">
-                                                    <input type="hidden" name="Id" value="@item.ID" />
-                                                    <input type="hidden" name="isAccept" value="1" />
-                                                    <button type="submit" class="btn btn-primary">Accept</button>
-                                                </form>
-                                                <form method="post" asp-page-handler="AsyncReject">
-                                                    <input type="hidden" name="Id" value="@item.ID" />
-                                                    <input type="hidden" name="isAccept" value="2" />
-                                                    <button type="submit" class="btn btn-danger">Reject</button>
-                                                </form>
+                                                <div style="display: flex; gap: 5px;">
+                                                    <form method="post" asp-page-handler="OnPostAsync">
+                                                        <input type="hidden" name="Id" value="@item.Id" />
+                                                        <input type="hidden" name="isAccept" value="1" />
+                                                        <button type="submit" class="btn btn-primary">Accept</button>
+                                                    </form>
+                                                    <form method="post" asp-page-handler="AsyncReject">
+                                                        <input type="hidden" name="Id" value="@item.Id" />
+                                                        <input type="hidden" name="isAccept" value="2" />
+                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    </form>
+                                                </div>  
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">
                                                     <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">

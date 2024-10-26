@@ -394,23 +394,27 @@
 
 
     <main id="main" class="main">
+        <div class="pagetitle">
+            <h1>Registered Store Table</h1>
+        </div><!-- End Page Title -->
     <section class="section">
-        <a asp-page="/Seller/CreateProduct" class="btn btn-primary">Create</a>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                            <h5 class="card-title">Registered Store List</h5>
                         <!-- Table with stripped rows -->
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th>STT</th>
                                     <th>Name</th>
                                     <th>Sub Description</th>
                                     <th>Created Date</th>
                                     <th>Image</th> <!-- Thêm cột Image -->
                                     <th>Status</th>
                                     <th>Actions</th> <!-- Thêm cột cho các hành động -->
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -439,43 +443,25 @@
                                                 @{
                                                     string statusClass = item.IsAccept switch
                                                     {
-                                                        "Approved" => "status-accepted",
-                                                        "Rejected" => "status-rejected",
-                                                        "Pending" => "status-pending",
+                                                        "APPROVED" => "status-accepted",
+                                                        "REJECTED" => "status-rejected",
+                                                        "PENDING" => "status-pending",
                                                         _ => "" // Không có giá trị nào khác
                                                     };
                                                 }
                                                 <span class="@statusClass">@item.IsAccept</span>
                                             </td>
-
                                             <td>
                                                 <button onclick="window.location.href='/seller/UpdateStore/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                                <form method="post" asp-page-handler="OnPostAsync" style="display:inline;">
-                                                    <input type="hidden" name="Id" value="@item.StoreId" />
-                                                    <input type="hidden" name="isAccept" value="2" />
-                                                    <button type="submit" class="btn btn-danger">Register Store</button>
-                                                </form>
-                                                <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Hide this user</h5>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to hide this user?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                                    Back
-                                                                </button>
-                                                                <button type="button" class="btn btn-primary">Yes</button>
-                                                                <button type="button" class="btn btn-primary">No</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
+                                                    @if (item.IsAccept == "REJECTED")
+                                                    {
+                                                    <form method="post" asp-page-handler="OnPostAsync" style="display:inline;">
+                                                        <input type="hidden" name="Id" value="@item.StoreId" />
+                                                        <input type="hidden" name="isAccept" value="2" />
+                                                        <button type="submit" class="btn btn-danger">Register Store</button>
+                                                    </form>
+                                                    }
                                             </td>
                                         </tr>
                                         stt++;

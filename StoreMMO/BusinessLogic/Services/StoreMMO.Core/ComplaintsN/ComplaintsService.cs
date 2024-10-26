@@ -15,10 +15,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.ComplaintsN
         {
             _complaintsRepository = complaintsRepository;
         }
-        public IEnumerable<ComplaintsMapper> GetAll()
+        public IEnumerable<ComplaintsMapper> GetAll(string id)
         {
             // Gọi phương thức GetAll từ repository để lấy danh sách complaints
-            var complaints = _complaintsRepository.GetAll();
+            var complaints = _complaintsRepository.GetAll(id);
             return complaints;
         }
 
@@ -27,9 +27,14 @@ namespace BusinessLogic.Services.StoreMMO.Core.ComplaintsN
             return _complaintsRepository.GetAllReportAdmin();
         }
 
-        public bool ReportAdmin(string id)
+        public UserMapper GetUserById(string id)
         {
-            return _complaintsRepository.ReportAdmin(id);
+            return _complaintsRepository.GetUserById(id);
+        }
+
+        public bool ReportAdmin(string id, string status)
+        {
+            return _complaintsRepository.ReportAdmin(id,status);
         }
     }
 }

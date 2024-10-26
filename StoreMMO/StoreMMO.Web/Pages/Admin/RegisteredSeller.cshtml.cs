@@ -61,11 +61,11 @@ namespace StoreMMO.Web.Pages.Admin
                             var addRoleResult = await _userManager.AddToRoleAsync(find, "Seller");
                             if (addRoleResult.Succeeded)
                             {
-                                success = "User successfully updated to 'Seller'.";
+                                success = "Updated to 'Seller' successfully!";
                             }
                             else
                             {
-                                fail = "Failed to add 'Seller' role.";
+                                fail = "Updated to 'Seller' fail!";
                             }
                         }
                         else
@@ -109,11 +109,11 @@ namespace StoreMMO.Web.Pages.Admin
                             var addRoleResult = await _userManager.AddToRoleAsync(find, "User");
                             if (addRoleResult.Succeeded)
                             {
-                                success = "User successfully reject user!";
+                                success = "Reject 'User' to 'Seller' successfully!";
                             }
                             else
                             {
-                                fail = "Failed to add 'User' role.";
+                                fail = "Reject 'User' to 'Seller' fail!";
                             }
                         }
                         else

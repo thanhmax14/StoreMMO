@@ -414,13 +414,14 @@
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <td>Seller</td>
-                                        <td>Customer</td>
+                                        <th>STT</th>
+                                        <th>Seller</th>
+                                        <th>Customer</th>
+                                        <th>Product</th>
                                         <th>Description</th>
                                         <th>Price</th> <!-- Thêm cột cho Price -->
-                                        <th>OrderCode</th>
-                                        <th></th>
+                                        <th>Order Code</th>
+                                        <th>Action</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -432,12 +433,12 @@
                                     {
                                         <tr>
                                             <td>@stt</td>
-                                            <td>@(item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.FullName ?? "Not found!")</td>
-                                            <td>@(item.OrderDetailmap?.orderBuymap?.UserMap?.FullName ?? "Not found!")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.FullName ?? "khong tim thay")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.UserMap?.FullName ?? "notfound")</td>
+                                            <td>@(item.OrderDetailmap?.productMapper?.ProductTypemap?.Name ?? "Chưa xác định")</td>
                                             <td>@item.Description</td>
-
-                                            <td>@(item.OrderDetailmap.Price ?? "Not found!")</td>
-                                            <td>@(item.OrderDetailmap?.orderBuymap?.OrderCode ?? "Not found!")</td>
+                                            <td>@(item.OrderDetailmap.Price != null ? $"${item.OrderDetailmap.Price}" : "Chưa xác định")</td>
+                                            <td>@(item.OrderDetailmap?.orderBuymap?.OrderCode ?? "Chưa xác định")</td>
                                             <td>
                                                 <div style="display: flex; gap: 5px;">
                                                     <form method="post" asp-page-handler="OnPostAsync">
