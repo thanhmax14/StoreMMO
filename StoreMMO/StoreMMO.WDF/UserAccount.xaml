@@ -25,7 +25,7 @@
                 <TextBlock Foreground="#2C3E50" FontWeight="Bold" HorizontalAlignment="Left"  FontSize="30">User Account List</TextBlock>
             </StackPanel>
             <!-- Danh sách hiển thị thông tin người dùng -->
-            <ListView Name="lvEntried" ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
+            <ListView Name="lvEntried" ItemsSource="{Binding UserList}" SelectedItem="{Binding SelectUser, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
                 <ListView.View>
                     <GridView>
                         <!-- Cột FullName -->
@@ -90,37 +90,45 @@
                 <!-- Ô nhập Name -->
                 <WrapPanel Margin="0,5,0,5" >
                     <TextBlock VerticalAlignment="Center" Width="250" TextAlignment="Right" FontSize="16" FontWeight="Bold">Full Name:</TextBlock>
-                    <TextBox Text="{Binding DisplayName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="name" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
+                    <TextBox Text="{Binding FullNameInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="name" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
                 </WrapPanel>
 
                 <!-- Ô nhập CreateDate -->
                 <WrapPanel Margin="0,0,0,5">
                     <TextBlock VerticalAlignment="Center" Width="250" TextAlignment="Right" FontSize="16" FontWeight="Bold">Create Date:</TextBlock>
-                    <DatePicker Text="{Binding DisplayCreateDate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="createdate" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></DatePicker>
+                    <DatePicker Text="{Binding CreateDateInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="createdate" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></DatePicker>
                 </WrapPanel>
 
                 <!-- Ô nhập Email -->
                 <WrapPanel Margin="0,0,0,5" >
                     <TextBlock VerticalAlignment="Center" Width="250" TextAlignment="Right" FontSize="16" FontWeight="Bold">Email:</TextBlock>
-                    <TextBox Text="{Binding DisplayEmail, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="email" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
+                    <TextBox Text="{Binding EmailInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="email" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
                 </WrapPanel>
 
                 <!-- Ô nhập UserName -->
                 <WrapPanel Margin="0,0,0,5">
                     <TextBlock VerticalAlignment="Center" Width="250" TextAlignment="Right" FontSize="16" FontWeight="Bold">User Name:</TextBlock>
-                    <TextBox Text="{Binding DisplayUserName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="username" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
+                    <TextBox Text="{Binding UserNameInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="username" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
                 </WrapPanel>
 
                 <!-- Ô nhập PhoneNumber -->
                 <WrapPanel Margin="0,0,0,5">
                     <TextBlock VerticalAlignment="Center" Width="250" TextAlignment="Right" FontSize="16" FontWeight="Bold">Phone Number:</TextBlock>
-                    <TextBox Text="{Binding DisplayPhoneNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="phonenumber" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
+                    <TextBox Text="{Binding PhoneInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="phonenumber" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
                 </WrapPanel>
 
                 <!-- Ô nhập RoleName -->
-                <WrapPanel Margin="0,0,0,5" >
+                <WrapPanel Margin="0,0,0,5">
                     <TextBlock VerticalAlignment="Center" Width="250" TextAlignment="Right" FontSize="16" FontWeight="Bold">Role Name:</TextBlock>
-                    <TextBox Text="{Binding DisplayRoleName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Name="rolename" Width="450" Height="30" Margin="5,0,0,0" FontSize="16"></TextBox>
+                    <ComboBox 
+        SelectedItem="{Binding RoleInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+        Width="450" 
+        Height="30" 
+        Margin="5,0,0,0" 
+        FontSize="16">
+                        <ComboBoxItem Content="Seller"/>
+                        <ComboBoxItem Content="User"/>
+                    </ComboBox>
                 </WrapPanel>
 
                 <!-- Nút cập nhật và ẩn -->

@@ -22,7 +22,7 @@
                 <TextBlock Foreground="#2C3E50" FontWeight="Bold" HorizontalAlignment="Left"  FontSize="30">Hidden User Account List</TextBlock>
             </StackPanel>
             <!-- Danh sách hiển thị thông tin người dùng -->
-            <ListView Name="lvEntried" ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
+            <ListView Name="lvEntried" ItemsSource="{Binding UserList}" SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
                 <ListView.View>
                     <GridView>
                         <!-- Cột FullName -->

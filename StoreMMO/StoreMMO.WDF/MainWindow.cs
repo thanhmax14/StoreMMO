@@ -13,25 +13,30 @@ namespace StoreMMO.WDF
         private readonly HiddenCategoriesListModel _hiddenCategoriesList;
         private readonly StoreTypeListViewModel _storeTypeListViewModel;
         private readonly HiddenStoreTypeListViewModel _hiddenStoreTypeListViewModel;
+        private readonly UserAccountViewModel _userAccountViewModel;
+        private readonly HidentUserAccountViewModel _hidentUserAccountViewModel;
        
         public MainWindow(CategoryViewModel categoryService, HiddenCategoriesListModel hiddenCategoriesList, StoreTypeListViewModel storeTypeListViewModel
-            , HiddenStoreTypeListViewModel hiddenStoreTypeListViewModel)
+            , HiddenStoreTypeListViewModel hiddenStoreTypeListViewModel, UserAccountViewModel userAccountViewModel,
+            HidentUserAccountViewModel hidentUserAccountViewModel)
         {
             InitializeComponent();
             _categoryService = categoryService;
             _hiddenCategoriesList = hiddenCategoriesList;
             _storeTypeListViewModel = storeTypeListViewModel;
             _hiddenStoreTypeListViewModel = hiddenStoreTypeListViewModel;
+            _userAccountViewModel = userAccountViewModel;
+            _hidentUserAccountViewModel = hidentUserAccountViewModel;
         }
 
         private void button_UserAccountList(object sender, RoutedEventArgs e)
         {
-            frMain.Content = new UserAccount();
+            frMain.Content = new UserAccount(_userAccountViewModel);
         }
 
         private void buttonHiddenUserAccountList(object sender, RoutedEventArgs e)
         {
-            frMain.Content = new HiddenUserAccount();
+            frMain.Content = new HiddenUserAccount(_hidentUserAccountViewModel);
         }
 
         private void buttonRegisteredSellers(object sender, RoutedEventArgs e)
