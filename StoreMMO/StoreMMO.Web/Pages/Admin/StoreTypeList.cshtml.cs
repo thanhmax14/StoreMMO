@@ -47,11 +47,11 @@ namespace StoreMMO.Web.Pages.Admin
                 storeType.IsActive = false; // Ẩn danh mục
                 var result = _store.UpdateStoreType(storeType); // Cập nhật danh mục
 
-                success = "Active category successfully";
+                success = "Hidden StoreType successfully";
             }
             else
             {
-                fail = "Active failed category";
+                fail = "Hidden failed StoreType";
             }
 
             // Chuyển hướng lại trang danh sách danh mục ẩn sau khi xử lý

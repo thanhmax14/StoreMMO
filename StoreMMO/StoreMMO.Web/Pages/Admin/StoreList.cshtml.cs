@@ -43,7 +43,11 @@ namespace StoreMMO.Web.Pages.Admin
             }
 
             // Chuyển hướng lại trang danh sách danh mục ẩn sau khi xử lý
+<<<<<<< Updated upstream
             return RedirectToPage("CategoriesListHidden");
+=======
+            return RedirectToPage("StoreList");
+>>>>>>> Stashed changes
         }
 
 

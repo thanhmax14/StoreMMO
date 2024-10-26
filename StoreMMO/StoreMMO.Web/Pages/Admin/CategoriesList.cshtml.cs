@@ -48,11 +48,6 @@ namespace StoreMMO.Web.Pages.Admin
 
             // Chuyển hướng lại trang danh sách danh mục ẩn sau khi xử lý
             return RedirectToPage("CategoriesList");
-           
-           
-            
-
-
             // Nếu thành công, chuyển hướng lại danh sách categories
            
         }

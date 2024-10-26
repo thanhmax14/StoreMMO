@@ -431,7 +431,7 @@
                                             <td>
                                                 <div style="display: flex; gap: 5px;">
                                                 <!-- Nút Edit -->
-                                              
+                                                    <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
                                                 <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
                                                     <!-- Hidden input để gửi id -->
                                                     <input type="hidden" name="id" value="@item.Id" />
