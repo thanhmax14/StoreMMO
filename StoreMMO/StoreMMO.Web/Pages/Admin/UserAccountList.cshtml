@@ -465,9 +465,10 @@
                                                                     Back
                                                                 </button>
 
-
-                                                            
-
+                                                                <form method="post" asp-page-handler="Asyns">
+                                                                    <input type="hidden" id="hiddenUserId" name="id" />
+                                                                    <button type="submit" class="btn btn-primary">Yes</button>
+                                                                </form>
                                                                 <button type="button" class="btn btn-primary"
                                                                         data-bs-dismiss="modal">
                                                                     No

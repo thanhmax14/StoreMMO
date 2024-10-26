@@ -34,16 +34,17 @@ namespace StoreMMO.Web.Pages.Admin
             {
                 category.IsAccept = "0"; // Ẩn danh mục
                 //_storeService.UpdateStore(category); // Cập nhật danh mục
+                _storeService.Update(category);
 
-                success = "Active category successfully";
+                success = "Hidden Store successfully";
             }
             else
             {
-                fail = "Active failed category";
+                fail = "Hidden failed Store";
             }
 
             // Chuyển hướng lại trang danh sách danh mục ẩn sau khi xử lý
-            return RedirectToPage("CategoriesListHidden");
+            return RedirectToPage("admin/StoreList");
         }
 
 
