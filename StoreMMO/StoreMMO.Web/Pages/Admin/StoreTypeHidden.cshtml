@@ -432,7 +432,7 @@
                                         <tr>
                                             <td>@stt</td>
                                             <td>@item.Name</td>
-                                            <td>@item.Commission</td>
+                                            <td>@item.Commission%</td>
                                             <td>@(item.CreatedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
                                             <td>@(item.ModifiedDate?.ToString("yyyy/dd/MM") ?? "Null Data")</td>
 
@@ -444,7 +444,7 @@
                                                     <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
                                                         <!-- Hidden input để gửi id -->
                                                         <input type="hidden" name="id" value="@item.Id" />
-                                                        <button type="submit" class="btn btn-danger">
+                                                        <button type="submit" class="btn btn-primary">
                                                             Active
                                                         </button>
                                                     </form>

@@ -437,13 +437,26 @@
                                             <td>@item.UserName</td>
 
                                             <td><img src="@item.imgStore" width="240" height="120" /> </td>
-
                                             <td>
-                                                <button type="button" class="btn btn-danger">Active</button>
+                                                <div style="display: flex; gap: 5px;">
+                                                    <!-- Nút Edit -->
+
+                                                    <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
+                                                        <!-- Hidden input để gửi id -->
+                                                        <input type="hidden" name="id" value="@item.storeID" />
+                                                        <button type="submit" class="btn btn-primary">
+                                                            Active
+                                                        </button>
+                                                    </form>
+
+                                                    <script>
+                                                        function confirmHidden() {
+                                                            return confirm('Are you sure you want to Active this item?');
+                                                        }
+                                                    </script>
+
+                                                </div>
                                             </td>
-
-
-                                            
                                         </tr>
                                         stt++;
                                     }
