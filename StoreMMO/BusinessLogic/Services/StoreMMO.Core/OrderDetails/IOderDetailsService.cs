@@ -18,5 +18,6 @@ namespace BusinessLogic.Services.StoreMMO.Core.OrderDetails
         Task<IEnumerable<OrderDetailsViewModels>> GetOrderDetailsByOrderBuyIDAsync(string userID);
 
         IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID);
-    }
+	 	Task<bool> UpdateDetailAsync(OrderDetailsViewModels orderDetailViewModels);
+	}
 }
