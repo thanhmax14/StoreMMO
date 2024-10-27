@@ -79,7 +79,7 @@ namespace StoreMMO.Web.Pages.Account
                 }
                 else if (result.Succeeded)
                 {
-                    HttpContext.Session.SetString("Email", inputLogin.Email);
+                    HttpContext.Session.SetString("Email", user.Email);
                     HttpContext.Session.SetString("UserName", user.UserName);
                     HttpContext.Session.SetString("UserID", user.Id);
                     return RedirectToPage("/Index");
