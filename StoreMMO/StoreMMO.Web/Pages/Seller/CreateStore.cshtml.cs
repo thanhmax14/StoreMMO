@@ -53,7 +53,7 @@ namespace StoreMMO.Web.Pages.Seller
         public IActionResult OnPost()
         {
             // Bước 1: Lấy UserId từ session
-            var userId = HttpContext.Session.GetString("UserId");
+            var userId = HttpContext.Session.GetString("UserID");
             //var userId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
             if (string.IsNullOrEmpty(userId))
             {
@@ -124,7 +124,7 @@ namespace StoreMMO.Web.Pages.Seller
             _context.SaveChanges();
 
             success = "Create Successfully!";
-            return Page();
+            return RedirectToPage("/seller/createstore");
         }
     }
 }
