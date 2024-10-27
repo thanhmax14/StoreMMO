@@ -55,6 +55,5 @@ namespace StoreMMO.Core.Repositories.Withdraw
             var list = this._context.Database.SqlQueryRaw<WithdrawViewModels>(sql).ToList();
             return list;
         }
-
     }
 }
