@@ -15,6 +15,10 @@ namespace StoreMMO.Web.Pages.Admin
 {
     public class StoreTypeListModel : PageModel
     {
+        [TempData]
+        public string success { get; set;}
+        [TempData]
+        public string fail { get; set; }
 
         private readonly IStoreTypesService _store;
         public string baoloi;
@@ -40,24 +44,20 @@ namespace StoreMMO.Web.Pages.Admin
         public IActionResult OnPostHidden(string id)
         {
 
-            var storeType = _store.getByIdStoreTypes(id);
 
-            if (storeType != null)
+            var cate = _store.getByIdStoreTypes(id);
+            cate.IsActive = false;
+            var result = _store.UpdateStoreType(cate);
+            if (result!= null)
             {
-                storeType.IsActive = false; // Ẩn danh mục
-                var result = _store.UpdateStoreType(storeType); // Cập nhật danh mục
-
-                success = "Hidden StoreType successfully";
+                success = "Hidden success";
+                return RedirectToPage("StoreTypeList");
             }
             else
             {
-                fail = "Hidden failed StoreType";
+                fail = "Hidden fail";
             }
 
-            // Chuyển hướng lại trang danh sách danh mục ẩn sau khi xử lý
-            return RedirectToPage("StoreTypeList");
-           
-           
             // Nếu thành công, chuyển hướng lại danh sách categories
             
 

@@ -8,12 +8,19 @@ using StoreMMO.Core.Models;
 namespace StoreMMO.Web.Pages.Seller.Complain
 {
     public class ComplainListModel : PageModel
-    {
+    { 
+
+
         private readonly IComplaintsService _complaintsServices;
         private readonly AppDbContext _context;
-        //    public string UserId { get; private set; }
 
-        //  var currentUserId = HttpContext.Session.GetString("UserID");
+        [TempData]
+        public string successreportad { get; set; }
+        [TempData]
+        public string failreportad { get; set; }
+    //    public string UserId { get; private set; }
+        
+      //  var currentUserId = HttpContext.Session.GetString("UserID");
 
         public ComplainListModel(IComplaintsService complaintsServices, AppDbContext appDbContext)
         {
@@ -26,11 +33,11 @@ namespace StoreMMO.Web.Pages.Seller.Complain
         public void OnGet()
         {
 
-            //  string UserId = HttpContext.Session.GetString("UserID");
-
             string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
             listcomplaints = _complaintsServices.GetAll(UserId);
         }
+        [BindProperty]
+        public string  MyProperty { get; set; }
 
         public IActionResult OnPostReportAdmin()
         {
@@ -38,9 +45,14 @@ namespace StoreMMO.Web.Pages.Seller.Complain
             var result = _complaintsServices.ReportAdmin(id, "ReportAdmin");
 
             if (result)
-            {
+            { 
+                successreportad = "Report Admin success"; 
                 return RedirectToPage("ComplainList");
             }
+       else
+       {
+       failreportad = "Report Admin fail";
+       }
             return Page();
         }
 
@@ -117,57 +129,75 @@ namespace StoreMMO.Web.Pages.Seller.Complain
 
                 _context.SaveChanges();
                 transaction.Commit();
-
+                successreportad = "Refund success";
                 return RedirectToPage("ComplainList");
             }
             catch (Exception)
-            {
+            { failreportad = "Refund fail";
                 transaction.Rollback();
                 ModelState.AddModelError("", "An error occurred while processing the refund.");
+            //  return RedirectToPage("ComplainList");
                 return Page();
             }
         }
 
         public IActionResult OnPostWarrant()
         {
-            var idstore = Request.Form["idstore"];
-            var iduser = Request.Form["iduser"];
-            var idproducttype = Request.Form["idproducttype"];
-            var idproduct = Request.Form["idproduct"];
-
-            var orderBuy = new OrderBuy
-            {
-                ID = Guid.NewGuid().ToString(),
-                UserID = iduser,
-                StoreID = idstore,
-                ProductTypeId = idproducttype,
-                Status = "paid",
-                OrderCode = BusinessLogic.Services.Encrypt.EncryptSupport.GenerateRandomString(10),
-                totalMoney = "0"
-            };
-
-            _context.Add(orderBuy);
+            var idstore = Request.Form["idstore"].ToString();
+            var iduser = Request.Form["iduser"].ToString();
+            var idproducttype = Request.Form["idproducttype"].ToString();
+            var idproduct = Request.Form["idproduct"].ToString();
+            var protype = _context.ProductTypes.FirstOrDefault(x => x.Id == idproducttype);
+            protype.Stock = (int.Parse(protype.Stock) -1).ToString();
+            _context.ProductTypes.Update(protype);
             _context.SaveChanges();
 
-            var orderDetail = new OrderDetail
+            var pro = _context.Products.FirstOrDefault(x => x.ProductTypeId == idproducttype && x.Status.ToLower() == "new");
+
+            if (pro != null)
             {
-                ID = Guid.NewGuid().ToString(),
-                OrderBuyID = orderBuy.ID,
-                ProductID = idproduct,
-                quantity = "1",
-                stasusPayment = "paid",
-                AdminMoney = "0",
-                SellerMoney = "0",
-                Dates = DateTime.Now,
-                status = "refun",
-                Price = "0"
-            };
+                var proid = pro.Id.ToString();
+                pro.Status = "Paid";
+                pro.StatusUpload = DateTime.Now.ToString();
+                _context.Products.Update(pro);
+                _context.SaveChanges();
 
-            _context.Add(orderDetail);
-            _complaintsServices.ReportAdmin(Request.Form["id"], "done");
-            _context.SaveChanges();
+                var orderBuy = new OrderBuy
+                {
+                    ID = Guid.NewGuid().ToString(),
+                    UserID = iduser,
+                    StoreID = idstore,
+                    ProductTypeId = idproducttype,
+                    Status = "paid",
+                    OrderCode = BusinessLogic.Services.Encrypt.EncryptSupport.GenerateRandomString(10),
+                    totalMoney = "0"
+                };
 
+                _context.Add(orderBuy);
+                _context.SaveChanges();
+
+                var orderDetail = new OrderDetail
+                {
+                    ID = Guid.NewGuid().ToString(),
+                    OrderBuyID = orderBuy.ID,
+                    ProductID = proid,
+                    quantity = "1",
+                    stasusPayment = "paid",
+                    AdminMoney = "0",
+                    SellerMoney = "0",
+                    Dates = DateTime.Now,
+                    status = "refun",
+                    Price = "0"
+                };
+
+                _context.Add(orderDetail);
+                _complaintsServices.ReportAdmin(Request.Form["id"].ToString(), "done");
+                _context.SaveChanges();
+
+                successreportad = "Warrant success";
+            }
             return RedirectToPage("ComplainList");
         }
+
     }
 }
