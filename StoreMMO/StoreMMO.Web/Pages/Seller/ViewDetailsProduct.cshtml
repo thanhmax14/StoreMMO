@@ -291,19 +291,19 @@
                 </a>
                 <ul id="components-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/Seller/Index" onclick="window.location.href='/Seller/Index'" >
+                        <a href="/Seller/Index" onclick="window.location.href='/Seller/Index'">
                             <i class="bi bi-circle"></i><span>Manage Store</span>
                         </a>
                     </li>
-<li>
-                          <a href="/Seller/ViewDetailsProduct" class="active">
-                              <i class=" bi bi-circle"></i><span>ViewDetailsProduct</span>
-                          </a>
-                      </li> 
-                    @* <li>
-                        <a href="/Seller/UpdateProduct" onclick="window.location.href='/Seller/UpdateProduct'">
-                            <i class=" bi bi-circle"></i><span>Manage ProductType</span>
+                    <li>
+                        <a href="/Seller/ViewDetailsProduct" class="active">
+                            <i class=" bi bi-circle"></i><span>ViewDetailsProduct</span>
                         </a>
+                    </li>
+                    @* <li>
+                    <a href="/Seller/UpdateProduct" onclick="window.location.href='/Seller/UpdateProduct'">
+                    <i class=" bi bi-circle"></i><span>Manage ProductType</span>
+                    </a>
                     </li> *@
                 </ul>
             </li><!-- End Components Nav -->
@@ -381,20 +381,20 @@
     </aside><!-- End Sidebar-->
 
     <main id="main" class="main">
-@* 
+        @*
         <div class="pagetitle">
-            <h1>User List Tables</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Tables</li>
-                    <li class="breadcrumb-item active">Data</li>
-                </ol>
-            </nav>
+        <h1>User List Tables</h1>
+        <nav>
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active">Data</li>
+        </ol>
+        </nav>
         </div><!-- End Page Title --> *@
 
         <section class="section">
-            <a asp-page="/Seller/CreateProduct" class="btn btn-primary">Create</a>
+            <a asp-page="/Seller/CreateProduct" class="btn btn-danger">Create</a>
             <div class="row">
                 <div class="col-lg-12">
 
@@ -414,23 +414,81 @@
                                         <th>CreatedDate</th>
                                     </tr>
                                 </thead>
-                            
+
                                 <tbody>
                                     @{
                                         int count = 1;
                                     }
                                     @foreach (var item in Model.Products)
                                     {
+
+                                  
                                         <tr>
                                             <td>@count</td>
                                             <td>@item.Account</td>
                                             <td>@item.Pwd</td>
                                             <td>@item.StatusUpload</td>
-                                            <td>@item.Status</td>
+                                            <td class="@(item.Status == "New" ? "text-success" : "text-danger")">
+                                                @(item.Status == "New" ? "New" : "Paid")
+                                            </td>
                                             <td>@item.CreatedDate?.ToString("dd/MM/yyyy")</td>
+                                            <td>
+                                                <!-- Nút để mở modal -->
+                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.Id">
+                                                    Edit
+                                                </button>
+
+                                            </td>
+                                            @if (item.Status == "New")
+                                            {
+                                                <td>
+                                                    <!-- Nút để mở modal -->
+                                                    <!-- Nút với asp-page-handler -->
+                                                      <a asp-page-handler="Hidden" data-productid="@item.Id" class="btn btn-primary">Hidden</a>
+                                               </td>
+                                            
+                                            }
+                                           
+                                            <div class="modal fade" id="exampleModal-@item.Id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Edit Product</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <!-- Form to update product -->
+                                                            <form id="editProductForm-@item.Id" method="post" class="editProductForm" data-product-id="@item.Id" action="/Seller/ViewDetailsProduct">
+                                                                @Html.AntiForgeryToken() <!-- Add this line -->
+                                                                <div class="form-group">
+                                                                    <label asp-for="@item.Account">Account</label>
+                                                                    <input asp-for="@item.Account" type="text" name="Account" id="Account-@item.Account" class="form-control" value="@item.Account" />
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label asp-for="@item.Pwd">Pwd</label>
+                                                                    <input asp-for="@item.Pwd" type="text" name="Pwd" id="Pwd-@item.Pwd" class="form-control" value="@item.Pwd" />
+                                                                </div>
+                                                          @*       <div class="form-group">
+                                                                    <label asp-for="@item.Status">Status</label>
+                                                                    <select asp-for="@item.Status" class="form-control" name="Status" id="Status-@item.Status">
+                                                                        <option value="Paid">Paid</option>
+                                                                        <option value="New">New</option>
+                                                                    </select>
+                                                                </div> *@
+                                                                <div class="form-group">
+                                                                    <input type="submit" value="Save" class="btn btn-primary" />
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </tr>
                                         ++count;
+
                                     }
+
                                 </tbody>
                             </table>
                             <!-- End Table with stripped rows -->
@@ -471,6 +529,110 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(document).on('submit', '.editProductForm', function (event) {
+                    event.preventDefault(); // Ngăn chặn hành vi gửi form mặc định
+
+                    var productId = $(this).data('product-id'); // Lấy product ID từ data attribute
+                    var formData = $(this).serialize(); // Serialize form data
+                    formData += '&id=' + productId; // Thêm product ID vào form data
+
+                    $.ajax({
+                        url: '/Seller/ViewDetailsProduct', // URL gửi request
+                        type: 'POST',
+                        data: formData,
+                        success: function (response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Update Successful',
+                                    text: 'Product information has been updated.'
+                                }).then(function () {
+                                    location.reload(); // Tải lại trang sau khi thành công
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'An Error Occurred',
+                                    text: response.message || 'Unable to update product information. Please try again later.'
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'An Error Occurred',
+                                text: 'Unable to update product information. Please try again later.'
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+        <script>
+            $(document).on("click", ".btn-primary[data-productid]", function (e) {
+                e.preventDefault();
+
+                const productId = $(this).data("productid");
+                const token = $('input[name="__RequestVerificationToken"]').val();
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you want to hide this product?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, hide it!',
+                    cancelButtonText: 'No, keep it'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Người dùng chọn Yes
+                        $.ajax({
+                            type: "POST",
+                            url: "/Seller/ViewDetailsProduct?handler=Hidden",
+                            data: { Productid: productId, __RequestVerificationToken: token },
+                            success: function (response) {
+                                if (response.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Product Hidden Successfully',
+                                        text: response.message || 'Product has been hidden successfully.'
+                                    }).then(function () {
+                                        location.reload(); // Tải lại trang sau khi thành công
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'An Error Occurred',
+                                        text: response.message || 'Unable to hide product. Please try again later.'
+                                    });
+                                }
+                            },
+                            error: function () {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'An Error Occurred',
+                                    text: 'Unable to hide product. Please try again later.'
+                                });
+                            }
+                        });
+                    } else {
+                        // Người dùng chọn No, không làm gì cả
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Action Cancelled',
+                            text: 'The product was not hidden.'
+                        });
+                    }
+                });
+            });
+        </script>
+    }
 
 </body>
 

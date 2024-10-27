@@ -2,9 +2,6 @@
 @model StoreMMO.Web.Pages.Seller.IndexModel
 @{
 }
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -384,16 +381,16 @@
 
     <main id="main" class="main">
 
-@*          <div class="pagetitle">
-             <h1>User List Tables</h1>
-             <nav>
-                 <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                     <li class="breadcrumb-item">Tables</li>
-                     <li class="breadcrumb-item active">Data</li>
-                 </ol>
-             </nav>
-         </div><!-- End Page Title --> *@
+        @*          <div class="pagetitle">
+        <h1>User List Tables</h1>
+        <nav>
+        <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item">Tables</li>
+        <li class="breadcrumb-item active">Data</li>
+        </ol>
+        </nav>
+        </div><!-- End Page Title --> *@
 
         <section class="section">
             <div class="row">
@@ -402,7 +399,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Manage Store</h5>
-
+                            <button onclick="window.location.href='/seller/createstore'" type="button" class="btn btn-primary">Add Store</button>
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
                                 <thead>
@@ -415,6 +412,8 @@
                                         <th>Stock</th>
                                         <th>CreatedDate</th>
                                         <th>IsAccept</th>
+                                        <th>Actions</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -422,57 +421,59 @@
                                         int stt = 1;
                                     }
                                     @foreach (var item in Model.products)
-                                      {
-                                          <tr>
-                                              <td>@stt</td>
-                                           @*  @{
-                                                var productTypeName = Model.ProductTypes.FirstOrDefault(pt => pt.Id == item.ProductTypeId)?.Name;
-                                            } *@
-                                            <td>@item.StoreName</td> <!-- Hiển thị tên của ProductType -->
+                                    {
+                                        <tr>
+                                            <td>@stt</td>
+                                            @*  @{
+                                        var productTypeName = Model.ProductTypes.FirstOrDefault(pt => pt.Id == item.ProductTypeId)?.Name;
+                                        } *@
+                                            <td><a asp-page="/Seller/ViewStore" asp-route-storedetailid="@item.StoreDetailId" class="btn-custom">@item.StoreName</a></td>
+                                            @* <td>@item.StoreName</td> *@
                                             <td>@item.CategoryName</td>
-                                             <td>@item.PriceRange</td>
-                                             <td>@item.Commission</td>
-                                             <td>@item.TotalStock</td>
-                                             <td>@item.CreatedDate?.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.PriceRange</td>
+                                            <td>@item.Commission</td>
+                                            <td>@item.TotalStock</td>
+                                            <td>@item.CreatedDate?.ToString("dd/MM/yyyy")</td>
                                             <td class="@(item.IsAccept == "0" ? "text-success" : item.IsAccept == "1" ? "text-danger" : "text-warning")">
                                                 @(item.IsAccept == "0" ? "APPROVED" : item.IsAccept == "1" ? "REJECTED" : "PENDING")
                                             </td>
 
-                                              <td>
-                                                 @*  <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
-                                                   <button type="button" class="btn btn-danger">Hidden</button>
-                                            *@     
+                                            <td>
+                                                @*  <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
+                                            <button type="button" class="btn btn-danger">Hidden</button>
+                                            *@
                                                 <a asp-page="/Seller/UpdateProduct" asp-route-id="@item.Id" class="btn btn-primary">View Details</a>
-                                              @Html.AntiForgeryToken()
+                                                <a asp-page="/Seller/UpdateStoreDetail" asp-route-storedetailid="@item.StoreDetailId" class="btn btn-primary">Update</a>
+                                                @Html.AntiForgeryToken()
 
-@*                                                 <a href="#" class="btn btn-danger" onclick="confirmHide('@item.Id')">Hidden</a>
- *@
-                                               @*   <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                         data-bs-target="#verticalycentered">
-                                                     Hidden
-                                                 </button> *@
+                                                @*                                                 <a href="#" class="btn btn-danger" onclick="confirmHide('@item.Id')">Hidden</a>
+                                            *@
+                                                @*   <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                            data-bs-target="#verticalycentered">
+                                            Hidden
+                                            </button> *@
                                                 @* <div class="modal fade" id="verticalycentered" tabindex="-1">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Hidden that user</h5>
-                                                                <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                Are you sure you want to hide this user?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button left" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">
-                                                                    Back
-                                                                </button>
-                                                                <button type="button" class="btn btn-primary">Yes</button>
-                                                                <button type="button" class="btn btn-primary">No</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> *@
+                                            <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title">Hidden that user</h5>
+                                            <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            Are you sure you want to hide this user?
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button left" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">
+                                            Back
+                                            </button>
+                                            <button type="button" class="btn btn-primary">Yes</button>
+                                            <button type="button" class="btn btn-primary">No</button>
+                                            </div>
+                                            </div>
+                                            </div>
+                                            </div> *@
                                             </td>
                                         </tr>
                                         stt++;
@@ -490,6 +491,21 @@
         </section>
 
     </main><!-- End #main -->
+    <style>
+        .btn-custom {
+            
+            color: black; /* Chữ đen */
+            text-decoration: underline; /* Gạch chân chữ */
+            border: none; /* Không viền */
+            padding: 10px 20px; /* Khoảng cách bên trong nút */
+            cursor: pointer; /* Con trỏ khi hover */
+            transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền */
+        }
+
+            .btn-custom:hover {
+                background-color: #f0f0f0; /* Màu nền khi hover */
+            }
+    </style>
     <!-- ======= Footer ======= -->
     @*     <footer id="footer" class="footer">
     <div class="copyright">

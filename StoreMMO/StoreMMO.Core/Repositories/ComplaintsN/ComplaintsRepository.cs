@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
 using StoreMMO.Core.Models;
@@ -24,24 +24,30 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
 
         public IEnumerable<ComplaintsMapper> GetAll(string id)
         {
+            // Lấy tất cả các complaint liên quan đến seller với ID chỉ định, không phụ thuộc vào Status
             var complaints = _context.Complaints
-                .Where(c => c.Status == "none" &&
-                c.OrderDetail.orderBuy.Store.User.Id == id
-                )      
-          .Include(c => c.OrderDetail)                        // Include OrderDetail của Complaint
-              .ThenInclude(od => od.orderBuy)                // Then Include OrderBuy của OrderDetail
-          .Include(c => c.OrderDetail.orderBuy.AppUser)       // Include AppUser của OrderBuy
-          .Include(c => c.OrderDetail.orderBuy.Store)         // Include Store của OrderBuy
-           
-          .Include(c => c.OrderDetail.Product)                // Include Product của OrderDetail
-              .ThenInclude(p => p.ProductType)               // Then Include ProductType của Product
-          .ToList();
+                .Where(c => c.OrderDetail.orderBuy.Store.User.Id == id)
+                .Include(c => c.OrderDetail)                        // Include OrderDetail của Complaint
+                    .ThenInclude(od => od.orderBuy)                // Then Include OrderBuy của OrderDetail
+                .Include(c => c.OrderDetail.orderBuy.AppUser)       // Include AppUser của OrderBuy
+                .Include(c => c.OrderDetail.orderBuy.Store.User)
+                .Include(c => c.OrderDetail.orderBuy.Store)         // Include Store của OrderBuy
+                .Include(c => c.OrderDetail.Product)                // Include Product của OrderDetail
+                    .ThenInclude(p => p.ProductType)               // Then Include ProductType của Product
+                .ToList();
 
+            // Lọc ra chỉ các complaint có Status "none"
+            var filteredComplaints = complaints
+                .Where(c => c.Status == "none")
+                .ToList();
 
-            var mappedComplaints = _mapper.Map<List<ComplaintsMapper>>(complaints);
-
+            var mappedComplaints = _mapper.Map<List<ComplaintsMapper>>(filteredComplaints);
             return mappedComplaints;
         }
+
+
+
+
 
         public IEnumerable<ComplaintsMapper> GetAllReportAdmin()
         {
@@ -52,6 +58,7 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
           .Include(c => c.OrderDetail.orderBuy.AppUser)       // Include AppUser của OrderBuy
           
           .Include(c => c.OrderDetail.orderBuy.Store)         // Include Store của OrderBuy
+
           .Include(c => c.OrderDetail.Product)                // Include Product của OrderDetail
               .ThenInclude(p => p.ProductType)               // Then Include ProductType của Product
           .ToList();
@@ -84,7 +91,6 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
             var mappedUser = _mapper.Map<UserMapper>(user);
             return mappedUser;
         }
-
 		public async Task<bool> AddAsync(complantViewModels complaints)
 		{
 			try
@@ -184,4 +190,7 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
 
 		
 	}
+       // public bool Wanrant(string producttypeid, )
+    }
+
 }

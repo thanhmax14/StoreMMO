@@ -26,23 +26,23 @@ namespace BusinessLogic.Services.AutoMapper
             CreateMap<StoreDetail, InputProductTypeViewModel>().ReverseMap();
             CreateMap<ProductTypesViewModels, ProductViewModels>().ReverseMap();
             CreateMap<StoreTypeViewModels, Store>().ReverseMap();
+            CreateMap<ProductTypesViewModels, ProductViewModels>().ReverseMap();
 
 
 
-            // cau hinh mapper compaint cuar Ngoc
             // ComplaintsMapper mapping
             CreateMap<Complaint, ComplaintsMapper>()
                 .ForMember(dest => dest.OrderDetailmap, opt => opt.MapFrom(src => src.OrderDetail));
 
             // OrderBuysMapper mapping
             CreateMap<OrderBuy, OrderBuysMapper>()
-                .ForMember(dest => dest.UserMap, opt => opt.MapFrom(src => src.AppUser))
-                .ForMember(dest => dest.StoreMap, opt => opt.MapFrom(src => src.Store));
+                .ForMember(dest => dest.UserMap, opt => opt.MapFrom(src => src.AppUser))       // Ánh xạ User từ OrderBuy.AppUser
+                .ForMember(dest => dest.StoreMap, opt => opt.MapFrom(src => src.Store));        // Ánh xạ Store từ OrderBuy.Store
 
             // OrderDetailsMapper mapping
             CreateMap<OrderDetail, OrderDetailsMapper>()
-                .ForMember(dest => dest.orderBuymap, opt => opt.MapFrom(src => src.orderBuy))
-                .ForMember(dest => dest.productMapper, opt => opt.MapFrom(src => src.Product));
+                .ForMember(dest => dest.orderBuymap, opt => opt.MapFrom(src => src.orderBuy))   // Ánh xạ OrderBuy từ OrderDetail.orderBuy
+                .ForMember(dest => dest.productMapper, opt => opt.MapFrom(src => src.Product)); // Ánh xạ Product từ OrderDetail.Product
 
             // ProductMapper mapping
             CreateMap<Product, ProductMapper>()
@@ -53,17 +53,15 @@ namespace BusinessLogic.Services.AutoMapper
 
             // StoreMapper mapping
             CreateMap<Store, StoreMapper>()
-                .ForMember(dest => dest.Usermapper, opt => opt.MapFrom(src => src.User));
+                .ForMember(dest => dest.Usermapper, opt => opt.MapFrom(src => src.User));       // Ánh xạ User (Seller) từ Store.User
 
             // UserMapper mapping
-            //
-            //CreateMap<AppUser, UserMapper>();
             CreateMap<AppUser, UserMapper>()
-     .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id));                  // Đảm bảo ánh xạ ID từ AppUser.Id
 
-            // New BalanceMapper mapping
-            CreateMap<Balance, BalanceMapper>()
-                .ForMember(dest => dest.Usermapforbalance, opt => opt.MapFrom(src => src.User)); // Map User to Usermapforbalance
+
+           
+
         }
     }
 }
