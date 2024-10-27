@@ -150,43 +150,46 @@ namespace StoreMMO.Core.Repositories.Purchase
 
 		public IEnumerable<GetOrderByUserViewModel> GetAllByUserID(string userID)
 		{
-			string sql = @"SELECT 
-                        OrderBuys.OrderCode,
-                        OrderBuys.ID as OrderID, 
-                        OrderDetails.Dates as OrderDate, 
-                        StoreDetails.Name as StoreName, 
-                        ProductTypes.Name as ProName,
-                        [Users].UserName as Seller, 
-                        COUNT(OrderDetails.ID) as Quantity, 
-                        OrderBuys.totalMoney as TotalPrice, 
-                        OrderBuys.Status 
-                   FROM 
-                        OrderBuys 
-                   INNER JOIN 
-                        OrderDetails ON OrderBuys.ID = OrderDetails.OrderBuyID 
-                   INNER JOIN 
-                        Products ON OrderDetails.ProductID = Products.Id 
-                   INNER JOIN 
-                        ProductTypes ON OrderBuys.ProductTypeId = ProductTypes.Id 
-                        AND Products.ProductTypeId = ProductTypes.Id 
-                   INNER JOIN 
-                        Stores ON OrderBuys.StoreID = Stores.Id 
-                   INNER JOIN 
-                        StoreDetails ON Stores.Id = StoreDetails.StoreId 
-                   INNER JOIN 
-                        Users ON OrderBuys.UserID = Users.Id 
-                        AND Stores.UserId = Users.Id 
-                   WHERE 
-                        OrderBuys.UserID = @userID 
-                   GROUP BY 
-                        OrderBuys.ID, 
-                        OrderDetails.Dates, 
-                        StoreDetails.Name, 
-                        ProductTypes.Name, 
-                        [Users].UserName, 
-                        OrderBuys.totalMoney, 
-                        OrderBuys.Status,
-                        OrderBuys.OrderCode;";
+			string sql = @"SELECT * FROM (
+    SELECT 
+        OrderBuys.OrderCode,
+        OrderBuys.ID as OrderID, 
+        MIN(OrderDetails.Dates) as OrderDate, 
+        StoreDetails.Name as StoreName, 
+        ProductTypes.Name as ProName,
+        [Users].UserName as Seller, 
+        COUNT(OrderDetails.ID) as Quantity, 
+        OrderBuys.totalMoney as TotalPrice, 
+        OrderBuys.Status 
+    FROM 
+        OrderBuys 
+    INNER JOIN 
+        OrderDetails ON OrderBuys.ID = OrderDetails.OrderBuyID 
+    INNER JOIN 
+        Products ON OrderDetails.ProductID = Products.Id 
+    INNER JOIN 
+        ProductTypes ON OrderBuys.ProductTypeId = ProductTypes.Id 
+        AND Products.ProductTypeId = ProductTypes.Id 
+    INNER JOIN 
+        Stores ON OrderBuys.StoreID = Stores.Id 
+    INNER JOIN 
+        StoreDetails ON Stores.Id = StoreDetails.StoreId 
+    INNER JOIN 
+        Users ON OrderBuys.UserID = Users.Id 
+        AND Stores.UserId = Users.Id 
+    WHERE 
+        OrderBuys.UserID = @userID 
+    GROUP BY 
+        OrderBuys.ID, 
+        StoreDetails.Name, 
+        ProductTypes.Name, 
+        [Users].UserName, 
+        OrderBuys.totalMoney, 
+        OrderBuys.Status,
+        OrderBuys.OrderCode
+) AS Orders
+ORDER BY OrderDate DESC;
+";
 
 			var result = _context.Database.SqlQueryRaw<GetOrderByUserViewModel>(sql, new SqlParameter("@userID", userID)).ToList();
 			if (!result.Any())
@@ -208,7 +211,8 @@ namespace StoreMMO.Core.Repositories.Purchase
                         OrderDetails.Price, 
                         OrderDetails.Dates, 
                         OrderDetails.stasusPayment, 
-                        OrderDetails.Status
+                        OrderDetails.Status,
+						OrderDetails.id  as DetailID
                    FROM 
                         OrderDetails 
                    INNER JOIN 

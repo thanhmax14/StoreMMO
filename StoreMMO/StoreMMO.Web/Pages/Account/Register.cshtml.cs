@@ -62,8 +62,6 @@ namespace StoreMMO.Web.Pages.Account
 
                     await _emailSender.SendEmailAsync(inputRegister.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    
                     if (!await _roleManager.RoleExistsAsync("USER"))
 					{
 						await _roleManager.CreateAsync(new IdentityRole("USER"));

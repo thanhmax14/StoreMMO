@@ -478,7 +478,7 @@
 										<i class="fas fa-coins"></i>
 									 
 									 
-									   1000</span>
+									   @Model.Balance</span>
 								</a>
 									
 							</li>
@@ -574,7 +574,7 @@
 
 									<div class="col-6 col-md-4">
 										<div class="feature-box text-center pb-4">
-											<a href="wishlist.html"><i class="sicon-heart"></i></a>
+											<a href="/wishlist/view"><i class="sicon-heart"></i></a>
 											<div class="feature-box-content">
 												<h3>WISHLIST</h3>
 											</div>
@@ -671,7 +671,7 @@
 											else
 											{
 												<tr>
-													<td class="text-center p-0" colspan="7">
+													<td class="text-center p-0" colspan="10">
 														<p class="mb-5 mt-5">
 															No Order has been made yet.
 														</p>
@@ -800,7 +800,142 @@
         </div>
     </div>
 
+
+
+
+							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+										<h5 class="modal-title w-100 text-center">Report The Order:  No.<span id="order-No"></span></h5>
+
+										@* 	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
+										</div>
+										<div class="modal-body">
+											<form>
+											
+												<div class="mb-2">
+													<div class="row">
+														<div class="col">
+															<label for="account-name" class="col-form-label">Account:</label>
+															<input readonly type="text" class="form-control" id="account-name">
+														</div>
+														<div class="col">
+															<label for="password" class="col-form-label">Password:</label>
+															<input type="text" readonly class="form-control" id="password">
+														</div>
+													</div>
+												</div>
+												<div class="mb-2">
+													<div class="row">
+														<div class="col">
+															<label for="price" class="col-form-label">Price:</label>
+															<input type="text" readonly class="form-control" id="price">
+														</div>
+														<div class="col">
+															<label for="order-date" class="col-form-label">Order Days:</label>
+															<input type="date" class="form-control" id="order-date" readonly>
+														</div>
+													</div>
+												</div>
+												<div class="mb-4">
+													<label for="message-text" class="col-form-label">Message:</label>
+													<textarea class="form-control" id="message-text"></textarea>
+												</div>
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-outline-secondary btn-md" data-bs-dismiss="modal">Close</button>
+										<button type="button" onclick="SendMess()" class="btn btn-outline-primary btn-md">Submit Report</button>
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+						<script>
+							const exampleModal = document.getElementById('exampleModal');
+							exampleModal.addEventListener('show.bs.modal', event => {
+								const button = event.relatedTarget;
+
+								const account = button.getAttribute('data-account');
+								const password = button.getAttribute('data-password');
+								const price = button.getAttribute('data-price');
+								const orderDate = button.getAttribute('data-order-date');
+								const orderNo = button.getAttribute('data-order-No');
+								const detailID = button.getAttribute('data-detail-id');
+								
+								exampleModal.querySelector('#account-name').value = account;
+								exampleModal.querySelector('#password').value = password;
+								exampleModal.querySelector('#price').value = price;
+								exampleModal.querySelector('#order-date').value = orderDate;
+								exampleModal.querySelector('#order-No').textContent = orderNo;
+
+								exampleModal.dataset.detailId = detailID; 
+						
+								
+								
+								
+								
+								
+								// Lưu detailID vào dataset
+								
+								// Thêm DetailID vào một biến toàn cục hoặc một thuộc tính của modal
+							
+							});	
+							
+							function SendMess() {
+							const detailID = exampleModal.dataset.detailId;
+								var mess = document.getElementById("message-text").value;
+
+
+
+
+								$.ajax({
+									type: "POST",
+									url: "/account/Profile?handler=SendReport",
+									beforeSend: function (xhr) {
+										// Set the XSRF token in the request header
+										xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+									},
+									data: {
+										detailID: detailID,
+										mess: mess,
+
+										
+									},
+									dataType: "json",
+									success: function (data) {
+										if (data.success) {
+											console.log(data.message);
+											$('#exampleModal').modal('hide');
+											$('.modal-backdrop').remove(); // Xóa lớp backdrop nếu vẫn còn
+
+											$('#row-' + detailID).remove();
+										}
+
+									},
+									error: function (error) {
+										console.error("Error occurred:", error);
+									}
+								});
+							}
+
+
+						</script>
+
+
+
+						<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+						
 		<script>
+
+
+
+
+
+
+
 							function ViewDetail(orderId) {
 								$.ajax({
 									type: "POST",
@@ -823,24 +958,35 @@
 															<th>NO.</th>
 															<th>Account</th>
 															<th>Password</th>
-															<th>Quantity</th>
+															
 															<th>Price</th>
 															<th>Order Date</th>
 															<th>Status</th>
 															<th>Total Price</th>
+															<th>Action</th>
 														</tr>
 													</thead>
 													<tbody>
 														${data.items.map((item, index) => `
-															<tr>
+																													<tr id="row-${item.detailID}">
 																<td>${index + 1}</td>
 																<td>${item.account}</td>
 																<td>${item.password}</td>
-																<td>${item.quantity}</td>
+																 <td style="display:none">${item.detailID}</td>
 																<td>${item.price}</td>
 																<td>${item.orderDate}</td>
 																<td>${item.status}</td>
 																<td>${item.totalPrice}</td>
+																																					<td>
+								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+									data-account="${item.account}"
+									data-password="${item.password}"
+									data-price="${item.price}"
+									data-order-date="${item.orderDate}"
+									data-order-No="${index + 1}"
+																					data-detail-id="${item.detailID}">Report this Order</button>
+							</td>
+
 															</tr>
 														`).join('')}
 													</tbody>
@@ -860,6 +1006,8 @@
 								});
 							}
 
+
+
 							function BackOrder() {
 								// Đảm bảo luôn loại bỏ các lớp để thiết lập trạng thái ban đầu
 								$('#order-tab').removeClass('active show');
@@ -874,6 +1022,12 @@
 
         var currentPage = 1;
         var rowsPerPage = 5;
+
+
+
+
+
+
 
         // Function to filter table based on input
         function filterTable() {
@@ -980,6 +1134,13 @@
         // Initial table display
         displayTable();
     </script>
+
+
+
+
+
+
+
 
  <style>
         /* CSS cho ô tìm kiếm */

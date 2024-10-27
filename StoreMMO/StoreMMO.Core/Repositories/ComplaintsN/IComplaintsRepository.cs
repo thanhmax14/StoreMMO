@@ -13,5 +13,6 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
         public bool ReportAdmin(string id,string status);
         IEnumerable<ComplaintsMapper> GetAllReportAdmin();
         public UserMapper GetUserById(string id);
+
     }
 }
