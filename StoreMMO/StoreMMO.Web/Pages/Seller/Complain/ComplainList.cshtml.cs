@@ -1,26 +1,28 @@
-﻿using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
+using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 using BusinessLogic.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
 using StoreMMO.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace StoreMMO.Web.Pages.Seller.Complain
 {
     public class ComplainListModel : PageModel
-    { 
+    {
 
 
         private readonly IComplaintsService _complaintsServices;
         private readonly AppDbContext _context;
-
         [TempData]
         public string successreportad { get; set; }
         [TempData]
         public string failreportad { get; set; }
-    //    public string UserId { get; private set; }
-        
-      //  var currentUserId = HttpContext.Session.GetString("UserID");
+        //    public string UserId { get; private set; }
+
+        //  var currentUserId = HttpContext.Session.GetString("UserID");
 
         public ComplainListModel(IComplaintsService complaintsServices, AppDbContext appDbContext)
         {
@@ -32,12 +34,12 @@ namespace StoreMMO.Web.Pages.Seller.Complain
 
         public void OnGet()
         {
-
+            //  string UserId = HttpContext.Session.GetString("UserID");
             string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
             listcomplaints = _complaintsServices.GetAll(UserId);
         }
         [BindProperty]
-        public string  MyProperty { get; set; }
+        public string MyProperty { get; set; }
 
         public IActionResult OnPostReportAdmin()
         {
@@ -45,14 +47,14 @@ namespace StoreMMO.Web.Pages.Seller.Complain
             var result = _complaintsServices.ReportAdmin(id, "ReportAdmin");
 
             if (result)
-            { 
-                successreportad = "Report Admin success"; 
+            {
+                successreportad = "Report Admin success";
                 return RedirectToPage("ComplainList");
             }
-       else
-       {
-       failreportad = "Report Admin fail";
-       }
+            else
+            {
+                failreportad = "Report Admin fail";
+            }
             return Page();
         }
 
@@ -122,6 +124,7 @@ namespace StoreMMO.Web.Pages.Seller.Complain
                 _context.Balances.AddRange(sellerTransaction, userTransaction);
                 _context.SaveChanges();
 
+                
                 // Cập nhật trạng thái đơn hàng và khiếu nại
                 orderdetail.status = "done";
                 _context.OrderDetails.Update(orderdetail);
@@ -133,10 +136,11 @@ namespace StoreMMO.Web.Pages.Seller.Complain
                 return RedirectToPage("ComplainList");
             }
             catch (Exception)
-            { failreportad = "Refund fail";
+            {
+                failreportad = "Refund fail";
                 transaction.Rollback();
                 ModelState.AddModelError("", "An error occurred while processing the refund.");
-            //  return RedirectToPage("ComplainList");
+                //  return RedirectToPage("ComplainList");
                 return Page();
             }
         }
@@ -148,7 +152,8 @@ namespace StoreMMO.Web.Pages.Seller.Complain
             var idproducttype = Request.Form["idproducttype"].ToString();
             var idproduct = Request.Form["idproduct"].ToString();
             var protype = _context.ProductTypes.FirstOrDefault(x => x.Id == idproducttype);
-            protype.Stock = (int.Parse(protype.Stock) -1).ToString();
+
+            protype.Stock = (int.Parse(protype.Stock) - 1).ToString();
             _context.ProductTypes.Update(protype);
             _context.SaveChanges();
 
@@ -189,7 +194,11 @@ namespace StoreMMO.Web.Pages.Seller.Complain
                     status = "refun",
                     Price = "0"
                 };
-
+                var comid = _context.Complaints.FirstOrDefault(x => x.ID == Request.Form["id"].ToString());
+               
+                var od = _context.OrderDetails.FirstOrDefault(x => x.ID == comid.OrderDetailID);
+                od.status = "done";
+                _context.OrderDetails.Update(od);
                 _context.Add(orderDetail);
                 _complaintsServices.ReportAdmin(Request.Form["id"].ToString(), "done");
                 _context.SaveChanges();
