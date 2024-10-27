@@ -15,6 +15,10 @@ namespace StoreMMO.Web.Pages.Admin
 {
     public class StoreTypeListModel : PageModel
     {
+        [TempData]
+        public string success { get; set;}
+        [TempData]
+        public string fail { get; set; }
 
         private readonly IStoreTypesService _store;
         public string baoloi;
@@ -31,9 +35,19 @@ namespace StoreMMO.Web.Pages.Admin
         }
         public IActionResult OnPostHidden(string id)
         {
+
             var cate = _store.getByIdStoreTypes(id);
             cate.IsActive = false;
             var result = _store.UpdateStoreType(cate);
+            if (result!= null)
+            {
+                success = "Hidden success";
+                return RedirectToPage("StoreTypeList");
+            }
+            else
+            {
+                fail = "Hidden fail";
+            }
             // Nếu thành công, chuyển hướng lại danh sách categories
             return RedirectToPage("/Admin/StoreTypeList");
 

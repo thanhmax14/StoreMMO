@@ -388,6 +388,22 @@
 
                     <div class="card">
                         <div class="card-body">
+                            @if (!string.IsNullOrEmpty(@Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(@Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                            @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
                             <h5 class="card-title">List of Store Type</h5>
                             <button type="button" onclick="window.location.href='/admin/StoreTypeCreate'" class="btn btn-secondary">CreateStoreType</button>
                             

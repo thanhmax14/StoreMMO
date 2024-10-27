@@ -58,7 +58,7 @@ namespace StoreMMO.Web.Pages.Admin
             }
           //  return RedirectToPage("CreateCategory");
             // Điều hướng về cùng trang để hiển thị thông báo
-            return RedirectToPage("CategoriesList");
+            return RedirectToPage("CreateCategory");
 
         }
     }

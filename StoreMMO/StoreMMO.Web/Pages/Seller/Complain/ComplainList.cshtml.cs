@@ -149,6 +149,10 @@ namespace StoreMMO.Web.Pages.Seller.Complain
             var iduser = Request.Form["iduser"].ToString();
             var idproducttype = Request.Form["idproducttype"].ToString();
             var idproduct = Request.Form["idproduct"].ToString();
+            var protype = _context.ProductTypes.FirstOrDefault(x => x.Id == idproducttype);
+            protype.Stock = (int.Parse(protype.Stock) -1).ToString();
+            _context.ProductTypes.Update(protype);
+            _context.SaveChanges();
 
             var pro = _context.Products.FirstOrDefault(x => x.ProductTypeId == idproducttype && x.Status.ToLower() == "new");
 
