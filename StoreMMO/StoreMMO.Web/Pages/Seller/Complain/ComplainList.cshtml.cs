@@ -102,7 +102,7 @@ namespace StoreMMO.Web.Pages.Seller.Complain
                     ApprovalDate = DateTime.Now,
                     Description = "Seller refunded money to user",
                     TransactionDate = DateTime.Now,
-                    OrderCode = ordercode
+                    OrderCode = ""
                 };
 
                 // Tạo giao dịch cho người dùng
@@ -116,7 +116,7 @@ namespace StoreMMO.Web.Pages.Seller.Complain
                     ApprovalDate = DateTime.Now,
                     Description = "User received refund from seller",
                     TransactionDate = DateTime.Now,
-                    OrderCode = ordercode
+                    OrderCode = ""
                 };
 
                 _context.Balances.AddRange(sellerTransaction, userTransaction);
