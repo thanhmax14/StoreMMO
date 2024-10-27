@@ -186,62 +186,63 @@ WHERE
                  .OrderByDescending(x => x.CreatedDate)
                  .ToList();
         }
-        public IEnumerable<ManageStoreViewModels> ManageStoreDetail()
+        public IEnumerable<ManageStoreViewModels> ManageStoreDetail(string userId)
         {
             string sql = @"
     SELECT 
-    s.IsAccept, 
-	sd.Id as StoreDetailId,
-    s.CreatedDate,
-    s.Id,
-    sd.[Name] AS StoreName, 
-    ca.[Name] AS CategoryName,
-	ca.Id as CategoryId,
-	st.Id as StoreTypeId,
-	st.[Name] as StoreTypeName,
-
-	
-    SUM(CAST(p.Stock AS int)) AS TotalStock,
-    st.Commission, 
-    
-    -- Tạo khoảng giá từ giá thấp nhất đến cao nhất với điều kiện khi min = max thì min sẽ là 0
-    CASE 
-        WHEN MIN(p.Price) = MAX(p.Price) 
-        THEN CONCAT('0 - ', MAX(p.Price)) 
-        ELSE CONCAT(MIN(p.Price), ' - ', MAX(p.Price)) 
-    END AS PriceRange
-FROM 
-    Stores s
-JOIN 
-    Users u ON s.UserId = u.Id
-JOIN 
-    StoreDetails sd ON s.ID = sd.StoreID
-JOIN 
-    ProductConnects pc ON sd.Id = pc.StoreDetailID
-JOIN 
-    ProductTypes p ON pc.ProductTypeId = p.ID
-LEFT JOIN 
-    FeedBacks f ON f.StoreDetailId = sd.Id
-JOIN 
-    Categories ca ON ca.Id = sd.CategoryId
-JOIN 
-    StoreTypes st ON st.Id = sd.StoreTypeId
-GROUP BY 
-    sd.[Name], 
-    st.Commission,
-    s.IsAccept,
-    s.CreatedDate,
-    s.Id,
-	sd.Id,
-    ca.[Name],
-	ca.Id,
-	st.Id,
-	st.[Name];
+        s.IsAccept, 
+        sd.Id AS StoreDetailId,
+        s.CreatedDate,
+        s.Id,
+        sd.[Name] AS StoreName, 
+        ca.[Name] AS CategoryName,
+        ca.Id AS CategoryId,
+        st.Id AS StoreTypeId,
+        st.[Name] AS StoreTypeName,
+        
+        SUM(CAST(p.Stock AS int)) AS TotalStock,
+        st.Commission, 
+        
+        -- Create price range from minimum to maximum price, setting minimum to 0 if min equals max
+        CASE 
+            WHEN MIN(p.Price) = MAX(p.Price) 
+            THEN CONCAT('0 - ', MAX(p.Price)) 
+            ELSE CONCAT(MIN(p.Price), ' - ', MAX(p.Price)) 
+        END AS PriceRange
+    FROM 
+        Stores s
+    JOIN 
+        Users u ON s.UserId = u.Id
+    JOIN 
+        StoreDetails sd ON s.ID = sd.StoreID
+    JOIN 
+        ProductConnects pc ON sd.Id = pc.StoreDetailID
+    JOIN 
+        ProductTypes p ON pc.ProductTypeId = p.ID
+    LEFT JOIN 
+        FeedBacks f ON f.StoreDetailId = sd.Id
+    JOIN 
+        Categories ca ON ca.Id = sd.CategoryId
+    JOIN 
+        StoreTypes st ON st.Id = sd.StoreTypeId
+    WHERE 
+        s.UserId = @userId -- Filter by UserId
+    GROUP BY 
+        sd.[Name], 
+        st.Commission,
+        s.IsAccept,
+        s.CreatedDate,
+        s.Id,
+        sd.Id,
+        ca.[Name],
+        ca.Id,
+        st.Id,
+        st.[Name];
     ";
-
-            // Sử dụng FromSqlRaw để thực hiện câu lệnh SQL và map kết quả vào ManageStoreViewModels
-            var list = this._context.Database.SqlQueryRaw<ManageStoreViewModels>(sql).ToList();
+            // Execute the SQL query with the userId parameter
+            var list = this._context.Database.SqlQueryRaw<ManageStoreViewModels>(sql, new SqlParameter("@userId", userId)).ToList();
             return list;
         }
+
     }
 }
