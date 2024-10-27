@@ -106,7 +106,7 @@
 								
 								</div>
 						
-								@* <form asp-action="Login" method="post">
+								<form asp-action="Login" method="post">
 									<div>
 										<label asp-for="inputLogin.Email">
 											Username or email address
@@ -141,53 +141,7 @@
 									<button type="submit" class="btn btn-dark btn-md w-100">
 										LOGIN
 									</button>
-								</form> *@
-							
-								<!-- Form đăng nhập thông thường -->
-								<form asp-action="Login" method="post">
-									<div>
-										<label asp-for="inputLogin.Email">
-											Username or email address
-											<span class="required">*</span>
-										</label>
-										<input type="text" class="form-input form-wide" asp-for="inputLogin.Email" />
-										<span asp-validation-for="inputLogin.Email" class="text-danger"></span>
-									</div>
-									<div>
-										<label asp-for="inputLogin.Password" style="margin-top: 8px;">
-											Password
-											<span class="required">*</span>
-										</label>
-										<input type="password" class="form-input form-wide" asp-for="inputLogin.Password" />
-										<span asp-validation-for="inputLogin.Password" class="text-danger"></span>
-									</div>
-
-									<div class="form-footer">
-										<div class="custom-control custom-checkbox mb-0">
-											<input type="checkbox" class="custom-control-input" id="lost-password" asp-for="inputLogin.RememberMe" />
-											<label class="custom-control-label mb-0" for="lost-password">
-												Remember me
-											</label>
-										</div>
-										<a href="/Account/ForgotPassword" class="forget-password text-dark form-footer-right">
-											Forgot Password?
-										</a>
-									</div>
-									<button type="submit" class="btn btn-dark btn-md w-100">
-										LOGIN
-									</button>
 								</form>
-
-								<!-- Form đăng nhập bằng Google -->
-								<form asp-page-handler="GoogleLogin" method="post">
-									<button type="submit" class="btn btn-outline-primary btn-md w-100 mt-3">
-										<img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" style="width: 20px; margin-right: 8px;" alt="Google logo" />
-										Login with Google
-									</button>
-								</form>
-
-
-
 							</div>
 
 						</div>

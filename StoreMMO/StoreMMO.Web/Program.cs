@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Addseverce
 ConfigServices.ConfigureServices(builder.Services);
-var configuration = builder.Configuration;
+
 
 string jsonFilePath = @"D:\connectionConfig.json";
 
@@ -41,13 +41,6 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-builder.Services.AddAuthentication()
-	.AddGoogle(options =>
-	{
-		options.ClientId = configuration["Authentication:Google:ClientId"];
-		options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-		options.SignInScheme = IdentityConstants.ExternalScheme;
-	});
 
 builder.Services.AddHttpContextAccessor();
 
