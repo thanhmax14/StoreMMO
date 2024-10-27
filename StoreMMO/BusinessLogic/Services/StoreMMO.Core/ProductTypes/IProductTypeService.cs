@@ -11,5 +11,6 @@ namespace BusinessLogic.Services.StoreMMO.Core.ProductTypes
         ProductTypesViewModels Update(ProductTypesViewModels productViewModels);
         void DeleteProduct(string id);
         IEnumerable<GetInfoByProductypeID> GetInfoByProductid(string id);
+        Task<bool> UpdateQuantity(int quantity, string ProductTyoeID);
     }
 }

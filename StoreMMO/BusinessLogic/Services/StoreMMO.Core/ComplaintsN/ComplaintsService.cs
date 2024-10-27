@@ -1,5 +1,8 @@
-﻿using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
+using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.ComplaintsN;
+using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,5 +39,26 @@ namespace BusinessLogic.Services.StoreMMO.Core.ComplaintsN
         {
             return _complaintsRepository.ReportAdmin(id,status);
         }
-    }
+		public async Task<bool> AddAsync(complantViewModels complaints)
+		{
+			return await this._complaintsRepository.AddAsync(complaints);
+		}
+
+
+		public async Task<bool> EditAsync(complantViewModels complaintsMapper)
+		{
+            return await this._complaintsRepository.EditAsync(complaintsMapper);
+		}
+
+
+		public async Task<bool> DeleteAsync(complantViewModels complaintsMapper)
+		{
+			return await this.DeleteAsync(complaintsMapper);
+		}
+		public async Task<complantViewModels> GetByIDAsync(string id)
+		{
+            return await this._complaintsRepository.GetByIDAsync(id);
+		}
+
+	}
 }

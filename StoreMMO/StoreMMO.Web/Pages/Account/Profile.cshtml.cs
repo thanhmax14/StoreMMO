@@ -1,10 +1,14 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.Balances;
+using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
+using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
+using StoreMMO.Web.Models.ViewModels.Admin;
 using System.Threading.Tasks;
 
 namespace StoreMMO.Web.Pages.Account
@@ -14,37 +18,41 @@ namespace StoreMMO.Web.Pages.Account
 		private readonly UserManager<AppUser> _userManager;
 		private readonly IBalanceService _balance;
 		private readonly IPurchaseService _pur;
+		private readonly IOderDetailsService _detail;
+		private readonly IComplaintsService _complaints;
 
-		public ProfileModel(UserManager<AppUser> userManager, IBalanceService balance, IPurchaseService purchase)
+		public ProfileModel(UserManager<AppUser> userManager, IBalanceService balance, IPurchaseService purchase,
+			IOderDetailsService order, IComplaintsService complaints
+			)
 		{
 			_userManager = userManager;
 			this._balance = balance;
 			this._pur= purchase;
+			this._detail = order;
+			this._complaints = complaints;
 		}
 		[BindProperty]
 		public AppUser AppUser { get; set; }
         public IEnumerable<BalanceViewModels> InfoBalance = new List<BalanceViewModels> ();
 		public IEnumerable<GetOrderByUserViewModel> InfOrderUser = new List<GetOrderByUserViewModel>();
 		public IEnumerable<GetOrderDetailsViewModel> InfoOrdeTailUser = new List<GetOrderDetailsViewModel>();
+        [TempData]
+        public string Balance { get; set; }
 
-		public async Task OnGet()
+        public async Task OnGet()
 		{
 			var email = HttpContext.Session.GetString("Email");
-			var UserName = HttpContext.Session.GetString("UserName");
+			var UserID = HttpContext.Session.GetString("UserID");
 
-			InfOrderUser = this._pur.GetAllByUserID("1f0dbbe2-2a81-43e9-8272-117507ac9c45");
-			InfoOrdeTailUser = this._pur.getOrderDetails("132F4145-876C-46B0-963B-E621B28479A1");
-			InfoBalance = await this._balance.GetBalanceByUserIDAsync("1f0dbbe2-2a81-43e9-8272-117507ac9c45");
+			InfOrderUser = this._pur.GetAllByUserID(UserID);
+		//	InfoOrdeTailUser = this._pur.getOrderDetails(UserID);
+			InfoBalance = await this._balance.GetBalanceByUserIDAsync(UserID);
 
-			AppUser = await this._userManager.FindByEmailAsync("ANHLDCE171348@FPT.EDU.VN");
+			AppUser = await this._userManager.FindByEmailAsync(email);
 
-
-
-
-
-			// Kiểm tra nếu người dùng tồn tại
 			if (AppUser != null)
 			{
+				Balance = AppUser.CurrentBalance +"";
 				ViewData["IsSeller"] = AppUser.IsSeller; // Gán trạng thái IsSeller cho ViewData
 			}
 			else
@@ -55,13 +63,14 @@ namespace StoreMMO.Web.Pages.Account
 
 		public async Task<IActionResult> OnPost()
 		{
+			var email = HttpContext.Session.GetString("Email");
 			if (!ModelState.IsValid)
 			{
 				// Trả về lỗi nếu dữ liệu không hợp lệ
 				return new JsonResult(new { success = false, message = "Invalid data!" });
 			}
 
-			var existingUser = await _userManager.FindByEmailAsync("ANHLDCE171348@FPT.EDU.VN");
+			var existingUser = await _userManager.FindByEmailAsync(email);
 
 			if (existingUser != null)
 			{
@@ -90,8 +99,8 @@ namespace StoreMMO.Web.Pages.Account
 		}
 		public async Task<IActionResult> OnPostRegisterSeller()
 		{
-			// Tìm người dùng theo email
-			var item = await _userManager.FindByEmailAsync("ANHLDCE171348@FPT.EDU.VN");
+			var email = HttpContext.Session.GetString("Email");
+			var item = await _userManager.FindByEmailAsync(email);
 
 			// Nếu không tìm thấy người dùng
 			if (item == null)
@@ -143,7 +152,7 @@ namespace StoreMMO.Web.Pages.Account
 				{
 					account = order.Account,           // Tên tài khoản
 					password = order.Password,         // Mật khẩu (nên không trả về mật khẩu trong phản hồi thực tế)
-					quantity = order.quantity,         // Số lượng
+					detailID = order.DetailID,
 					price = order.Price,               // Giá sản phẩm
 					totalPrice = order.Price,     // Tổng giá
 					orderDate = order.Dates.ToString("yyyy-MM-dd"), // Ngày đặt hàng
@@ -153,7 +162,39 @@ namespace StoreMMO.Web.Pages.Account
 
 			return new JsonResult(new { success = true, items = orderDetails.items });
 		}
+		public async Task<IActionResult> OnPostSendReport(string detailID, string mess)
+		{
+			var findDetail =  await this._detail.GetOrderDeailByIDAsync(detailID);
+			var a = findDetail;
+			if (findDetail == null)
+			{
+				return new JsonResult(new { success = false, message="Fail" });
+			}
+			else
+			{
+				bool add = await this._complaints.AddAsync(new complantViewModels { 
+				                      CreateDate = DateTime.Now,
+									  Description = mess,
+									  OrderDetailID = detailID,
+									  ID = Guid.NewGuid().ToString(),
+									  Status= "None"
+				
+				});
+				 if (!add)
+				{
+					return new JsonResult(new { success = false, message = "Fail" });
+				}
+				 var getODetail = await this._detail.GetOrderDeailByIDAsync(detailID);
+				     getODetail.status = "report";
 
+				bool addDetail = await this._detail.UpdateDetailAsync(getODetail);
+				if (!addDetail)
+				{
+					return new JsonResult(new { success = false, message = "Fail" });
+				}
+				return new JsonResult(new { success = true, message="thanh congs" });
+			}			
+		}
 
 
 

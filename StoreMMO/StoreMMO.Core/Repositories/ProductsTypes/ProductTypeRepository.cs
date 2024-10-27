@@ -114,5 +114,17 @@ namespace StoreMMO.Core.Repositories.ProductsTypes
             _context.SaveChanges();
             return productViewModels;
         }
+
+        public async Task<bool> UpdateQuantity(int quantity, string ProductTyoeID)
+        {
+            var fine = await this._context.ProductTypes.FindAsync(ProductTyoeID);
+             if(fine != null)
+            {
+                fine.Stock = int.Parse(fine.Stock) - quantity + "";
+                await  this._context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
     }
 }
