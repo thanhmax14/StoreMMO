@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model StoreMMO.Web.Pages.Seller.Complain.ComplainListModel
 @{
 }
@@ -417,18 +417,27 @@
                                             <td>@(item.OrderDetailmap.Price ?? "Chưa xác định")</td>
                                             <td>@(item.OrderDetailmap?.orderBuymap?.OrderCode ?? "Chưa xác định")</td>
                                             <td>@(item.OrderDetailmap?.productMapper?.ProductTypemap?.Name ?? "Chưa xác định")</td>
-                                            <td>
-                                                <form method="post" asp-page-handler="ReportAdmin" class="confirmation-form">
-                                                    <input type="hidden" name="id" value="@item.ID" />
-                                                    <button type="button" class="btn btn-primary confirm-btn"
-                                                            data-action="ReportAdmin"
-                                                            data-id="@item.ID"
-                                                            data-title="Report Admin Confirmation"
-                                                            data-message="Are you sure you want to report this admin?">
-                                                        ReportAdmin
-                                                    </button>
-                                                </form>
-                                            </td>
+                                           <td>
+    <form method="post" asp-page-handler="ReportAdmin" class="confirmation-form" id="reportAdminForm_@item.ID">
+        <input type="hidden" name="id" value="@item.ID" />
+        <button type="button" class="btn btn-primary"
+                onclick="confirmReportAdmin('reportAdminForm_@item.ID', '@item.ID')">
+            ReportAdmin
+        </button>
+    </form>
+</td>
+
+<script>
+    function confirmReportAdmin(formId, itemId) {
+        const title = "Report Admin Confirmation";
+        const message = "Are you sure you want to report this admin?";
+
+        if (confirm(`${title}\n\n${message}`)) {
+            document.getElementById(formId).submit();
+        }
+    }
+</script>
+
                                             <td>
                                                 @{
                                                     decimal price;
@@ -438,44 +447,42 @@
                                                     decimal.TryParse(item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.CurrentBalance.ToString(), out currentBalance);
                                                     bool hasEnoughBalance = price <= currentBalance;
                                                 }
-                                            <td>
+                                 <td>
+    <form method="post" asp-page-handler="BackMoney" class="confirmation-form" id="backMoneyForm_@item.ID">
+        <input type="hidden" name="idseller" value="@item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.Id" />
+        <input type="hidden" name="id" value="@item.ID" />
+        <input type="hidden" name="iduser" value="@item.OrderDetailmap?.orderBuymap?.UserMap?.Id" />
+        <input type="hidden" name="price" value="@item.OrderDetailmap.Price" />
+        <input type="hidden" name="idorderdetail" value="@item.OrderDetailmap?.ID" />
+        <input type="hidden" name="ordercode" value="@item.OrderDetailmap?.orderBuymap?.OrderCode" />
 
-                                                <form method="post" asp-page-handler="BackMoney" class="confirmation-form" id="backMoneyForm">
-                                                    <input type="hidden" name="idseller" value="@item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.Id" />
-                                                    <input type="hidden" name="id" value="@item.ID" />
-                                                    <input type="hidden" name="iduser" value="@item.OrderDetailmap?.orderBuymap?.UserMap?.Id" />
-                                                    <input type="hidden" name="price" value="@item.OrderDetailmap.Price" />
-                                                    <input type="hidden" name="idorderdetail" value="@item.OrderDetailmap?.ID" />
-                                                    <input type="hidden" name="ordercode" value="@item.OrderDetailmap?.orderBuymap?.OrderCode" />
+        @if (hasEnoughBalance)
+        {
+            <button type="button" class="btn btn-primary confirm-btn"
+                    onclick="confirmAndSubmitForm('backMoneyForm_@item.ID')"
+                    data-message="Are you sure you want to return the money for the customer? Money will be reduced.">
+                BackMoney
+            </button>
+        }
+        else
+        {
+            <button type="button" class="btn btn-secondary"
+                    onclick="alert('You don\'t have enough money to return to the customer.')">
+                BackMoney
+            </button>
+        }
+    </form>
+</td>
 
-                                                        @if (hasEnoughBalance)
-                                                        {
+<script>
+    function confirmAndSubmitForm(formId) {
+        const message = "Are you sure you want to return the money for the customer? Money will be reduced.";
+        if (confirm(message)) {
+            document.getElementById(formId).submit();
+        }
+    }
+</script>
 
-                                                        <button type="button" class="btn btn-primary confirm-btn"
-                                                               
-                                                                data-message="Are you sure you want to return the money for the customer? Money will be reduced.">
-                                                            BackMoney
-                                                        </button>
-                                                        }
-                                                        else
-                                                        {
-                                                        <button type="button" class="btn btn-secondary"
-                                                                onclick="alert('You don\'t have enough money to return to the customer.')">
-                                                            BackMoney
-                                                        </button>
-                                                        }
-                                                </form>
-
-                                                <script>
-                                                    function confirmAndSubmitForm(formId) {
-                                                        const message = "Are you sure you want to return the money for the customer? Money will be reduced.";
-                                                        if (confirm(message)) {
-                                                            document.getElementById(formId).submit();
-                                                        }
-                                                    }
-                                                </script>
-
-                                            </td>
                                             </td>
                                             <td>
                                                 <form method="post" asp-page-handler="warrant" class="confirmation-form" id="warrantForm">
@@ -515,35 +522,8 @@
 
                     </div>
                 </div>
-
                 <!-- Modal Xác Nhận Chung -->
-                <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modalTitle">Confirm Action</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body" id="modalBody">
-                                Are you sure you want to perform this action?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
-                                <form id="confirmationForm" method="post">
-                                    <input type="hidden" id="modalHiddenId" name="id" />
-                                    <input type="hidden" id="modalHiddenAction" name="action" />
-                                    <button type="submit" class="btn btn-primary">Yes</button>
-                                </form>
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            <!-- JavaScript to Handle Form Submission -->
-
-
+    
 
         </section>
 
@@ -566,40 +546,7 @@
     <script src="~/assets_Admin/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="~/assets_Admin/vendor/tinymce/tinymce.min.js"></script>
     <script src="~/assets_Admin/vendor/php-email-form/validate.js"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const confirmationModal = document.getElementById("confirmationModal");
-            const confirmationForm = document.getElementById("confirmationForm");
-            const modalHiddenId = document.getElementById("modalHiddenId");
-            const modalHiddenAction = document.getElementById("modalHiddenAction");
-            const modalTitle = document.getElementById("modalTitle");
-            const modalBody = document.getElementById("modalBody");
-
-            // Bắt sự kiện nhấn các nút xác nhận
-            document.querySelectorAll(".confirm-btn").forEach(button => {
-                button.addEventListener("click", function () {
-                    // Lấy thông tin từ các thuộc tính `data` của nút
-                    const action = button.getAttribute("data-action");
-                    const itemId = button.getAttribute("data-id");
-                    const title = button.getAttribute("data-title");
-                    const message = button.getAttribute("data-message");
-
-                    // Cập nhật form với thông tin động
-                    confirmationForm.action = `?handler=${action}`; // Cập nhật đường dẫn cho form
-                    modalHiddenId.value = itemId; // Cập nhật ID
-                    modalHiddenAction.value = action; // Cập nhật action
-                    modalTitle.innerText = title; // Cập nhật tiêu đề
-                    modalBody.innerText = message; // Cập nhật thông điệp
-
-                    // Hiển thị modal
-                    new bootstrap.Modal(confirmationModal).show();
-                });
-            });
-        });
-    </script>
-
-
+  
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
