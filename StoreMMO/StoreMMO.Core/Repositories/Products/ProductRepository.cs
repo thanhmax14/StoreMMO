@@ -186,5 +186,12 @@ WHERE
                  .OrderByDescending(x => x.CreatedDate)
                  .ToList();
         }
+        public IEnumerable<Product> getProductsByTypeID1(string id)
+        {
+            return _context.Products
+                 .Where(p => p.ProductTypeId == id)
+                 .OrderByDescending(x => x.CreatedDate)
+                 .ToList();
+        }
     }
 }

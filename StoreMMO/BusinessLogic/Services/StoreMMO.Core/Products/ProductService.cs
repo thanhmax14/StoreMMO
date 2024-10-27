@@ -15,6 +15,7 @@ using ProductViewModels = StoreMMO.Core.ViewModels.ProductViewModels;
 namespace BusinessLogic.Services.StoreMMO.Core.Products
 {
 
+
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
@@ -88,6 +89,12 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
         public IEnumerable<Product> getProductsByTypeID(string id)
         {
            return _productRepository.getProductsByTypeID(id);
+        }
+
+        public IEnumerable<Product> getProductsByTypeID1(string id)
+        {
+          
+            return _productRepository.getProductsByTypeID1(id);
         }
     }
 }

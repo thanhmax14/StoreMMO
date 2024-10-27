@@ -410,13 +410,20 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Update Form</h5>
-
+                            @if (!string.IsNullOrEmpty(Model.fail))
+                            {
+                                <script>
+                                    $(document).ready(function () {
+                                        toastr.error('@Model.fail'); // Hiển thị thông báo lỗi
+                                    });
+                                </script>
+                            }
                             <!-- General Form Elements -->
                             <form method="post">
                                 <div class="row mb-3">
                                     <label asp-for="CreateProduct.ProductTypeId" class="col-sm-2 col-form-label">Product Type</label>
                                     <div class="col-sm-10">
-                                        <select asp-for="CreateProduct.ProductTypeId" class="form-select">
+                                        <select asp-for="CreateProduct.ProductTypeId" class="form-select" name="CreateProduct.ProductTypeId">
                                             <option value="">-- Select Product Type --</option>
                                             @foreach (var type in Model.ProductTypes)
                                             {
@@ -438,12 +445,12 @@
                                         <input asp-for="CreateProduct.Pwd" type="text" class="form-control">
                                     </div>
                                 </div>
-                                <div class="row mb-3">
-                                    <label asp-for="CreateProduct.Status" class="col-sm-2 col-form-label">Status</label>
-                                    <div class="col-sm-10">
-                                        <input asp-for="CreateProduct.Status" type="text" class="form-control">
-                                    </div>
-                                </div>
+                               @*   <div class="row mb-3">
+                                     <label asp-for="CreateProduct.Status" class="col-sm-2 col-form-label">Status</label>
+                                     <div class="col-sm-10">
+                                         <input asp-for="CreateProduct.Status" type="text" class="form-control">
+                                     </div>
+                                 </div> *@
                                 <div class="row mb-3">
                                     <label class="col-sm-2 col-form-label"></label>
                                     <div class="col-sm-10">
@@ -491,6 +498,35 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets_Admin/js/main.js"></script>
+
+
+
+    <!-- Nạp jQuery trước Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <style>
+        /* CSS để định vị Toastr xuống dưới cùng của trang */
+        #toast-container {
+            bottom: 20px; /* Điều chỉnh vị trí cách dưới cùng */
+            right: 20px; /* Điều chỉnh vị trí cách bên phải */
+            z-index: 9999; /* Đảm bảo nó nằm trên cùng của các phần tử khác */
+        }
+    </style>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Cấu hình vị trí Toastr
+            toastr.options.positionClass = 'toast-bottom-right'; // Hoặc toast-bottom-left, toast-top-right, toast-top-left
+            // Kiểm tra và hiển thị thông báo lỗi nếu có
+            var errorMessage = '@Model.fail';
+            if (errorMessage) {
+                toastr.error(errorMessage); // Hiển thị thông báo lỗi
+            }
+        });
+    </script>
+
 
 </body>
 
