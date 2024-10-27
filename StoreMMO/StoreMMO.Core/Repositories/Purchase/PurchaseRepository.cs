@@ -218,7 +218,6 @@ namespace StoreMMO.Core.Repositories.Purchase
 
 			var parameters = new[] { new SqlParameter("@orderID", orderID) };
 			var result = _context.Database.SqlQueryRaw<GetOrderDetailsViewModel>(sql, parameters).ToList();
-
 			return result;
 		}
 

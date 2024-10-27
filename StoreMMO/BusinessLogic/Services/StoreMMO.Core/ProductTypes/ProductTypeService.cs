@@ -33,6 +33,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.ProductTypes
            return _productRepository.getByIDProduct(id);
         }
 
+        public IEnumerable<GetInfoByProductypeID> GetInfoByProductid(string id)
+        {
+          return this._productRepository.GetInfoByProductid(id);
+        }
+
         public ProductTypesViewModels Update(ProductTypesViewModels productViewModels)
         {
            return _productRepository.Update(productViewModels);

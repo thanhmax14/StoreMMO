@@ -15,5 +15,6 @@ namespace StoreMMO.Core.Repositories.ProductsTypes
         ProductTypesViewModels AddProduct(ProductTypesViewModels productViewModels);
         ProductTypesViewModels Update(ProductTypesViewModels productViewModels);
         void DeleteProduct(string id);  
+        IEnumerable<GetInfoByProductypeID>GetInfoByProductid(string id);
     }
 }

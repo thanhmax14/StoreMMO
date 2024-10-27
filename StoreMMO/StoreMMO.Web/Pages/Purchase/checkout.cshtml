@@ -220,7 +220,7 @@
                             </td>
 
                             <td class="price-col">
-                                <span>$1,458.00</span>
+                                <span>$@Model.TotalPrice</span>
                             </td>
                         </tr>
 
@@ -229,15 +229,27 @@
                                 <h4>Total</h4>
                             </td>
                             <td>
-                                <b class="total-price"><span>$1,603.80</span></b>
+                                                <b class="total-price">  <span>$@Model.TotalPrice</span></b>
                             </td>
                         </tr>
                     </tfoot>
                 </table>
 
-                <button type="submit" class="btn btn-dark btn-place-order" form="checkout-form">
-                    Place order
-                </button>
+
+                                <form method="post">
+                                    <button type="submit" class="btn btn-dark btn-place-order">
+                                        Place order
+                                    </button>
+                                </form>
+
+
+
+
+
+
+
+
+
             </div>
         </div>
     </div>

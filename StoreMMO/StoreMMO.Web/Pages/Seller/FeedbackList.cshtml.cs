@@ -16,7 +16,7 @@ namespace StoreMMO.Web.Pages.Seller
         public void OnGet()
         {
             /*var checkUserID = context.Session.GetString("UserID");*/
-            list = this._feedBackService.getAllFeedBack("5921c651-d855-408a-9f37-e10405250f63");
+            list = this._feedBackService.getAllFeedBack("1f0dbbe2-2a81-43e9-8272-117507ac9c45");
         }
     }
 }

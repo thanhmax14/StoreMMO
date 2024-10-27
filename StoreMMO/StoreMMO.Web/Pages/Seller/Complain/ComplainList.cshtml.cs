@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
 using StoreMMO.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace StoreMMO.Web.Pages.Seller.Complain
 {
@@ -16,6 +13,7 @@ namespace StoreMMO.Web.Pages.Seller.Complain
 
         private readonly IComplaintsService _complaintsServices;
         private readonly AppDbContext _context;
+
         [TempData]
         public string successreportad { get; set; }
         [TempData]
@@ -34,7 +32,7 @@ namespace StoreMMO.Web.Pages.Seller.Complain
 
         public void OnGet()
         {
-          //  string UserId = HttpContext.Session.GetString("UserID");
+
             string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
             listcomplaints = _complaintsServices.GetAll(UserId);
         }

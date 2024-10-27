@@ -26,6 +26,14 @@ namespace StoreMMO.Web.Pages.Admin
         {
             _store = store;
         }
+        [BindProperty]
+        public string id { get; set; }
+
+        [TempData]
+        public string success { get; set; }
+
+        [TempData]
+        public string fail { get; set; }
 
         public IEnumerable<StoreTypeViewModels> listcate = new List<StoreTypeViewModels>();
         public void OnGet()
@@ -35,6 +43,7 @@ namespace StoreMMO.Web.Pages.Admin
         }
         public IActionResult OnPostHidden(string id)
         {
+
 
             var cate = _store.getByIdStoreTypes(id);
             cate.IsActive = false;
@@ -48,8 +57,9 @@ namespace StoreMMO.Web.Pages.Admin
             {
                 fail = "Hidden fail";
             }
+
             // Nếu thành công, chuyển hướng lại danh sách categories
-            return RedirectToPage("/Admin/StoreTypeList");
+            
 
         }
 

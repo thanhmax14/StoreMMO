@@ -15,7 +15,7 @@ namespace StoreMMO.API.Controllers
             _categoryService = categoryService;
         }
         [HttpGet("{id}")]
-        public IActionResult getByIdCategory(string id)
+        public IActionResult getById(string id)
         {
             var obj = _categoryService.getByIdCategory(id);
             if (obj == null)

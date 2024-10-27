@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreMMO.WDF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,10 @@ namespace StoreMMO.WDF
     /// </summary>
     public partial class UserAccount : Page
     {
-        public UserAccount()
+        public UserAccount(UserAccountViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
         }
     }
 }

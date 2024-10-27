@@ -439,6 +439,7 @@
                                                     bool hasEnoughBalance = price <= currentBalance;
                                                 }
                                             <td>
+
                                                 <form method="post" asp-page-handler="BackMoney" class="confirmation-form" id="backMoneyForm">
                                                     <input type="hidden" name="idseller" value="@item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.Id" />
                                                     <input type="hidden" name="id" value="@item.ID" />
@@ -449,6 +450,7 @@
 
                                                         @if (hasEnoughBalance)
                                                         {
+
                                                         <button type="button" class="btn btn-primary confirm-btn"
                                                                
                                                                 data-message="Are you sure you want to return the money for the customer? Money will be reduced.">
@@ -513,6 +515,7 @@
 
                     </div>
                 </div>
+
                 <!-- Modal Xác Nhận Chung -->
                 <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -533,9 +536,14 @@
                                 </form>
                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">No</button>
                             </div>
+
                         </div>
                     </div>
                 </div>
+
+            <!-- JavaScript to Handle Form Submission -->
+
+
 
         </section>
 
@@ -558,6 +566,7 @@
     <script src="~/assets_Admin/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="~/assets_Admin/vendor/tinymce/tinymce.min.js"></script>
     <script src="~/assets_Admin/vendor/php-email-form/validate.js"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const confirmationModal = document.getElementById("confirmationModal");
@@ -589,6 +598,7 @@
             });
         });
     </script>
+
 
 
     <!-- Template Main JS File -->

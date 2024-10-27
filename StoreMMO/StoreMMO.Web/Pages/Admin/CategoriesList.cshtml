@@ -381,6 +381,7 @@
             <div class="row">
                 <div class="col-lg-12">
 
+
                     <div class="card">
                         <div class="card-body">
                             @if (!string.IsNullOrEmpty(@Model.Message))
@@ -402,6 +403,7 @@
                             <h5 class="card-title">List of Categories</h5>
                             <button type="button" onclick="window.location.href='/admin/CreateCategory'" class="btn btn-secondary">CreateCategory</button>
                           
+
 
                             <!-- Table with stripped rows -->
                             <table class="table datatable">
@@ -434,8 +436,7 @@
                                             <td>
                                                 <div style="display: flex; gap: 5px;">
                                                 <!-- Nút Edit -->
-                                                <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
-                                            
+                                                    <button onclick="window.location.href='/admin/UpdateCategories/@item.Id'" type="button" class="btn btn-primary">Edit</button>
                                                 <form method="post" asp-page-handler="Hidden" onsubmit="return confirmHidden()">
                                                     <!-- Hidden input để gửi id -->
                                                     <input type="hidden" name="id" value="@item.Id" />

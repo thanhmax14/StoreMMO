@@ -10,20 +10,33 @@ namespace StoreMMO.WDF
     public partial class MainWindow : Window
     {
         private readonly CategoryViewModel _categoryService;
-        public MainWindow(CategoryViewModel categoryService)
+        private readonly HiddenCategoriesListModel _hiddenCategoriesList;
+        private readonly StoreTypeListViewModel _storeTypeListViewModel;
+        private readonly HiddenStoreTypeListViewModel _hiddenStoreTypeListViewModel;
+        private readonly UserAccountViewModel _userAccountViewModel;
+        private readonly HidentUserAccountViewModel _hidentUserAccountViewModel;
+       
+        public MainWindow(CategoryViewModel categoryService, HiddenCategoriesListModel hiddenCategoriesList, StoreTypeListViewModel storeTypeListViewModel
+            , HiddenStoreTypeListViewModel hiddenStoreTypeListViewModel, UserAccountViewModel userAccountViewModel,
+            HidentUserAccountViewModel hidentUserAccountViewModel)
         {
             InitializeComponent();
-              _categoryService = categoryService;
+            _categoryService = categoryService;
+            _hiddenCategoriesList = hiddenCategoriesList;
+            _storeTypeListViewModel = storeTypeListViewModel;
+            _hiddenStoreTypeListViewModel = hiddenStoreTypeListViewModel;
+            _userAccountViewModel = userAccountViewModel;
+            _hidentUserAccountViewModel = hidentUserAccountViewModel;
         }
 
         private void button_UserAccountList(object sender, RoutedEventArgs e)
         {
-            frMain.Content = new UserAccount();
+            frMain.Content = new UserAccount(_userAccountViewModel);
         }
 
         private void buttonHiddenUserAccountList(object sender, RoutedEventArgs e)
         {
-            frMain.Content = new HiddenUserAccount();
+            frMain.Content = new HiddenUserAccount(_hidentUserAccountViewModel);
         }
 
         private void buttonRegisteredSellers(object sender, RoutedEventArgs e)
@@ -55,17 +68,20 @@ namespace StoreMMO.WDF
 
         private void button_HiddenCategoryList(object sender, RoutedEventArgs e)
         {
-            frMain.Content = new HiddenCategoriesList();
+            frMain.Content = new HiddenCategoriesList(_hiddenCategoriesList);
+            _hiddenCategoriesList.loadData();
         }
 
         private void button_StoreTypeList(object sender, RoutedEventArgs e)
         {
-            frMain.Content = new StoreTypeList();
+            frMain.Content = new StoreTypeList(_storeTypeListViewModel);
+            _storeTypeListViewModel.loadData();
         }
 
         private void button_HiddenStoreTypeList(object sender, RoutedEventArgs e)
         {
-            frMain.Content = new HiddenStoreTypeList();
+            frMain.Content = new HiddenStoreTypeList(_hiddenStoreTypeListViewModel);
+            _hiddenStoreTypeListViewModel.LoadData();
         }
 
         private void button_DisputesList(object sender, RoutedEventArgs e)

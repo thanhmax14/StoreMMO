@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.ViewModels;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace StoreMMO.Web.Pages.Admin
 {
@@ -13,21 +14,46 @@ namespace StoreMMO.Web.Pages.Admin
         {
             _store = store;
         }
+        [BindProperty]
+        public string id { get; set; }
+
+        [TempData]
+        public string success { get; set; }
+
+        [TempData]
+        public string fail { get; set; }
 
         public IEnumerable<StoreTypeViewModels> listcate = new List<StoreTypeViewModels>();
         public void OnGet()
         {
             listcate = this._store.GetStoreTypeHidden();
         }
-        public IActionResult OnPostActive(string id)
+        public IActionResult OnPost(string id)
         {
-            var cate = _store.getByIdStoreTypes(id);
-            cate.IsActive = true;
-            var result = _store.UpdateStoreType(cate);
+
+            var storeType = _store.getByIdStoreTypes(id);
+
+            if (storeType != null)
+            {
+                storeType.IsActive = true; // Ẩn danh mục
+                var result = _store.UpdateStoreType(storeType); // Cập nhật danh mục
+
+                success = "Active StoreType successfully";
+            }
+            else
+            {
+                fail = "Active failed StoreType";
+            }
+
+            // Chuyển hướng lại trang danh sách danh mục ẩn sau khi xử lý
+            return RedirectToPage("StoreTypeHidden");
+          
+           
+            
 
 
             // Nếu thành công, chuyển hướng lại danh sách categories
-            return RedirectToPage("/Admin/StoreList");
+          
 
         }
 
