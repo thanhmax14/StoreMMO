@@ -16,5 +16,6 @@ namespace StoreMMO.Core.Repositories.ProductsTypes
         ProductTypesViewModels Update(ProductTypesViewModels productViewModels);
         void DeleteProduct(string id);  
         IEnumerable<GetInfoByProductypeID>GetInfoByProductid(string id);
+        Task<bool> UpdateQuantity(int quantity, string ProductTyoeID);
     }
 }

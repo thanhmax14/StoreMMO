@@ -11,5 +11,6 @@ namespace StoreMMO.Core.ViewModels
 		public DateTime Dates { get; set; }             // Ngày đặt hàng
 		public string stasusPayment { get; set; }       // Trạng thái thanh toán
 		public string status { get; set; }              // Trạng thái đơn hàng
-	}
+        public string DetailID { get; set; }
+    }
 }

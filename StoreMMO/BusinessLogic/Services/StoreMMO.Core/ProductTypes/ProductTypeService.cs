@@ -42,5 +42,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.ProductTypes
         {
            return _productRepository.Update(productViewModels);
         }
+
+        public async Task<bool> UpdateQuantity(int quantity, string ProductTyoeID)
+        {
+          return await this._productRepository.UpdateQuantity(quantity, ProductTyoeID);
+        }
     }
 }

@@ -26,18 +26,18 @@ namespace StoreMMO.Web.Pages.Seller
         public void OnGet()
         {
             // L?y UserID t? session
-            var currentUserId = HttpContext.Session.GetString("UserID");
-            if (currentUserId != null)
-            {
-                // L?y danh sách c?a hàng c?a seller d?a trên UserID
-                list = _storeService.getAllStoreSeller(currentUserId);
-            }
-            else
-            {
-                // X? lý khi không có UserID trong session (ví d?: chuy?n h??ng ??n trang ??ng nh?p)
-                RedirectToPage("/Account/Login");
-            }
-            //list = _storeService.getAllStoreSeller("5921c651-d855-408a-9f37-e10405250f63");
+            //var currentUserId = HttpContext.Session.GetString("UserID");
+            //if (currentUserId != null)
+            //{
+            //    // L?y danh sách c?a hàng c?a seller d?a trên UserID
+            //    list = _storeService.getAllStoreSeller(currentUserId);
+            //}
+            //else
+            //{
+            //    // X? lý khi không có UserID trong session (ví d?: chuy?n h??ng ??n trang ??ng nh?p)
+            //    RedirectToPage("/Account/Login");
+            //}
+            list = _storeService.getAllStoreSeller("1f0dbbe2-2a81-43e9-8272-117507ac9c45");
         }
 
 

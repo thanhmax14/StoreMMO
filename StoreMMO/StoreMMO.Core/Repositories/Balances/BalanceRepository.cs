@@ -154,7 +154,7 @@ namespace StoreMMO.Core.Repositories.Balances
                     Status = b.Status,
                     OrderCode = b.OrderCode,
                     approve = b.ApprovalDate
-                })
+                }).OrderByDescending(b => b.TransactionDate)
                 .ToListAsync(); // Sử dụng ToListAsync
         }
     }
