@@ -9,7 +9,10 @@ namespace StoreMMO.Web.Pages.Admin
     {
         private readonly ICategoryService _categoryServices;
 
-
+        [TempData]
+        public string Message { get; set; }
+        [TempData]
+        public string Error { get; set; }
         public CategoriesListModel(ICategoryService categoryServices)
         {
             _categoryServices = categoryServices;
@@ -26,8 +29,16 @@ namespace StoreMMO.Web.Pages.Admin
             var cate = _categoryServices.getByIdCategory(id);
             cate.IsActive = false;
             var result = _categoryServices.UpdateCategory(cate);
-
-
+            if (result == null)
+            {
+                Error = "have error to hidden";
+                return RedirectToPage("/Admin/CategoriesList");
+            }
+            else
+                {
+                Message = "Hidden success";
+                return RedirectToPage("/Admin/CategoriesList");
+            }
             // Nếu thành công, chuyển hướng lại danh sách categories
             return RedirectToPage("/Admin/CategoriesList");
         }
