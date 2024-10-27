@@ -1,5 +1,5 @@
 ﻿@page "{storeDetailId?}"
-@model StoreMMO.Web.Pages.Seller.UpdateStoreModel
+@model StoreMMO.Web.Pages.Seller.UpdateStoreDetailModel
 @{
 }
 <!DOCTYPE html>
@@ -411,12 +411,9 @@
 
                             <!-- Form -->
                             <form method="post" enctype="multipart/form-data">
-                                <!-- ID (ẩn) -->
-                                <input hidden type="text" asp-for="input.Id" />
-
                                 <!-- Name -->
                                 <div class="row mb-4">
-                                    <label for="inputName" class="col-sm-5 col-form-label">Name</label>
+                                    <label class="col-sm-5 col-form-label">Name</label>
                                     <div class="col-sm-15">
                                         <input type="text" class="form-control" asp-for="input.Name" />
                                     </div>
@@ -425,7 +422,7 @@
 
                                 <!-- SubDescription -->
                                 <div class="row mb-4">
-                                    <label for="inputSubDescription" class="col-sm-5 col-form-label">Sub Description</label>
+                                    <label class="col-sm-5 col-form-label">Sub Description</label>
                                     <div class="col-sm-15">
                                         <input type="text" class="form-control" asp-for="input.SubDescription" />
                                     </div>
@@ -434,43 +431,102 @@
 
                                 <!-- Description Detail -->
                                 <div class="row mb-4">
-                                    <label for="inputDescriptionDetail" class="col-sm-5 col-form-label">Description Detail</label>
+                                    <label class="col-sm-5 col-form-label">Description Detail</label>
                                     <div class="col-sm-15">
                                         <input type="text" class="form-control" asp-for="input.DescriptionDetail" />
                                     </div>
                                     <span style="color:red" asp-validation-for="input.DescriptionDetail"></span>
                                 </div>
 
-                                <!-- CreatedDate -->
+                                <!-- Category -->
                                 <div class="row mb-4">
-                                    <label for="inputCreatedDate" class="col-sm-5 col-form-label">Created Date</label>
+                                    <label class="col-sm-5 col-form-label">Category</label>
                                     <div class="col-sm-15">
-                                        <input type="date" class="form-control" asp-for="input.CreatedDate" />
+                                        <select asp-for="input.CategoryId" asp-items="Model.input.CategoryOptions" class="form-control" disabled>
+                                            <option value="">Select Category</option>
+                                        </select>
+                                    </div>
+                                @*     <span style="color:red" asp-validation-for="input.CategoryId"></span> *@
+                                </div>
+
+                                <!-- Store Type -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Store Type</label>
+                                    <div class="col-sm-15">
+                                        <select asp-for="input.StoreTypeId" asp-items="Model.input.StoreTypeOptions" class="form-control" disabled>
+                                            <option value="">Select Store Type</option>
+                                        </select>
+                                    </div>
+                               @*      <span style="color:red" asp-validation-for="input.StoreTypeId"></span> *@
+                                </div>
+
+                                <!-- Current Image -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Current Image</label>
+                                    <div class="col-sm-15">
+                                        @if (!string.IsNullOrEmpty(Model.input.Img))
+                                        {
+                                            <img src="@Model.input.Img" alt="Store Image" width="100" />
+                                        }
+                                        else
+                                        {
+                                            <p>No image uploaded.</p>
+                                        }
                                     </div>
                                 </div>
 
-                                <!-- Upload Image -->
+                                <!-- Image Upload -->
                                 <div class="row mb-4">
-                                    <label for="inputImg" class="col-sm-5 col-form-label">Upload Image</label>
+                                    <label class="col-sm-5 col-form-label">Upload New Image</label>
                                     <div class="col-sm-15">
-                                        <input type="file" class="form-control" asp-for="input.InputImage" />
+                                        <input type="file" class="form-control" asp-for="input.InputImage" accept="image/*" onchange="previewImage(event)" />
                                     </div>
                                 </div>
 
+                                <!-- Image Preview -->
                                 <div class="row mb-4">
-                                    <div class="col-sm-10">
-                                        <button type="button" onclick="window.location.href='/seller/Store'" class="btn btn-secondary">Back To List</button>
-                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    <label class="col-sm-5 col-form-label">Image Preview</label>
+                                    <div class="col-sm-15">
+                                        <img id="imagePreview" src="#" alt="Image Preview" width="100" style="display:none;" />
                                     </div>
                                 </div>
+
+                                <input type="hidden" asp-for="input.Id" />
+
+                                <button type="submit" class="btn btn-primary">Update</button>
+                                <button type="button" onclick="window.location.href='/seller/index'" class="btn btn-secondary">Back To List</button>
                             </form>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
 
     </main>
+
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('imagePreview');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result; // Set the src of the image preview to the uploaded image
+                    preview.style.display = 'block'; // Show the preview
+                };
+
+                reader.readAsDataURL(input.files[0]); // Read the image file as a data URL
+            } else {
+                preview.src = ''; // Clear the preview if no file is selected
+                preview.style.display = 'none'; // Hide the preview
+            }
+        }
+    </script>
+
+
     <!-- ======= Footer ======= -->
     @*     <footer id="footer" class="footer">
     <div class="copyright">

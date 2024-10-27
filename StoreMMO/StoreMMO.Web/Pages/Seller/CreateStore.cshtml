@@ -1,5 +1,5 @@
-﻿@page "{storeDetailId?}"
-@model StoreMMO.Web.Pages.Seller.UpdateStoreModel
+﻿@page
+@model StoreMMO.Web.Pages.Seller.CreateStoreModel
 @{
 }
 <!DOCTYPE html>
@@ -379,98 +379,147 @@
 
     </aside><!-- End Sidebar-->
 
-    <main id="main" class="main">
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Create New Store</h1>
+    </div>
 
-        <div class="pagetitle">
-            <h1>Update Store Details</h1>
-        </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
 
-        <section class="section">
-            <div class="row">
-                <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Create Store Form</h5>
 
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Update Store Details Form</h5>
-                            @if (!string.IsNullOrEmpty(Model.success))
-                            {
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <i class="bi bi-check-circle me-1"></i>
-                                    @Model.success
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <!-- Success and Error Messages -->
+                        @if (!string.IsNullOrEmpty(Model.success))
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="bi bi-check-circle me-1"></i>
+                                @Model.success
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.fail))
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="bi bi-exclamation-octagon me-1"></i>
+                                @Model.fail
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <!-- Form for creating a new store -->
+                        <form method="post" enctype="multipart/form-data">
+                            <!-- Name -->
+                            <div class="row mb-4">
+                                <label for="inputName" class="col-sm-5 col-form-label">Store Name</label>
+                                <div class="col-sm-15">
+                                    <input type="text" class="form-control" asp-for="input.Name" />
                                 </div>
-                            }
-                            @if (!string.IsNullOrEmpty(Model.fail))
-                            {
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <i class="bi bi-exclamation-octagon me-1"></i>
-                                    @Model.fail
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <span style="color:red" asp-validation-for="input.Name"></span>
+                            </div>
+
+                            <!-- SubDescription -->
+                            <div class="row mb-4">
+                                <label for="inputSubDescription" class="col-sm-5 col-form-label">Sub Description</label>
+                                <div class="col-sm-15">
+                                    <input type="text" class="form-control" asp-for="input.SubDescription" />
                                 </div>
-                            }
+                                <span style="color:red" asp-validation-for="input.SubDescription"></span>
+                            </div>
 
-                            <!-- Form -->
-                            <form method="post" enctype="multipart/form-data">
-                                <!-- ID (ẩn) -->
-                                <input hidden type="text" asp-for="input.Id" />
+                            <!-- Description Detail -->
+                            <div class="row mb-4">
+                                <label for="inputDescriptionDetail" class="col-sm-5 col-form-label">Description Detail</label>
+                                <div class="col-sm-15">
+                                    <input type="text" class="form-control" asp-for="input.DescriptionDetail" />
+                                </div>
+                                <span style="color:red" asp-validation-for="input.DescriptionDetail"></span>
+                            </div>
 
-                                <!-- Name -->
+                            <!-- Category Selection -->
                                 <div class="row mb-4">
-                                    <label for="inputName" class="col-sm-5 col-form-label">Name</label>
+                                    <label for="inputCategory" class="col-sm-5 col-form-label">Category</label>
                                     <div class="col-sm-15">
-                                        <input type="text" class="form-control" asp-for="input.Name" />
+                                        <select asp-for="input.CategoryId" class="form-control" asp-items="Model.input.CategoryOptions">
+                                            <option value="">Select Category</option>
+                                        </select>
                                     </div>
-                                    <span style="color:red" asp-validation-for="input.Name"></span>
+                                    <span style="color:red" asp-validation-for="input.CategoryId"></span>
                                 </div>
 
-                                <!-- SubDescription -->
+
+                            <!-- Store Type Selection -->
                                 <div class="row mb-4">
-                                    <label for="inputSubDescription" class="col-sm-5 col-form-label">Sub Description</label>
+                                    <label for="inputStoreType" class="col-sm-5 col-form-label">Store Type</label>
                                     <div class="col-sm-15">
-                                        <input type="text" class="form-control" asp-for="input.SubDescription" />
+                                        <select asp-for="input.StoreTypeId" class="form-control" asp-items="Model.input.StoreTypeOptions">
+                                            <option value="">Select Store Type</option>
+                                        </select>
                                     </div>
-                                    <span style="color:red" asp-validation-for="input.SubDescription"></span>
+                                    <span style="color:red" asp-validation-for="input.StoreTypeId"></span>
                                 </div>
 
-                                <!-- Description Detail -->
+
+                            <!-- Upload Image -->
+                            <div class="row mb-4">
+                                <label for="inputImg" class="col-sm-5 col-form-label">Upload Image</label>
+                                <div class="col-sm-15">
+                                        <input type="file" class="form-control" asp-for="input.InputImage" onchange="previewImage(event)"  />
+                                </div>
+                                <span style="color:red" asp-validation-for="input.InputImage"></span>
+                            </div>
+
                                 <div class="row mb-4">
-                                    <label for="inputDescriptionDetail" class="col-sm-5 col-form-label">Description Detail</label>
+                                    <label class="col-sm-5 col-form-label">Image Preview</label>
                                     <div class="col-sm-15">
-                                        <input type="text" class="form-control" asp-for="input.DescriptionDetail" />
-                                    </div>
-                                    <span style="color:red" asp-validation-for="input.DescriptionDetail"></span>
-                                </div>
-
-                                <!-- CreatedDate -->
-                                <div class="row mb-4">
-                                    <label for="inputCreatedDate" class="col-sm-5 col-form-label">Created Date</label>
-                                    <div class="col-sm-15">
-                                        <input type="date" class="form-control" asp-for="input.CreatedDate" />
+                                        <img id="imagePreview" src="#" alt="Image Preview" width="100" style="display:none;" />
                                     </div>
                                 </div>
 
-                                <!-- Upload Image -->
-                                <div class="row mb-4">
-                                    <label for="inputImg" class="col-sm-5 col-form-label">Upload Image</label>
-                                    <div class="col-sm-15">
-                                        <input type="file" class="form-control" asp-for="input.InputImage" />
-                                    </div>
+                            <!-- Submit Button -->
+                            <div class="row mb-4">
+                                <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary">Create Store</button>
+                                    <button type="button" onclick="window.location.href='/seller/index'" class="btn btn-secondary">Back To List</button>
                                 </div>
+                            </div>
+                        </form>
 
-                                <div class="row mb-4">
-                                    <div class="col-sm-10">
-                                        <button type="button" onclick="window.location.href='/seller/Store'" class="btn btn-secondary">Back To List</button>
-                                        <button type="submit" class="btn btn-primary">Update</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-    </main>
+            </div>
+        </div>
+    </section>
+</main>
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const preview = document.getElementById('imagePreview');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result; // Set the src of the image preview to the uploaded image
+                    preview.style.display = 'block'; // Show the preview
+                };
+
+                reader.readAsDataURL(input.files[0]); // Read the image file as a data URL
+            } else {
+                preview.src = ''; // Clear the preview if no file is selected
+                preview.style.display = 'none'; // Hide the preview
+            }
+        }
+    </script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
     <!-- ======= Footer ======= -->
     @*     <footer id="footer" class="footer">
     <div class="copyright">

@@ -30,8 +30,8 @@ namespace StoreMMO.Web.Pages.Seller
 
         public void OnGet()
         {
-            products = _product.ManageStore();
-            
+            //products = _product.ManageStore();
+            products = _product.ManageStoreDetail();
 
         }
         public void OnPost() {

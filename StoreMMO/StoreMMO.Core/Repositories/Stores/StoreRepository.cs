@@ -215,7 +215,11 @@ WHERE
                 DescriptionDetail = findId.DescriptionDetail,
                 Img = findId.Img,
                 ModifiedDate = findId.ModifiedDate,
+                CategoryId = findId.CategoryId,
+                StoreTypeId = findId.StoreTypeId,
+                StoreId = findId.StoreId,
             };
+
             return storedetail;
         }
     }
