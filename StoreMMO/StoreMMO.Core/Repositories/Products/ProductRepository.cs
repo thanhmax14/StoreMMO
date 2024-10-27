@@ -186,6 +186,15 @@ WHERE
                  .OrderByDescending(x => x.CreatedDate)
                  .ToList();
         }
+
+        public IEnumerable<Product> getProductsByTypeID1(string id)
+        {
+            return _context.Products
+                 .Where(p => p.ProductTypeId == id)
+                 .OrderByDescending(x => x.CreatedDate)
+                 .ToList();
+        }
+
         public IEnumerable<ManageStoreViewModels> ManageStoreDetail(string userId)
         {
             string sql = @"
@@ -243,6 +252,7 @@ WHERE
             var list = this._context.Database.SqlQueryRaw<ManageStoreViewModels>(sql, new SqlParameter("@userId", userId)).ToList();
             return list;
         }
+
 
     }
 }

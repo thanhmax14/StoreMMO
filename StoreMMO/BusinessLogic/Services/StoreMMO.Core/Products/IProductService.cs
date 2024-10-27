@@ -19,6 +19,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
         IEnumerable<ManageStoreViewModels> ManageStore();
         IEnumerable<ViewProductModels> GetProductsByStoreId(string storeId);
         IEnumerable<Product> getProductsByTypeID(string id);
+
+        IEnumerable<Product> getProductsByTypeID1(string id);
+
         IEnumerable<ManageStoreViewModels> ManageStoreDetail(string userId);
+
     }
 }

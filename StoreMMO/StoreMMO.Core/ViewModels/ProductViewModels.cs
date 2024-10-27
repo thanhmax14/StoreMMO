@@ -1,6 +1,7 @@
 ﻿using StoreMMO.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace StoreMMO.Core.ViewModels
         public string Status { get; set; }
 
         public DateTimeOffset? CreatedDate { get; set; }
+  
 
         public virtual ProductType ProductType { get; set; }
 
