@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
 using StoreMMO.Web.Models.ViewModels;
+using System.Security.Claims;
 
 namespace StoreMMO.Web.Pages.Account
 {
@@ -123,6 +124,56 @@ namespace StoreMMO.Web.Pages.Account
 				ModelState.AddModelError(string.Empty, error.Description);
 			}
 			return NotFound();
+		}
+		// New Google Login Method
+		public async Task<IActionResult> OnPostGoogleLoginAsync()
+		{
+			var redirectUrl = Url.Page("/Account/ExternalLogin", pageHandler: "Callback");
+			var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+			return new ChallengeResult("Google", properties);
+		}
+
+
+		public async Task<IActionResult> OnGetGoogleResponseAsync()
+		{
+			var info = await _signInManager.GetExternalLoginInfoAsync();
+			if (info == null)
+			{
+				ModelState.AddModelError(string.Empty, "Error loading external login information.");
+				return Page();
+			}
+
+			var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+			if (result.Succeeded)
+			{
+				// Đăng nhập thành công
+				return RedirectToPage("/Index");
+			}
+			else
+			{
+				// Nếu người dùng chưa tồn tại, tạo tài khoản mới
+				var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+				if (email != null)
+				{
+					var user = new AppUser { UserName = email, Email = email };
+					var createResult = await _userManager.CreateAsync(user);
+					if (createResult.Succeeded)
+					{
+						await _userManager.AddLoginAsync(user, info);
+						await _signInManager.SignInAsync(user, isPersistent: false);
+						return RedirectToPage("/Index");
+					}
+					else
+					{
+						foreach (var error in createResult.Errors)
+						{
+							ModelState.AddModelError(string.Empty, error.Description);
+						}
+					}
+				}
+				ModelState.AddModelError(string.Empty, "Error creating account with Google.");
+				return Page();
+			}
 		}
 	}
 }
