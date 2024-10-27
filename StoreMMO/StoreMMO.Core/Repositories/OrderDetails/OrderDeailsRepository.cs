@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.OrderDetails;
 using StoreMMO.Core.ViewModels;
@@ -183,5 +184,35 @@ namespace StoreMMO.Core.Repositories.orderDetailViewModels
 
             return result;
         }
-    }
+
+		public async Task<bool> UpdateDetailAsync(OrderDetailsViewModels orderDetailViewModels)
+		{
+			try
+			{
+				var complaint = await _context.OrderDetails.FindAsync(orderDetailViewModels.ID);
+				if (complaint == null)
+				{
+					return false;
+				}
+
+				complaint.status = orderDetailViewModels.status;
+				complaint.SellerMoney = orderDetailViewModels.SellerMoney;
+				complaint.OrderBuyID = orderDetailViewModels.OrderBuyID;
+				complaint.AdminMoney = orderDetailViewModels.AdminMoney;
+				complaint.Dates = orderDetailViewModels.Dates;
+				complaint.ID = orderDetailViewModels.ID;
+				complaint.ProductID = orderDetailViewModels.ProductID;
+				complaint.stasusPayment = orderDetailViewModels.stasusPayment;
+                complaint.Price = orderDetailViewModels.Price;
+                complaint.quantity = orderDetailViewModels.quantity;
+				_context.OrderDetails.Update(complaint);
+				await _context.SaveChangesAsync();
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+	}
 }

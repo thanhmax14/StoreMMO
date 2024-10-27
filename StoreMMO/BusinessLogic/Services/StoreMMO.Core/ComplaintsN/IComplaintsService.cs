@@ -1,4 +1,5 @@
 ﻿using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
+using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.ComplaintsN
         public bool ReportAdmin(string id, string status);
         IEnumerable<ComplaintsMapper> GetAllReportAdmin();
         public UserMapper GetUserById(string id);
+		Task<bool> AddAsync(complantViewModels complaintsMapper);
+		Task<bool> EditAsync(complantViewModels complaintsMapper);
+		Task<bool> DeleteAsync(complantViewModels complaintsMapper);
+		Task<complantViewModels> GetByIDAsync(string complaintsMapper);
 
-    }
+	}
 }

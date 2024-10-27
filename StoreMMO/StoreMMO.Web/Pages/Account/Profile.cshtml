@@ -908,10 +908,23 @@
 									success: function (data) {
 										if (data.success) {
 											console.log(data.message);
+											Swal.fire({
+												icon: 'success',
+												title: 'Cập nhật thành công!',
+												text: 'Ban da cap nhat thanh cong',
+												showConfirmButton: false,
+												timer: 2000 // Đóng thông báo sau 2 giây
+											});
 											$('#exampleModal').modal('hide');
 											$('.modal-backdrop').remove(); // Xóa lớp backdrop nếu vẫn còn
-
 											$('#row-' + detailID).remove();
+										}else{
+											Swal.fire({
+												icon: 'error',
+												title: 'Lỗi!',
+												text: 'Xảy ra lỗi trong quá trình cập nhật hồ sơ.',
+												showConfirmButton: true
+											});
 										}
 
 									},
@@ -967,28 +980,32 @@
 														</tr>
 													</thead>
 													<tbody>
-														${data.items.map((item, index) => `
-																													<tr id="row-${item.detailID}">
-																<td>${index + 1}</td>
-																<td>${item.account}</td>
-																<td>${item.password}</td>
-																 <td style="display:none">${item.detailID}</td>
-																<td>${item.price}</td>
-																<td>${item.orderDate}</td>
-																<td>${item.status}</td>
-																<td>${item.totalPrice}</td>
-																																					<td>
-								<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-									data-account="${item.account}"
-									data-password="${item.password}"
-									data-price="${item.price}"
-									data-order-date="${item.orderDate}"
-									data-order-No="${index + 1}"
-																					data-detail-id="${item.detailID}">Report this Order</button>
-							</td>
+																					${data.items.map((item, index) => `
+								<tr id="row-${item.detailID}">
+									<td>${index + 1}</td>
+									<td>${item.account}</td>
+									<td>${item.password}</td>
+									<td style="display:none">${item.detailID}</td>
+									<td>${item.price}</td>
+									<td>${item.orderDate}</td>
+									<td>${item.status}</td>
+									<td>${item.totalPrice}</td>
+									<td>
+																	${item.status.toLowerCase() === 'ok' ?
+													`<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+												data-account="${item.account}"
+												data-password="${item.password}"
+												data-price="${item.price}"
+												data-order-date="${item.orderDate}"
+												data-order-No="${index + 1}"
+												data-detail-id="${item.detailID}">Report this Order</button>`
+													:
+													``
+												}
+									</td>
+								</tr>
+							`).join('')}
 
-															</tr>
-														`).join('')}
 													</tbody>
 												</table>
 											`);

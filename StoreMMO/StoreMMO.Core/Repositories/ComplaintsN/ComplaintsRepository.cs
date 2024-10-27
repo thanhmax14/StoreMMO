@@ -1,7 +1,8 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
 using StoreMMO.Core.Models;
+using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,7 +91,106 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
             var mappedUser = _mapper.Map<UserMapper>(user);
             return mappedUser;
         }
+		public async Task<bool> AddAsync(complantViewModels complaints)
+		{
+			try
+			{
+				var complaint = new Complaint
+				{
+					ID = complaints.ID,
+					CreateDate = complaints.CreateDate,
+					Description = complaints.Description,
+					OrderDetailID = complaints.OrderDetailID,
+					Reply = complaints.Reply,
+					Status = complaints.Status,
+				};
 
+				await _context.Complaints.AddAsync(complaint);
+				await _context.SaveChangesAsync();
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+
+
+		public async Task<bool> EditAsync(complantViewModels complaintsMapper)
+		{
+			try
+			{
+				var complaint = await _context.Complaints.FindAsync(complaintsMapper.ID);
+				if (complaint == null)
+				{
+					return false;
+				}
+
+				complaint.CreateDate = complaintsMapper.CreateDate;
+				complaint.Description = complaintsMapper.Description;
+				complaint.OrderDetailID = complaintsMapper.OrderDetailID;
+				complaint.Reply = complaintsMapper.Reply;
+				complaint.Status = complaintsMapper.Status;
+
+				_context.Complaints.Update(complaint);
+				await _context.SaveChangesAsync();
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+
+
+		public async Task<bool> DeleteAsync(complantViewModels complaintsMapper)
+		{
+			try
+			{
+				var complaint = await _context.Complaints.FindAsync(complaintsMapper.ID);
+				if (complaint == null)
+				{
+					return false;
+				}
+
+				_context.Complaints.Remove(complaint);
+				await _context.SaveChangesAsync();
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+		public async Task<complantViewModels> GetByIDAsync(string id)
+		{
+			try
+			{
+				var complaint = await _context.Complaints.FindAsync(id);
+				if (complaint == null)
+				{
+					return null;
+				}
+
+				return new complantViewModels
+				{
+					ID = complaint.ID,
+					CreateDate = complaint.CreateDate,
+					Description = complaint.Description,
+					OrderDetailID = complaint.OrderDetailID,
+					Reply = complaint.Reply,
+					Status = complaint.Status,
+				};
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+		}
+
+		
+	}
        // public bool Wanrant(string producttypeid, )
     }
+
 }

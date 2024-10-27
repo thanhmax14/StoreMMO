@@ -164,14 +164,36 @@ namespace StoreMMO.Web.Pages.Account
 		}
 		public async Task<IActionResult> OnPostSendReport(string detailID, string mess)
 		{
-			
+			var findDetail =  await this._detail.GetOrderDeailByIDAsync(detailID);
+			var a = findDetail;
+			if (findDetail == null)
+			{
+				return new JsonResult(new { success = false, message="Fail" });
+			}
+			else
+			{
+				bool add = await this._complaints.AddAsync(new complantViewModels { 
+				                      CreateDate = DateTime.Now,
+									  Description = mess,
+									  OrderDetailID = detailID,
+									  ID = Guid.NewGuid().ToString(),
+									  Status= "None"
+				
+				});
+				 if (!add)
+				{
+					return new JsonResult(new { success = false, message = "Fail" });
+				}
+				 var getODetail = await this._detail.GetOrderDeailByIDAsync(detailID);
+				     getODetail.status = "report";
 
-
-
-
-			var message = $"Received data: DetailID={detailID}, mess={mess}";
-
-			return new JsonResult(new { success = true, message });
+				bool addDetail = await this._detail.UpdateDetailAsync(getODetail);
+				if (!addDetail)
+				{
+					return new JsonResult(new { success = false, message = "Fail" });
+				}
+				return new JsonResult(new { success = true, message="thanh congs" });
+			}			
 		}
 
 
