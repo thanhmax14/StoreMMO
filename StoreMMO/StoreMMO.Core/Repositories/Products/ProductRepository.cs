@@ -89,7 +89,7 @@ namespace StoreMMO.Core.Repositories.Products
                 ProductTypeId = inforAddViewModels.ProductTypeId,
                 Account = inforAddViewModels.Account,
                 Pwd = inforAddViewModels.Pwd,
-                StatusUpload = "",
+                StatusUpload = inforAddViewModels.StatusUpload,
                 Status = inforAddViewModels.Status,
                 CreatedDate = inforAddViewModels.CreatedDate,
             };

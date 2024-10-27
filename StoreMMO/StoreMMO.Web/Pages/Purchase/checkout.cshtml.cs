@@ -1,15 +1,19 @@
 ﻿
 using BusinessLogic.Services.Encrypt;
+using BusinessLogic.Services.StoreMMO.Core.Balances;
 using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
 using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
 using BusinessLogic.Services.StoreMMO.Core.StoreTypes;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.IdentityModel.Tokens;
+using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
+using System.Linq;
 
 namespace StoreMMO.Web.Pages.Purchase
 {
@@ -21,11 +25,17 @@ namespace StoreMMO.Web.Pages.Purchase
         private readonly IProductService _product;
         private readonly IStoreDetailsService _storeDetails;
         private readonly IOderDetailsService _Detail;
+        private readonly UserManager<AppUser> _manager;
+        private readonly IBalanceService _balance;
  
 
 
         public checkoutModel(IPurchaseService purchase, IProductTypeService productService, IStoreTypeService typeService,
-            IProductService product,IStoreDetailsService storeDetails, IOderDetailsService oderDetails
+            IProductService product,IStoreDetailsService storeDetails, IOderDetailsService oderDetails,
+            UserManager<AppUser> manager, IBalanceService balance
+
+
+
             )
         {
             this._purchase = purchase;
@@ -34,6 +44,8 @@ namespace StoreMMO.Web.Pages.Purchase
             this._product = product;
             this._storeDetails = storeDetails;
             this._Detail = oderDetails;
+            this._manager = manager;
+            this._balance= balance;
         }
 
         public List<PurchaseItem> purchaseItems { get; set; } = new List<PurchaseItem>();
@@ -57,15 +69,43 @@ namespace StoreMMO.Web.Pages.Purchase
         {
 
             var checkUser = HttpContext.Session.GetString("UserID");
-            checkUser = "5921c651-d855-408a-9f37-e10405250f63";
+       
             if (checkUser != null )
             {
                 purchaseItems = this._purchase.GetProductFromSession();
                 if (purchaseItems.Count > 0 || !purchaseItems.IsNullOrEmpty())
                 {
                     var commission = 0.0;
-                    foreach(var item in purchaseItems)
+                    var orderCode = EncryptSupport.GenerateRandomString(10);
+					var totalBuy = purchaseItems
+						   .Where(item => decimal.TryParse(item.total, out _))
+						   .Sum(item => decimal.Parse(item.total));
+					foreach (var item in purchaseItems)
                     {
+                      
+
+						var addbalane = await this._balance.AddAsync(new BalanceViewModels
+                        {
+                            Id = Guid.NewGuid().ToString(),
+							Amount = totalBuy,
+                            TransactionDate = DateTime.Now,
+                            TransactionType="Buy",
+                            Description="Buy Order: "+ orderCode,
+                            approve = DateTime.Now,
+                            UserId = checkUser,
+                            Status="PAID",
+						});
+                        if (addbalane)
+                        {
+                            var finduse = await this._manager.FindByIdAsync(checkUser);
+                            if (finduse != null)
+                            {
+                                finduse.CurrentBalance -= totalBuy;
+                                await this._manager.UpdateAsync(finduse);
+
+							}
+                        }
+                        
 
                         var getInfo = this._productType.GetInfoByProductid(item.ProductID);
                           if(getInfo.Count()> 0 ||  !getInfo.IsNullOrEmpty())
@@ -80,7 +120,7 @@ namespace StoreMMO.Web.Pages.Purchase
                                  var tem = new OrderBuyViewModels
                                 {
                                     ID = tempid,
-                                    OrderCode = EncryptSupport.GenerateRandomString(10),
+                                    OrderCode = orderCode,
                                     ProductTypeId = productTypeTem,
                                     StoreID = intemPro.StoreID,
                                     UserID = checkUser,
@@ -93,7 +133,7 @@ namespace StoreMMO.Web.Pages.Purchase
                             }
                             var getInfoByProductType = this._productType.getByIDProduct(productTypeTem);
                             if (getInfoByProductType != null)
-                            {
+                            {   
                                 if(int.Parse(item.quantity) < int.Parse(getInfoByProductType.Stock))
                                 {
                                        var getProduct = this._product.getProductsByTypeID(getInfoByProductType.Id);
@@ -124,23 +164,16 @@ namespace StoreMMO.Web.Pages.Purchase
                                                 ProductTypeId = productItem.ProductTypeId,
                                                 Pwd =productItem.Pwd,
                                                 Status = "PAID",
-                                                StatusUpload = DateTime.Now.ToString()
-                                            };
+                                                StatusUpload = DateTime.Now.ToString(),
+											};
                                             var updatePaidProduct = this._product.UpdateProduct(temProductPaid);
-                                            cout--; 
+                                            cout--;
+                                           await  this._productType.UpdateQuantity(1, getInfoByProductType.Id);
                                         }
                                     }
                                     return Redirect("/Purchase/OrderComplete");
                                 }
                             }
-
-
-
-
-
-
-
-
                         }
                     }
                 }
