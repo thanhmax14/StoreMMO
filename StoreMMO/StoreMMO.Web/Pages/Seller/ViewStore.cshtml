@@ -1,5 +1,5 @@
 ﻿@page "{storeDetailId?}"
-@model StoreMMO.Web.Pages.Seller.UpdateStoreModel
+@model StoreMMO.Web.Pages.Seller.UpdateStoreDetailModel
 @{
 }
 <!DOCTYPE html>
@@ -294,15 +294,15 @@
                             <i class="bi bi-circle"></i><span>Manage Store</span>
                         </a>
                     </li>
-                 @*    <li>
-                        <a href="">
-                            <i class=" bi bi-circle"></i><span>Create Product</span>
-                        </a>
+                    @*    <li>
+                    <a href="">
+                    <i class=" bi bi-circle"></i><span>Create Product</span>
+                    </a>
                     </li> *@
-                 @*    <li>
-                        <a href="/Seller/UpdateProduct" onclick="window.location.href='/Seller/UpdateProduct'">
-                            <i class=" bi bi-circle"></i><span>Manage ProductType</span>
-                        </a>
+                    @*    <li>
+                    <a href="/Seller/UpdateProduct" onclick="window.location.href='/Seller/UpdateProduct'">
+                    <i class=" bi bi-circle"></i><span>Manage ProductType</span>
+                    </a>
                     </li> *@
                 </ul>
             </li><!-- End Components Nav -->
@@ -382,7 +382,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Update Store Details</h1>
+            <h1>View Store Details</h1>
         </div><!-- End Page Title -->
 
         <section class="section">
@@ -391,7 +391,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Update Store Details Form</h5>
+                            <h5 class="card-title">Store Details Table</h5>
                             @if (!string.IsNullOrEmpty(Model.success))
                             {
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -411,66 +411,90 @@
 
                             <!-- Form -->
                             <form method="post" enctype="multipart/form-data">
-                                <!-- ID (ẩn) -->
-                                <input hidden type="text" asp-for="input.Id" />
-
                                 <!-- Name -->
                                 <div class="row mb-4">
-                                    <label for="inputName" class="col-sm-5 col-form-label">Name</label>
+                                    <label class="col-sm-5 col-form-label">Name</label>
                                     <div class="col-sm-15">
-                                        <input type="text" class="form-control" asp-for="input.Name" />
+                                        <input type="text" class="form-control" asp-for="input.Name" disabled />
                                     </div>
                                     <span style="color:red" asp-validation-for="input.Name"></span>
                                 </div>
 
                                 <!-- SubDescription -->
                                 <div class="row mb-4">
-                                    <label for="inputSubDescription" class="col-sm-5 col-form-label">Sub Description</label>
+                                    <label class="col-sm-5 col-form-label">Sub Description</label>
                                     <div class="col-sm-15">
-                                        <input type="text" class="form-control" asp-for="input.SubDescription" />
+                                        <input type="text" class="form-control" asp-for="input.SubDescription" disabled />
                                     </div>
                                     <span style="color:red" asp-validation-for="input.SubDescription"></span>
                                 </div>
 
                                 <!-- Description Detail -->
                                 <div class="row mb-4">
-                                    <label for="inputDescriptionDetail" class="col-sm-5 col-form-label">Description Detail</label>
+                                    <label class="col-sm-5 col-form-label">Description Detail</label>
                                     <div class="col-sm-15">
-                                        <input type="text" class="form-control" asp-for="input.DescriptionDetail" />
+                                        <input type="text" class="form-control" asp-for="input.DescriptionDetail" disabled/>
                                     </div>
                                     <span style="color:red" asp-validation-for="input.DescriptionDetail"></span>
                                 </div>
 
-                                <!-- CreatedDate -->
+                                <!-- Category -->
                                 <div class="row mb-4">
-                                    <label for="inputCreatedDate" class="col-sm-5 col-form-label">Created Date</label>
+                                    <label class="col-sm-5 col-form-label">Category</label>
                                     <div class="col-sm-15">
-                                        <input type="date" class="form-control" asp-for="input.CreatedDate" />
+                                        <select asp-for="input.CategoryId" asp-items="Model.input.CategoryOptions" class="form-control" disabled >
+                                            <option value="">Select Category</option>
+                                        </select>
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.CategoryId"></span>
+                                </div>
+
+                                <!-- Store Type -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Store Type</label>
+                                    <div class="col-sm-15">
+                                        <select asp-for="input.StoreTypeId" asp-items="Model.input.StoreTypeOptions" class="form-control" disabled >
+                                            <option value="">Select Store Type</option>
+                                        </select>
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.StoreTypeId"></span>
+                                </div>
+
+                                <!-- Current Image -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Current Image</label>
+                                    <div class="col-sm-15">
+                                        @if (!string.IsNullOrEmpty(Model.input.Img))
+                                        {
+                                            <img src="@Model.input.Img" alt="Store Image" width="100" />
+                                        }
+                                        else
+                                        {
+                                            <p>No image uploaded.</p>
+                                        }
                                     </div>
                                 </div>
 
-                                <!-- Upload Image -->
-                                <div class="row mb-4">
-                                    <label for="inputImg" class="col-sm-5 col-form-label">Upload Image</label>
+                                <!-- Image Upload -->
+                                @* <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Upload New Image</label>
                                     <div class="col-sm-15">
                                         <input type="file" class="form-control" asp-for="input.InputImage" />
                                     </div>
-                                </div>
+                                </div> *@
 
-                                <div class="row mb-4">
-                                    <div class="col-sm-10">
-                                        <button type="button" onclick="window.location.href='/seller/Store'" class="btn btn-secondary">Back To List</button>
-                                        <button type="submit" class="btn btn-primary">Update</button>
-                                    </div>
-                                </div>
+                                <input type="hidden" asp-for="input.Id" />
+
+                                @* <button type="submit" class="btn btn-primary">Update</button> *@
+                                <button type="button" onclick="window.location.href='/seller/index'" class="btn btn-secondary">Back To List</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
+
     <!-- ======= Footer ======= -->
     @*     <footer id="footer" class="footer">
     <div class="copyright">

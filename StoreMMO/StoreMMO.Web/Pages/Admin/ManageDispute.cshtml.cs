@@ -74,7 +74,7 @@ namespace StoreMMO.Web.Pages.Admin
             if (dispute != null)
             {
                 // Cập nhật trạng thái thành 2 khi nhấn "Reject"
-                dispute.Status = "ReportAdmin"; // Giả sử có thuộc tính IsAccept
+                dispute.Status = "done"; // Giả sử có thuộc tính IsAccept
                 await _context.SaveChangesAsync();
                 success = "Reject success!";
             }

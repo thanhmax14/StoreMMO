@@ -49,6 +49,19 @@ namespace BusinessLogic.Utils
             done, 
             ReportAdmin,// gui tiep admin set lai thanh done
         }
-
+        public enum StoreStatus
+        {
+            None,  //=> 0
+            APPROVED, //thanh cong
+            REJECTED, //that bai
+            PENDING //dang cho duyet
+        }
+        public enum StoreDetailStatus
+        {
+            None,  //=> 0
+            APPROVED, //thanh cong
+            REJECTED, //that bai
+            PENDING //dang cho duyet
+        }
     }
 }

@@ -89,5 +89,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
         {
            return _productRepository.getProductsByTypeID(id);
         }
+
+        public IEnumerable<ManageStoreViewModels> ManageStoreDetail()
+        {
+            return _productRepository.ManageStoreDetail();
+        }
     }
 }
