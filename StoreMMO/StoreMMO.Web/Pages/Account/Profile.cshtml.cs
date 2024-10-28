@@ -1,7 +1,11 @@
-﻿using BusinessLogic.Services.StoreMMO.Core.Balances;
+﻿using BusinessLogic.Services.CreateQR;
+using BusinessLogic.Services.Encrypt;
+using BusinessLogic.Services.Payments;
+using BusinessLogic.Services.StoreMMO.Core.Balances;
 using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -20,9 +24,12 @@ namespace StoreMMO.Web.Pages.Account
 		private readonly IPurchaseService _pur;
 		private readonly IOderDetailsService _detail;
 		private readonly IComplaintsService _complaints;
+		private readonly PaymentLIb _pay;
+		private readonly CreateQR _createQR;
+		private readonly IBalanceService _balanceService;
 
 		public ProfileModel(UserManager<AppUser> userManager, IBalanceService balance, IPurchaseService purchase,
-			IOderDetailsService order, IComplaintsService complaints
+			IOderDetailsService order, IComplaintsService complaints, PaymentLIb paymentLIb, CreateQR create, IBalanceService balanceService
 			)
 		{
 			_userManager = userManager;
@@ -30,6 +37,9 @@ namespace StoreMMO.Web.Pages.Account
 			this._pur= purchase;
 			this._detail = order;
 			this._complaints = complaints;
+			this._pay = paymentLIb;
+			this._createQR = create;
+			this._balanceService = balanceService;
 		}
 		[BindProperty]
 		public AppUser AppUser { get; set; }
@@ -197,6 +207,67 @@ namespace StoreMMO.Web.Pages.Account
 		}
 
 
+		public async Task<IActionResult> OnPostSendDepo(int amount)
+		{
+			var checkUser = HttpContext.Session.GetString("UserID");
+			amount = 20000;
+			if (checkUser != null)
+			{
+				var host = Request.Host.ToString();
+				var fullUrl = $"{Request.Scheme}://{host}/Purchase/pedding";
+				var failUrl = $"{Request.Scheme}://{host}/Purchase/fail";
+
+				// Tạo yêu cầu thanh toán
+				var create = await _pay.CreatePay("Deposit", 1, amount, fullUrl, failUrl, "Payment deposit", 10);
+				if (create != null)
+				{
+					var transaction = new BalanceViewModels
+					{
+						Id = Guid.NewGuid().ToString(),
+						Amount = amount,
+						Description = "Deposit",
+						OrderCode = create.orderCode.ToString(),
+						Status = create.status,
+						TransactionDate = DateTime.Now,
+						TransactionType = "Deposit",
+						UserId = checkUser
+					};
+
+					bool add = await _balanceService.AddAsync(transaction); // Gọi phương thức AddAsync
+					if (add)
+					{
+						string redirectUrl = Url.Page("/Purchase/pedding", null, new
+						{
+							Ordercode = EncryptSupport.EncodeBase64(create.orderCode.ToString()),
+							descrip = EncryptSupport.EncodeBase64(create.description),
+							NameBank = EncryptSupport.EncodeBase64("PHAM QUANG THANH"),
+							NumberBank = EncryptSupport.EncodeBase64(create.accountNumber),
+							thoigian = create.expiredAt,
+							amount = create.amount,
+							Price = EncryptSupport.EncodeBase64("2000"),
+							img = EncryptSupport.EncodeBase64(create.qrCode)
+						}, Request.Scheme);
+						return new JsonResult(new
+						{
+							success = true,
+							 url = redirectUrl
+						});
+					}
+					else
+					{
+						// Hủy yêu cầu thanh toán nếu không thêm được giao dịch
+						bool cancel = await _pay.cancelPay(create.orderCode.ToString());
+						return new JsonResult(new { success = false, redirectUrl = failUrl });
+					}
+				}
+				else
+				{
+					return new JsonResult(new { success = false, message = "Failed to create payment request." });
+				}
+			}
+			return new JsonResult(new { success = false, message = "User not found." });
+
+		}
 
 
 
