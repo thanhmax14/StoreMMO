@@ -51,20 +51,22 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
         public IEnumerable<ComplaintsMapper> GetAllReportAdmin()
         {
             var complaints = _context.Complaints
-                .Where(c => c.Status == "ReportAdmin")
-          .Include(c => c.OrderDetail)                        // Include OrderDetail của Complaint
-              .ThenInclude(od => od.orderBuy)                // Then Include OrderBuy của OrderDetail
-          .Include(c => c.OrderDetail.orderBuy.AppUser)       // Include AppUser của OrderBuy
-          
-          .Include(c => c.OrderDetail.orderBuy.Store)         // Include Store của OrderBuy
+               // .Where(c => c.OrderDetail.orderBuy.Store.User.Id == id)
+                .Include(c => c.OrderDetail)                        // Include OrderDetail của Complaint
+                    .ThenInclude(od => od.orderBuy)                // Then Include OrderBuy của OrderDetail
+                .Include(c => c.OrderDetail.orderBuy.AppUser)       // Include AppUser của OrderBuy
+                .Include(c => c.OrderDetail.orderBuy.Store.User)
+                .Include(c => c.OrderDetail.orderBuy.Store)         // Include Store của OrderBuy
+                .Include(c => c.OrderDetail.Product)                // Include Product của OrderDetail
+                    .ThenInclude(p => p.ProductType)               // Then Include ProductType của Product
+                .ToList();
 
-          .Include(c => c.OrderDetail.Product)                // Include Product của OrderDetail
-              .ThenInclude(p => p.ProductType)               // Then Include ProductType của Product
-          .ToList();
+            // Lọc ra chỉ các complaint có Status "none"
+            var filteredComplaints = complaints
+                .Where(c => c.Status.ToLower() == "reportadmin")
+                .ToList();
 
-
-            var mappedComplaints = _mapper.Map<List<ComplaintsMapper>>(complaints);
-
+            var mappedComplaints = _mapper.Map<List<ComplaintsMapper>>(filteredComplaints);
             return mappedComplaints;
         }
 
