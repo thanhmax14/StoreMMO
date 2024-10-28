@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using StoreMMO.Core.Models;
 using StoreMMO.Web.Models.ViewModels;
+using System.Security.Claims;
 
 namespace StoreMMO.Web.Pages.Account
 {
@@ -93,6 +95,77 @@ namespace StoreMMO.Web.Pages.Account
             }
 
         }
+		public async Task<IActionResult> OnPostExternal(string provider)
+		{
+			var redirectUrl = Url.Page("./Login", pageHandler: "Callback");
+			var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+			return new ChallengeResult(provider, properties);
+		}
+
+		public async Task<IActionResult> OnGetCallbackAsync(string remoteError = null)
+		{
+			if (remoteError != null)
+			{
+				ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+				return Page();
+			}
+
+			var info = await _signInManager.GetExternalLoginInfoAsync();
+			if (info == null)
+			{
+				ModelState.AddModelError(string.Empty, "Error loading external login information.");
+				return Page();
+			}
+
+			var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+			if (email == null)
+			{
+				ModelState.AddModelError(string.Empty, "Email not available from external provider.");
+				return Page();
+			}
+
+			var user = await _userManager.FindByEmailAsync(email);
+			if (user != null)
+			{
+				var isLinkedWithGoogle = await _userManager.GetLoginsAsync(user);
+				if (isLinkedWithGoogle.Any(login => login.LoginProvider == info.LoginProvider))
+				{
+					var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: true);
+					if (signInResult.Succeeded)
+					{
+						// Tạo session cho Email và Id
+						HttpContext.Session.SetString("Email", user.Email);
+						HttpContext.Session.SetString("UserID", user.Id);
+
+						return LocalRedirect("~/"); // Chuyển về trang chính sau khi đăng nhập thành công
+					}
+				}
+
+				ModelState.AddModelError(string.Empty, "Email này đã được đăng ký. Vui lòng đăng nhập bằng tài khoản email hoặc liên hệ hỗ trợ.");
+				return RedirectToPage("./Login");
+			}
+
+			user = new AppUser { UserName = email, Email = email, EmailConfirmed = true };
+			var createUserResult = await _userManager.CreateAsync(user);
+			if (createUserResult.Succeeded)
+			{
+				await _userManager.AddLoginAsync(user, info);
+				await _signInManager.SignInAsync(user, isPersistent: true);
+
+				// Tạo session cho Email và Id
+				HttpContext.Session.SetString("Email", user.Email);
+				HttpContext.Session.SetString("UserID", user.Id);
+
+				return LocalRedirect("~/");
+			}
+
+			ModelState.AddModelError(string.Empty, "Error associating external login.");
+			return Page();
+		}
+
+
+
+
 		public async Task<IActionResult> ConfirmEmail(string userId, string token)
 		{
 			Console.WriteLine($"UserId: {userId}, Token: {token}"); // In ra UserId và Token

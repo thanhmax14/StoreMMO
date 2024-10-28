@@ -31,8 +31,40 @@ string connectionString = config.GetConnectionString("df");
 
 builder.Services.AddControllersWithViews();
 
+
+
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString, b => b.MigrationsAssembly("StoreMMO.Core")));
+
+
+builder.Services.AddAuthentication()
+	.AddGoogle(options =>
+	{
+		options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+		options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+        options .SignInScheme = IdentityConstants.ExternalScheme;
+		options.CallbackPath = "/signin-google";
+        // Thêm prompt=select_account để hiển thị trang chọn tài khoản
+        options.Events.OnRedirectToAuthorizationEndpoint = context =>
+        {
+            context.Response.Redirect(context.RedirectUri + "&prompt=select_account");
+			return Task.CompletedTask;
+        };
+		options.Events.OnRemoteFailure = u =>
+		{
+			u.Response.Redirect("/Account/Login");
+			u.HandleResponse();
+			return System.Threading.Tasks.Task.CompletedTask;
+		};
+	});
+
+
+
+
+
+
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -41,6 +73,9 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+
+
 
 builder.Services.AddHttpContextAccessor();
 
