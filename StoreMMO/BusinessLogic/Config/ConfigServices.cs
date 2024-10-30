@@ -54,6 +54,8 @@ using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
 using StoreMMO.Core.Repositories.OrderDetails;
 using StoreMMO.Core.Repositories.orderDetailViewModels;
 using CloudinaryDotNet;
+using StoreMMO.Core.Repositories.ProductsConnect;
+using BusinessLogic.Services.StoreMMO.Core.ProductConnects;
 
 
 namespace BusinessLogic.Config
@@ -104,6 +106,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IStoreDetailsService, StoreDetailsService>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IFeedBackRepository, FeedBackRepository>();
+            services.AddScoped<IProductConnectRepository, ProductConnectRepository>();
 
             //Services for Services
             services.AddScoped<IStoreService, StoreService>();
@@ -126,6 +129,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IFeedBackService, FeedBackService>();
 
             services.AddScoped<IPurchaseService, PurchaseService>();
+            services.AddScoped<IProductConnectService, ProductConnectService>();
 
             services.AddTransient<PaymentLIb>();
             PayOS payOS = new PayOS("fa2021f3-d725-4587-a48f-8b55bccf7744" ?? throw new Exception("Cannot find environment"),
