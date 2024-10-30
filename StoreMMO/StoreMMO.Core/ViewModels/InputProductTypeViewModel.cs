@@ -9,6 +9,7 @@ namespace StoreMMO.Core.ViewModels
     public class InputProductTypeViewModel
     {
         public string Id { get; set; }
+        public string? StoreDetailId { get; set; }
 
         public string Name { get; set; }
 

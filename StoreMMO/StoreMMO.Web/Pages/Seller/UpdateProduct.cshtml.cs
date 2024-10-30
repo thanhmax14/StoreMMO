@@ -35,6 +35,7 @@ namespace StoreMMO.Web.Pages.Seller
         public void OnGet(string id)
         {
             EditProduct = _product.GetProductsByStoreId(id);
+            
             var obj = _storeDetailsService.GetAllStoreDetails();
             ProductTypes = _mapper.Map<IEnumerable<InputProductTypeViewModel>>(obj);
         }

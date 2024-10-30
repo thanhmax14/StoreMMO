@@ -16,12 +16,13 @@ namespace StoreMMO.Core.Repositories.Products
         ProductViewModels UpdateProduct(ProductViewModels inforAddViewModels);
         void DeleteProduct(string id);
         IEnumerable<ManageStoreViewModels> ManageStore();
-        IEnumerable<ViewProductModels> GetProductsByStoreId(string storeId);
+       IEnumerable<ViewProductModels> GetProductsByStoreId(string storeId);
         IEnumerable<Product> getProductsByTypeID(string id);
 
         IEnumerable<Product> getProductsByTypeID1(string id);
 
         IEnumerable<ManageStoreViewModels> ManageStoreDetail(string userId);
 
+        public Product GetByAccount(string account, string productTypeId);
     }
 }

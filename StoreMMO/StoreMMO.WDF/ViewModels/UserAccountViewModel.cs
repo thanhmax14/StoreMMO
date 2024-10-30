@@ -25,15 +25,21 @@ namespace StoreMMO.WDF.ViewModels
         public ObservableCollection<AppUserViewModel> UserList { get; set; }
         public ICommand Update { get; }
         public ICommand Hide { get; }
+        public ICommand Show { get; }
 
 
         public UserAccountViewModel(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
             UserList = new ObservableCollection<AppUserViewModel>();
-            LoadDataAsync();
+            InitializeAsync();
             Update = new RelayCommand(UpdateUser);
             Hide = new RelayCommand(Hiddent);
+            Show = new RelayCommand(Show1);
+        }
+        private async Task InitializeAsync()
+        {
+            await LoadDataAsync();
         }
         private AppUserViewModel _SelectUser;
         public AppUserViewModel SelectUser
@@ -46,7 +52,7 @@ namespace StoreMMO.WDF.ViewModels
                 if (_SelectUser != null)
                 {
                     FullNameInfo = _SelectUser.FullName;
-                    CreateDateInfo = (DateTime)_SelectUser.CreatedDate;
+                    CreateDateInfo = (DateTime)_SelectUser.CreatedDate.Value;
                     EmailInfo = _SelectUser.Email;
                     UserNameInfo = _SelectUser.UserName;
                     PhoneInfo = _SelectUser.PhoneNumber;
@@ -121,7 +127,7 @@ namespace StoreMMO.WDF.ViewModels
         }
 
 
-        public async void LoadDataAsync() // Phương thức bất đồng bộ để tải dữ liệu
+        public async Task LoadDataAsync() // Phương thức bất đồng bộ để tải dữ liệu
         {
             var users = await _userManager.Users.ToListAsync(); // Sử dụng bất đồng bộ để lấy danh sách người dùng
             UserList.Clear();
@@ -131,10 +137,10 @@ namespace StoreMMO.WDF.ViewModels
                 var roles = await _userManager.GetRolesAsync(user); // Lấy vai trò của người dùng
                 var roleName = roles.FirstOrDefault(); // Lấy vai trò đầu tiên (nếu có)
 
-                // Kiểm tra nếu vai trò là "Seller" và không phải là "Admin"
+                //Kiểm tra nếu vai trò là "Seller" và không phải là "Admin"
                 if (roleName != null && (roleName.Equals("Seller", StringComparison.OrdinalIgnoreCase) || roleName.Equals("User", StringComparison.OrdinalIgnoreCase)))
                 {
-                    if(user.IsDelete == true)
+                    if (user.IsDelete == true)
                     {
                         var userWithRole = new AppUserViewModel
                         {
@@ -148,11 +154,12 @@ namespace StoreMMO.WDF.ViewModels
                         };
 
                         UserList.Add(userWithRole); // Thêm người dùng với vai trò Seller vào danh sách
-                    }
-                 
+                }
+
                 }
             }
         }
+       
         private async void UpdateUser(object parameter)
         {
             if (SelectUser == null)
@@ -221,6 +228,40 @@ namespace StoreMMO.WDF.ViewModels
             {
                 // Đánh dấu người dùng là ẩn
                 userToUpdate.IsDelete = false;
+
+                // Lưu thay đổi vào cơ sở dữ liệu
+                var result = await _userManager.UpdateAsync(userToUpdate);
+                if (result.Succeeded)
+                {
+                    LoadDataAsync(); // Tải lại danh sách người dùng
+                    MessageBox.Show("User hidden successfully!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    // Hiển thị thông báo lỗi nếu không thành công
+                    var errorMessages = string.Join("\n", result.Errors.Select(e => e.Description));
+                    MessageBox.Show($"Update failed:\n{errorMessages}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("User not found.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+        private async void Show1(object parameter)
+        {
+            if (SelectUser == null)
+            {
+                MessageBox.Show("Please select a User to hide.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Tìm người dùng theo ID
+            var userToUpdate = await _userManager.FindByIdAsync(SelectUser.Id);
+            if (userToUpdate != null)
+            {
+                // Đánh dấu người dùng là ẩn
+                userToUpdate.IsDelete = true;
 
                 // Lưu thay đổi vào cơ sở dữ liệu
                 var result = await _userManager.UpdateAsync(userToUpdate);
