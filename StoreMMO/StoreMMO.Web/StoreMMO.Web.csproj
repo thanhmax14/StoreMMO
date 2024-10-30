@@ -39,6 +39,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\User\" />
+	  <Folder Include="wwwroot\assets_Admin\scss\" />
 	  <Folder Include="wwwroot\images\" />
 	</ItemGroup>
 </Project>
