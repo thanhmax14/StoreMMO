@@ -108,6 +108,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IFeedBackRepository, FeedBackRepository>();
             services.AddScoped<IProductConnectRepository, ProductConnectRepository>();
 
+
             //Services for Services
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<ICartService, CartService>();
