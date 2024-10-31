@@ -550,31 +550,28 @@
                                             <li><a class="dropdown-item" href="#" data-filter="today">Today</a></li>
                                             <li><a class="dropdown-item" href="#" data-filter="month">This Month</a></li>
                                             <li><a class="dropdown-item" href="#" data-filter="year">This Year</a></li>
+                                            <li><a class="dropdown-item" href="#" data-filter="all">All Years</a></li>
                                         </ul>
                                     </div>
 
                                     <form id="antiForgeryForm">
-                                        @Html.AntiForgeryToken() <!-- Thêm token vào form -->
+                                        @Html.AntiForgeryToken()
                                     </form>
-
-                                    <style>
-                                        .dropdown-menu {
-                                            display: none; /* Ẩn dropdown ban đầu */
-                                        }
-
-                                            .dropdown-menu.show {
-                                                display: block; /* Hiển thị dropdown khi có class "show" */
-                                            }
-                                    </style>
 
                                     <div id="reportsChart"></div>
 
                                     <script>
                                         document.addEventListener("DOMContentLoaded", () => {
-                                            // Khởi tạo biểu đồ
                                             let reportsChart = new ApexCharts(document.querySelector("#reportsChart"), {
-                                                series: [{ name: 'Transaction', data: [] }, { name: 'Revenue', data: [] }],
-                                                chart: { height: 350, type: 'area', toolbar: { show: false } },
+                                                series: [
+                                                    { name: 'Transaction', data: [] },
+                                                    { name: 'Revenue', data: [] }
+                                                ],
+                                                chart: {
+                                                    height: 350,
+                                                    type: 'area',
+                                                    toolbar: { show: false }
+                                                },
                                                 markers: { size: 4 },
                                                 colors: ['#4154f1', '#2eca6a'],
                                                 fill: {
@@ -583,83 +580,107 @@
                                                 },
                                                 dataLabels: { enabled: false },
                                                 stroke: { curve: 'smooth', width: 2 },
-                                                xaxis: { type: 'datetime', categories: [] },
-                                                yaxis: { min: 0, max: 100 },
-                                                tooltip: { x: { format: 'dd/MM/yyyy' } }
+                                                xaxis: {
+                                                    type: 'datetime',
+                                                    categories: []
+                                                },
+                                                yaxis: { min: 0 },
+                                                tooltip: {
+                                                    x: { format: 'dd/MM/yyyy HH:mm' }
+                                                }
                                             });
+
                                             reportsChart.render();
 
-                                            // Hàm để lấy token từ form
                                             function getAntiForgeryToken() {
                                                 return document.querySelector('#antiForgeryForm input[name="__RequestVerificationToken"]').value;
                                             }
 
-                                            // Cập nhật biểu đồ
+                                            // Hàm chuyển đổi thời gian UTC sang giờ VN (UTC+7)
+                                            function convertUTCToVN(utcDate) {
+                                                const date = new Date(utcDate);
+                                                // Cộng thêm 7 giờ (7 * 60 * 60 * 1000 milliseconds)
+                                                date.setHours(date.getHours() + 7);
+
+                                                // Trả về định dạng 'YYYY-MM-DD HH:mm'
+                                                return date.toISOString().slice(0, 16).replace("T", " ");
+                                            }
+
+                                            // Kiểm tra dữ liệu đầu vào để xác định chính xác thời gian
                                             function updateChart(filter) {
                                                 fetch(`/Admin/Index?handler=Data`, {
-                                                    method: 'POST', // Đổi sang POST
+                                                    method: 'POST',
                                                     headers: {
-                                                        'Content-Type': 'application/x-www-form-urlencoded', // Đặt loại nội dung cho yêu cầu
-                                                        'XSRF-TOKEN': getAntiForgeryToken() // Thêm token vào header
+                                                        'Content-Type': 'application/x-www-form-urlencoded',
+                                                        'XSRF-TOKEN': getAntiForgeryToken()
                                                     },
-                                                    body: `filter=${filter}` // Gửi filter dưới dạng form data
+                                                    body: `filter=${filter}`
                                                 })
                                                     .then(response => {
                                                         if (!response.ok) {
                                                             throw new Error('Network response was not ok: ' + response.statusText);
                                                         }
-                                                        return response.json(); // Chuyển đổi phản hồi thành JSON
+                                                        return response.json();
                                                     })
                                                     .then(data => {
-                                                        const maxDataValue = Math.max(...data.transactionData, ...data.revenueData) + 10;
+                                                        // Ghi log để kiểm tra dữ liệu nhận được
+                                                        console.log("Received data:", data);
+
+                                                        // Kiểm tra nếu dữ liệu có đủ thời gian không
+                                                        console.log("Dates data:", data.dates);
+
+                                                        // Chuyển đổi thời gian từ UTC sang giờ VN
+                                                        const vnDates = data.dates.map(date => convertUTCToVN(date));
+
+                                                        // Ghi log để kiểm tra danh sách dates sau khi chuyển đổi
+                                                        console.log("Converted VN dates:", vnDates);
+
+                                                        // Cập nhật biểu đồ với dữ liệu đã chuyển đổi
                                                         reportsChart.updateOptions({
                                                             series: [
                                                                 { name: 'Transaction', data: data.transactionData },
                                                                 { name: 'Revenue', data: data.revenueData }
                                                             ],
-                                                            xaxis: { categories: data.dates },
-                                                            yaxis: { max: maxDataValue }
+                                                            xaxis: { categories: vnDates } // Sử dụng danh sách dates đã chuyển đổi
                                                         });
                                                     })
                                                     .catch(error => console.error("Error fetching data:", error));
                                             }
 
-                                            // Xử lý sự kiện cho filter
                                             document.querySelectorAll(".dropdown-item").forEach(item => {
                                                 item.addEventListener("click", (e) => {
                                                     e.preventDefault();
                                                     const filter = e.target.getAttribute("data-filter");
-                                                    updateChart(filter); // Gọi hàm cập nhật biểu đồ với filter
+                                                    updateChart(filter);
                                                 });
                                             });
 
-                                            // Lấy dữ liệu ban đầu
                                             updateChart("today");
                                         });
 
-                                        // Dropdown functionality
+                                        // Dropdown
                                         document.addEventListener('DOMContentLoaded', function () {
                                             const icon = document.querySelector('.icon');
                                             const dropdown = document.getElementById('myDropdown');
 
                                             icon.addEventListener('click', function (e) {
-                                                e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
-                                                dropdown.classList.toggle('show'); // Chuyển đổi lớp "show" trên dropdown
+                                                e.preventDefault();
+                                                dropdown.classList.toggle('show');
                                             });
 
-                                            // Đóng dropdown khi nhấp ra ngoài
                                             document.addEventListener('click', function (e) {
                                                 if (!dropdown.contains(e.target) && !icon.contains(e.target)) {
-                                                    dropdown.classList.remove('show'); // Ẩn dropdown nếu nhấp bên ngoài
+                                                    dropdown.classList.remove('show');
                                                 }
                                             });
                                         });
                                     </script>
 
-                                    <!-- End Line Chart -->
+
                                 </div>
                             </div>
                         </div>
+
 
 
                         <!-- Recent Sales -->

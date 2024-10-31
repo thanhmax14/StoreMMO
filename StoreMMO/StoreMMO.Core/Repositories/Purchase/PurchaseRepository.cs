@@ -225,5 +225,97 @@ ORDER BY OrderDate DESC;
 			return result;
 		}
 
-	}
+        public async Task<List<TransactionSummary>> GetDailyTransactionSummary()
+        {
+            string sqlQuery = @"SELECT 
+    CONVERT(datetime, DATEADD(MINUTE, DATEDIFF(MINUTE, 0, od.Dates), 0), 120) AS TransactionDate,  -- Lấy ngày giờ với định dạng YYYY-MM-DD HH:MM:SS, loại bỏ phần mili giây
+    COUNT(DISTINCT ob.ID) AS TotalTransactions,               -- Đếm số lượng giao dịch duy nhất
+    SUM(CAST(od.Price AS decimal(18, 2)) * CAST(od.Quantity AS int)) AS TotalRevenue  -- Tính tổng doanh thu
+FROM 
+    OrderBuys ob
+JOIN 
+    OrderDetails od ON ob.ID = od.OrderBuyID
+WHERE 
+    ob.Status = 'PAID' AND                                   -- Chỉ thống kê các giao dịch đã thanh toán
+    od.Dates >= CAST(GETDATE() AS DATE) AND                -- Lọc giao dịch trong ngày hôm nay
+    od.Dates < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))    -- Đến 24 giờ tiếp theo
+GROUP BY 
+    CONVERT(datetime, DATEADD(MINUTE, DATEDIFF(MINUTE, 0, od.Dates), 0), 120)  -- Nhóm theo định dạng ngày giờ, loại bỏ mili giây
+ORDER BY 
+    TransactionDate;                                    -- Sắp xếp theo ngày giờ
+";
+
+
+            var result = await this._context.Database.SqlQueryRaw<TransactionSummary>(sqlQuery).ToListAsync();
+            var b = result;
+            return result;
+        }
+
+        public async Task<List<TransactionSummary>> GetMonth()
+        {
+            string sqlQuery = @"SELECT 
+    CONVERT(DATE, od.Dates) AS TransactionDate,                     
+    COUNT(DISTINCT ob.ID) AS TotalTransactions,                     
+    SUM(CAST(od.Price AS decimal(18, 2)) * CAST(od.quantity AS int)) AS TotalRevenue  
+FROM 
+    OrderBuys ob
+JOIN 
+    OrderDetails od ON ob.ID = od.OrderBuyID
+WHERE 
+    ob.Status = 'PAID'  
+    AND MONTH(od.Dates) = MONTH(GETDATE())       -- Kiểm tra tháng hiện tại
+    AND YEAR(od.Dates) = YEAR(GETDATE())         -- Kiểm tra năm hiện tại
+GROUP BY 
+    CONVERT(DATE, od.Dates)                                         
+ORDER BY 
+    TransactionDate;
+";
+
+
+            var result = await this._context.Database.SqlQueryRaw<TransactionSummary>(sqlQuery).ToListAsync();
+            var b = result;
+            return result;
+        }
+
+        public async Task<List<TransactionSummary>> GetMonthInYear()
+        {
+            string sqlQuery = @"SELECT 
+    CAST(DATEADD(MONTH, DATEDIFF(MONTH, 0, Dates), 0) AS DATETIME) AS TransactionDate,  -- Lấy ngày đầu tháng
+    COUNT(*) AS TotalTransactions,                                                         -- Số lượng đơn hàng
+    SUM(CAST(Price AS DECIMAL(18, 2))) AS TotalRevenue                                   -- Tổng doanh thu
+FROM 
+    OrderDetails
+WHERE 
+    YEAR(Dates) = YEAR(GETDATE())                                                          -- Lọc theo năm hiện tại
+GROUP BY 
+    DATEADD(MONTH, DATEDIFF(MONTH, 0, Dates), 0)                                          -- Nhóm theo tháng
+ORDER BY 
+    TransactionDate;                 ";
+
+
+            var result = await this._context.Database.SqlQueryRaw<TransactionSummary>(sqlQuery).ToListAsync();
+            var b = result;
+            return result;
+        }
+
+        public async Task<List<TransactionSummary>> GetAllYear()
+        {
+            string sqlQuery = @"SELECT 
+    CAST(DATEFROMPARTS(YEAR(Dates), 1, 1) AS DATETIME) AS TransactionDate, -- Lấy ngày đầu năm dưới dạng DATETIME
+    COUNT(*) AS TotalTransactions,                                         -- Số lượng đơn hàng trong năm
+    SUM(CAST(Price AS DECIMAL(18, 2))) AS TotalRevenue                     -- Tổng doanh thu trong năm
+FROM 
+    OrderDetails
+GROUP BY 
+    DATEFROMPARTS(YEAR(Dates), 1, 1)                                       -- Nhóm theo ngày đầu năm
+ORDER BY 
+    TransactionDate;                                                       -- Sắp xếp theo TransactionDate
+";
+
+
+            var result = await this._context.Database.SqlQueryRaw<TransactionSummary>(sqlQuery).ToListAsync();
+            var b = result;
+            return result;
+        }
+    }
 }

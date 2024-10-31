@@ -105,6 +105,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IFeedBackRepository, FeedBackRepository>();
 
+
             //Services for Services
             services.AddScoped<IStoreService, StoreService>();
             services.AddScoped<ICartService, CartService>();

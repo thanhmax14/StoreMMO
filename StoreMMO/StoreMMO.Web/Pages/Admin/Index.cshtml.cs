@@ -1,70 +1,103 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessLogic.Services.StoreMMO.Core.Purchases;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StoreMMO.Web.Pages.Admin
 {
     public class IndexModel : PageModel
     {
-        public void OnGet()
+        private readonly IPurchaseService _Puchase;
+
+        public IndexModel(IPurchaseService purchase)
         {
+            this._Puchase = purchase;
         }
 
-        [HttpPost] // Đổi sang POST
-        [ValidateAntiForgeryToken] // Kiểm tra token
-        public IActionResult OnPostData(string filter)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OnPostData(string filter)
         {
-            List<int> transactionData;
-            List<int> revenueData;
-            List<string> dates;
+            List<int> transactionData = new List<int>(new int[24]); // Khởi tạo danh sách 24 giờ mặc định là 0
+            List<decimal> revenueData = new List<decimal>(new decimal[24]);
+            List<string> dates = Enumerable.Range(0, 24).Select(i => DateTime.Now.Date.AddHours(i).ToString("yyyy-MM-dd HH:mm")).ToList();
+
+
+            DateTime now = DateTime.Now;
 
             switch (filter)
             {
-                case "month":
-                    // Dữ liệu cho "This Month"
-                    transactionData = new List<int> { 31, 45, 38, 60, 72, 90, 120 };
-                    revenueData = new List<int> { 10550, 120, 130, 160, 180, 210, 250 };
-                    dates = new List<string>
+                case "today":
+
+                    var todayTransactions = await this._Puchase.GetDailyTransactionSummary();
+                    var a = todayTransactions;
+                    // Duyệt qua danh sách dữ liệu trả về và gán vào danh sách 24 giờ
+                    foreach (var transaction in todayTransactions)
                     {
-                        "2023-10-01", "2023-10-08", "2023-10-15",
-                        "2023-10-22", "2023-10-29", "2023-10-30", "2023-10-31"
-                    };
+                        int hour = (transaction.TransactionDate.Hour + 7) % 24; 
+
+                        transactionData[hour] = transaction.TotalTransactions; // Gán số lượng giao dịch
+                        revenueData[hour] = transaction.TotalRevenue; // Gán doanh thu
+                    }
+                    break;
+
+                case "month":
+                   transactionData = new List<int>(new int[31]); // Khởi tạo danh sách 31 ngày
+                     revenueData = new List<decimal>(new decimal[31]);
+                     dates = Enumerable.Range(1, 31).Select(i => new DateTime(DateTime.Now.Year, DateTime.Now.Month, i).ToString("yyyy-MM-dd")).ToList();
+
+                    var monthlyTransactions = await this._Puchase.GetMonth();
+                    foreach (var transaction in monthlyTransactions)
+                    {
+                        int day = transaction.TransactionDate.Day - 1; // Ngày trong tháng (0-30 cho 31 ngày)
+                        if (day >= 0 && day < transactionData.Count) // Kiểm tra chỉ số hợp lệ
+                        {
+                            transactionData[day] += transaction.TotalTransactions; // Cộng dồn số lượng giao dịch
+                            revenueData[day] += transaction.TotalRevenue; // Cộng dồn doanh thu
+                        }
+                    }
+
                     break;
 
                 case "year":
-                    // Dữ liệu cho "This Year"
-                    transactionData = new List<int> { 300, 400, 450, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300 };
-                    revenueData = new List<int> { 1200, 1500, 1700, 1900, 244200, 2500, 3000, 3200, 3500, 4000, 4500, 5000 };
-                    dates = new List<string>
+                    transactionData = new List<int>(new int[12]); // 12 tháng trong năm
+                    revenueData = new List<decimal>(new decimal[12]);
+                    dates = Enumerable.Range(1, 12).Select(i => new DateTime(DateTime.Now.Year, i, 1).ToString("yyyy-MM")).ToList();
+
+                    var yearlyTransactions = await this._Puchase.GetMonthInYear();
+                    foreach (var transaction in yearlyTransactions)
                     {
-                        "2023-01-01", "2023-02-01", "2023-03-01",
-                        "2023-04-01", "2023-05-01", "2023-06-01",
-                        "2023-07-01", "2023-08-01", "2023-09-01",
-                        "2023-10-01", "2023-11-01", "2023-12-01"
-                    };
+                        int month = transaction.TransactionDate.Month - 1;
+                        transactionData[month] += transaction.TotalTransactions;
+                        revenueData[month] += transaction.TotalRevenue;
+                    }
                     break;
 
-                default:
-                    // Dữ liệu cho "Today"
-                    transactionData = new List<int> { 5, 8, 110, 6, 12, 9, 7 };
-                    revenueData = new List<int> { 50, 840, 40, 7070, 6550, 9440, 100 };
-                    dates = new List<string>
+              
+
+                case "all":
+                    transactionData = new List<int>();
+                    revenueData = new List<decimal>();
+                    dates = new List<string>();
+
+                    var allTransactions = await this._Puchase.GetAllYear();
+                    foreach (var transaction in allTransactions)
                     {
-                        "2023-10-30 08:00", "2023-10-30 09:00", "2023-10-30 10:00",
-                        "2023-10-30 11:00", "2023-10-30 12:00", "2023-10-30 13:00",
-                        "2023-10-30 14:00"
-                    };
+                        transactionData.Add(transaction.TotalTransactions);
+                        revenueData.Add(transaction.TotalRevenue);
+                        dates.Add(transaction.TransactionDate.ToString("yyyy"));
+                    }
+                    break;
+
+
+                default:
+                
                     break;
             }
 
-            var data = new
-            {
-                transactionData,
-                revenueData,
-                dates
-            };
-
-            return new JsonResult(data);
+            return new JsonResult(new { transactionData, revenueData, dates });
         }
     }
 }
