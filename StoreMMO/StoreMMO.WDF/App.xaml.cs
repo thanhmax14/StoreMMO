@@ -74,6 +74,7 @@ namespace StoreMMO.WDF
             services.AddTransient<HiddenStoreTypeListViewModel>();
             services.AddTransient<UserAccountViewModel>();
             services.AddTransient<HidentUserAccountViewModel>();
+            services.AddTransient<RegisterSellerViewModel>();
             services.AddTransient<AppDbContext>();
             //services.AddTransient<StudentViewModel>();
             //services.AddTransient<ClassViewModel>();

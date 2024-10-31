@@ -151,6 +151,9 @@ namespace StoreMMO.WDF.ViewModels
                             PhoneNumber = user.PhoneNumber,
                             CreatedDate = user.CreatedDate,
                             RoleName = roleName // Gán tên vai trò cho thuộc tính RoleName
+                             // Gán giá trị bool cho RoleName: true nếu là "Seller", false nếu là "User"
+             //   RoleName = roleName.Equals("Seller", StringComparison.OrdinalIgnoreCase)
+
                         };
 
                         UserList.Add(userWithRole); // Thêm người dùng với vai trò Seller vào danh sách
