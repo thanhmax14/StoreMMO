@@ -317,5 +317,33 @@ ORDER BY
             var b = result;
             return result;
         }
+
+        public async Task<List<TopStoreViewModels>> TopStore()
+        {
+            string sqlQuery = @"SELECT 
+    S.Id AS StoreID,
+    SD.Name,
+	SD.Img,
+    COUNT(OD.ProductID) AS TotalProductsSold,
+    SUM(CAST(OD.Price AS DECIMAL(18, 2)) * CAST(OD.quantity AS DECIMAL(18, 2))) AS TotalRevenue
+FROM 
+    Stores S
+JOIN 
+    StoreDetails SD ON S.Id = SD.StoreId
+JOIN 
+    OrderBuys OB ON S.Id = OB.StoreID
+JOIN 
+    OrderDetails OD ON OB.ID = OD.OrderBuyID
+GROUP BY 
+    S.Id, S.UserId, SD.Name,SD.Img
+ORDER BY 
+    TotalRevenue DESC; -- sắp xếp theo doanh thu giảm dần
+";
+
+
+            var result = await this._context.Database.SqlQueryRaw<TopStoreViewModels>(sqlQuery).ToListAsync();
+            var b = result;
+            return result;
+        }
     }
 }

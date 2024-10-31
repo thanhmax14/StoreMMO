@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,12 @@ namespace StoreMMO.Web.Pages.Admin
             this._Puchase = purchase;
         }
 
+        public IEnumerable<TopStoreViewModels> list = new List<TopStoreViewModels>();
+
+        public async void OnGet()
+        {
+             list = await _Puchase.TopStore();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostData(string filter)
