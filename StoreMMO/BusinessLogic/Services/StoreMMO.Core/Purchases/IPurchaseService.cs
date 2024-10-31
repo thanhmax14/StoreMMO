@@ -23,5 +23,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
         Task<List<TransactionSummary>> GetMonth();
         Task<List<TransactionSummary>> GetMonthInYear();
         Task<List<TransactionSummary>> GetAllYear();
+
+        Task<List<TopStoreViewModels>> TopStore();
     }
 }
