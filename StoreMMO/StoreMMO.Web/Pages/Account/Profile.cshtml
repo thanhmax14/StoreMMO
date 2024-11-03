@@ -1391,76 +1391,55 @@
 						</div><!-- End .tab-pane -->
 
 						<div class="tab-pane fade" id="edit" role="tabpanel">
-							<h3 class="account-sub-title d-none d-md-block mt-0 pt-1 ml-1"><i
-									class="icon-user-2 align-middle mr-3 pr-1"></i>Account Details</h3>
+							<h3 class="account-sub-title d-none d-md-block mt-0 pt-1 ml-1">
+								<i class="icon-user-2 align-middle mr-3 pr-1"></i>Account Details
+							</h3>
 							<div class="account-content">
-									<form id="profileForm">
-											@Html.AntiForgeryToken()
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													<label asp-for="AppUser.UserName">UserName <span class="required">*</span></label>
-													<input asp-for="AppUser.UserName" class="form-control" placeholder="Editor" required readonly />
-												</div>
-											</div>
-
-											<div class="col-md-6">
-												<div class="form-group">
-													<label asp-for="AppUser.Email">Email <span class="required">*</span></label>
-													<input asp-for="AppUser.Email" class="form-control" required  readonly/>
-												</div>
-											</div>
-										</div>
-
-										<div class="form-group mb-2">
-											<label asp-for="AppUser.FullName">FullName <span class="required">*</span></label>
-											<input asp-for="AppUser.FullName" class="form-control" placeholder="Editor" required />
-										</div>
-										<div class="form-group mb-2">
-											<label asp-for="AppUser.DateOfBirth">DateOfBirth <span class="required">*</span></label>
-											<input asp-for="AppUser.DateOfBirth" class="form-control" type="date" required />
-										</div>
-										<div class="form-group mb-2">
-											<label asp-for="AppUser.PhoneNumber">PhoneNumber <span class="required">*</span></label>
-											<input asp-for="AppUser.PhoneNumber" class="form-control" required />
-										</div>
-										<div class="form-group mb-4">
-											<label asp-for="AppUser.Address">Address <span class="required">*</span></label>
-											<input asp-for="AppUser.Address" class="form-control" required />
-										</div>
-
-									@* 	<div class="change-password">
-											<h3 class="text-uppercase mb-2">Password Change</h3>
-
+								<form action="#">
+									<div class="row">
+										<div class="col-md-12">
 											<div class="form-group">
-												<label for="acc-password">Current Password (leave blank to leave
-													unchanged)</label>
-												<input type="password" class="form-control" id="acc-password"
-													name="acc-password" />
+												<label for="acc-name">Account </label>
+												<input type="text" class="form-control"
+													   id="acc-name" name="acc-name"
+													   value="@Model.UserProfile.Account" readonly />
 											</div>
-
-											<div class="form-group">
-												<label for="acc-password">New Password (leave blank to leave
-													unchanged)</label>
-												<input type="password" class="form-control" id="acc-new-password"
-													name="acc-new-password" />
-											</div>
-
-											<div class="form-group">
-												<label for="acc-password">Confirm New Password</label>
-												<input type="password" class="form-control" id="acc-confirm-password"
-													name="acc-confirm-password" />
-											</div>
-										</div> *@
-
-										<div class="form-footer mt-3 mb-0">
-<button type="submit" class="btn btn-dark btn-save-changes">
-												Save changes
-											</button>
 										</div>
-									</form>
+									</div>
+
+									<div class="form-group mb-2">
+										<label for="acc-date">Registered Date </label>
+										<input type="date" class="form-control" id="acc-date" name="acc-date"
+											   value="@Model.UserProfile.RegisteredDate?.ToString("yyyy-MM-dd")" readonly />
+									</div>
+
+									<div class="form-group mb-2">
+										<label for="acc-purchased">Products Purchased </label>
+										<input type="text" class="form-control" id="acc-purchased" name="acc-purchased"
+											   value="@Model.UserProfile.ProductsPurchased" readonly />
+									</div>
+
+									<div class="form-group mb-2">
+										<label for="acc-store">Number Of Stores </label>
+										<input type="text" class="form-control" id="acc-store" name="acc-store"
+											   value="@Model.UserProfile.NumberOfStores.ToString()" readonly />
+									</div>
+
+									<div class="form-group mb-2">
+										<label for="acc-sold">Products Sold </label>
+										<input type="text" class="form-control" id="acc-sold" name="acc-sold"
+											   value="@Model.UserProfile.ProductsSold" readonly />
+									</div>
+
+									<div class="form-footer mt-2 mb-0">
+										<a href="URL_CUA_TRANG" class="btn btn-dark mr-0">
+											View All Stores
+										</a>
+									</div>
+								</form>
 							</div>
 						</div><!-- End .tab-pane -->
+
 
 						<div class="tab-pane fade" id="billing" role="tabpanel">
 							<div class="address account-content mt-0 pt-2">
