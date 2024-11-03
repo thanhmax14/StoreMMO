@@ -47,9 +47,7 @@ namespace StoreMMO.Web.Pages.Admin
                 {
                 Message = "Hidden success";
                 return RedirectToPage("/Admin/CategoriesList");
-            }
-
-           
+            }       
         }
     }
 }
