@@ -34,7 +34,7 @@ namespace StoreMMO.Web.Pages.Account
 		private readonly IBalanceService _balanceService;
 
 		public ProfileModel(AppDbContext context, UserManager<AppUser> userManager, IBalanceService balance, IPurchaseService purchase,
-			IOderDetailsService order, IComplaintsService complaints)
+			IOderDetailsService order, IComplaintsService complaints, PaymentLIb paymentLIb, CreateQR create, IBalanceService balanceService)
 		{
 			_context = context;
 			_userManager = userManager;
