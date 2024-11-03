@@ -42,7 +42,12 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
 			return this._purchase.GetAllByUserID(userID);
 		}
 
-		public OrderBuyViewModels GetByID(string id)
+        public async Task<List<TransactionSummary>> GetAllYear()
+        {
+            return await this._purchase.GetAllYear();
+        }
+
+        public OrderBuyViewModels GetByID(string id)
         {
             return this._purchase.GetByID(id);
         }
@@ -52,7 +57,22 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
 			return this._purchase.GetByUserID(userID);
 		}
 
-		public IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID)
+        public async Task<List<TransactionSummary>> GetDailyTransactionSummary()
+        {
+           return await this._purchase.GetDailyTransactionSummary();
+        }
+
+        public async Task<List<TransactionSummary>> GetMonth()
+        {
+            return await this._purchase.GetMonth();
+        }
+
+        public async Task<List<TransactionSummary>> GetMonthInYear()
+        {
+            return await this._purchase.GetMonthInYear();
+        }
+
+        public IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID)
 		{
 			return this._purchase.getOrderDetails(orderID);
 		}
@@ -65,6 +85,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
         public void SaveProductToSession(List<PurchaseItem> product)
         {
             this._purchase.SaveProductToSession(product);
+        }
+
+        public async Task<List<TopStoreViewModels>> TopStore()
+        {
+           return await _purchase.TopStore();
         }
     }
 }

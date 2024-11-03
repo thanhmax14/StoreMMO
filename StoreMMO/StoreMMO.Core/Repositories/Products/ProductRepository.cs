@@ -100,44 +100,39 @@ namespace StoreMMO.Core.Repositories.Products
         public IEnumerable<ManageStoreViewModels> ManageStore()
         {
             string sql = @"
-    SELECT 
-        s.IsAccept, 
-        s.CreatedDate,
-        s.Id,
-        sd.[Name] AS StoreName, 
-        ca.[Name] AS CategoryName, 
-        SUM(CAST(p.Stock AS int)) AS TotalStock,
-        st.Commission, 
-        
-        -- Tạo khoảng giá từ giá thấp nhất đến cao nhất với điều kiện khi min = max thì min sẽ là 0
-        CASE 
-            WHEN MIN(p.Price) = MAX(p.Price) 
-            THEN CONCAT('0 - ', MAX(p.Price)) 
-            ELSE CONCAT(MIN(p.Price), ' - ', MAX(p.Price)) 
-        END AS PriceRange
-    FROM 
-        Stores s
-    JOIN 
-        Users u ON s.UserId = u.Id
-    JOIN 
-        StoreDetails sd ON s.ID = sd.StoreID
-    JOIN 
-        ProductConnects pc ON sd.Id = pc.StoreDetailID
-    JOIN 
-        ProductTypes p ON pc.ProductTypeId = p.ID
-    LEFT JOIN 
-        FeedBacks f ON f.StoreDetailId = sd.Id
-    JOIN 
-        Categories ca ON ca.Id = sd.CategoryId
-    JOIN 
-        StoreTypes st ON st.Id = sd.StoreTypeId
-    GROUP BY 
-        sd.[Name], 
-        st.Commission,
-        s.IsAccept,
-        s.CreatedDate,
-        s.Id,
-        ca.[Name];
+   SELECT  
+    sd.Id AS Id, -- Thêm cột Id giả
+    sd.Id AS StoreDetailId,  -- Thêm cột StoreDetailId
+    s.IsAccept, 
+    s.CreatedDate,
+    sd.[Name] AS StoreName, 
+    ca.[Name] AS CategoryName, 
+    SUM(COALESCE(CAST(p.Stock AS int), 0)) AS TotalStock,
+    st.Commission, 
+    CASE 
+        WHEN MIN(p.Price) = MAX(p.Price) 
+        THEN CONCAT('0 - ', MAX(p.Price)) 
+        ELSE CONCAT(MIN(p.Price), ' - ', MAX(p.Price)) 
+    END AS PriceRange
+FROM 
+    Stores s
+JOIN 
+    StoreDetails sd ON s.Id = sd.StoreId
+LEFT JOIN 
+    Categories ca ON ca.Id = sd.CategoryId
+LEFT JOIN 
+    StoreTypes st ON st.Id = sd.StoreTypeId
+LEFT JOIN 
+    ProductConnects pc ON sd.Id = pc.StoreDetailId
+LEFT JOIN 
+    ProductTypes p ON pc.ProductTypeId = p.Id  
+GROUP BY 
+    sd.Id,  -- Thêm sd.Id vào GROUP BY
+    sd.[Name], 
+    ca.[Name],
+    st.Commission,
+    s.IsAccept,
+    s.CreatedDate;
     ";
 
             // Sử dụng FromSqlRaw để thực hiện câu lệnh SQL và map kết quả vào ManageStoreViewModels
@@ -165,7 +160,7 @@ LEFT JOIN
 LEFT JOIN
     ProductTypes p2 ON p1.ProductTypeId = p2.Id
 WHERE 
-    s2.Id = '{storeId}'  -- Using string interpolation for storeId
+    s1.Id = '{storeId}'  -- Using string interpolation for storeId
     GROUP BY 
     s1.Id,
     s2.Id,
@@ -253,6 +248,12 @@ WHERE
             return list;
         }
 
+        public Product GetByAccount(string account, string productTypeId)
+        {
+            return _context.Products
+                           .Where(x => x.Account == account && x.ProductTypeId == productTypeId)
+                           .FirstOrDefault();
+        }
 
     }
 }

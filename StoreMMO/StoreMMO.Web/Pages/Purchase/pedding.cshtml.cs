@@ -1,4 +1,4 @@
-using BusinessLogic.Services.CreateQR;
+﻿using BusinessLogic.Services.CreateQR;
 using BusinessLogic.Services.Encrypt;
 using MailKit.Search;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Net.payOS;
 using Net.payOS.Types;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using StoreMMO.Web.Models.ViewModels;
 
 namespace StoreMMO.Web.Pages.Purchase
@@ -52,7 +54,7 @@ namespace StoreMMO.Web.Pages.Purchase
                         case "paid":
                             return Redirect("/Purchase/Success");
                         case "pending":
-                            string imgqr = _createQR.GetQR(sendInfo.img, "#FFFFFF", "#003366", 10042, 10042);
+                            string imgqr = _createQR.GetQR(sendInfo.img);
                             sendInfo.img = imgqr;
                             return Page();
                         default:
@@ -62,7 +64,6 @@ namespace StoreMMO.Web.Pages.Purchase
             }
             catch (Exception e)
             {
-                // Consider logging the exception
                 Console.Error.WriteLine(e);
                 return NotFound();
             }
@@ -71,13 +72,30 @@ namespace StoreMMO.Web.Pages.Purchase
         }
 
 
-        public async Task<IActionResult>OnpostAsync(string Ordercode)
-        {
-            PaymentLinkInformation paymentLinkInformation = await this._Payos.cancelPaymentLink(long.Parse(Ordercode));
-            var a = paymentLinkInformation;
-            return Redirect("/Purchase/fail");
+		public async Task<IActionResult> OnPostAsync(string Ordercode)
+		{
+			try
+			{
+				// Gọi phương thức để hủy thanh toán
+				PaymentLinkInformation paymentLinkInformation = await this._Payos.cancelPaymentLink(long.Parse(Ordercode));
 
-        }
+			
+				if (paymentLinkInformation != null)
+				{
+					return Redirect("/Purchase/fail");
+				}
+				else
+				{
+					return Redirect("/Purchase/fail");
+				}
+			}
+			catch (Exception ex)
+			{
+				PaymentLinkInformation paymentLinkInformation = await this._Payos.cancelPaymentLink(long.Parse(Ordercode));
+				return Redirect("/Purchase/fail");
+			}
+		}
 
-    }
+
+	}
 }

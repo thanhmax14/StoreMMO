@@ -22,7 +22,7 @@
                 <TextBlock Foreground="#2C3E50" FontWeight="Bold" HorizontalAlignment="Left"  FontSize="30">Regisered Sellers List</TextBlock>
             </StackPanel>
             <!-- Danh sách hiển thị-->
-            <ListView Name="lvEntried" ItemsSource="{Binding Students}" SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
+            <ListView Name="lvEntried" ItemsSource="{Binding UserViewModels}" SelectedItem="{Binding AppUserViewModel, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
                 <ListView.View>
                     <GridView>
                         <!-- Cột FullName -->
@@ -78,10 +78,10 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <Button Width="70" Margin="0,0,5,0" Command="{Binding Accept}" FontSize="16">
+                                        <Button Width="70" Margin="0,0,5,0" Command="{Binding DataContext.Update, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="16">
                                             Accept
                                         </Button>
-                                        <Button Width="70" Margin="0,0,5,0" Command="{Binding Reject}" FontSize="16">
+                                        <Button Width="70" Margin="0,0,5,0" Command="{Binding DataContext.Reject1, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="16">
                                             Reject
                                         </Button>
                                     </StackPanel>

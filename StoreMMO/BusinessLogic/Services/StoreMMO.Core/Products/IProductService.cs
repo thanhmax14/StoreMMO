@@ -24,5 +24,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
 
         IEnumerable<ManageStoreViewModels> ManageStoreDetail(string userId);
 
+        public Product GetByAccount(string account, string productTypeId);
+
     }
 }

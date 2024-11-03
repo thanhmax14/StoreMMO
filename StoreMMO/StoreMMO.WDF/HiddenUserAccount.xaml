@@ -22,7 +22,7 @@
                 <TextBlock Foreground="#2C3E50" FontWeight="Bold" HorizontalAlignment="Left"  FontSize="30">Hidden User Account List</TextBlock>
             </StackPanel>
             <!-- Danh sách hiển thị thông tin người dùng -->
-            <ListView Name="lvEntried" ItemsSource="{Binding UserList}" SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
+            <ListView Name="lvEntried" ItemsSource="{Binding Hidden}" SelectedItem="{Binding SelectUser, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
                 <ListView.View>
                     <GridView>
                         <!-- Cột FullName -->
@@ -77,7 +77,7 @@
                         <GridViewColumn Header="Action" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Width="80" Margin="0,0,5,0" Command="{Binding Show}" FontSize="16">Show</Button>
+                                    <Button Width="80" Margin="0,0,5,0" Command="{Binding DataContext.Hide, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" FontSize="16">Show</Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

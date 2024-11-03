@@ -402,6 +402,14 @@
                 </ol>
             </nav>
         </div><!-- End Page Title --> *@
+        @{
+            var StoreDetailsId = Model.EditProduct.FirstOrDefault();
+        }
+        @if (StoreDetailsId != null)
+        {
+            <a asp-page="/Seller/CreateProductType" asp-route-id="@StoreDetailsId.StoreDetailId" class="btn btn-success">Create ProductTyPe</a>
+
+        }
 
         <section class="section">
             <div class="row">

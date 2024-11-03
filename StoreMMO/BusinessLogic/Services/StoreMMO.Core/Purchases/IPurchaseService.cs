@@ -19,5 +19,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
 		IEnumerable<OrderBuyViewModels> GetByUserID(string userID);
 		IEnumerable<GetOrderByUserViewModel> GetAllByUserID(string userID);
 		IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID);
-	}
+        Task<List<TransactionSummary>> GetDailyTransactionSummary();
+        Task<List<TransactionSummary>> GetMonth();
+        Task<List<TransactionSummary>> GetMonthInYear();
+        Task<List<TransactionSummary>> GetAllYear();
+
+        Task<List<TopStoreViewModels>> TopStore();
+    }
 }

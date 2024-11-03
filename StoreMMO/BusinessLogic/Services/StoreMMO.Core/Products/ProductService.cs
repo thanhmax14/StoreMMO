@@ -102,5 +102,12 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
             return _productRepository.ManageStoreDetail(userId);
 
         }
+
+        public Product GetByAccount(string account, string productTypeId)
+        {
+            return _productRepository.GetByAccount(account, productTypeId);
+        }
+
+        
     }
 }

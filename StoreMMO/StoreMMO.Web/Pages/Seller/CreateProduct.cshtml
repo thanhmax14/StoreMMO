@@ -393,7 +393,7 @@
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Update User Information</h1>
+            <h1>Create Product</h1>
             <nav>
                 <ol class="breadcrumb">
                     <!-- <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -409,7 +409,7 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Update Form</h5>
+                            <h5 class="card-title">Create Product</h5>
                             @if (!string.IsNullOrEmpty(Model.fail))
                             {
                                 <script>
@@ -420,7 +420,7 @@
                             }
                             <!-- General Form Elements -->
                             <form method="post">
-                                <div class="row mb-3">
+                               @*  <div class="row mb-3">
                                     <label asp-for="CreateProduct.ProductTypeId" class="col-sm-2 col-form-label">Product Type</label>
                                     <div class="col-sm-10">
                                         <select asp-for="CreateProduct.ProductTypeId" class="form-select" name="CreateProduct.ProductTypeId">
@@ -431,6 +431,13 @@
                                                 <option value="@type.Id">@type.Name</option>
                                             }
                                         </select>
+                                    </div>
+                                </div> *@
+                                <div class="row mb-3">
+                                    <label asp-for="ProductTypeName" class="col-sm-2 col-form-label">Product Type Name</label>
+                                    <div class="col-sm-10">
+                                        <input asp-for="CreateProduct.ProductTypeName" type="text" class="form-control" readonly />
+                                        <input asp-for="CreateProduct.ProductTypeId" type="hidden" />
                                     </div>
                                 </div>
                                 <div class="row mb-3">

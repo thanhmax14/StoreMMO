@@ -11,7 +11,7 @@ namespace StoreMMO.Core.ViewModels
         public string Id { get; set; }
 
         public string ProductTypeId { get; set; }
-
+        public string ProductTypeName { get; set; }
         public string Account { get; set; }
 
         public string Pwd { get; set; }
