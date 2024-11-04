@@ -56,6 +56,8 @@ using StoreMMO.Core.Repositories.orderDetailViewModels;
 using CloudinaryDotNet;
 using StoreMMO.Core.Repositories.ProductsConnect;
 using BusinessLogic.Services.StoreMMO.Core.ProductConnects;
+using StoreMMO.Core.Repositories.SellerDashboard;
+using BusinessLogic.Services.StoreMMO.Core.SellerDashBoard;
 
 
 namespace BusinessLogic.Config
@@ -94,7 +96,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IComplaintsRepository, ComplaintsRepository>();
 
             services.AddScoped<IWithdrawRepository, WithdrawRepository>();
-
+            services.AddScoped<ISellerDashBoardRepository, SellerDashBoardRepository>();
             services.AddScoped<IBalanceRepository, BalanceRepository>();
             services.AddScoped<IOrderDeailsRepository, OrderDeailsRepository>();
 
@@ -128,7 +130,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IDisputeService, DisputeService>();
             services.AddScoped<IOderDetailsService, OrderDetailsService>();
             services.AddScoped<IFeedBackService, FeedBackService>();
-
+            services.AddScoped<ISellerDashBoardService, SellerDashBoardService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
             services.AddScoped<IProductConnectService, ProductConnectService>();
 

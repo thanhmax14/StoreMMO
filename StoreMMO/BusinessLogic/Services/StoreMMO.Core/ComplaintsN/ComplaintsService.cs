@@ -18,6 +18,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.ComplaintsN
         {
             _complaintsRepository = complaintsRepository;
         }
+
+        public ComplaintsService()
+        {
+        }
+
         public IEnumerable<ComplaintsMapper> GetAll(string id)
         {
             // Gọi phương thức GetAll từ repository để lấy danh sách complaints
@@ -60,5 +65,48 @@ namespace BusinessLogic.Services.StoreMMO.Core.ComplaintsN
             return await this._complaintsRepository.GetByIDAsync(id);
 		}
 
-	}
+        public bool Warrant(string idcomplaint)
+        {
+            string ordercor = BusinessLogic.Services.Encrypt.EncryptSupport.GenerateRandomString(10);
+            return _complaintsRepository.Warrant(idcomplaint, ordercor);
+            //  throw new NotImplementedException();
+        }
+
+        public ComplaintsMapper GetAllReportAdminbyid(string idcomplaint)
+        {
+            return _complaintsRepository.GetAllReportAdminbyid(idcomplaint);
+            //  throw new NotImplementedException();
+        }
+
+        public bool BackMoney(string id)
+        {
+           return _complaintsRepository.BackMoney(id);
+        }
+
+        public bool checkStockProductType(string idcomplaint)
+        {
+            return _complaintsRepository.checkStockProductType(idcomplaint);
+        }
+
+        public ComplaintsMapper GetAllNonebyid(string idcomplaint)
+        {
+           return _complaintsRepository.GetAllNonebyid(idcomplaint);
+        }
+
+        public bool WarrantSeller(string idcomplaint, string sellerid)
+        {
+            var ordercode = BusinessLogic.Services.Encrypt.EncryptSupport.GenerateRandomString(10);
+            return _complaintsRepository.WarrantSeller(idcomplaint, ordercode, sellerid);
+        }
+
+        public bool BackMoneySeller(string idcomplant, string sellerid)
+        {
+return _complaintsRepository.BackMoneySeller(idcomplant, sellerid);
+        }
+
+        public bool BackMoneyforseller(string id)
+        {
+          return _complaintsRepository.BackMoneyforseller(id);
+        }
+    }
 }
