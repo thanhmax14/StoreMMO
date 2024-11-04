@@ -152,7 +152,7 @@ namespace StoreMMO.Web.Pages.Account
 				}
 
 				ModelState.AddModelError(string.Empty, "Email này đã được đăng ký. Vui lòng đăng nhập bằng tài khoản email hoặc liên hệ hỗ trợ.");
-				return RedirectToPage("./Login");
+				return Page();
 			}
 
 			user = new AppUser { UserName = email, Email = email, EmailConfirmed = true };
