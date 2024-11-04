@@ -1,0 +1,193 @@
+﻿@page "{storeDetailId?}"
+@model StoreMMO.Web.Pages.Account.ViewAllStoreSellerModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="~/assets_Admin/img/favicon.png" rel="icon">
+    <link href="~/assets_Admin/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="~/assets_Admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/assets_Admin/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/assets_Admin/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/assets_Admin/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="~/assets_Admin/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="~/assets_Admin/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="~/assets_Admin/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/assets_Admin/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: NiceAdmin
+    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+    * Updated: Apr 20 2024 with Bootstrap v5.3.3
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body>
+    <main id="main" class="main">
+
+        <div class="pagetitle">
+            <h1>View Store Details</h1>
+        </div><!-- End Page Title -->
+
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Store Details Table</h5>
+                            @if (!string.IsNullOrEmpty(Model.success))
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    @Model.success
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.fail))
+                            {
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <i class="bi bi-exclamation-octagon me-1"></i>
+                                    @Model.fail
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            }
+
+                            <!-- Form -->
+                            <form method="post" enctype="multipart/form-data">
+                                <!-- Name -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Name</label>
+                                    <div class="col-sm-15">
+                                        <input type="text" class="form-control" asp-for="input.Name" disabled />
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.Name"></span>
+                                </div>
+
+                                <!-- SubDescription -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Sub Description</label>
+                                    <div class="col-sm-15">
+                                        <input type="text" class="form-control" asp-for="input.SubDescription" disabled />
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.SubDescription"></span>
+                                </div>
+
+                                <!-- Description Detail -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Description Detail</label>
+                                    <div class="col-sm-15">
+                                        <input type="text" class="form-control" asp-for="input.DescriptionDetail" disabled/>
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.DescriptionDetail"></span>
+                                </div>
+
+                                <!-- Category -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Category</label>
+                                    <div class="col-sm-15">
+                                        <select asp-for="input.CategoryId" asp-items="Model.input.CategoryOptions" class="form-control" disabled >
+                                            <option value="">Select Category</option>
+                                        </select>
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.CategoryId"></span>
+                                </div>
+
+                                <!-- Store Type -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Store Type</label>
+                                    <div class="col-sm-15">
+                                        <select asp-for="input.StoreTypeId" asp-items="Model.input.StoreTypeOptions" class="form-control" disabled >
+                                            <option value="">Select Store Type</option>
+                                        </select>
+                                    </div>
+                                    <span style="color:red" asp-validation-for="input.StoreTypeId"></span>
+                                </div>
+
+                                <!-- Current Image -->
+                                <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Current Image</label>
+                                    <div class="col-sm-15">
+                                        @if (!string.IsNullOrEmpty(Model.input.Img))
+                                        {
+                                            <img src="@Model.input.Img" alt="Store Image" width="100" />
+                                        }
+                                        else
+                                        {
+                                            <p>No image uploaded.</p>
+                                        }
+                                    </div>
+                                </div>
+
+                                <!-- Image Upload -->
+                                @* <div class="row mb-4">
+                                    <label class="col-sm-5 col-form-label">Upload New Image</label>
+                                    <div class="col-sm-15">
+                                        <input type="file" class="form-control" asp-for="input.InputImage" />
+                                    </div>
+                                </div> *@
+
+                                <input type="hidden" asp-for="input.Id" />
+
+                                @* <button type="submit" class="btn btn-primary">Update</button> *@
+                                <button type="button" onclick="window.location.href='/seller/index'" class="btn btn-secondary">Back To List</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======= Footer ======= -->
+    @*     <footer id="footer" class="footer">
+    <div class="copyright">
+    &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
+    </div>
+    <div class="credits">
+    <!-- All the links in the footer should remain intact. -->
+    <!-- You can delete the links only if you purchased the pro version. -->
+    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    </div>
+    </footer><!-- End Footer --> *@
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="~/assets_Admin/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="~/assets_Admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets_Admin/vendor/chart.js/chart.umd.js"></script>
+    <script src="~/assets_Admin/vendor/echarts/echarts.min.js"></script>
+    <script src="~/assets_Admin/vendor/quill/quill.js"></script>
+    <script src="~/assets_Admin/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="~/assets_Admin/vendor/tinymce/tinymce.min.js"></script>
+    <script src="~/assets_Admin/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="~/assets_Admin/js/main.js"></script>
+</body>
+
+</html>
+
