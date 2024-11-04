@@ -18,5 +18,13 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
 		Task<bool> EditAsync(complantViewModels complaintsMapper);
 		Task<bool> DeleteAsync(complantViewModels complaintsMapper);
 		Task<complantViewModels> GetByIDAsync(string complaintsMapper);
-	}
+        bool Warrant(string idcomplaint, string ordercode);
+        ComplaintsMapper GetAllReportAdminbyid(string idcomplaint);
+        bool BackMoney(string id);
+        bool checkStockProductType(string idcomplaint);
+        ComplaintsMapper GetAllNonebyid(string idcomplaint);
+        bool WarrantSeller(string idcomplaint, string ordercode, string sellerid);
+        bool BackMoneySeller(string idcomplant, string sellerid);
+        bool BackMoneyforseller(string id);
+    }
 }

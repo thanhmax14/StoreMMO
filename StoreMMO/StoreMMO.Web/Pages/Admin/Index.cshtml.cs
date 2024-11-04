@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.Purchases;
+using BusinessLogic.Services.StoreMMO.Core.SellerDashBoard;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -10,12 +11,16 @@ namespace StoreMMO.Web.Pages.Admin
     public class IndexModel : PageModel
     {
         private readonly IPurchaseService _Puchase;
+        private readonly ISellerDashBoardService _sellerDashBoardService;
 
-        public IndexModel(IPurchaseService purchase)
+        public IndexModel(IPurchaseService purchase,ISellerDashBoardService sellerDashBoardService)
         {
             this._Puchase = purchase;
+        this._sellerDashBoardService = sellerDashBoardService;
         }
 
+        //  string UserId = HttpContext.Session.GetString("UserID");
+        string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostData(string filter)
@@ -84,6 +89,66 @@ namespace StoreMMO.Web.Pages.Admin
 
                     var allTransactions = await this._Puchase.GetAllYear();
                     foreach (var transaction in allTransactions)
+                    {
+                        transactionData.Add(transaction.TotalTransactions);
+                        revenueData.Add(transaction.TotalRevenue);
+                        dates.Add(transaction.TransactionDate.ToString("yyyy"));
+                    }
+                    break;
+
+                case "sellertoday":
+                  
+                    var today = await this._sellerDashBoardService.GetDailyTransactionSummary(UserId);
+                 //   var a = today;
+                    // Duyệt qua danh sách dữ liệu trả về và gán vào danh sách 24 giờ
+                    foreach (var transaction in today)
+                    {
+                        int hour = (transaction.TransactionDate.Hour + 7) % 24;
+
+                        transactionData[hour] = transaction.TotalTransactions; // Gán số lượng giao dịch
+                        revenueData[hour] = transaction.TotalRevenue; // Gán doanh thu
+                    }
+                    break;
+                case "sellermonth":
+                    int daysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); // Số ngày trong tháng hiện tại
+                    transactionData = new List<int>(new int[daysInMonth]); // Khởi tạo danh sách theo số ngày thực tế
+                    revenueData = new List<decimal>(new decimal[daysInMonth]);
+
+                    dates = Enumerable.Range(1, daysInMonth)
+                        .Select(i => new DateTime(DateTime.Now.Year, DateTime.Now.Month, i).ToString("yyyy-MM-dd"))
+                        .ToList();
+
+                    var m = await this._sellerDashBoardService.GetMonth(UserId);
+                    foreach (var transaction in m)
+                    {
+                        int day = transaction.TransactionDate.Day - 1; // Ngày trong tháng (0-30 cho 31 ngày)
+                        if (day >= 0 && day < transactionData.Count) // Kiểm tra chỉ số hợp lệ
+                        {
+                            transactionData[day] += transaction.TotalTransactions; // Cộng dồn số lượng giao dịch
+                            revenueData[day] += transaction.TotalRevenue; // Cộng dồn doanh thu
+                        }
+                    }
+                    break;
+                case "selleryear":
+                    transactionData = new List<int>(new int[12]); // 12 tháng trong năm
+                    revenueData = new List<decimal>(new decimal[12]);
+                    dates = Enumerable.Range(1, 12).Select(i => new DateTime(DateTime.Now.Year, i, 1).ToString("yyyy-MM")).ToList();
+
+                    var y = await this._sellerDashBoardService.GetMonthlyTransactionSummary(UserId);
+                    foreach (var transaction in y)
+                    {
+                        int month = transaction.TransactionDate.Month - 1;
+                        transactionData[month] += transaction.TotalTransactions;
+                        revenueData[month] += transaction.TotalRevenue;
+                    }
+                    break;
+                case "sellerall":
+                    transactionData = new List<int>();
+                    revenueData = new List<decimal>();
+                    dates = new List<string>();
+
+                    var all = await this._sellerDashBoardService.GetYearlyTransactionSummary(UserId);
+                    foreach (var transaction in all)
                     {
                         transactionData.Add(transaction.TotalTransactions);
                         revenueData.Add(transaction.TotalRevenue);

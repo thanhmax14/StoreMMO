@@ -86,5 +86,34 @@ namespace StoreMMO.Web.Pages.Admin
             // Quay lại trang hiện tại sau khi thực hiện hành động
             return RedirectToPage("ManageDispute");
         }
+        public IActionResult OnPostWarrant(string idcomplaint)
+        {
+            if (_complaintService.Warrant(idcomplaint))
+            {
+                // Xử lý thành công
+                success = "Accept success!";
+            }
+            else
+            {
+                // Xử lý lỗi nếu cần
+                fail = "Reject fail!";
+            }
+            return RedirectToPage("ManageDispute");
+        }
+        public IActionResult OnPostBackMoney(string idcomplaint)
+        {
+            if (_complaintService.BackMoney(idcomplaint))
+            {
+                // Xử lý thành công
+                success = "Accept success!";
+            }
+            else
+            {
+                // Xử lý lỗi nếu cần
+                fail = "Reject fail!";
+            }
+            return RedirectToPage("ManageDispute");
+        }
     }
+
 }

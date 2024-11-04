@@ -225,7 +225,7 @@ ORDER BY OrderDate DESC;
 			return result;
 		}
 
-        public async Task<List<TransactionSummary>> GetDailyTransactionSummary()
+        public async Task<List<TransactionSummary>> GetDailyTransactionSummary()  // Thống kê giao dịch trong ngày
         {
             string sqlQuery = @"SELECT 
     CONVERT(datetime, DATEADD(MINUTE, DATEDIFF(MINUTE, 0, od.Dates), 0), 120) AS TransactionDate,  -- Lấy ngày giờ với định dạng YYYY-MM-DD HH:MM:SS, loại bỏ phần mili giây

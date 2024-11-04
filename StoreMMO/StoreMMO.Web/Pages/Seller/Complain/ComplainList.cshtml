@@ -414,7 +414,7 @@
                                             <td>@(item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.FullName ?? "khong tim thay")</td>
                                             <td>@(item.OrderDetailmap?.orderBuymap?.UserMap?.FullName ?? "notfound")</td>
                                             <td>@item.Description</td>
-                                            <td>@(item.OrderDetailmap.Price ?? "Chưa xác định")</td>
+                                            <td>@(item.OrderDetailmap?.Price ?? "Chưa xác định")</td>
                                             <td>@(item.OrderDetailmap?.orderBuymap?.OrderCode ?? "Chưa xác định")</td>
                                             <td>@(item.OrderDetailmap?.productMapper?.ProductTypemap?.Name ?? "Chưa xác định")</td>
                                            <td>
@@ -448,11 +448,11 @@
                                                     bool hasEnoughBalance = price <= currentBalance;
                                                 }
                                  <td>
-    <form method="post" asp-page-handler="BackMoney" class="confirmation-form" id="backMoneyForm_@item.ID">
+                                                <form method="post" asp-page-handler="BackMoney" class="confirmation-form" id="backMoneyForm_@item.ID">
         <input type="hidden" name="idseller" value="@item.OrderDetailmap?.orderBuymap?.StoreMap?.Usermapper?.Id" />
         <input type="hidden" name="id" value="@item.ID" />
         <input type="hidden" name="iduser" value="@item.OrderDetailmap?.orderBuymap?.UserMap?.Id" />
-        <input type="hidden" name="price" value="@item.OrderDetailmap.Price" />
+        <input type="hidden" name="price" value="@item.OrderDetailmap?.Price" />
         <input type="hidden" name="idorderdetail" value="@item.OrderDetailmap?.ID" />
         <input type="hidden" name="ordercode" value="@item.OrderDetailmap?.orderBuymap?.OrderCode" />
 
@@ -523,8 +523,7 @@
                     </div>
                 </div>
                 <!-- Modal Xác Nhận Chung -->
-    
-
+z
         </section>
 
     </main><!-- End #main -->

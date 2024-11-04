@@ -1,5 +1,7 @@
 using AutoMapper;
+using Azure.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
@@ -45,8 +47,193 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
             return mappedComplaints;
         }
 
+        public ComplaintsMapper GetAllReportAdminbyid(string idcomplaint)
+        {
+            var complaint = _context.Complaints
+                .Where(c => c.ID == idcomplaint)
+                .Include(c => c.OrderDetail)
+                    .ThenInclude(od => od.orderBuy)
+                .Include(c => c.OrderDetail.orderBuy.AppUser)
+                .Include(c => c.OrderDetail.orderBuy.Store.User)
+                .Include(c => c.OrderDetail.orderBuy.Store)
+                .Include(c => c.OrderDetail.Product)
+                    .ThenInclude(p => p.ProductType)
+                .FirstOrDefault(c => c.Status.ToLower() == "reportadmin"); // Lọc complaint có status là "reportadmin"
 
+            // Nếu không tìm thấy complaint phù hợp, trả về null
+            if (complaint == null)
+            {
+                return null;
+            }
 
+            // Ánh xạ đối tượng complaint sang ComplaintsMapper
+            var mappedComplaint = _mapper.Map<ComplaintsMapper>(complaint);
+            return mappedComplaint;
+        }
+        public ComplaintsMapper GetAllNonebyid(string idcomplaint)
+        {
+            var complaint = _context.Complaints
+                .Where(c => c.ID == idcomplaint )
+                .Include(c => c.OrderDetail)
+                    .ThenInclude(od => od.orderBuy)
+                .Include(c => c.OrderDetail.orderBuy.AppUser)
+                .Include(c => c.OrderDetail.orderBuy.Store.User)
+                .Include(c => c.OrderDetail.orderBuy.Store)
+                .Include(c => c.OrderDetail.Product)
+                    .ThenInclude(p => p.ProductType)
+                .FirstOrDefault(c => c.Status.ToLower() == "none"); // Lọc complaint có status là "reportadmin"
+
+            // Nếu không tìm thấy complaint phù hợp, trả về null
+            if (complaint == null)
+            {
+                return null;
+            }
+
+            // Ánh xạ đối tượng complaint sang ComplaintsMapper
+            var mappedComplaint = _mapper.Map<ComplaintsMapper>(complaint);
+            return mappedComplaint;
+        }
+        public bool Warrant(string idcomplaint, string ordercode)
+        {
+            bool a = false;
+            var cominfor = GetAllReportAdminbyid(idcomplaint);
+            var idstore = cominfor.OrderDetailmap.orderBuymap.StoreID;
+            var iduser = cominfor.OrderDetailmap.orderBuymap.UserID;
+            var idproducttype = cominfor.OrderDetailmap.productMapper.ProductTypeId;
+            var idproduct = cominfor.OrderDetailmap.ProductID;
+            var protype = _context.ProductTypes.FirstOrDefault(x => x.Id == idproducttype);
+
+            if (protype != null)
+            {
+                protype.Stock = (int.Parse(protype.Stock) - 1).ToString();
+                _context.ProductTypes.Update(protype);
+                _context.SaveChanges();
+
+                var pro = _context.Products.FirstOrDefault(x => x.ProductTypeId == idproducttype && x.Status.ToLower() == "new");
+
+                if (pro != null)
+                {
+                    var proid = pro.Id.ToString();
+                    pro.Status = "Paid";
+                    pro.StatusUpload = DateTime.Now.ToString();
+                    _context.Products.Update(pro);
+                    _context.SaveChanges();
+
+                    var orderBuy = new OrderBuy
+                    {
+                        ID = Guid.NewGuid().ToString(),
+                        UserID = iduser,
+                        StoreID = idstore,
+                        ProductTypeId = idproducttype,
+                        Status = "paid",
+                        OrderCode = ordercode,
+                        totalMoney = "0"
+                    };
+
+                    _context.Add(orderBuy);
+                    _context.SaveChanges();
+
+                    var orderDetail = new OrderDetail
+                    {
+                        ID = Guid.NewGuid().ToString(),
+                        OrderBuyID = orderBuy.ID,
+                        ProductID = proid,
+                        quantity = "1",
+                        stasusPayment = "paid",
+                        AdminMoney = "0",
+                        SellerMoney = "0",
+                        Dates = DateTime.Now,
+                        status = "refun",
+                        Price = "0"
+                    };
+
+                    var comid = _context.Complaints.FirstOrDefault(x => x.ID == idcomplaint);
+                    var od = _context.OrderDetails.FirstOrDefault(x => x.ID == comid.OrderDetailID);
+                    od.status = "done";
+                    _context.OrderDetails.Update(od);
+                    _context.Add(orderDetail);
+                    ReportAdmin(idcomplaint, "done");
+                    _context.SaveChanges();
+
+                    // Đặt a = true khi tất cả các bước đã thực hiện thành công
+                    a = true;
+                }
+            }
+
+            return a;
+        }
+
+        public bool BackMoney(string id)
+        {
+            var cominfor = GetAllReportAdminbyid(id);
+            var priceStr = cominfor.OrderDetailmap.Price;
+            var price = decimal.Parse(priceStr);
+            var idseller = cominfor.OrderDetailmap.orderBuymap.StoreMap.UserId;
+            var iduser = cominfor.OrderDetailmap.orderBuymap.UserID;
+            var idorderdetail = cominfor.OrderDetailmap.ID;
+            var ordercode = cominfor.OrderDetailmap.orderBuymap.OrderCode;
+
+            var seller = _context.Users.FirstOrDefault(x => x.Id == idseller);
+            var user = _context.Users.FirstOrDefault(x => x.Id == iduser);
+            var orderdetail = _context.OrderDetails.FirstOrDefault(x => x.ID == idorderdetail);
+
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                // Cập nhật số dư cho người bán và người dùng
+                seller.CurrentBalance -= price;
+                user.CurrentBalance += price;
+
+                _context.Users.Update(seller);
+                _context.Users.Update(user);
+                _context.SaveChanges();
+
+                // Tạo giao dịch cho người bán
+                var sellerTransaction = new Balance
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = idseller,
+                    TransactionType = "complaint",
+                    Status = "PAID",
+                    Amount = -price,
+                    ApprovalDate = DateTime.Now,
+                    Description = "Seller refunded money to user",
+                    TransactionDate = DateTime.Now,
+                    OrderCode = ""
+                };
+
+                // Tạo giao dịch cho người dùng
+                var userTransaction = new Balance
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = iduser,
+                    TransactionType = "complaint",
+                    Status = "PAID",
+                    Amount = price,
+                    ApprovalDate = DateTime.Now,
+                    Description = "User received refund from seller",
+                    TransactionDate = DateTime.Now,
+                    OrderCode = ""
+                };
+
+                _context.Balances.AddRange(sellerTransaction, userTransaction);
+                _context.SaveChanges();
+
+                orderdetail.status = "done";
+                _context.OrderDetails.Update(orderdetail);
+                ReportAdmin(id, "done");
+
+                _context.SaveChanges();
+                transaction.Commit();
+
+                return true; // Trả về true nếu giao dịch thành công
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                return false; // Trả về false nếu có lỗi xảy ra
+            }
+        }
 
 
         public IEnumerable<ComplaintsMapper> GetAllReportAdmin()
@@ -190,8 +377,236 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
 			}
 		}
 
-		
-	}
-       // public bool Wanrant(string producttypeid, )
+        public bool checkStockProductType(string idcomplaint)
+        {
+      
+            var complaintbyid = GetAllReportAdminbyid(idcomplaint);
+
+            var stock = int.Parse(complaintbyid.OrderDetailmap.productMapper.ProductTypemap.Stock);
+            if(stock < 1)
+            {
+                return false;
+            }
+            else
+            { return true;}
+
+        }
+
+        public bool BackMoneySeller(string idcomplant, string sellerid)
+        {
+            var cominfor = GetAllNonebyid(idcomplant);
+            var priceStr = cominfor.OrderDetailmap.Price;
+            var price = decimal.Parse(priceStr);
+            var idseller = cominfor.OrderDetailmap.orderBuymap.StoreMap.UserId;
+            var iduser = cominfor.OrderDetailmap.orderBuymap.UserID;
+            var idorderdetail = cominfor.OrderDetailmap.ID;
+            var ordercode = cominfor.OrderDetailmap.orderBuymap.OrderCode;
+
+            var seller = _context.Users.FirstOrDefault(x => x.Id == idseller);
+            var user = _context.Users.FirstOrDefault(x => x.Id == iduser);
+            var orderdetail = _context.OrderDetails.FirstOrDefault(x => x.ID == idorderdetail);
+
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                // Cập nhật số dư cho người bán và người dùng
+                seller.CurrentBalance -= price;
+                user.CurrentBalance += price;
+
+                _context.Users.Update(seller);
+                _context.Users.Update(user);
+                _context.SaveChanges();
+
+                // Tạo giao dịch cho người bán
+                var sellerTransaction = new Balance
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = idseller,
+                    TransactionType = "complaint",
+                    Status = "PAID",
+                    Amount = -price,
+                    ApprovalDate = DateTime.Now,
+                    Description = "Seller refunded money to user",
+                    TransactionDate = DateTime.Now,
+                    OrderCode = ""
+                };
+
+                // Tạo giao dịch cho người dùng
+                var userTransaction = new Balance
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = iduser,
+                    TransactionType = "complaint",
+                    Status = "PAID",
+                    Amount = price,
+                    ApprovalDate = DateTime.Now,
+                    Description = "User received refund from seller",
+                    TransactionDate = DateTime.Now,
+                    OrderCode = ""
+                };
+
+                _context.Balances.AddRange(sellerTransaction, userTransaction);
+                _context.SaveChanges();
+
+                orderdetail.status = "done";
+                _context.OrderDetails.Update(orderdetail);
+                ReportAdmin(idseller, "done");
+
+                _context.SaveChanges();
+                transaction.Commit();
+
+                return true; // Trả về true nếu giao dịch thành công
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                return false; // Trả về false nếu có lỗi xảy ra
+            }
+        }
+
+        public bool BackMoneyforseller(string id)
+        {
+            var cominfor = GetAllNonebyid(id);
+            var priceStr = cominfor.OrderDetailmap.Price;
+            var price = decimal.Parse(priceStr);
+            var idseller = cominfor.OrderDetailmap.orderBuymap.StoreMap.UserId;
+            var iduser = cominfor.OrderDetailmap.orderBuymap.UserID;
+            var idorderdetail = cominfor.OrderDetailmap.ID;
+            var ordercode = cominfor.OrderDetailmap.orderBuymap.OrderCode;
+
+            var seller = _context.Users.FirstOrDefault(x => x.Id == idseller);
+            var user = _context.Users.FirstOrDefault(x => x.Id == iduser);
+            var orderdetail = _context.OrderDetails.FirstOrDefault(x => x.ID == idorderdetail);
+
+            using var transaction = _context.Database.BeginTransaction();
+            try
+            {
+                // Cập nhật số dư cho người bán và người dùng
+                seller.CurrentBalance -= price;
+                user.CurrentBalance += price;
+
+                _context.Users.Update(seller);
+                _context.Users.Update(user);
+                _context.SaveChanges();
+
+                // Tạo giao dịch cho người bán
+                var sellerTransaction = new Balance
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = idseller,
+                    TransactionType = "complaint",
+                    Status = "PAID",
+                    Amount = -price,
+                    ApprovalDate = DateTime.Now,
+                    Description = "Seller refunded money to user",
+                    TransactionDate = DateTime.Now,
+                    OrderCode = ""
+                };
+
+                // Tạo giao dịch cho người dùng
+                var userTransaction = new Balance
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = iduser,
+                    TransactionType = "complaint",
+                    Status = "PAID",
+                    Amount = price,
+                    ApprovalDate = DateTime.Now,
+                    Description = "User received refund from seller",
+                    TransactionDate = DateTime.Now,
+                    OrderCode = ""
+                };
+
+                _context.Balances.AddRange(sellerTransaction, userTransaction);
+                _context.SaveChanges();
+
+                orderdetail.status = "done";
+                _context.OrderDetails.Update(orderdetail);
+                ReportAdmin(id, "done");
+
+                _context.SaveChanges();
+                transaction.Commit();
+
+                return true; // Trả về true nếu giao dịch thành công
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                return false; // Trả về false nếu có lỗi xảy ra
+            }
+        }
+
+        public bool WarrantSeller(string idcomplaint, string ordercode,string sellerid)
+        {
+            bool a = false;
+            var cominfor = GetAllNonebyid(idcomplaint);
+            var idstore = cominfor.OrderDetailmap.orderBuymap.StoreID;
+            var iduser = cominfor.OrderDetailmap.orderBuymap.UserID;
+            var idproducttype = cominfor.OrderDetailmap.productMapper.ProductTypeId;
+            var idproduct = cominfor.OrderDetailmap.ProductID;
+            var protype = _context.ProductTypes.FirstOrDefault(x => x.Id == idproducttype);
+
+            if (protype != null)
+            {
+                protype.Stock = (int.Parse(protype.Stock) - 1).ToString();
+                _context.ProductTypes.Update(protype);
+                _context.SaveChanges();
+
+                var pro = _context.Products.FirstOrDefault(x => x.ProductTypeId == idproducttype && x.Status.ToLower() == "new");
+
+                if (pro != null)
+                {
+                    var proid = pro.Id.ToString();
+                    pro.Status = "Paid";
+                    pro.StatusUpload = DateTime.Now.ToString();
+                    _context.Products.Update(pro);
+                    _context.SaveChanges();
+
+                    var orderBuy = new OrderBuy
+                    {
+                        ID = Guid.NewGuid().ToString(),
+                        UserID = iduser,
+                        StoreID = idstore,
+                        ProductTypeId = idproducttype,
+                        Status = "paid",
+                        OrderCode = ordercode,
+                        totalMoney = "0"
+                    };
+
+                    _context.Add(orderBuy);
+                    _context.SaveChanges();
+
+                    var orderDetail = new OrderDetail
+                    {
+                        ID = Guid.NewGuid().ToString(),
+                        OrderBuyID = orderBuy.ID,
+                        ProductID = proid,
+                        quantity = "1",
+                        stasusPayment = "paid",
+                        AdminMoney = "0",
+                        SellerMoney = "0",
+                        Dates = DateTime.Now,
+                        status = "refun",
+                        Price = "0"
+                    };
+
+                    var comid = _context.Complaints.FirstOrDefault(x => x.ID == idcomplaint);
+                    var od = _context.OrderDetails.FirstOrDefault(x => x.ID == comid.OrderDetailID);
+                    od.status = "done";
+                    _context.OrderDetails.Update(od);
+                    _context.Add(orderDetail);
+                    ReportAdmin(idcomplaint, "done");
+                    _context.SaveChanges();
+
+                    // Đặt a = true khi tất cả các bước đã thực hiện thành công
+                    a = true;
+                }
+            }
+
+            return a;
+        }
+
     }
+    // public bool Wanrant(string producttypeid, )
+}
 
