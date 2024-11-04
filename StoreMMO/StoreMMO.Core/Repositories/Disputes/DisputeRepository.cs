@@ -4,6 +4,7 @@ using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -52,5 +53,20 @@ namespace StoreMMO.Core.Repositories.Disputes
             }
 
         }
+        public async Task<IEnumerable<DisputeViewModels>> getAllAsync()
+        {
+            var list = await _context.Complaints.ToListAsync(); // Sử dụng ToListAsync()
+            var list1 = list.Select(x => new DisputeViewModels
+            {
+                ID = x.ID,
+                OrderDetailID = x.OrderDetailID,
+                Description = x.Description,
+                CreateDate = x.CreateDate,
+                Reply = x.Reply,
+                Status = x.Status,
+            }).ToList();
+            return list1;
+        }
+      
     }
 }

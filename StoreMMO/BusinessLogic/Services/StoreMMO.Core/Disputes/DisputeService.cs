@@ -17,6 +17,12 @@ namespace BusinessLogic.Services.StoreMMO.Core.Disputes
         {
             this._disputeRepository = dispute;
         }
+
+        public async Task<IEnumerable<DisputeViewModels>> getAllAsync()
+        {
+             return await _disputeRepository.getAllAsync();
+        }
+
         public IEnumerable<DisputeViewModels> getAllDispute()
         {
             return _disputeRepository.getAllDispute();

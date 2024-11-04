@@ -49,7 +49,7 @@ namespace StoreMMO.Core.Repositories.Stores
             s.ModifiedDate = DateTime.Now;
             s.IsAccept = store.IsAccept;
 
-            _context.Stores.Update(s);
+            //_context.Stores.Update(s);
             _context.SaveChanges();
             return store;
         }
