@@ -63,12 +63,12 @@ namespace StoreMMO.Web.Pages.Account
 		{
 			var email = HttpContext.Session.GetString("Email");
 			var UserID = HttpContext.Session.GetString("UserID");
-			if (UserID != null)
-			{
-				await LoadUserDataAsync(UserID);
-			}
+			//if (UserID != null)
+			//{
+			//	await LoadUserDataAsync(UserID);
+			//}
 			InfOrderUser = this._pur.GetAllByUserID(UserID);
-		//	InfoOrdeTailUser = this._pur.getOrderDetails(UserID);
+		    //InfoOrdeTailUser = this._pur.getOrderDetails(UserID);
 			InfoBalance = await this._balance.GetBalanceByUserIDAsync(UserID);
 
 			AppUser = await this._userManager.FindByEmailAsync(email);
@@ -82,7 +82,6 @@ namespace StoreMMO.Web.Pages.Account
 			{
 				ViewData["IsSeller"] = false; // Nếu không tìm thấy người dùng, gán false
 			}
-			storeSeller = _product.ManageStore();
         }
 
 		// Cập nhật phương thức OnPostWithdraw trong controller
