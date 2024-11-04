@@ -83,6 +83,10 @@ namespace StoreMMO.Web.Pages
                     foreach (var item in getitem)
 					{
 						double quantity = double.Parse(quan + "");
+						if (int.Parse(getinfoProduct.Stock) <= quantity)
+						{
+							return new JsonResult(new { success = false, mess = "You add full quantity this product" });
+						}
 						var temp = new CartItem
 						{
 							img = item.img,
@@ -345,5 +349,14 @@ namespace StoreMMO.Web.Pages
                 }
             }
         }
-    }
+
+
+		public IActionResult OnPostGetTotalPrice(string saveProID)
+		{
+			var cart = this._cartService.GetCartFromSession();
+			var price = cart.Sum(u => decimal.Parse(u.subtotal));
+			return new JsonResult(new { success = true, total=""+ price });
+		}
+
+	}
 }

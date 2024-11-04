@@ -34,7 +34,7 @@ namespace StoreMMO.Web.Pages.Account
 		private readonly IBalanceService _balanceService;
 
 		public ProfileModel(AppDbContext context, UserManager<AppUser> userManager, IBalanceService balance, IPurchaseService purchase,
-			IOderDetailsService order, IComplaintsService complaints)
+			IOderDetailsService order, IComplaintsService complaints, PaymentLIb paymentLIb)
 		{
 			_context = context;
 			_userManager = userManager;
@@ -43,8 +43,8 @@ namespace StoreMMO.Web.Pages.Account
 			this._detail = order;
 			this._complaints = complaints;
 			this._pay = paymentLIb;
-			this._createQR = create;
-			this._balanceService = balanceService;
+			
+			this._balanceService = balance;
 		}
 		[BindProperty]
 		public AppUser AppUser { get; set; }
