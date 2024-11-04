@@ -717,6 +717,7 @@
             <h3 class="account-sub-title d-none d-md-block">
                 <i class="sicon-social-dropbox align-middle mr-3"></i>
 									<button onclick="thanh()" class="btn btn-outline-primary btn-lg">Deposit</button>
+									<button class="btn btn-outline-danger btn-lg" data-bs-toggle="modal" data-bs-target="#withdrawModal">Withdraw</button>
             </h3>
 	<script>
 									function thanh() {
@@ -825,7 +826,29 @@
 														<td>@item.Amount</td>
 														<td>@item.TransactionType</td>
 														<td> <button class="btn btn-outline-primary btn-xs">@item.Status</button></td>
-														<td>@item.Description</td>
+														@{
+															// Lấy giá trị của item.Description
+															var description = item.Description;
+
+															if (!string.IsNullOrEmpty(description)) // Kiểm tra nếu description không phải null và không rỗng
+															{
+																var ampersandIndex = description.IndexOf("&");
+
+																// Nếu có ký tự '&', chỉ hiển thị phần trước nó
+																if (ampersandIndex >= 0)
+																{
+																	description = description.Substring(0, ampersandIndex);
+																}
+															}
+															else
+															{
+																description = ""; // Hoặc thiết lập một giá trị mặc định nếu description là null
+															}
+														}
+
+														<td>@Html.Raw(description)</td>
+
+
 														<td>
 															@if (item.TransactionType.ToLower().Equals("buy".ToLower()))
 															{
@@ -864,6 +887,191 @@
             </div>
         </div>
     </div>
+
+
+						<div class="modal fade" id="withDrawModel" tabindex="-1" aria-labelledby="withDrawModel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title w-100 text-center">Report The Order:  No.<span id="order-No"></span></h5>
+
+										@* 	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> *@
+									</div>
+									<div class="modal-body">
+										<form>
+
+											<div class="mb-2">
+												<div class="row">
+													<div class="col">
+														<label for="account-name" class="col-form-label">Account:</label>
+														<input readonly type="text" class="form-control" id="account-name">
+													</div>
+													<div class="col">
+														<label for="password" class="col-form-label">Password:</label>
+														<input type="text" readonly class="form-control" id="password">
+													</div>
+												</div>
+											</div>
+											<div class="mb-2">
+												<div class="row">
+													<div class="col">
+														<label for="price" class="col-form-label">Price:</label>
+														<input type="text" readonly class="form-control" id="price">
+													</div>
+													<div class="col">
+														<label for="order-date" class="col-form-label">Order Days:</label>
+														<input type="date" class="form-control" id="order-date" readonly>
+													</div>
+												</div>
+											</div>
+											<div class="mb-4">
+												<label for="message-text" class="col-form-label">Message:</label>
+												<textarea class="form-control" id="message-text"></textarea>
+											</div>
+										</form>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-outline-secondary btn-md" data-bs-dismiss="modal">Close</button>
+										<button type="button" onclick="SendMess()" class="btn btn-outline-primary btn-md">Submit Report</button>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+						<!-- Modal -->
+						<div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-sm">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title text-center">Form Rút Tiền</h5>
+										
+									</div>
+
+									<div class="modal-body">
+										<div class="mb-2">
+											<label for="accountNumber" class="col-form-label">Account Number:</label>
+											<input type="text" class="form-control form-control-sm" id="accountNumber" required>
+										</div>
+										<div class="mb-2">
+											<label for="bank" class="col-form-label">Bank:</label>
+											<select class="form-control form-control-sm" id="bank" asp-for="input.Bank" required>
+												<option value="">Select bank</option>
+											</select>
+										</div>
+										<div class="mb-2">
+											<label for="accountName" class="col-form-label">Account Name:</label>
+											<input type="text" class="form-control form-control-sm" id="accountName" required>
+										</div>
+										<div class="mb-2">
+											<label for="withdrawAmount" class="col-form-label">Amount:</label>
+											<input type="number" asp-for="input.WithdrawAmount" class="form-control form-control-sm" id="withdrawAmount" min="0" required>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-outline-secondary btn-md" data-bs-dismiss="modal">Close</button>
+										<button onclick="SendWith()" class="btn btn-outline-primary btn-md">Submit</button>
+									</div>
+
+									
+
+								</div>
+							</div>
+						</div>
+						
+						<!-- Bootstrap Bundle with Popper -->
+						<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+						<script>
+							// Lấy danh sách ngân hàng từ API và đổ vào dropdown
+							document.addEventListener("DOMContentLoaded", function () {
+								fetch('https://api.vietqr.io/v2/banks')
+									.then(response => response.json())
+									.then(data => {
+										const bankSelect = document.getElementById("bank");
+										bankSelect.innerHTML = '<option value="">Chọn ngân hàng</option>';
+										data.data.forEach(bank => {
+											const option = document.createElement("option");
+											option.value = bank.code; // Sử dụng code từ API làm value
+											option.text = bank.shortName +" - "+ bank.name;   // Hiển thị tên ngân hàng
+											bankSelect.appendChild(option);
+										});
+									})
+									.catch(error => {
+										console.error("Lỗi khi lấy danh sách ngân hàng:", error);
+										document.getElementById("bank").innerHTML = '<option value="">Không thể tải danh sách ngân hàng</option>';
+									});
+							});
+
+							function SendWith() {
+								// Xóa thông báo lỗi cũ
+								$(".error-message").remove();
+
+								$.ajax({
+									type: "POST",
+									url: "/account/Profile?handler=Withdraw",
+									beforeSend: function (xhr) {
+										xhr.setRequestHeader("XSRF-TOKEN", $('input[name="__RequestVerificationToken"]').val());
+									},
+									data: {
+										number: $('#accountNumber').val(),
+										bank: $('#bank').val(),
+										accountname: $('#accountName').val(),
+										amount: $('#withdrawAmount').val(),
+										mess: "500",
+									},
+									dataType: "json",
+									success: function (data) {
+										if (data.success) {
+											Swal.fire({
+												title: "Congatulation",
+												text: 'You sent Report Successfully',
+												icon: "success",
+												confirmButtonColor: "#3085d6",
+												confirmButtonText: "OK",
+												allowOutsideClick: true
+											}).then((result) => {
+												if (result.isConfirmed) {
+													$('.modal-backdrop').remove();
+													$('#withdrawModal').modal('hide');
+												}
+											}).finally(() => {
+												$('.modal-backdrop').remove();
+												$('#withdrawModal').modal('hide');
+											});
+										} else {
+											// Hiển thị lỗi dưới các thẻ nhập liệu
+											let errorMessage = `<div class="error-message text-danger">${data.message}</div>`;
+
+											if (data.message.includes("Account number")) {
+												$('#accountNumber').after(errorMessage);
+											} else if (data.message.includes("Bank")) {
+												$('#bank').after(errorMessage);
+											} else if (data.message.includes("Account name")) {
+												$('#accountName').after(errorMessage);
+											} else if (data.message.includes("Amount")) {
+												$('#withdrawAmount').after(errorMessage);
+											}
+
+										}
+									},
+									error: function (error) {
+										console.error("Error occurred:", error);
+									}
+								});
+							}
+s
+
+
+
+
+						
+						</script>
+
+						
+
+
 
 
 
@@ -966,8 +1174,6 @@
 									data: {
 										detailID: detailID,
 										mess: mess,
-
-										
 									},
 									dataType: "json",
 									success: function (data) {
@@ -991,17 +1197,7 @@
 												$('#exampleModal').modal('hide');
 												$('.modal-backdrop').remove();
 												$('#row-' + detailID).remove();
-											});
-
-
-
-
-
-
-
-
-
-											
+											});	
 										}else{
 											Swal.fire({
 												icon: 'error',
@@ -2005,7 +2201,7 @@ $(document).ready(function () {
         event.preventDefault(); // Ngăn không cho form submit theo cách thông thường
 
         $.ajax({
-            url: '@Url.Page("/Profile")',  // Đảm bảo đúng handler Razor Page
+            url: '@Url.Page("Profile","UpdatePro")',  // Đảm bảo đúng handler Razor Page
             type: 'POST',
             data: $(this).serialize(),
             headers: {
