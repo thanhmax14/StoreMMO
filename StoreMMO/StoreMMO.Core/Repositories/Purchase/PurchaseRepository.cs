@@ -87,15 +87,14 @@ namespace StoreMMO.Core.Repositories.Purchase
             };
             return tem;
         }
-      
-        public List<PurchaseItem> GetProductFromSession()
-        {
 
-            var cart = this._contextAccessor.HttpContext.Session.GetString("PurchaseItem");
-            return string.IsNullOrEmpty(cart) ? new List<PurchaseItem>() : JsonConvert.DeserializeObject<List<PurchaseItem>>(cart);
+		public List<PurchaseItem> GetProductFromSession()
+		{
+			var cart = this._contextAccessor.HttpContext.Session.GetString("PurchaseItem");
+			return string.IsNullOrEmpty(cart) ? new List<PurchaseItem>() : JsonConvert.DeserializeObject<List<PurchaseItem>>(cart);
+		}
 
-        }
-        public void SaveProductToSession(List<PurchaseItem> cart)
+		public void SaveProductToSession(List<PurchaseItem> cart)
         {
             if (cart == null)
             {

@@ -161,7 +161,9 @@
 						</div><!-- End .cart-table-container -->
 					</div><!-- End .col-lg-8 -->
 				
-				
+					@{
+						var price = Model.CartItems.Sum(u => decimal.Parse(u.subtotal));
+					}
 					<div class="col-lg-4">
 						<div class="cart-summary">
 							<h3>CART TOTALS</h3>
@@ -170,7 +172,7 @@
 								<tbody>
 									<tr>
 										<td>Subtotal</td>
-										<td>$</td>
+										<td id="totals">$@price</td>
 									</tr>
 
 								
@@ -179,16 +181,18 @@
 								<tfoot>
 									<tr>
 										<td>Total</td>
-										<td id="totals" >$</td>
+										<td id="totals1">$@price</td>
 									</tr>
 								</tfoot>
 							</table>
 
 							<div class="checkout-methods">
-								<a href="" class="btn btn-block btn-dark">
-									Proceed to Checkout
-									<i class="fa fa-arrow-right"></i>
-								</a>
+								<form method="post">
+									<button type="submit"  class="btn btn-block btn-dark">
+										Proceed to Checkout
+										<i class="fa fa-arrow-right"></i>
+									</button>
+								</form>
 							</div>
 						</div><!-- End .cart-summary -->
 					</div><!-- End .col-lg-4 -->
@@ -590,6 +594,8 @@
 					success: function (data) {
 						if (data.success) {
 							console.log(data.total);
+							$("#totals").text(`$${data.total}`);
+							$("#totals1").text(`$${data.total}`);
 						} else {
 							alert("loi");
 						}

@@ -74,8 +74,8 @@ namespace StoreMMO.Web.Pages
 				{
 					var getinfoProduct = await this._productApi.GetProductById(saveProID);
 
-                    if (int.Parse(getinfoProduct.Stock) <= cart.Sum(i => int.Parse(i.quantity)))
-                    {
+					if (int.Parse(getinfoProduct.Stock) <= cart.Where(i => i.productID == saveProID).Sum(i => int.Parse(i.quantity)))
+					{
                         return new JsonResult(new { success = false, mess = "You add full quantity this product" });
                     }
 
@@ -101,6 +101,10 @@ namespace StoreMMO.Web.Pages
 						var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
 						if (existingItem != null)
 						{
+							if ((double.Parse(existingItem.quantity) + quantity) > int.Parse(getinfoProduct.Stock))
+							{
+								return new JsonResult(new { success = false, mess = "You add full quantity this product" });
+							}
 							existingItem.quantity = (double.Parse(existingItem.quantity) + quantity).ToString();
 							existingItem.subtotal = (item.price * (double.Parse(existingItem.quantity))).ToString();
 						}
@@ -165,8 +169,8 @@ namespace StoreMMO.Web.Pages
 				{
                     var getinfoProduct = await this._productApi.GetProductById(saveProID);
 
-                    if (int.Parse(getinfoProduct.Stock) <= cart.Sum(i => int.Parse(i.quantity)))
-                    {
+					if (int.Parse(getinfoProduct.Stock) <= cart.Where(i => i.productID == saveProID).Sum(i => int.Parse(i.quantity)))
+					{
                         return new JsonResult(new { success = false, mess = "You add full quantity this product" });
                     }
                     foreach (var item in getitem)
@@ -174,6 +178,10 @@ namespace StoreMMO.Web.Pages
 						var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
 						if (existingItem != null)
 						{
+							if ((double.Parse(existingItem.quantity) + 1) > int.Parse(getinfoProduct.Stock))
+							{
+								return new JsonResult(new { success = false, mess = "You add full quantity this product" });
+							}
 							existingItem.quantity = (double.Parse(existingItem.quantity) + 1).ToString();
 							existingItem.subtotal = (item.price * (double.Parse(existingItem.quantity))).ToString();
 						}
@@ -235,10 +243,6 @@ namespace StoreMMO.Web.Pages
 				});
 			}
 		}
-
-
-
-
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult OnPostAutocheck(string saveProID)
