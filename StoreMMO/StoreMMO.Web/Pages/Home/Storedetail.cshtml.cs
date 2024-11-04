@@ -1,8 +1,10 @@
 ﻿using BusinessLogic.Services.Encrypt;
 using BusinessLogic.Services.StoreMMO.API;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 
@@ -15,11 +17,15 @@ namespace StoreMMO.Web.Pages.Home
         private readonly ProductApiService _productApi;
         private readonly WishListApiService _wishListApi;
         private readonly IPurchaseService _puchae;
+        private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
+        public AppUser info { get; set; }
 
-        public StoredetailModel(StoreApiService storeApiService, ProductApiService productApi,
+        public StoredetailModel(AppDbContext context, StoreApiService storeApiService, ProductApiService productApi,
             WishListApiService wish, IPurchaseService purchaseService)
         {
+            _context = context;
             this._storeApi = storeApiService;
             this._productApi = productApi;
             this._wishListApi = wish;
@@ -36,8 +42,7 @@ namespace StoreMMO.Web.Pages.Home
         [TempData]
         public string DefauStock { get; set; }
 
-
-        public async Task<IActionResult> OnGetAsync(string id)  
+        public async Task<IActionResult> OnGetAsync(string id)
         {
 
             this._puchae.SaveProductToSession(null);
@@ -78,7 +83,5 @@ namespace StoreMMO.Web.Pages.Home
                 return NotFound();
             }
         }
-
-
     }
 }

@@ -11,5 +11,6 @@ namespace BusinessLogic.Services.StoreMMO.Core.Disputes
     {
         IEnumerable<DisputeViewModels> getAllDispute();
         IEnumerable<DisputeViewModels> Getcomstatus();
+        Task<IEnumerable<DisputeViewModels>> getAllAsync();
     }
 }

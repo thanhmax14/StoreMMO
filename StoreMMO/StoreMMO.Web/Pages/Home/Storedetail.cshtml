@@ -71,6 +71,9 @@
                     </ol>
                 </nav>
 
+                @{
+                    var longdes = "";
+                }
                 @foreach (var item in Model.ListDetail)
                 {
                     <div class="product-single-container product-single-default">
@@ -195,7 +198,7 @@
                                     <!---->
                                     <li>
                                         <b>Seller:</b>
-                                        <strong>@item.OwnerUserName</strong>
+                                        <a asp-page="/home/viewaccountdetail" asp-route-OwnerUserName="@item.OwnerUserName"><strong>@item.OwnerUserName</strong></a>
                                     </li>
 
                                     <li>
@@ -224,6 +227,7 @@
                                             @{
                                                 var index = 0;
                                                 bool flags = false;
+                                                longdes = item.LongDescription;
                                             }
 
                                             @foreach (var product in item.ProductStock)
@@ -323,7 +327,7 @@
                                     @* <form method="post" >
                                         <button>Buy Now</button>
                                     </form> *@
-                                    <button onclick="byuys()"  >Buy Nosssssssw</button>
+                                    <button onclick="byuys()" class="btn btn-outline-primary btn-lg">Buy Now</button>
 
                                     
 
@@ -400,6 +404,13 @@
                                                 success: function (data) {
                                                     if(data.success){
                                                         console.log(data.message);
+                                                    }else{
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Add To Cart Erro!!',
+                                                            text: data.mess,
+                                                            showConfirmButton: true
+                                                        });
                                                     }
                                                  
                                                 },
@@ -543,7 +554,7 @@
                             <a class="nav-link active" id="product-tab-desc" data-toggle="tab" href="#product-desc-content" role="tab" aria-controls="product-desc-content" aria-selected="true">Description</a>
                         </li>
 
-                        <li class="nav-item">
+              @*           <li class="nav-item">
                             <a class="nav-link" id="product-tab-size" data-toggle="tab" href="#product-size-content" role="tab" aria-controls="product-size-content" aria-selected="true">Size Guide</a>
                         </li>
 
@@ -552,7 +563,7 @@
                                 Additional
                                 Information
                             </a>
-                        </li>
+                        </li> *@
 
                         <li class="nav-item">
                             <a class="nav-link" id="product-tab-reviews" data-toggle="tab" href="#product-reviews-content" role="tab" aria-controls="product-reviews-content" aria-selected="false">Reviews (1)</a>
@@ -562,28 +573,14 @@
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="product-desc-content" role="tabpanel" aria-labelledby="product-tab-desc">
                             <div class="product-desc-content">
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, nostrud ipsum consectetur sed do, quis nostrud exercitation ullamco laboris
-                                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat.
-                                </p>
-                                <ul>
-                                    <li>
-                                        Any Product types that You want - Simple, Configurable
-                                    </li>
-                                    <li>
-                                        Downloadable/Digital Products, Virtual Products
-                                    </li>
-                                    <li>
-                                        Inventory Management with Backordered items
-                                    </li>
-                                </ul>
-                                <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+                                <p>@longdes</p>
+                           
                             </div>
                             <!-- End .product-desc-content -->
                         </div>
                         <!-- End .tab-pane -->
 
-                        <div class="tab-pane fade" id="product-size-content" role="tabpanel" aria-labelledby="product-tab-size">
+                @*         <div class="tab-pane fade" id="product-size-content" role="tabpanel" aria-labelledby="product-tab-size">
                             <div class="product-size-content">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -645,10 +642,10 @@
                                 <!-- End .row -->
                             </div>
                             <!-- End .product-size-content -->
-                        </div>
+                        </div> *@
                         <!-- End .tab-pane -->
 
-                        <div class="tab-pane fade" id="product-tags-content" role="tabpanel" aria-labelledby="product-tab-tags">
+                      @*   <div class="tab-pane fade" id="product-tags-content" role="tabpanel" aria-labelledby="product-tab-tags">
                             <table class="table table-striped mt-2">
                                 <tbody>
                                     <tr>
@@ -672,7 +669,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        </div> *@
                         <!-- End .tab-pane -->
 
                         <div class="tab-pane fade" id="product-reviews-content" role="tabpanel" aria-labelledby="product-tab-reviews">
@@ -712,7 +709,7 @@
 
                                 <div class="divider"></div>
 
-                                <div class="add-product-review">
+                             @*    <div class="add-product-review">
                                     <h3 class="review-title">Add a review</h3>
 
                                     <form action="#" class="comment-form m-0">
@@ -774,7 +771,7 @@
 
                                         <input type="submit" class="btn btn-primary" value="Submit">
                                     </form>
-                                </div>
+                                </div> *@
                                 <!-- End .add-product-review -->
                             </div>
                             <!-- End .product-reviews-content -->

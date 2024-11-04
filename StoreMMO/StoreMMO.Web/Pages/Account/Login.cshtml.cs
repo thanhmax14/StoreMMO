@@ -16,6 +16,7 @@ namespace StoreMMO.Web.Pages.Account
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
+		
 
         public LoginModel(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
@@ -49,7 +50,7 @@ namespace StoreMMO.Web.Pages.Account
                     ModelState.AddModelError(string.Empty,"User not doesn't exit!");
                     return Page();
                 }
-                var user = checkByEmail ?? checkByUsername;
+                var user =  checkByEmail ??  checkByUsername;
                 var checkpwd = await this._userManager.CheckPasswordAsync(user, inputLogin.Password);
                 if (!checkpwd)
                 {
@@ -71,8 +72,9 @@ namespace StoreMMO.Web.Pages.Account
 					return Page();
 				}
 				await this._userManager.ResetAccessFailedCountAsync(user);
+
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, inputLogin.Password,
-                    inputLogin.RememberMe, lockoutOnFailure: false);
+					 inputLogin.RememberMe, lockoutOnFailure: false);
                
 				 if (result.IsLockedOut)
                 {
@@ -81,10 +83,18 @@ namespace StoreMMO.Web.Pages.Account
                 }
                 else if (result.Succeeded)
                 {
-                    HttpContext.Session.SetString("Email", user.Email);
-                    HttpContext.Session.SetString("UserName", user.UserName);
-                    HttpContext.Session.SetString("UserID", user.Id);
-                    return RedirectToPage("/Index");
+				   var checkRole = await this._userManager.GetRolesAsync(user);
+                    if(checkRole.Contains("Admin"))
+                    {
+                        return RedirectToPage("/Admin/Index");
+                    }
+                        else
+                    {
+                        HttpContext.Session.SetString("Email", user.Email);
+                        HttpContext.Session.SetString("UserName", user.UserName);
+                        HttpContext.Session.SetString("UserID", user.Id);
+                        return RedirectToPage("/Index");
+                    }
 				}
                 else
                 {
@@ -142,7 +152,7 @@ namespace StoreMMO.Web.Pages.Account
 				}
 
 				ModelState.AddModelError(string.Empty, "Email này đã được đăng ký. Vui lòng đăng nhập bằng tài khoản email hoặc liên hệ hỗ trợ.");
-				return RedirectToPage("./Login");
+				return Page();
 			}
 
 			user = new AppUser { UserName = email, Email = email, EmailConfirmed = true };

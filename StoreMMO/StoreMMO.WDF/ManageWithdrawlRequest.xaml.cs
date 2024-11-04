@@ -1,5 +1,4 @@
-﻿using StoreMMO.WDF.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,16 +15,14 @@ using System.Windows.Shapes;
 
 namespace StoreMMO.WDF
 {
-    /// <summary>
-    /// Interaction logic for StoreTypeList.xaml
-    /// </summary>
-    public partial class StoreTypeList : Page
-    {
-        public StoreTypeList(StoreTypeListViewModel viewModel)
-        {
-            InitializeComponent();
-            DataContext = viewModel;
-            viewModel.loadData();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for ManageWithdrawlRequest.xaml
+	/// </summary>
+	public partial class ManageWithdrawlRequest : Page
+	{
+		public ManageWithdrawlRequest()
+		{
+			InitializeComponent();
+		}
+	}
 }

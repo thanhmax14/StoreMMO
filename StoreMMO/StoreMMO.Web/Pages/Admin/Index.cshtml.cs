@@ -2,6 +2,7 @@
 using BusinessLogic.Services.StoreMMO.Core.SellerDashBoard;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,15 @@ namespace StoreMMO.Web.Pages.Admin
         this._sellerDashBoardService = sellerDashBoardService;
         }
 
-        //  string UserId = HttpContext.Session.GetString("UserID");
-        string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
+
+
+        public IEnumerable<TopStoreViewModels> list = new List<TopStoreViewModels>();
+
+        public async void OnGet()
+        {
+             list = await _Puchase.TopStore();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostData(string filter)

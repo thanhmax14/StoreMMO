@@ -16,16 +16,16 @@ using System.Windows.Shapes;
 
 namespace StoreMMO.WDF
 {
-    /// <summary>
-    /// Interaction logic for StoreTypeList.xaml
-    /// </summary>
-    public partial class StoreTypeList : Page
-    {
-        public StoreTypeList(StoreTypeListViewModel viewModel)
-        {
-            InitializeComponent();
-            DataContext = viewModel;
-            viewModel.loadData();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for HiddenStoreList.xaml
+	/// </summary>
+	public partial class HiddenStoreList : Page
+	{
+		public HiddenStoreList(HiddenStoreListViewModel viewModel)
+		{
+			InitializeComponent();
+			DataContext = viewModel;
+			viewModel.LoadData();
+		}
+	}
 }

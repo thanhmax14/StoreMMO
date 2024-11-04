@@ -23,5 +23,7 @@ namespace StoreMMO.Core.Repositories.Purchase
         Task<List<TransactionSummary>> GetMonth();
         Task<List<TransactionSummary>> GetMonthInYear();
         Task<List<TransactionSummary>> GetAllYear();
+
+        Task<List<TopStoreViewModels>> TopStore();
     }
 }

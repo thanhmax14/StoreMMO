@@ -113,14 +113,15 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 // Cấu hình Cookie
-/*builder.Services.ConfigureApplicationCookie(options => {
-    // options.Cookie.HttpOnly = true;  
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-    options.LoginPath = $"/login/";
-    options.LogoutPath = $"/logout/";
-  //  options.AccessDeniedPath = $"/";
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	options.LoginPath = "/Account/Login";
+	options.LogoutPath = "/Account/Logout";
+	options.ExpireTimeSpan = TimeSpan.FromDays(14); // Thời gian lưu cookie khi chọn Remember Me
+	options.SlidingExpiration = true;
 });
-*/
+
+
 
 // Mail Service
 var mailsettings = builder.Configuration.GetSection("MailSettings");

@@ -46,7 +46,7 @@ namespace StoreMMO.WDF.ViewModels
                 if (_SelectUser != null)
                 {
                     FullNameInfo = _SelectUser.FullName;
-                    CreateDateInfo = (DateTime)_SelectUser.CreatedDate.Value;
+                    CreateDateInfo = (DateTime)_SelectUser.CreatedDate;
                     EmailInfo = _SelectUser.Email;
                     UserNameInfo = _SelectUser.UserName;
                     PhoneInfo = _SelectUser.PhoneNumber;
