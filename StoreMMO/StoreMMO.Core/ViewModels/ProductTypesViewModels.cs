@@ -9,6 +9,9 @@ namespace StoreMMO.Core.ViewModels
     public class ProductTypesViewModels
     {
         public string Id { get; set; }
+        public string? StoreDetailId { get; set; }
+        public string ProductConnectId { get; set; }
+
 
         public string Name { get; set; }
 

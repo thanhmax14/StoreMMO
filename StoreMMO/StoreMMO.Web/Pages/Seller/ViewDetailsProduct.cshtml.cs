@@ -25,7 +25,9 @@ namespace StoreMMO.Web.Pages.Seller
         [BindProperty]
         public IEnumerable<ProductViewModels> Products { get; set; } // Sử dụng danh sách thay vì đối tượng đơn
         [BindProperty]
-        public string ProductTypeName { get; set; }  // Để hiển thị tên loại sản phẩm
+        public string ProductTypeName { get; set; }
+        [BindProperty]
+        public string ProductTypeId { get; set; } // Để hiển thị tên loại sản phẩm
 
         public void OnGet(string id)
         {
@@ -34,6 +36,7 @@ namespace StoreMMO.Web.Pages.Seller
             if (productType != null)
             {
                 ProductTypeName = productType.Name; // Gán tên loại sản phẩm
+                ProductTypeId = productType.Id;
             }
 
             // Lấy danh sách sản phẩm dựa trên ProductTypeID
@@ -41,7 +44,10 @@ namespace StoreMMO.Web.Pages.Seller
 
             if (productsList != null)
             {
-                Products = _mapper.Map<IEnumerable<ProductViewModels>>(productsList); // Ánh xạ sang ProductViewModels
+                Products = _mapper.Map<IEnumerable<ProductViewModels>>(productsList)
+                      .OrderByDescending(x => x.Status == "New")
+                      .ThenByDescending(x => x.Status == "Paid");
+                // Ánh xạ sang ProductViewModels
             }
         }
         public IActionResult OnPost(string id, string account, string pwd, string status)

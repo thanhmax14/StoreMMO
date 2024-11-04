@@ -13,6 +13,7 @@ namespace StoreMMO.Web.Pages.Admin
         {
             _storeService = storeService;
         }
+
         public IEnumerable<StoreViewModels> list = new List<StoreViewModels>();
         [BindProperty]
         public string id { get; set; }

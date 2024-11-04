@@ -20,7 +20,7 @@ namespace StoreMMO.Core.Repositories.ProductsConnect
         {
             var viewModel = new ProductConnect
             {
-                Id = productConnect.Id,
+                Id = Guid.NewGuid().ToString(),
                 StoreDetailId = productConnect.StoreDetailId,
                 ProductTypeId = productConnect.ProductId,
             };

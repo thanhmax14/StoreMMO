@@ -1,5 +1,4 @@
-﻿using StoreMMO.WDF.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,16 +15,14 @@ using System.Windows.Shapes;
 
 namespace StoreMMO.WDF
 {
-    /// <summary>
-    /// Interaction logic for UserAccount.xaml
-    /// </summary>
-    public partial class UserAccount : Page
-    {
-        public UserAccount(UserAccountViewModel viewModel)
-        {
-            InitializeComponent();
-            DataContext = viewModel;
-            viewModel.LoadDataAsync();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for HiddenStoreList.xaml
+	/// </summary>
+	public partial class HiddenStoreList : Page
+	{
+		public HiddenStoreList()
+		{
+			InitializeComponent();
+		}
+	}
 }

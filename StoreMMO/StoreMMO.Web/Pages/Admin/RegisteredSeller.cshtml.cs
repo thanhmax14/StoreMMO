@@ -94,7 +94,7 @@ namespace StoreMMO.Web.Pages.Admin
             if (find != null)
             {
                     // Accept logic: Cập nhật IsSeller thành true
-                    find.IsSeller = true;
+                    find.IsSeller = false;
 
                     var update = await _userManager.UpdateAsync(find);
 

@@ -24,16 +24,27 @@ namespace StoreMMO.Web.Pages.Seller
         }
         [TempData]
         public string fail { get; set; }
+
+        [BindProperty]
+        public string ProductTypeName { get; set; }
+
+        [BindProperty]
+        public string ProductTypeId { get; set; } // Để lưu ID loại sản phẩm
         [BindProperty]
         public InputProductViewModel CreateProduct { get; set; }  // Sử dụng đối tượng đơn thay vì IEnumerable
         [BindProperty]
         public IEnumerable<ProductType> ProductTypes { get; set; }
         public void OnGet(string id)
         {
-            // Lấy danh sách ProductType
-            ProductTypes = _productTypeService.GetAllProduct();
-            
-            
+            var ProductType = _productTypeService.getByIDProduct(id);
+            if (ProductType != null)
+            {
+                CreateProduct = new InputProductViewModel
+                {
+                    ProductTypeId = ProductType.Id,
+                    ProductTypeName = ProductType.Name,
+                };
+            }
         }
 
         public IActionResult OnPost()
@@ -46,7 +57,10 @@ namespace StoreMMO.Web.Pages.Seller
             // Thực hiện việc tạo product
             var productViewModels = _mapper.Map<ProductViewModels>(CreateProduct); // Map từ InputProductViewModel sang Product
             productViewModels.Status = "New";
-            if (CreateProduct.Account == productViewModels.Account)
+            var account = productViewModels.Account;
+            var productTypeId = productViewModels.ProductTypeId;
+            var existingProduct = _productService.GetByAccount(account, productTypeId); 
+            if (existingProduct != null)
             {
                 // Thêm thông báo lỗi vào ModelState
                 fail = "Account already";
@@ -63,13 +77,14 @@ namespace StoreMMO.Web.Pages.Seller
                     stockValue++; // Tăng giá trị Stock lên 1
                     existingProductType.Stock = stockValue.ToString(); // Chuyển lại thành string
                     _productTypeService.Update(existingProductType); // Cập nhật sản phẩm
+                    _productService.AddProduct(productViewModels);
                 }
             }
             else
             {
                 // Nếu không tìm thấy loại sản phẩm, thêm sản phẩm mới
                 existingProductType.Stock = "1"; // Đặt stock ban đầu nếu là sản phẩm mới
-                _productService.AddProduct(productViewModels);
+                _productTypeService.AddProduct(existingProductType);
             }
 
             // Redirect về trang Index sau khi tạo thành công

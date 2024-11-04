@@ -86,5 +86,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.Purchases
         {
             this._purchase.SaveProductToSession(product);
         }
+
+        public async Task<List<TopStoreViewModels>> TopStore()
+        {
+           return await _purchase.TopStore();
+        }
     }
 }
