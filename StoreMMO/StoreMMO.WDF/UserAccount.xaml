@@ -40,7 +40,7 @@
                         <GridViewColumn Header="Create Date" Width="150">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding CreateDate}" Width="150" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding CreateDate, StringFormat='{}{0:dd/MM/yyyy}'}" Width="150" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -121,7 +121,7 @@
                 <WrapPanel Margin="0,0,0,5">
                     <TextBlock VerticalAlignment="Center" Width="250" TextAlignment="Right" FontSize="16" FontWeight="Bold">Role Name:</TextBlock>
                     <ComboBox 
-        SelectedItem="{Binding RoleInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+        Text="{Binding RoleInfo, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
         Width="450" 
         Height="30" 
         Margin="5,0,0,0" 

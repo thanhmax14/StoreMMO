@@ -11,5 +11,6 @@ namespace StoreMMO.Core.Repositories.Disputes
     {
         IEnumerable<DisputeViewModels> getAllDispute();
         IEnumerable<DisputeViewModels> Getcomstatus();
+         Task<IEnumerable<DisputeViewModels>> getAllAsync();
     }
 }

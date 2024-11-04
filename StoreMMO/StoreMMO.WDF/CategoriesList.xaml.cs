@@ -25,6 +25,7 @@ namespace StoreMMO.WDF
         {
             InitializeComponent();
             DataContext = categoryViewModel;
+            categoryViewModel.loadData();
 
         }
     }

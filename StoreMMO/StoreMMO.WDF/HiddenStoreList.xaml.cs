@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreMMO.WDF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,11 @@ namespace StoreMMO.WDF
 	/// </summary>
 	public partial class HiddenStoreList : Page
 	{
-		public HiddenStoreList()
+		public HiddenStoreList(HiddenStoreListViewModel viewModel)
 		{
 			InitializeComponent();
+			DataContext = viewModel;
+			viewModel.LoadData();
 		}
 	}
 }
