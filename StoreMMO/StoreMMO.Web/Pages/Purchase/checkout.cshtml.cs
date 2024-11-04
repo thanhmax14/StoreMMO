@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.IdentityModel.Tokens;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
+using StoreMMO.Web.Models.ViewModels;
 using System.Linq;
 
 namespace StoreMMO.Web.Pages.Purchase
@@ -51,6 +52,7 @@ namespace StoreMMO.Web.Pages.Purchase
         public List<PurchaseItem> purchaseItems { get; set; } = new List<PurchaseItem>();
         [TempData]
         public string TotalPrice { get; set; } = "0";
+    
 
         public IActionResult OnGetAsync()
         {
@@ -65,7 +67,7 @@ namespace StoreMMO.Web.Pages.Purchase
                 return Page();
             }
         }
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostBuyAsync(string id)
         {
 
             var checkUser = HttpContext.Session.GetString("UserID");
@@ -80,6 +82,14 @@ namespace StoreMMO.Web.Pages.Purchase
 					var totalBuy = purchaseItems
 						   .Where(item => decimal.TryParse(item.total, out _))
 						   .Sum(item => decimal.Parse(item.total));
+                     
+                    var user = await this._manager.FindByIdAsync(checkUser);
+                        if(totalBuy > user.CurrentBalance)
+                    {
+                        return new JsonResult(new { success = false, message = "Ban Khong Du Tien De Mua Hang" });
+                    }
+
+
 					foreach (var item in purchaseItems)
                     {
                       
@@ -95,6 +105,9 @@ namespace StoreMMO.Web.Pages.Purchase
                             UserId = checkUser,
                             Status="PAID",
 						});
+
+
+
                         if (addbalane)
                         {
                             var finduse = await this._manager.FindByIdAsync(checkUser);
@@ -171,14 +184,29 @@ namespace StoreMMO.Web.Pages.Purchase
                                            await  this._productType.UpdateQuantity(1, getInfoByProductType.Id);
                                         }
                                     }
-                                    return Redirect("/Purchase/OrderComplete");
+                                    return new JsonResult(new { success = true, message = "/Purchase/OrderComplete" });
                                 }
+                                else
+                                {
+                                    return new JsonResult(new { success = false, message = "Don Hang Hien Tai Khong Du" });
+                                }
+
+
+
                             }
                         }
                     }
                 }
             }
-            return NotFound();
+           return new JsonResult(new { success = false, message = "Ban Phai Dang Nhap De Thu hien chuc nang nay "});
         }
-    }
+
+
+
+		
+
+
+
+
+	}
 }

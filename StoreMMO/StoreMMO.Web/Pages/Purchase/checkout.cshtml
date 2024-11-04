@@ -49,6 +49,9 @@
 </head>
 
 <body>
+    <form id="antiForgeryForm">
+        @Html.AntiForgeryToken()
+    </form>
     <div class="page-wrapper">
         <div class="top-notice bg-primary text-white">
             <div class="container text-center">
@@ -235,12 +238,37 @@
                     </tfoot>
                 </table>
 
+                                <button class="btn btn-dark btn-place-order" onclick="Bu()">Place Order</button>
+                                <script>
 
-                                <form method="post">
-                                    <button type="submit" class="btn btn-dark btn-place-order">
-                                        Place order
-                                    </button>
-                                </form>
+                                    function Bu() {
+                                        if (confirm("Are you sure you want to delete this student?")) {
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/purchase/checkout?handler=Buy",
+                                                beforeSend: function (xhr) {
+                                                    xhr.setRequestHeader("XSRF-TOKEN",
+                                                        $('#antiForgeryForm input[name="__RequestVerificationToken"]').val());
+                                                },
+                                                data: { "id": 100 },
+                                                success: function (response) {
+                                                    if (response.success) {
+                                                        window.location.href = '/Purchase/OrderComplete';
+                                                    } else {
+                                                        alert(response.message)
+                                                    }
+                                                },
+                                                failure: function (response) {
+                                                    alert("Failed: " + response.responseText);
+                                                },
+                                                error: function (response) {
+                                                    alert("Error: " + response.responseText);
+                                                }
+                                            });
+                                        }
+                                    }
+
+                                </script>
 
 
 

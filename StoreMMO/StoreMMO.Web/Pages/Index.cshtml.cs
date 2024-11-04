@@ -58,7 +58,7 @@ namespace StoreMMO.Web.Pages
 		}
 
 
-		public IActionResult OnPostAddToCart(int quan, string saveProID)
+		public async Task<IActionResult> OnPostAddToCart(int quan, string saveProID)
 		{
 			if (string.IsNullOrEmpty(saveProID) || int.IsNegative(quan))
 			{
@@ -68,12 +68,25 @@ namespace StoreMMO.Web.Pages
 			{
 				var cart = this._cartService.GetCartFromSession();
 				var getitem = this._cartService.getProductAddByID(saveProID);
+
 				if (getitem != null || !getitem.IsNullOrEmpty())
 
 				{
-					foreach (var item in getitem)
+					var getinfoProduct = await this._productApi.GetProductById(saveProID);
+
+                    if (int.Parse(getinfoProduct.Stock) <= cart.Sum(i => int.Parse(i.quantity)))
+                    {
+                        return new JsonResult(new { success = false, mess = "You add full quantity this product" });
+                    }
+
+
+                    foreach (var item in getitem)
 					{
 						double quantity = double.Parse(quan + "");
+						if (int.Parse(getinfoProduct.Stock) <= quantity)
+						{
+							return new JsonResult(new { success = false, mess = "You add full quantity this product" });
+						}
 						var temp = new CartItem
 						{
 							img = item.img,
@@ -135,7 +148,7 @@ namespace StoreMMO.Web.Pages
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public IActionResult OnPostAddPluts(string saveProID)
+		public async Task<IActionResult> OnPostAddPluts(string saveProID)
 		{
 			if (string.IsNullOrEmpty(saveProID))
 			{
@@ -150,7 +163,13 @@ namespace StoreMMO.Web.Pages
 				if (getitem != null || !getitem.IsNullOrEmpty())
 
 				{
-					foreach (var item in getitem)
+                    var getinfoProduct = await this._productApi.GetProductById(saveProID);
+
+                    if (int.Parse(getinfoProduct.Stock) <= cart.Sum(i => int.Parse(i.quantity)))
+                    {
+                        return new JsonResult(new { success = false, mess = "You add full quantity this product" });
+                    }
+                    foreach (var item in getitem)
 					{
 						var existingItem = cart.FirstOrDefault(u => u.productID == item.productID);
 						if (existingItem != null)
@@ -330,5 +349,14 @@ namespace StoreMMO.Web.Pages
                 }
             }
         }
-    }
+
+
+		public IActionResult OnPostGetTotalPrice(string saveProID)
+		{
+			var cart = this._cartService.GetCartFromSession();
+			var price = cart.Sum(u => decimal.Parse(u.subtotal));
+			return new JsonResult(new { success = true, total=""+ price });
+		}
+
+	}
 }
