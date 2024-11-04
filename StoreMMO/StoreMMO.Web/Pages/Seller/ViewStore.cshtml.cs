@@ -160,6 +160,5 @@ namespace StoreMMO.Web.Pages.Seller
                 return Page();
             }
         }
-
     }
 }

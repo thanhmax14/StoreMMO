@@ -4,6 +4,7 @@ using BusinessLogic.Services.Payments;
 using BusinessLogic.Services.StoreMMO.Core.Balances;
 using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
+using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Identity;
@@ -27,15 +28,19 @@ namespace StoreMMO.Web.Pages.Account
 		private readonly IOderDetailsService _detail;
 		private readonly IComplaintsService _complaints;
 		private readonly AppDbContext _context;
-		[BindProperty]
+        private readonly IProductService _product;
+        //public IEnumerable<ManageStoreViewModels> products = new List<ManageStoreViewModels>();
+        [BindProperty]
+		public IEnumerable<ManageStoreViewModels> storeSeller { get; set; }
 		public UserProfileViewModels UserProfile { get; set; }
 		private readonly PaymentLIb _pay;
 		private readonly CreateQR _createQR;
 		private readonly IBalanceService _balanceService;
 
-		public ProfileModel(AppDbContext context, UserManager<AppUser> userManager, IBalanceService balance, IPurchaseService purchase,
+		public ProfileModel(IProductService product, AppDbContext context, UserManager<AppUser> userManager, IBalanceService balance, IPurchaseService purchase,
 			IOderDetailsService order, IComplaintsService complaints, PaymentLIb paymentLIb, CreateQR create, IBalanceService balanceService)
 		{
+			_product = product;
 			_context = context;
 			_userManager = userManager;
 			this._balance = balance;
@@ -77,7 +82,8 @@ namespace StoreMMO.Web.Pages.Account
 			{
 				ViewData["IsSeller"] = false; // Nếu không tìm thấy người dùng, gán false
 			}
-		}
+			storeSeller = _product.ManageStore();
+        }
 
 		public async Task<IActionResult> OnPost()
 		{
@@ -277,7 +283,7 @@ namespace StoreMMO.Web.Pages.Account
 		}
     
     		public async Task LoadUserDataAsync(string userId)
-		{
+		    {
 			UserProfile = new UserProfileViewModels();
 
 			// Lấy thông tin người dùng
