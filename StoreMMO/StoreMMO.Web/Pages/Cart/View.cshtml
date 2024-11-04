@@ -538,8 +538,10 @@
 					success: function (data) {
 						if (data.success) {
 							console.log(data.message);
-							$("#quanitu-"+proid).val(data.quantity);
-							$("#subprice-"+proid).text("$" + data.subprice1);
+							$("#quanitu-" + proid).val(data.quantity);
+							$("#subprice-" + proid).text("$" + data.subprice1);
+						} else {
+							alert("loi");
 						}
 					},
 					error: function (error) {
@@ -585,9 +587,6 @@
 						if (data.success) {
 							OnPostAddMinus(Proid);
 						} else {
-
-
-
 							const swalWithBootstrapButtons = Swal.mixin({
 								customClass: {
 									confirmButton: "btn btn-success",
@@ -637,6 +636,7 @@
 	}
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Mirrored from www.portotheme.com/html/porto_ecommerce/cart.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 13 Sep 2024 11:14:22 GMT -->
 </html>

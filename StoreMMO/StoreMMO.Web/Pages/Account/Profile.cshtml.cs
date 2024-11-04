@@ -1,4 +1,4 @@
-﻿using BusinessLogic.Services.CreateQR;
+using BusinessLogic.Services.CreateQR;
 using BusinessLogic.Services.Encrypt;
 using BusinessLogic.Services.Payments;
 using BusinessLogic.Services.StoreMMO.Core.Balances;
@@ -48,7 +48,9 @@ namespace StoreMMO.Web.Pages.Account
 		}
 		[BindProperty]
 		public AppUser AppUser { get; set; }
-        public IEnumerable<BalanceViewModels> InfoBalance = new List<BalanceViewModels> ();
+		[BindProperty]
+		public withdrawViewModel input { get; set; }
+		public IEnumerable<BalanceViewModels> InfoBalance = new List<BalanceViewModels> ();
 		public IEnumerable<GetOrderByUserViewModel> InfOrderUser = new List<GetOrderByUserViewModel>();
 		public IEnumerable<GetOrderDetailsViewModel> InfoOrdeTailUser = new List<GetOrderDetailsViewModel>();
         [TempData]
@@ -79,15 +81,80 @@ namespace StoreMMO.Web.Pages.Account
 			}
 		}
 
-		public async Task<IActionResult> OnPost()
+		// Cập nhật phương thức OnPostWithdraw trong controller
+		public async Task<IActionResult> OnPostWithdraw(string number, string bank, string accountname, string amount)
+		{
+
+			var UserID = HttpContext.Session.GetString("UserID");
+			if (UserID != null)
+			{
+				var getinfo = await this._userManager.FindByIdAsync(UserID);
+
+				var fields = new Dictionary<string, string>
+	{
+		{ "Account number cannot be empty.", number },
+		{ "Bank cannot be empty.", bank },
+		{ "Account name cannot be empty.", accountname }
+	};
+				foreach (var field in fields)
+				{
+					if (string.IsNullOrWhiteSpace(field.Value))
+						return new JsonResult(new { success = false, message = field.Key });
+				}
+
+				if (string.IsNullOrWhiteSpace(amount) || !decimal.TryParse(amount, out decimal parsedAmount))
+				{
+					return new JsonResult(new { success = false, message = "Invalid amount." });
+				}
+
+				
+				if (parsedAmount > getinfo.CurrentBalance)
+				{
+					return new JsonResult(new { success = false, message = $"Amount must be less than or equal to {getinfo.CurrentBalance}." });
+				}
+
+				else
+				{
+					
+					if (getinfo != null)
+					{
+						getinfo.CurrentBalance -= decimal.Parse(amount);
+						var updatebalance = await this._userManager.UpdateAsync(getinfo);
+						if (updatebalance.Succeeded)
+						{
+							var add = await this._balance.AddAsync(new BalanceViewModels {
+							Amount = -decimal.Parse(amount),
+							Id = Guid.NewGuid().ToString(),
+							UserId = getinfo.Id,
+							TransactionType= "withdraw",
+							TransactionDate = DateTime.Now,
+							Description = $"withdraw to bank <b>{bank}</b> amount: {amount} &{bank}/{accountname}/{number}/{amount}",
+							Status = "PENDING",
+							});
+							if (add)
+							{
+								return new JsonResult(new { success = true, message = "Transaction successful" });
+							}
+						}
+					}
+				}
+			
+			}
+
+			return new JsonResult(new { success = false, message = "Please login before withdraw" });
+
+		}
+
+
+		public async Task<IActionResult> OnPostUpdatePro()
 		{
 			var email = HttpContext.Session.GetString("Email");
-			if (!ModelState.IsValid)
+		/*	if (!ModelState.IsValid)
 			{
 				// Trả về lỗi nếu dữ liệu không hợp lệ
 				return new JsonResult(new { success = false, message = "Invalid data!" });
 			}
-
+*/
 			var existingUser = await _userManager.FindByEmailAsync(email);
 
 			if (existingUser != null)
@@ -288,6 +355,7 @@ namespace StoreMMO.Web.Pages.Account
 				UserProfile.RegisteredDate = user.CreatedDate;
 			}
 
+		
 
 			// Tính tổng sản phẩm đã mua dưới dạng double
 			var productsPurchased = await _context.OrderDetails
