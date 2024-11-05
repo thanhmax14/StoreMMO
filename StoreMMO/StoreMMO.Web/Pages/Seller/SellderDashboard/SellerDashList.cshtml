@@ -535,27 +535,25 @@
                 <div class="col-lg-12">
                     <div class="row">
                         <!-- Sales Card -->
+                        <!-- Total Sold Orders Card -->
                         <div class="col-xxl-6 col-md-6">
                             <div class="card info-card sales-card">
                                 <div class="card-body">
                                     <h5 class="card-title">Reports <span>/ <span id="selectedFilter">Today</span></span></h5>
-                                    <!-- Filter Dropdown -->
-
-
                                     <div class="d-flex align-items-center">
                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                             <i class="bi bi-cart"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>@Model.todayOrderSummaries.TotalSoldOrders</h6>
+                                            <h6>@(Model.todayOrderSummaries.TotalSoldOrders.ToString() ?? "No orders")</h6>
                                             <span class="text-muted small pt-2 ps-1">Total Sold Orders</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- End Sales Card -->
-                        <!-- Revenue Card -->
+
+                        <!-- Total Revenue Card -->
                         <div class="col-xxl-6 col-md-6">
                             <div class="card info-card revenue-card">
                                 <div class="card-body">
@@ -565,13 +563,14 @@
                                             <i class="bi bi-currency-dollar"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>@Model.todayOrderSummaries.TotalRevenue.ToString()</h6>
+                                            <h6>@(Model.todayOrderSummaries.TotalRevenue.ToString() ?? "No revenue")</h6>
                                             <span class="text-muted small pt-2 ps-1">Total Revenue</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <!-- End Revenue Card -->
 
                         <div class="col-12">
