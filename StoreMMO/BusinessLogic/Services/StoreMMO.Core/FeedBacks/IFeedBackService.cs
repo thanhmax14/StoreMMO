@@ -8,7 +8,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.FeedBacks
     {
         IEnumerable<FeedBackViewModels> getAllFeedBack(string StoreOwnerId);
         FeedBackViewModels getByIdFeedBack(string id);
-        FeedBackViewModels AddFeedBacK(FeedBackViewModels feedBack);
+		 Task<FeedBackViewModels> AddFeedBacKAsync(FeedBackViewModels feedBack);
         FeedBackViewModels UpdatefeedBack(FeedBackViewModels feedBack);
 
         void DeleteFeedBack(string id);

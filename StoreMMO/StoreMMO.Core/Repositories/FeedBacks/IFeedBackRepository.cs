@@ -7,7 +7,7 @@ namespace StoreMMO.Core.Repositories.FeedBacks
     {
         IEnumerable<FeedBackViewModels> getAll(string StoreOwnerId);
         FeedBackViewModels getById(string id);
-        FeedBackViewModels AddFeedBacK(FeedBackViewModels feedBack);
+		 Task<FeedBackViewModels> AddFeedBacKAsync(FeedBackViewModels feedBack);
         FeedBackViewModels UpdatefeedBack(FeedBackViewModels feedBack);
 
         void DeleteFeedBack(string id);

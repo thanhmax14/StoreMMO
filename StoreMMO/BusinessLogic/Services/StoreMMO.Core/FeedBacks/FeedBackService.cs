@@ -12,9 +12,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.FeedBacks
         {
             _feedBackRepository = feedBackRepository;
         }
-        public FeedBackViewModels AddFeedBacK(FeedBackViewModels feedBack)
+        public async Task<FeedBackViewModels> AddFeedBacKAsync(FeedBackViewModels feedBack)
         {
-            return _feedBackRepository.AddFeedBacK(feedBack);
+            return await _feedBackRepository.AddFeedBacKAsync(feedBack);
         }
 
         public void DeleteFeedBack(string id)
