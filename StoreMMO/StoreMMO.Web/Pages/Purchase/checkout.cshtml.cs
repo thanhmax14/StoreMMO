@@ -139,6 +139,7 @@ namespace StoreMMO.Web.Pages.Purchase
 							}
 						}
 						var getInfo = this._productType.GetInfoByProductid(item.ProductID);
+
 						if (getInfo.Count() > 0 || !getInfo.IsNullOrEmpty())
 						{
 

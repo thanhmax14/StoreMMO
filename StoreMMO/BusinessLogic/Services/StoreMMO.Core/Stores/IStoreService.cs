@@ -18,6 +18,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
         IEnumerable<StoreSellerViewModels> getAllStoreSeller(string currentUserId);
         public StoreDetailViewModels UpdateStore(StoreDetailViewModels store);
         public StoreDetailViewModels getStoreDetailById(string id);
+        IEnumerable<CheckExitStore> checkExit(string userid);
     }
 }
 

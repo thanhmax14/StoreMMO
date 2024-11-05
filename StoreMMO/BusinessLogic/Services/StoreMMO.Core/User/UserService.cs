@@ -20,5 +20,11 @@ namespace BusinessLogic.Services.StoreMMO.Core.User
         {
             return _userRepository.GetlUserById(userId);
         }
+
+        public IEnumerable<getTotalSeller> getNumberBuy(string userId)
+        {
+          return this._userRepository.getNumberBuy(userId);
+        }
+
     }
 }

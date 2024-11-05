@@ -6,5 +6,7 @@ namespace StoreMMO.Core.Repositories.User
     {
         IEnumerable<UserViewModel> GetAllUser(bool isDelete);
         IEnumerable<UserViewModel> GetlUserById(string userId);
+        IEnumerable<getTotalSeller>  getNumberBuy(string userId);
+       
     }
 }

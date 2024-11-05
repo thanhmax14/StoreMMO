@@ -20,13 +20,19 @@ namespace StoreMMO.Web.Pages.Home
         public IPagedList<StoreViewModels> storeView { get; set; }
         public string CurrentFilter { get; set; }
         public int CurrentPageSize { get; set; }
-
-        public async Task OnGetAsync(string searchString, int? page, int? count, string cat)
+       public List<CategoryViewModels> listCat { get; set; }
+        public async Task OnGetAsync(string searchString, int? page, int? count, string cat, string username)
         {
             CurrentFilter = searchString;
             CurrentPageSize = count ?? 12;
             int pageNumber = page ?? 1;
             var stores = await _storeApi.GetStoresAsync("1");
+            var categoryJson = HttpContext.Session.GetString("ListCate");
+          
+            if (!string.IsNullOrEmpty(categoryJson))
+            {
+                listCat = System.Text.Json.JsonSerializer.Deserialize<List<CategoryViewModels>>(categoryJson);
+            }
 
             if (!string.IsNullOrEmpty(searchString))
             {
@@ -40,6 +46,12 @@ namespace StoreMMO.Web.Pages.Home
             if (!string.IsNullOrEmpty(cat))
             {
                 stores = stores.Where(s => s.catename.ToLower().Contains(cat.ToLower())).ToList();
+            }
+
+            // Lọc theo username
+            if (!string.IsNullOrEmpty(username))
+            {
+                stores = stores.Where(s => s.UserName.ToLower().Contains(username.ToLower())).ToList();
             }
 
             storeView = stores.ToPagedList(pageNumber, CurrentPageSize);
