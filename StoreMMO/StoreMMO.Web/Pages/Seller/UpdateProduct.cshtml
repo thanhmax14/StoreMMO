@@ -402,14 +402,7 @@
                 </ol>
             </nav>
         </div><!-- End Page Title --> *@
-        @{
-            var StoreDetailsId = Model.EditProduct.FirstOrDefault();
-        }
-        @if (StoreDetailsId != null)
-        {
-            <a asp-page="/Seller/CreateProductType" asp-route-id="@StoreDetailsId.StoreDetailId" class="btn btn-success">Create ProductTyPe</a>
-
-        }
+       
 
         <section class="section">
             <div class="row">
@@ -417,6 +410,14 @@
 
                     <div class="card">
                         <div class="card-body">
+                            @{
+                                var StoreDetailsId = Model.EditProduct.FirstOrDefault();
+                            }
+                            @if (StoreDetailsId != null)
+                            {
+                                <a asp-page="/Seller/CreateProductType" asp-route-id="@StoreDetailsId.StoreDetailId" class="btn btn-success">Create ProductTyPe</a>
+
+                            }
                             <h5 class="card-title">Manage ProductType</h5>
 
                             <!-- Table with stripped rows -->
