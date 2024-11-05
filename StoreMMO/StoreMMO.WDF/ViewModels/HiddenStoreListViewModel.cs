@@ -58,7 +58,8 @@ namespace StoreMMO.WDF.ViewModels
             var storeToUpdate = new StoreAddViewModels
             {
                 Id = _SelectItem.storeID,
-                IsAccept = "1" // Cập nhật trạng thái IsAccept
+				UserId = _SelectItem.userid,
+				IsAccept = "1" // Cập nhật trạng thái IsAccept
             };
 
             // Gọi dịch vụ để cập nhật store

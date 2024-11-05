@@ -1,5 +1,4 @@
-﻿using StoreMMO.WDF.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,21 +10,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace StoreMMO.WDF
 {
 	/// <summary>
-	/// Interaction logic for ManageWithdrawlRequest.xaml
+	/// Interaction logic for RejectReasonDialog.xaml
 	/// </summary>
-	public partial class ManageWithdrawlRequest : Page
+	public partial class RejectReasonDialog : Window
 	{
-		public ManageWithdrawlRequest(ManageWithdrawlRequestViewModel viewModel)
+		public string Reason => ReasonTextBox.Text;
+		public RejectReasonDialog()
 		{
 			InitializeComponent();
-			DataContext = viewModel;
-			 viewModel.LoadData();	
 		}
-	}
+
+		private void btnDialogOk_Click(object sender, RoutedEventArgs e)
+		{
+			DialogResult = true; // Đóng dialog và trả về true
+			Close();
+		}
+    }
 }
