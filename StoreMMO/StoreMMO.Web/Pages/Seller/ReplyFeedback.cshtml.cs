@@ -25,8 +25,6 @@ namespace StoreMMO.Web.Pages.Seller
         public IActionResult OnGet(string feedbackID)
         {
             list = this._feedBackService.getFeedbackCustomerById(feedbackID);
-
-
             return Page();
         }
         public async Task<IActionResult> OnPost()
