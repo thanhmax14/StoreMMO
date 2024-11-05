@@ -3,9 +3,11 @@ using BusinessLogic.Services.Encrypt;
 using BusinessLogic.Services.Payments;
 using BusinessLogic.Services.StoreMMO.Core.Balances;
 using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
+using BusinessLogic.Services.StoreMMO.Core.FeedBacks;
 using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
 using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
+using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +31,9 @@ namespace StoreMMO.Web.Pages.Account
 		private readonly IComplaintsService _complaints;
 		private readonly AppDbContext _context;
         private readonly IProductService _product;
+		private readonly IFeedBackService _feed;
+		private readonly IStoreDetailsService _storeDetailSe;
+
         //public IEnumerable<ManageStoreViewModels> products = new List<ManageStoreViewModels>();
       
 		public UserProfileViewModels UserProfile { get; set; }
@@ -36,17 +41,19 @@ namespace StoreMMO.Web.Pages.Account
 		private readonly CreateQR _createQR;
 		private readonly IBalanceService _balanceService;
 		public ProfileModel(AppDbContext context, UserManager<AppUser> userManager, IBalanceService balance, IPurchaseService purchase,
-			IOderDetailsService order, IComplaintsService complaints, PaymentLIb paymentLIb)
+			IOderDetailsService order, IComplaintsService complaints, PaymentLIb paymentLIb, IFeedBackService feed, IStoreDetailsService storeDetailSe)
 		{
 			_context = context;
 			_userManager = userManager;
 			this._balance = balance;
-			this._pur= purchase;
+			this._pur = purchase;
 			this._detail = order;
 			this._complaints = complaints;
 			this._pay = paymentLIb;
-			
+
 			this._balanceService = balance;
+			_feed = feed;
+			_storeDetailSe = storeDetailSe;
 		}
 		[BindProperty]
 		public AppUser AppUser { get; set; }
@@ -389,5 +396,63 @@ namespace StoreMMO.Web.Pages.Account
 				return quantity;
 			});
 		}
+
+		public async Task<IActionResult> OnPostSendFeedback(string orderID, int rating, string feedbackContent)
+		{
+			if (string.IsNullOrWhiteSpace(orderID))
+			{
+				return BadRequest(new { success = false, message = "Order ID is required." });
+			}
+
+			if (rating < 1 || rating > 5)
+			{
+				return BadRequest(new { success = false, message = "Please provide a valid rating between 1 and 5." });
+			}
+
+			if (string.IsNullOrWhiteSpace(feedbackContent))
+			{
+				return BadRequest(new { success = false, message = "Feedback content is required." });
+			}
+
+			var getInfoOrder = this._pur.GetByID(orderID);
+			 if(getInfoOrder != null)
+			{
+				var getStoreDtail = this._storeDetailSe.GetByIdStoDetails1(getInfoOrder.StoreID);
+
+
+				var addFee = await  this._feed.AddFeedBacKAsync(new FeedBackViewModels
+				{
+					Id = Guid.NewGuid().ToString(),
+					Comments= feedbackContent,
+					CreatedDate = DateTime.Now,
+					IsActive = true,
+					Stars= rating,
+					StoreDetailId= getStoreDtail.Id,
+					OrderBuyId= getInfoOrder.ID,
+					UserId = getInfoOrder.UserID,
+					
+				});
+				if (addFee!=null)
+				{
+					getInfoOrder.Status = "PAID/yes";
+					var updator = this._pur.Edit(getInfoOrder);
+					if (updator)
+					{
+						return new JsonResult(new { success = true, message = "Feedback submitted successfully! Order ID: " + orderID });
+					}
+				}
+				;
+			}
+			return new JsonResult(new { success = false, message = "false" });
+
+
+		}
+
+
+
+
+
+
+
 	}
 }

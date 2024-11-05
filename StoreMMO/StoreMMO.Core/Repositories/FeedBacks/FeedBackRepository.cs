@@ -12,28 +12,31 @@ namespace StoreMMO.Core.Repositories.FeedBacks
         {
             _context = context;
         }
-        public FeedBackViewModels AddFeedBacK(FeedBackViewModels feedBack)
-        {
-            var feebBack1 = new FeedBack
-            {
-                Id = feedBack.Id,
-                UserId = feedBack.UserId,
-                StoreDetailId = feedBack.StoreDetailId,
-                Comments = feedBack.Comments,
-                CreatedDate = DateTime.Now,
-                Stars = feedBack.Stars,
-                Relay = feedBack.Relay,
-                DateRelay = feedBack.DateRelay,
-                IsActive = feedBack.IsActive,
-            };
-            _context.FeedBacks.Add(feebBack1);
-            _context.SaveChanges();
+		public async Task<FeedBackViewModels> AddFeedBacKAsync(FeedBackViewModels feedBack)
+		{
+			var feebBack1 = new FeedBack
+			{
+				Id = feedBack.Id,
+				UserId = feedBack.UserId,
+				StoreDetailId = feedBack.StoreDetailId,
+				Comments = feedBack.Comments,
+				CreatedDate = DateTime.Now,
+				Stars = feedBack.Stars,
+				Relay = feedBack.Relay,
+				DateRelay = feedBack.DateRelay,
+				IsActive = feedBack.IsActive,
+				OrderBuyId = feedBack.OrderBuyId
+			};
 
-            return feedBack;
+		 var add =	await _context.FeedBacks.AddAsync(feebBack1);
+            var tem = add;
+			var result = await _context.SaveChangesAsync();
 
-        }
+			return result > 0 ? feedBack : null; // Trả về feedBack nếu có thay đổi
+		}
 
-        public void DeleteFeedBack(string id)
+
+		public void DeleteFeedBack(string id)
         {
             var FindId = _context.FeedBacks.SingleOrDefault(x => x.Id == id);
             if (FindId == null)
