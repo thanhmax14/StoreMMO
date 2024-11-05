@@ -66,5 +66,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
             return this._storeRepo.getStoreDetailById(id);
         }
 
+        public IEnumerable<CheckExitStore> checkExit(string userid)
+        {
+            return this._storeRepo.checkExit(userid);
+        }
     }
 }

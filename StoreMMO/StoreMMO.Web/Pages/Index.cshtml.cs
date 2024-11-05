@@ -2,6 +2,7 @@
 using BusinessLogic.Services.StoreMMO.API;
 using BusinessLogic.Services.StoreMMO.Core.Carts;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
+using BusinessLogic.Services.StoreMMO.Core.Stores;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -23,21 +24,23 @@ namespace StoreMMO.Web.Pages
 		private readonly WishListApiService _wishListApi;
 		private readonly CategoryApiService _categoryApiService;
 		private readonly IPurchaseService _purchase;
+		private readonly IStoreService _storeService;
 
 
-		public IndexModel(StoreApiService storeApiService, ProductApiService productApi,
-			ICartService cartService, WishListApiService wishListApi, CategoryApiService categoryApiService
-			, IPurchaseService purchaseService)
-		{
-			this._storeApi = storeApiService;
-			this._productApi = productApi;
-			this._cartService = cartService;
-			this._wishListApi = wishListApi;
-			_categoryApiService = categoryApiService;
-			this._purchase = purchaseService;
-		}
+        public IndexModel(StoreApiService storeApiService, ProductApiService productApi,
+            ICartService cartService, WishListApiService wishListApi, CategoryApiService categoryApiService
+            , IPurchaseService purchaseService, IStoreService storeService)
+        {
+            this._storeApi = storeApiService;
+            this._productApi = productApi;
+            this._cartService = cartService;
+            this._wishListApi = wishListApi;
+            _categoryApiService = categoryApiService;
+            this._purchase = purchaseService;
+            _storeService = storeService;
+        }
 
-		public List<StoreViewModels> storeView = new List<StoreViewModels>();
+        public List<StoreViewModels> storeView = new List<StoreViewModels>();
 		public List<WishListViewModels> wishList = new List<WishListViewModels>();
 		public List<WishListViewModels> wishnew = new List<WishListViewModels>();
 		public async Task OnGetAsync()
@@ -74,7 +77,7 @@ namespace StoreMMO.Web.Pages
 				{
 					var getinfoProduct = await this._productApi.GetProductById(saveProID);
 
-					if (int.Parse(getinfoProduct.Stock) <= cart.Where(i => i.productID == saveProID).Sum(i => int.Parse(i.quantity)))
+					if (int.Parse(getinfoProduct.Stock) < cart.Where(i => i.productID == saveProID).Sum(i => int.Parse(i.quantity)))
 					{
                         return new JsonResult(new { success = false, mess = "You add full quantity this product" });
                     }
@@ -83,7 +86,7 @@ namespace StoreMMO.Web.Pages
                     foreach (var item in getitem)
 					{
 						double quantity = double.Parse(quan + "");
-						if (int.Parse(getinfoProduct.Stock) <= quantity)
+						if (int.Parse(getinfoProduct.Stock) <quantity)
 						{
 							return new JsonResult(new { success = false, mess = "You add full quantity this product" });
 						}
@@ -257,6 +260,10 @@ namespace StoreMMO.Web.Pages
 			{
 				var cart = this._cartService.GetCartFromSession();
 				var getitem = this._cartService.getProductAddByID(saveProID);
+
+				
+
+
 				if (getitem != null || !getitem.IsNullOrEmpty())
 
 				{
@@ -328,6 +335,13 @@ namespace StoreMMO.Web.Pages
 				else
 				{
                     var getitem = this._cartService.getProductAddByID(saveProID);
+                    var checkUser = HttpContext.Session.GetString("UserID");
+                    var getListFromUser = this._storeService.checkExit(checkUser);
+
+                    if (getListFromUser.Any(u => u.storeDetailid == getitem.First().storeDetailID))
+                    {
+                        return new JsonResult(new { success = false, mess = "Ban Khong The Mua Hang Cua Chinh Minh" });
+                    }
                     if (getitem != null || !getitem.IsNullOrEmpty())
 
                     {

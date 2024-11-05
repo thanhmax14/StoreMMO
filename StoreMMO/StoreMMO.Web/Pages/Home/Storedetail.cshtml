@@ -130,7 +130,7 @@
 
                             <div class="col-lg-7 col-md-6 product-single-details">
                                 <h1 class="product-title">@item.StoreName</h1>
-
+@* 
                                 <div class="product-nav">
                                     <div class="product-prev">
                                         <a href="#">
@@ -163,7 +163,7 @@
                                             </span>
                                         </a>
                                     </div>
-                                </div>
+                                </div> *@
 
                                 <div class="ratings-container">
                                     <div class="product-ratings">
@@ -198,7 +198,7 @@
                                     <!---->
                                     <li>
                                         <b>Seller:</b>
-                                        <a asp-page="/home/viewaccountdetail" asp-route-OwnerUserName="@item.OwnerUserName"><strong>@item.OwnerUserName</strong></a>
+                                        <a href="/home/viewaccountdetail?username=@item.OwnerUserName" ><strong>@item.OwnerUserName</strong></a>
                                     </li>
 
                                     <li>
@@ -495,9 +495,9 @@
                                 <hr class="divider mb-0 mt-0">
 
                                 <div class="product-single-share mb-2">
-                                    <label class="sr-only">Share:</label>
+                                  @*   <label class="sr-only">Share:</label> *@
 
-                                    <div class="social-icons mr-2">
+                                  @*   <div class="social-icons mr-2">
                                         <a href="#" class="social-icon social-facebook icon-facebook" target="_blank"
                                            title="Facebook"></a>
                                         <a href="#" class="social-icon social-twitter icon-twitter" target="_blank"
@@ -508,7 +508,7 @@
                                            title="Google +"></a>
                                         <a href="#" class="social-icon social-mail icon-mail-alt" target="_blank"
                                            title="Mail"></a>
-                                    </div>
+                                    </div> *@
                                     <!-- End .social-icons -->
 
                                     @{
@@ -782,7 +782,7 @@
                 </div>
                 <!-- End .product-single-tabs -->
 
-                <div class="products-section pt-0">
+           @*      <div class="products-section pt-0">
                     <h2 class="section-title">Related Products</h2>
 
                     <div class="products-slider owl-carousel owl-theme dots-top dots-small">
@@ -1037,12 +1037,12 @@
                         </div>
                     </div>
                     <!-- End .products-slider -->
-                </div>
+                </div> *@
                 <!-- End .products-section -->
 
                 <hr class="mt-0 m-b-5" />
 
-                <div class="product-widgets-container row pb-2">
+            @*     <div class="product-widgets-container row pb-2">
                     <div class="col-lg-3 col-sm-6 pb-5 pb-md-0">
                         <h4 class="section-sub-title">Featured Products</h4>
                         <div class="product-default left-details product-widget">
@@ -1410,7 +1410,7 @@
                             <!-- End .product-details -->
                         </div>
                     </div>
-                </div>
+                </div> *@
                 <!-- End .row -->
             </div>
             <!-- End .container -->

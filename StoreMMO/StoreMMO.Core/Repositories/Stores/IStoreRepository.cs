@@ -16,5 +16,6 @@ namespace StoreMMO.Core.Repositories.Stores
         public StoreDetailViewModels UpdateStore(StoreDetailViewModels store);
         
         public StoreDetailViewModels getStoreDetailById(string id);
+        IEnumerable<CheckExitStore> checkExit(string userid);
     }
 }

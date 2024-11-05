@@ -118,7 +118,7 @@
 				</div><!-- End .container -->
 			</div><!-- End .header-top --> *@
 
-			<div class="header-middle sticky-header" data-sticky-options="{'mobile': true}">
+	@* 		<div class="header-middle sticky-header" data-sticky-options="{'mobile': true}">
 				<div class="container">
 					<div class="header-left col-lg-2 w-auto pl-0">
 						<button class="mobile-menu-toggler text-primary mr-2" type="button">
@@ -272,7 +272,7 @@
 						</div><!-- End .dropdown -->
 					</div><!-- End .header-right -->
 				</div><!-- End .container -->
-			</div><!-- End .header-middle -->
+			</div> *@
 
 		@* 	<div class="header-bottom sticky-header d-none d-lg-block" data-sticky-options="{'mobile': false}">
 				<div class="container">
@@ -483,10 +483,7 @@
 									
 							</li>
 
-							<li class="nav-item">
-								<a class="nav-link" id="address-tab" data-toggle="tab" href="#address" role="tab"
-									aria-controls="address" aria-selected="false">Addresses</a>
-							</li>
+							
 							<li class="nav-item" style="display:none">
 								<a class="nav-link" id="OrderDetail-tab" data-toggle="tab" href="#OrderDetail" role="tab"
 								   aria-controls="edit" aria-selected="false">
@@ -504,32 +501,17 @@
 									aria-controls="edit" aria-selected="false">Register Seller</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="wishlist.html">Wishlist</a>
+								<a class="nav-link" href="/wishlist/view">Wishlist</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="login.html">Logout</a>
+								<a class="nav-link" href="">Logout</a>
 							</li>
 						</ul>
 					</div>
 					<div class="col-lg-9 order-lg-last order-1 tab-content">
 						<div class="tab-pane fade show active" id="dashboard" role="tabpanel">
 							<div class="dashboard-content">
-								<p>
-									Hello <strong class="text-dark">Editor</strong> (not
-									<strong class="text-dark">Editor</strong>?
-									<a href="login.html" class="btn btn-link ">Log out</a>)
-								</p>
-
-								<p>
-									From your account dashboard you can view your
-									<a class="btn btn-link link-to-tab" href="#order">recent orders</a>,
-									manage your
-									<a class="btn btn-link link-to-tab" href="#address">shipping and billing
-										addresses</a>, and
-									<a class="btn btn-link link-to-tab" href="#edit">edit your password and account
-										details.</a>
-								</p>
-
+							
 								<div class="mb-4"></div>
 
 								<div class="row row-lg">
@@ -548,20 +530,12 @@
 											<a href="#download" class="link-to-tab"><i
 													class="sicon-cloud-download"></i></a>
 											<div class=" feature-box-content">
-												<h3>DOWNLOADS</h3>
+												<h3>Balance</h3>
 											</div>
 										</div>
 									</div>
 
-									<div class="col-6 col-md-4">
-										<div class="feature-box text-center pb-4">
-											<a href="#address" class="link-to-tab"><i
-													class="sicon-location-pin"></i></a>
-											<div class="feature-box-content">
-												<h3>ADDRESSES</h3>
-											</div>
-										</div>
-									</div>
+									
 
 									<div class="col-6 col-md-4">
 										<div class="feature-box text-center pb-4">
@@ -583,7 +557,7 @@
 
 									<div class="col-6 col-md-4">
 										<div class="feature-box text-center pb-4">
-											<a href="login.html"><i class="sicon-logout"></i></a>
+											<a href=""><i class="sicon-logout"></i></a>
 											<div class="feature-box-content">
 												<h3>LOGOUT</h3>
 											</div>
@@ -596,7 +570,7 @@
 							<div class="order-content">
 								<h3 class="account-sub-title d-none d-md-block">
 									<i class="sicon-social-dropbox align-middle mr-3"></i>
-									<button class="btn btn-outline-primary btn-lg">Hello</button>
+									
 								</h3>
 
 								<div class="order-table-container text-center">
@@ -627,6 +601,7 @@
 												<th onclick="sortTable(7)">Total Price</th>
 												<th onclick="sortTable(8)">Status</th>
 												<th>ACTIONS</th>
+												<th>Feedback</th>
 											</tr>
 										</thead>
 										<tbody id="tableBody">
@@ -647,31 +622,32 @@
 											@if (Model.InfOrderUser != null && Model.InfOrderUser.Count() > 0)
 											{
 												var count = 1;
-												foreach (var item in Model.InfOrderUser)
-												{
-													<tr>
-														<td>@count</td>
-														<td>@item.OrderCode</td>
-														<td>@item.OrderDate</td>
-														<td>@item.StoreName</td>
-														<td>@item.ProName</td>
-														<td>@item.Seller</td>
-														<td>@item.Quantity</td>
-														<td>@item.TotalPrice</td>
+													foreach (var item in Model.InfOrderUser)
+													{
+														<tr>
+															<td>@count</td>
+															<td>@item.OrderCode</td>
+															<td>@item.OrderDate</td>
+															<td>@item.StoreName</td>
+															<td>@item.ProName</td>
+															<td><a href="/home/viewaccountdetail?username=@item.Seller">@item.Seller</a></td>
+															<td>@item.Quantity</td>
+															<td>@item.TotalPrice</td>
+															<td> @item.Status</td>
+															<td><button onclick="ViewDetail('@item.OrderID')" class="btn btn-outline-primary btn-xs">View Details</button></td>
+															<td>
 
-
-
-														<td> <button class="btn btn-outline-primary btn-xs">@item.Status</button></td>
-														<td><button onclick="ViewDetail('@item.OrderID')" class="btn btn-outline-primary btn-xs">View Details</button></td>
-
-													</tr>
-													count++;
-												}
+																<button class="btn btn-outline-primary btn-xs">Send FeedBack</button>
+															
+															</td>
+														</tr>
+														count++;
+													}
 											}
 											else
 											{
 												<tr>
-													<td class="text-center p-0" colspan="10">
+													<td class="text-center p-0" colspan="11">
 														<p class="mb-5 mt-5">
 															No Order has been made yet.
 														</p>
@@ -1636,6 +1612,10 @@ s
 									name="acc-password" />
 									</div>
 
+
+									<div class="form-footer mt-2 mb-0">
+										
+
 									<div class="form-group">
 									<label for="acc-password">New Password (leave blank to leave
 									unchanged)</label>
@@ -1654,6 +1634,7 @@ s
 										<button type="submit" class="btn btn-dark btn-save-changes">
 											Save changes
 										</button>
+
 									</div>
 								</form>
 							</div>

@@ -88,20 +88,20 @@
                             Order Number <mark class="font-weight-bold order-number">5703</mark>
                         </div>
                         <div class="woocommerce-order-overview__status status order-item">
-                            Status <mark class="font-weight-bold order-status text-primary text-uppercase">On
-                                hold</mark>
+                            Status <mark class="font-weight-bold order-status text-primary text-uppercase">PAID</mark>
                         </div>
                         <div class="woocommerce-order-overview__date date order-item">
-                            Date <mark class="font-weight-bold order-date">October 19, 2024</mark>
+                            Date <mark class="font-weight-bold order-date">@DateTime.Now </mark>
                         </div>
                         <div class="woocommerce-order-overview__total total order-item">
                             Total <mark class="font-weight-bold order-total"><span
-                                    class="woocommerce-Price-amount amount"><span
-                                        class="woocommerce-Price-currencySymbol">$</span>299.00</span></mark>
+                                    class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>@Model.purchaseItems.Sum(u => int.Parse(u.total))
+                                </span>
+                            </mark>
                         </div>
 
                         <div class="woocommerce-order-overview__payment-method method order-item">
-                            Payment method: <mark class="font-weight-bold order-status">Direct bank transfer</mark>
+                            Payment method: <mark class="font-weight-bold order-status">Balance Wallet</mark>
                         </div>
                     </div>
 
@@ -115,26 +115,34 @@
                                 class="woocommerce-table woocommerce-table--order-details shop_table order_details text-v-dark">
                                 <thead>
                                     <tr>
-                                        <th class="woocommerce-table__product-name product-name" colspan="2">Product
+                                       @*  <th class="woocommerce-table__product-name product-name" colspan="2">@Model.purchaseItems.First().storeName *@
                                         </th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <tr class="woocommerce-table__line-item order_item">
 
-                                        <td class="woocommerce-table__product-name product-name">
-                                            <a
-                                                href="https://www.portotheme.com/wordpress/porto/shop4/product/mens-shoulder-bags/">Men's
-                                                Shoulder Bags</a> <strong class="product-quantity">×&nbsp;1</strong>
-                                        </td>
+                                    @foreach(var item in Model.purchaseItems)
+                                    {
+                                        <tr class="woocommerce-table__line-item order_item">
 
-                                        <td class="woocommerce-table__product-total product-total">
-                                            <span class="woocommerce-Price-amount amount"><bdi><span
-                                                        class="woocommerce-Price-currencySymbol">$</span>299.00</bdi></span>
-                                        </td>
+                                            <td class="woocommerce-table__product-name product-name">
+                                                <a href="">
+                                                  @item.ProductName
+                                                </a> <strong class="product-quantity">×&nbsp;@item.quantity</strong>
+                                            </td>
 
-                                    </tr>
+                                            <td class="woocommerce-table__product-total product-total">
+                                                <span class="woocommerce-Price-amount amount">
+                                                    <bdi>
+                                                        <span class="woocommerce-Price-currencySymbol">$</span>@item.total
+                                                    </bdi>
+                                                </span>
+                                            </td>
+
+                                        </tr>
+                                    }
+                                   
 
                                 </tbody>
 
@@ -143,22 +151,24 @@
                                         <th scope="row">
                                             <h4 class="mb-0">Subtotal:</h4>
                                         </th>
-                                        <td><span class="woocommerce-Price-amount amount"><span
-                                                    class="woocommerce-Price-currencySymbol">$</span>299.00</span></td>
+                                        <td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>@Model.purchaseItems.Sum(u => int.Parse(u.total))
+                                            </span>
+                                        </td>
                                     </tr>
                                     
                                     <tr>
                                         <th scope="row">
                                             <h4 class="mb-0">Payment method:</h4>
                                         </th>
-                                        <td>Direct bank transfer</td>
+                                        <td>Balance Wallet</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">
                                             <h4 class="mb-0">Total:</h4>
                                         </th>
-                                        <td><span class="woocommerce-Price-amount amount"><span
-                                                    class="woocommerce-Price-currencySymbol">$</span>299.00</span></td>
+                                        <td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>@Model.purchaseItems.Sum(u => int.Parse(u.total))
+                                            </span>
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>

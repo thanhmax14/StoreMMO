@@ -30,8 +30,7 @@ namespace StoreMMO.Web.Pages.Account
 		private readonly AppDbContext _context;
         private readonly IProductService _product;
         //public IEnumerable<ManageStoreViewModels> products = new List<ManageStoreViewModels>();
-        [BindProperty]
-		public IEnumerable<ManageStoreViewModels> storeSeller { get; set; }
+      
 		public UserProfileViewModels UserProfile { get; set; }
 		private readonly PaymentLIb _pay;
 		private readonly CreateQR _createQR;

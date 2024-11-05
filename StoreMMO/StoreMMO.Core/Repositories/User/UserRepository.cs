@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 
@@ -29,5 +30,31 @@ namespace StoreMMO.Core.Repositories.User
             var list = this._context.Database.SqlQueryRaw<UserViewModel>(sql).ToList();
             return list;
         }
+
+        public IEnumerable<getTotalSeller> getNumberBuy(string userId)
+        {
+            // Truy vấn SQL với tham số
+            string sql = @"
+        SELECT 
+            (SELECT SUM(CAST(od.quantity AS int)) 
+             FROM OrderBuys ob 
+             JOIN OrderDetails od ON ob.ID = od.OrderBuyID
+             WHERE ob.UserID = @UserId) AS totalBuy,
+
+            (SELECT COUNT(*) 
+             FROM Stores 
+             WHERE Stores.IsAccept='1' and UserId = @UserId) AS totalStore,
+
+            (SELECT SUM(CAST(od.quantity AS int)) 
+             FROM OrderBuys ob 
+             JOIN OrderDetails od ON ob.ID = od.OrderBuyID
+             JOIN Stores s ON s.Id = ob.StoreID
+             WHERE s.UserId = @UserId) AS totalSold;";
+
+            // Thực thi truy vấn và truyền tham số
+            var list = this._context.Database.SqlQueryRaw<getTotalSeller>(sql, new SqlParameter("@UserId", userId)).ToList();
+            return list;
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
+using BusinessLogic.Services.StoreMMO.Core.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,6 +18,7 @@ namespace StoreMMO.Web.Pages.Home
         private readonly IMapper _mapper;
         private readonly IProductTypeService _productTypeService;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IUserServices _severce;
 
 
         public IEnumerable<ManageStoreViewModels> products = new List<ManageStoreViewModels>();
@@ -24,75 +26,54 @@ namespace StoreMMO.Web.Pages.Home
         private readonly AppDbContext _context;
         [BindProperty]
         public List<StoreDetailViewModel> ListDetail { get; set; }
-        public ViewAccountDetailModel(IProductService product, IMapper mapper, IProductTypeService productTypeService, UserManager<AppUser> userManager)
+        public ViewAccountDetailModel(IProductService product, IMapper mapper, IProductTypeService productTypeService,
+            UserManager<AppUser> userManager, IUserServices severce)
         {
             _product = product;
             _mapper = mapper;
             _productTypeService = productTypeService;
             _userManager = userManager;
+            this._severce = severce;
         }
 
         public UserProfileViewModels UserProfile { get; set; }
-        public AppUser info { get; set; }
+     public getInfoSeller infoSeller { get; set; }
         public async Task<IActionResult> OnGet(string username)
         {
-            info = await this._userManager.FindByNameAsync(username);
-            await LoadUserDataAsync(username);
-            if (info != null)
+            var find = await this._userManager.FindByNameAsync(username);
+         
+            if (find != null)
             {
+
+                var gettotal = this._severce.getNumberBuy(find.Id);
+                if (gettotal != null)
+                {
+                    var tem = new getInfoSeller {
+                    join =  find.CreatedDate,
+                    totalBuy = gettotal.First().totalBuy,
+                    totalStore = gettotal.First().totalStore,
+                    totalSol = gettotal.First().totalSold,
+                    username = find.UserName,
+                    };
+
+                    infoSeller = tem;
+                                
+                }
+
+
+
+
+
+
+
+               
+
                 return Page();
             }
             else return NotFound();
 
-            //products = _product.ManageStore();
-            /*     products = _product.ManageStore();*/
-            /*   if (username != null)
-               {
-                    
-               }*/
         }
-        public async Task LoadUserDataAsync(string username)
-        {
-            UserProfile = new UserProfileViewModels();
-
-            // Lấy thông tin người dùng theo username
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == username);
-            if (user != null)
-            {
-                UserProfile.Account = user.UserName;
-                UserProfile.RegisteredDate = user.CreatedDate;
-
-                // Tính tổng sản phẩm đã mua dưới dạng double
-                var productsPurchased = await _context.OrderDetails
-                    .Where(orderDetail => orderDetail.orderBuy.AppUser.UserName == username)
-                    .ToListAsync();
-
-                UserProfile.ProductsPurchased = productsPurchased.Sum(od =>
-                {
-                    double quantity = 0;
-                    double.TryParse(od.quantity, out quantity); // Chuyển đổi từ string sang double
-                    return quantity;
-                });
-
-                // Tính số lượng cửa hàng
-                var stores = await _context.Stores
-                    .Where(store => store.User.UserName == username)
-                    .ToListAsync();
-                UserProfile.NumberOfStores = stores.Count;
-
-                // Tính tổng sản phẩm đã bán dưới dạng double
-                var productsSold = await _context.OrderDetails
-                    .Where(orderDetail => orderDetail.orderBuy.Store.User.UserName == username)
-                    .ToListAsync();
-
-                UserProfile.ProductsSold = productsSold.Sum(od =>
-                {
-                    double quantity = 0;
-                    double.TryParse(od.quantity, out quantity); // Chuyển đổi từ string sang double
-                    return quantity;
-                });
-            }
-        }
+      
     }
 }
 
