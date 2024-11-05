@@ -79,14 +79,6 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
-{
-
-    options.SignIn.RequireConfirmedAccount = true;
-}
-)
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
 
 //IdentityOptions
 builder.Services.Configure<IdentityOptions>(options =>

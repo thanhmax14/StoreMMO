@@ -16,9 +16,11 @@ namespace StoreMMO.Core.Repositories.Balances
         Task<BalanceViewModels> GetBalanceByOrderCodeAsync(long orderCode);
         Task<BalanceViewModels> GetBalanceByIDAsync(string id);
         Task<IEnumerable<BalanceViewModels>> GetBalanceByUserIDAsync(string userID);
+        Task<IEnumerable<BalanceViewModels>> GetAllBalanceAsync();
+        Task<bool> RejectRequestAsync(BalanceViewModels balanceViewModels, string reason);
 
 
-    }
+	}
     
 
     

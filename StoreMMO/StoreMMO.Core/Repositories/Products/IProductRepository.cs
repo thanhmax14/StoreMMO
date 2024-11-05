@@ -15,8 +15,8 @@ namespace StoreMMO.Core.Repositories.Products
         ProductViewModels AddProduct(ProductViewModels inforAddViewModels);
         ProductViewModels UpdateProduct(ProductViewModels inforAddViewModels);
         void DeleteProduct(string id);
-        IEnumerable<ManageStoreViewModels> ManageStore();
-       IEnumerable<ViewProductModels> GetProductsByStoreId(string storeId);
+        IEnumerable<ManageStoreViewModels> ManageStore(string userId);
+            IEnumerable<ViewProductModels> GetProductsByStoreId(string storeId);
         IEnumerable<Product> getProductsByTypeID(string id);
 
         IEnumerable<Product> getProductsByTypeID1(string id);

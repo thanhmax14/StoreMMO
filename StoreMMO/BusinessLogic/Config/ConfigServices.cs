@@ -56,6 +56,10 @@ using StoreMMO.Core.Repositories.orderDetailViewModels;
 using CloudinaryDotNet;
 using StoreMMO.Core.Repositories.ProductsConnect;
 using BusinessLogic.Services.StoreMMO.Core.ProductConnects;
+using StoreMMO.Core.Repositories.SellerDashboard;
+using BusinessLogic.Services.StoreMMO.Core.SellerDashBoard;
+using Microsoft.AspNetCore.Identity;
+using StoreMMO.Core.Models;
 
 
 namespace BusinessLogic.Config
@@ -94,7 +98,7 @@ namespace BusinessLogic.Config
             services.AddScoped<IComplaintsRepository, ComplaintsRepository>();
 
             services.AddScoped<IWithdrawRepository, WithdrawRepository>();
-
+            services.AddScoped<ISellerDashBoardRepository, SellerDashBoardRepository>();
             services.AddScoped<IBalanceRepository, BalanceRepository>();
             services.AddScoped<IOrderDeailsRepository, OrderDeailsRepository>();
 
@@ -128,11 +132,22 @@ namespace BusinessLogic.Config
             services.AddScoped<IDisputeService, DisputeService>();
             services.AddScoped<IOderDetailsService, OrderDetailsService>();
             services.AddScoped<IFeedBackService, FeedBackService>();
-
+            services.AddScoped<ISellerDashBoardService, SellerDashBoardService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
             services.AddScoped<IProductConnectService, ProductConnectService>();
 
-            services.AddTransient<PaymentLIb>();
+			services.AddIdentity<AppUser, IdentityRole>(options =>
+			{
+
+				options.SignIn.RequireConfirmedAccount = true;
+			}
+)
+	.AddEntityFrameworkStores<AppDbContext>()
+	.AddDefaultTokenProviders();
+
+
+
+			services.AddTransient<PaymentLIb>();
             PayOS payOS = new PayOS("fa2021f3-d725-4587-a48f-8b55bccf7744" ?? throw new Exception("Cannot find environment"),
                     "143f45b5-d1d7-40e4-82e9-00ea8217ab33" ?? throw new Exception("Cannot find environment"),
                    "7861335ef9257ac91143d4de7b9f6ce64c864608defe1e31906510e95b345ee5" ?? throw new Exception("Cannot find environment"));

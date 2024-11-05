@@ -22,22 +22,22 @@
                 <TextBlock Foreground="#2C3E50" FontWeight="Bold" HorizontalAlignment="Left"  FontSize="30">Manage Disputes</TextBlock>
             </StackPanel>
             <!-- Danh sách hiển thị thông tin người dùng -->
-            <ListView Name="lvEntried" ItemsSource="{Binding }" SelectedItem="{Binding Disputes, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
+            <ListView Name="lvEntried" ItemsSource="{Binding List}" SelectedItem="{Binding SelectItem, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
                 <ListView.View>
                     <GridView>
                         <!-- Cột User Name -->
-                        <GridViewColumn Header="User Name" Width="200">
+                        <!--<GridViewColumn Header="User Name" Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding }" Width="200" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding UserId}" Width="200" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                        </GridViewColumn>-->
                         <!-- Cột Amount -->
                         <GridViewColumn Header="Amount" Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding }" Width="200" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding Amount}" Width="200" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -45,18 +45,39 @@
                         <GridViewColumn Header="Transaction Date" Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding }" Width="200" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding TransactionDate}" Width="200" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Bank" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Bank}" Width="350" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="NameBank" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding NameBank}" Width="350" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="NumberBank" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding NumberBank}" Width="350" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <!-- Cột Description -->
-                        <GridViewColumn Header="Description" Width="350">
+                        <!--<GridViewColumn Header="Description" Width="350">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding }" Width="350" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                    <TextBlock Text="{Binding Description}" Width="350" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                        </GridViewColumn>-->
                         <!-- Cột Chứ nút Action -->
                         <GridViewColumn Header="Action" Width="170">
                             <GridViewColumn.CellTemplate>
@@ -65,16 +86,19 @@
                                         <Button Width="70" Margin="0,0,5,0" Command="{Binding DataContext.Update, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="16">
                                             Accept
                                         </Button>
-                                        <Button Width="70" Margin="0,0,5,0" Command="{Binding DataContext.Reject1, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="16">
+                                        <Button Width="70" Margin="0,0,5,0" Command="{Binding DataContext.Reject, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" FontSize="16">
                                             Reject
                                         </Button>
                                     </StackPanel>
+                                    
                                 </DataTemplate>
+                                
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
+            
         </Grid>
     </Grid>
 </Page>

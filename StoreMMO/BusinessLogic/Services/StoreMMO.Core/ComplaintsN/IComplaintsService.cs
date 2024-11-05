@@ -18,6 +18,13 @@ namespace BusinessLogic.Services.StoreMMO.Core.ComplaintsN
 		Task<bool> EditAsync(complantViewModels complaintsMapper);
 		Task<bool> DeleteAsync(complantViewModels complaintsMapper);
 		Task<complantViewModels> GetByIDAsync(string complaintsMapper);
-
-	}
+        bool Warrant(string idcomplaint);
+        ComplaintsMapper GetAllReportAdminbyid(string idcomplaint);
+        bool BackMoney(string id);
+        bool checkStockProductType(string idcomplaint);
+        ComplaintsMapper GetAllNonebyid(string idcomplaint);
+        bool WarrantSeller(string idcomplain, string sellerid);
+        bool BackMoneySeller(string idcomplant, string sellerid);
+        bool BackMoneyforseller(string id);
+    }
 }

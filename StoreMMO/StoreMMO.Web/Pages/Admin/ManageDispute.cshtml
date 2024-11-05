@@ -446,10 +446,17 @@
                                                         <input type="hidden" name="Status" value="1" />
                                                         <button type="submit" class="btn btn-primary">Accept</button>
                                                     </form>
-                                                    <form method="post" asp-page-handler="AsyncReject">
-                                                        <input type="hidden" name="Id" value="@item.ID" />
-                                                        <input type="hidden" name="Status" value="2" />
-                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                    <form method="post" asp-page-handler="Warrant">
+                                                        
+                                                        <input type="hidden" asp-for="@item.ID" name="idcomplaint" />
+
+                                                      
+                                                        <button type="submit" class="btn btn-danger">Warrant</button>
+                                                    </form>
+                                                    <form method="post" asp-page-handler="BackMoney">
+                                                        <input type="hidden" asp-for="@item.ID" name="idcomplaint" />
+                                                       
+                                                        <button type="submit" class="btn btn-danger">Backmoney</button>
                                                     </form>
                                                 </div>
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">

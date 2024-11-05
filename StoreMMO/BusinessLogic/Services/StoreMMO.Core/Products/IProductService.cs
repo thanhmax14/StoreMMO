@@ -16,7 +16,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
         ProductViewModels AddProduct(ProductViewModels inforAddViewModels);
         ProductViewModels UpdateProduct(ProductViewModels inforAddViewModels);
         void DeleteProduct(string id);
-        IEnumerable<ManageStoreViewModels> ManageStore();
+		IEnumerable<ManageStoreViewModels> ManageStore(string userId);
         IEnumerable<ViewProductModels> GetProductsByStoreId(string storeId);
         IEnumerable<Product> getProductsByTypeID(string id);
 

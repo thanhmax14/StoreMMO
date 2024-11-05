@@ -97,9 +97,9 @@ namespace StoreMMO.Core.Repositories.Products
             _context.SaveChanges();
             return inforAddViewModels;
         }
-        public IEnumerable<ManageStoreViewModels> ManageStore()
+        public IEnumerable<ManageStoreViewModels> ManageStore(string userId)
         {
-            string sql = @"
+            string sql = $@"
    SELECT  
     sd.Id AS Id, -- Thêm cột Id giả
     sd.Id AS StoreDetailId,  -- Thêm cột StoreDetailId
@@ -126,6 +126,7 @@ LEFT JOIN
     ProductConnects pc ON sd.Id = pc.StoreDetailId
 LEFT JOIN 
     ProductTypes p ON pc.ProductTypeId = p.Id  
+where s.UserId = '{userId}'
 GROUP BY 
     sd.Id,  -- Thêm sd.Id vào GROUP BY
     sd.[Name], 

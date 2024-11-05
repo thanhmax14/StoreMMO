@@ -18,12 +18,13 @@ namespace StoreMMO.WDF
 		private readonly ManageDisputesViewModel _manageDisputes;
 		private readonly AllStoreListViewModel _allStoreListViewModel;
 		private readonly HiddenStoreListViewModel _hiddenStoreListViewModel;
+		private readonly ManageWithdrawlRequestViewModel _manageWithdrawlRequestViewModel;
 
-        public MainWindow(CategoryViewModel categoryService, HiddenCategoriesListModel hiddenCategoriesList, StoreTypeListViewModel storeTypeListViewModel
+		public MainWindow(CategoryViewModel categoryService, HiddenCategoriesListModel hiddenCategoriesList, StoreTypeListViewModel storeTypeListViewModel
 			, HiddenStoreTypeListViewModel hiddenStoreTypeListViewModel, UserAccountViewModel userAccountViewModel,
 			HidentUserAccountViewModel hidentUserAccountViewModel, RegisterSellerViewModel registerSellerViewModel,
             ManageDisputesViewModel manageDisputes, AllStoreListViewModel allStoreListViewModel,
-            HiddenStoreListViewModel hiddenStoreListViewModel
+            HiddenStoreListViewModel hiddenStoreListViewModel, ManageWithdrawlRequestViewModel manageWithdrawlRequestViewModel
 
 
             )
@@ -39,6 +40,7 @@ namespace StoreMMO.WDF
 			_manageDisputes = manageDisputes;
 			_allStoreListViewModel = allStoreListViewModel;
             _hiddenStoreListViewModel = hiddenStoreListViewModel;
+			_manageWithdrawlRequestViewModel = manageWithdrawlRequestViewModel;	
 
         }
 
@@ -103,7 +105,7 @@ namespace StoreMMO.WDF
 
 		private void button_WithdrawalRequestsFromSellerList(object sender, RoutedEventArgs e)
 		{
-			frMain.Content = new ManageWithdrawlRequest();
+			frMain.Content = new ManageWithdrawlRequest(_manageWithdrawlRequestViewModel);
 		}
 	}
 }
