@@ -1,0 +1,24 @@
+﻿<Window x:Class="StoreMMO.WDF.RejectReasonDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StoreMMO.WDF"
+        mc:Ignorable="d"
+        Title="RejectReasonDialog" Height="450" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- TextBox cho lý do từ chối -->
+        <TextBox x:Name="ReasonTextBox" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
+
+        <!-- Nút xác nhận và hủy -->
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Right">
+            <Button IsDefault="True" Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Margin="0,0,10,0">OK</Button>
+            <Button IsCancel="True" MinWidth="60">Cancel</Button>
+        </WrapPanel>
+    </Grid>
+</Window>

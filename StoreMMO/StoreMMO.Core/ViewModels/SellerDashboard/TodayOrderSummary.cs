@@ -8,7 +8,7 @@ namespace StoreMMO.Core.ViewModels.SellerDashboard
 {
     public class TodayOrderSummary
     {
-        public int TotalSoldOrders { get; set; }      // Tổng số đơn hàng đã bán
-        public decimal TotalRevenue { get; set; }      // Tổng doanh thu
+        public int? TotalSoldOrders { get; set; }      // Tổng số đơn hàng đã bán
+        public decimal? TotalRevenue { get; set; }      // Tổng doanh thu
     }
 }

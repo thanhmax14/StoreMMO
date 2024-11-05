@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace StoreMMO.Core.Models
 {
@@ -15,6 +16,8 @@ namespace StoreMMO.Core.Models
         public string? OrderCode { get; set; }
         public DateTime? ApprovalDate { get; set; }       
 
-        public virtual AppUser User { get; set; }        
-    }
+        public virtual AppUser User { get; set; }
+
+	
+	}
 }
