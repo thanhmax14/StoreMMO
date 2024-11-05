@@ -33,10 +33,11 @@ namespace StoreMMO.Web.Pages.Seller.Complain
         public IEnumerable<ComplaintsMapper> listcomplaints { get; set; } = new List<ComplaintsMapper>();
         public bool checkstockforbackmoney = true;
         public bool checkbackmoney = true;
-        //  string UserId = HttpContext.Session.GetString("UserID");
-        string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
+  
+      //  string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
         public void OnGet()
         {
+            string UserId = HttpContext.Session.GetString("UserID");
 
             listcomplaints = _complaintsServices.GetAll(UserId);
 
@@ -162,6 +163,7 @@ namespace StoreMMO.Web.Pages.Seller.Complain
 
         public IActionResult OnPostWarrant()
         {
+            string UserId = HttpContext.Session.GetString("UserID");
             var idcomplaint = Request.Form["id"].ToString();
             var result = _complaintsServices.WarrantSeller(idcomplaint, UserId);
           if(result)

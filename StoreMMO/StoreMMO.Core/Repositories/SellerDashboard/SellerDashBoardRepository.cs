@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace StoreMMO.Core.Repositories.SellerDashboard
 {
-   public class SellerDashBoardRepository : ISellerDashBoardRepository
+    public class SellerDashBoardRepository : ISellerDashBoardRepository
     {
         private readonly AppDbContext _context;
         public SellerDashBoardRepository(AppDbContext context)
@@ -68,9 +68,9 @@ namespace StoreMMO.Core.Repositories.SellerDashboard
         TransactionDate;";
 
             // Khai báo tham số
-         var result = await this._context.Database
-                .SqlQueryRaw<TransactionSummary>(sqlQuery, new SqlParameter("@id", id))
-                .ToListAsync();
+            var result = await this._context.Database
+                   .SqlQueryRaw<TransactionSummary>(sqlQuery, new SqlParameter("@id", id))
+                   .ToListAsync();
 
             return result;
         }
@@ -160,4 +160,3 @@ namespace StoreMMO.Core.Repositories.SellerDashboard
     }
 
 }
-

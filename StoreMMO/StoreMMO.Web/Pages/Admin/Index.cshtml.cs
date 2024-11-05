@@ -19,12 +19,13 @@ namespace StoreMMO.Web.Pages.Admin
         this._sellerDashBoardService = sellerDashBoardService;
         }
 
-        //  string UserId = HttpContext.Session.GetString("UserID");
-        string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
+       
+    //    string UserId = "1f0dbbe2-2a81-43e9-8272-117507ac9c45";
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostData(string filter)
         {
+            string UserId = HttpContext.Session.GetString("UserID");
             List<int> transactionData = new List<int>(new int[24]); // Khởi tạo danh sách 24 giờ mặc định là 0
             List<decimal> revenueData = new List<decimal>(new decimal[24]);
             List<string> dates = Enumerable.Range(0, 24).Select(i => DateTime.Now.Date.AddHours(i).ToString("yyyy-MM-dd HH:mm")).ToList();

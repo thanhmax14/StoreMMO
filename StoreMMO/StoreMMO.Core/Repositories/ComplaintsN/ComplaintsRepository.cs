@@ -26,7 +26,7 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
 
         public IEnumerable<ComplaintsMapper> GetAll(string id)
         {
-            // Lấy tất cả các complaint liên quan đến seller với ID chỉ định, không phụ thuộc vào Status
+                       // Lấy tất cả các complaint liên quan đến seller với ID chỉ định, không phụ thuộc vào Status
             var complaints = _context.Complaints
                 .Where(c => c.OrderDetail.orderBuy.Store.User.Id == id)
                 .Include(c => c.OrderDetail)                        // Include OrderDetail của Complaint
@@ -37,7 +37,9 @@ namespace StoreMMO.Core.Repositories.ComplaintsN
                 .Include(c => c.OrderDetail.Product)                // Include Product của OrderDetail
                     .ThenInclude(p => p.ProductType)               // Then Include ProductType của Product
                 .ToList();
-
+            if (complaints == null)
+            {                 return null;
+            }
             // Lọc ra chỉ các complaint có Status "none"
             var filteredComplaints = complaints
                 .Where(c => c.Status == "none")
