@@ -18,7 +18,5 @@ namespace StoreMMO.Core.ViewModels
         public int QuantityComment { get; set; }
         [NotMapped]
         public Dictionary<string, string> ProductStock { get; set; } = new Dictionary<string, string>();
-      
-
     }
 }

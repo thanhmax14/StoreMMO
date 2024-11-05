@@ -105,7 +105,12 @@ namespace StoreMMO.WDF.ViewModels
         {
             try
             {
-                var newCategory = new CategoryViewModels
+				if (string.IsNullOrWhiteSpace(Name) || Name.Length < 2)
+				{
+					MessageBox.Show("Name must be at least 2 characters long.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+					return;
+				}
+				var newCategory = new CategoryViewModels
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = Name,

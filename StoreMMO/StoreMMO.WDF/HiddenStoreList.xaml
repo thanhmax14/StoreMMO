@@ -1,0 +1,57 @@
+﻿<Page x:Class="StoreMMO.WDF.HiddenStoreList"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:StoreMMO.WDF"
+      mc:Ignorable="d" 
+      d:DesignHeight="850" d:DesignWidth="1261"
+      Title="HiddenStoreList">
+
+    <Grid>
+        <!-- Lưới chính chứa các phần tử -->
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <!-- Định nghĩa hàng cho Tên của page -->
+                <RowDefinition Height="45px"></RowDefinition>
+                <!-- Định nghĩa hàng cho ListView -->
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!-- Hiển thị Tên Page -->
+            <StackPanel  Height="40" Grid.Row="0">
+                <TextBlock Foreground="#2C3E50" FontWeight="Bold" HorizontalAlignment="Left"  FontSize="30">Hidden Store List</TextBlock>
+            </StackPanel>
+            <!-- Danh sách hiển thị thông tin người dùng -->
+            <ListView Name="lvEntried" ItemsSource="{Binding storeViewModels}" SelectedItem="{Binding SelectItem, Mode=TwoWay}" Grid.Row="1" Margin="0,10,0,10">
+                <ListView.View>
+                    <GridView>
+                        <!-- Cột Store Name -->
+                        <GridViewColumn Header="Store Name" Width="350">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding nameStore}" Width="350" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!-- Cột User Name -->
+                        <GridViewColumn Header="User Name" Width="350">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding UserName}" Width="350" FontWeight="Normal" Foreground="Black" FontSize="16"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!-- Cột Chứ nút Show -->
+                        <GridViewColumn Header="Action" Width="280">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Width="80" Margin="0,0,5,0" Command="{Binding DataContext.Hide, RelativeSource={RelativeSource AncestorType=Page}}" FontSize="16">SHOW</Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</Page>

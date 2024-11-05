@@ -24,6 +24,7 @@ namespace StoreMMO.API.Controllers
             // Kiểm tra xem ID có chứa ký tự '/'
             if (id.Contains("$"))
             {
+                var product = this._productsService.getByIDProduct(id.Split("$")[0]);
                 var userid = id.Split("$")[1];
                 var user = this._wishListsService.getAllByUserID(userid);
                 if (user == null)
@@ -35,7 +36,7 @@ namespace StoreMMO.API.Controllers
                     var checkexit = user.Any(a => a.ProductId == id.Split("$")[0]);
                     if (checkexit)
                     {
-                        var product = this._productsService.getByIDProduct(id.Split("$")[0]);
+                      
                         if (product == null)
                         {
                             return NotFound("Cannot find product with this ID!");
@@ -46,7 +47,17 @@ namespace StoreMMO.API.Controllers
 
                     }
                 }
-                return Ok(new { thanhdeptrai = false });
+                return Ok(new
+                {
+                    product.Price,
+                    product.Id,
+                    product.CreatedDate,
+                    product.ModifiedDate,
+                    product.Name,
+                    product.Stock,
+
+                    thanhdeptrai = false
+                });
             }
             else
             {
