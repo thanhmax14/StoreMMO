@@ -51,5 +51,16 @@ namespace BusinessLogic.Services.StoreMMO.Core.Balances
         {
             return await this._balance.UpdateAsync(balanceViewModels); // Sử dụng UpdateAsync
         }
-    }
+
+		public async Task<IEnumerable<BalanceViewModels>> GetAllBalanceAsync()
+		{
+			return await _balance.GetAllBalanceAsync();
+		}
+
+		public async Task<bool> RejectRequestAsync(BalanceViewModels balanceViewModels, string reason)
+		{
+			
+            return await _balance.RejectRequestAsync(balanceViewModels, reason);
+		}
+	}
 }

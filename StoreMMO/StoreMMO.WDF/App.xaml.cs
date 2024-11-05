@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.AutoMapper;
+using BusinessLogic.Services.StoreMMO.Core.Balances;
 using BusinessLogic.Services.StoreMMO.Core.Categorys;
 using BusinessLogic.Services.StoreMMO.Core.Disputes;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Org.BouncyCastle.Utilities.Collections;
 using StoreMMO.Core.Models;
+using StoreMMO.Core.Repositories.Balances;
 using StoreMMO.Core.Repositories.Categorys;
 using StoreMMO.Core.Repositories.Disputes;
 using StoreMMO.Core.Repositories.Stores;
@@ -75,6 +77,8 @@ namespace StoreMMO.WDF
             services.AddTransient<IDisputeService, DisputeService>();
             services.AddTransient<IStoreService, StoreService>();
             services.AddTransient<IStoreRepository, StoreRepository>();
+            services.AddTransient<IBalanceService, BalanceService>();
+            services.AddTransient<IBalanceRepository, BalanceRepository>();
             //services.AddTransient<IStudentRepository, StudentRepository>();
             services.AddTransient<CategoryViewModel>();
             services.AddTransient<HiddenCategoriesListModel>();
@@ -86,6 +90,7 @@ namespace StoreMMO.WDF
             services.AddTransient<ManageDisputesViewModel>();
             services.AddTransient<AllStoreListViewModel>();
             services.AddTransient<HiddenStoreListViewModel>();
+            services.AddTransient<ManageWithdrawlRequestViewModel>();
             services.AddTransient<AppDbContext>();
             //services.AddTransient<StudentViewModel>();
             //services.AddTransient<ClassViewModel>();
