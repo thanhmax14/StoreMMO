@@ -76,9 +76,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.Products
             return result;
         }
 
-        public IEnumerable<ManageStoreViewModels> ManageStore()
+        public IEnumerable<ManageStoreViewModels> ManageStore(string userId)
         {
-           return _productRepository.ManageStore();
+           return _productRepository.ManageStore(userId);
         }
 
         public IEnumerable<ViewProductModels> GetProductsByStoreId(string storeId)
