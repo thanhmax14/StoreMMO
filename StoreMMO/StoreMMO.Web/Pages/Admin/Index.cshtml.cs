@@ -33,6 +33,7 @@ namespace StoreMMO.Web.Pages.Admin
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> OnPostData(string filter)
         {
+            var userId = HttpContext.Session.GetString("UserID");
             List<int> transactionData = new List<int>(new int[24]); // Khởi tạo danh sách 24 giờ mặc định là 0
             List<decimal> revenueData = new List<decimal>(new decimal[24]);
             List<string> dates = Enumerable.Range(0, 24).Select(i => DateTime.Now.Date.AddHours(i).ToString("yyyy-MM-dd HH:mm")).ToList();
@@ -106,7 +107,7 @@ namespace StoreMMO.Web.Pages.Admin
 
                 case "sellertoday":
                   
-                    var today = await this._sellerDashBoardService.GetDailyTransactionSummary(UserId);
+                    var today = await this._sellerDashBoardService.GetDailyTransactionSummary(userId);
                  //   var a = today;
                     // Duyệt qua danh sách dữ liệu trả về và gán vào danh sách 24 giờ
                     foreach (var transaction in today)
@@ -126,7 +127,7 @@ namespace StoreMMO.Web.Pages.Admin
                         .Select(i => new DateTime(DateTime.Now.Year, DateTime.Now.Month, i).ToString("yyyy-MM-dd"))
                         .ToList();
 
-                    var m = await this._sellerDashBoardService.GetMonth(UserId);
+                    var m = await this._sellerDashBoardService.GetMonth(userId);
                     foreach (var transaction in m)
                     {
                         int day = transaction.TransactionDate.Day - 1; // Ngày trong tháng (0-30 cho 31 ngày)
@@ -142,7 +143,7 @@ namespace StoreMMO.Web.Pages.Admin
                     revenueData = new List<decimal>(new decimal[12]);
                     dates = Enumerable.Range(1, 12).Select(i => new DateTime(DateTime.Now.Year, i, 1).ToString("yyyy-MM")).ToList();
 
-                    var y = await this._sellerDashBoardService.GetMonthlyTransactionSummary(UserId);
+                    var y = await this._sellerDashBoardService.GetMonthlyTransactionSummary(userId);
                     foreach (var transaction in y)
                     {
                         int month = transaction.TransactionDate.Month - 1;
@@ -155,7 +156,7 @@ namespace StoreMMO.Web.Pages.Admin
                     revenueData = new List<decimal>();
                     dates = new List<string>();
 
-                    var all = await this._sellerDashBoardService.GetYearlyTransactionSummary(UserId);
+                    var all = await this._sellerDashBoardService.GetYearlyTransactionSummary(userId);
                     foreach (var transaction in all)
                     {
                         transactionData.Add(transaction.TotalTransactions);
@@ -169,6 +170,7 @@ namespace StoreMMO.Web.Pages.Admin
                 
                     break;
             }
+            //mmmmmmmmmmmmmmmmmmmmmjygukuhkluhsdkiuhku
 
             return new JsonResult(new { transactionData, revenueData, dates });
         }
