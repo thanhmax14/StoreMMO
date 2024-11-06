@@ -57,6 +57,7 @@ namespace StoreMMO.Web.Pages.Seller
         {
             InputProductType.Id = Guid.NewGuid().ToString(); // Tạo ID mới
             InputProductType.IsActive = true;
+            InputProductType.Stock = "0";
             _productTypeService.AddProduct(InputProductType);
             var productConnect = new ProductConnectViewModels
             {
