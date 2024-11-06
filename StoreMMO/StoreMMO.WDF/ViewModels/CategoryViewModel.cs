@@ -21,7 +21,7 @@ namespace StoreMMO.WDF.ViewModels
         {
             _categoryService = categoryService;
             CategoryViewModels = new ObservableCollection<CategoryViewModels>();
-            loadData();
+           _= LoadDataAsync();
             AddNew = new RelayCommand(AddCategory);
             Update = new RelayCommand(UpdateCategory);
             Hide = new RelayCommand(HideCategory);
@@ -83,9 +83,10 @@ namespace StoreMMO.WDF.ViewModels
             }
         }
 
-        public void loadData()
+
+        public async Task LoadDataAsync()
         {
-            var categories = _categoryService.GetAll();
+            var categories = await _categoryService.GetAll1();
             CategoryViewModels.Clear();
             foreach (var category in categories)
             {
@@ -139,7 +140,7 @@ namespace StoreMMO.WDF.ViewModels
             return !string.IsNullOrWhiteSpace(Name);
         }
 
-        private void UpdateCategory(object parameter)
+        private async void UpdateCategory(object parameter)
         {
             if (SelectedCategory == null) return;
 
@@ -148,12 +149,13 @@ namespace StoreMMO.WDF.ViewModels
             SelectedCategory.ModifiedDate = DateTimeOffset.Now;
 
             _categoryService.UpdateCategory(SelectedCategory);
+            await LoadDataAsync();
             MessageBox.Show("Update successful!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            loadData();
+         
         }
 
-        private void HideCategory(object parameter)
+        private async void HideCategory(object parameter)
         {
             if (SelectedCategory == null) return;
 
@@ -161,13 +163,14 @@ namespace StoreMMO.WDF.ViewModels
             string categoryId = SelectedCategory.Id;
 
             // Lấy danh mục từ cơ sở dữ liệu bằng Id
-            var categoryToHide = _categoryService.getByIdCategory(categoryId); // Giả định bạn đã có phương thức này
+            var categoryToHide = await _categoryService.GetByIdAsync(categoryId); // Giả định bạn đã có phương thức này
 
             if (categoryToHide != null)
             {
                 categoryToHide.IsActive = false; // Ẩn bằng cách vô hiệu hóa
                 _categoryService.UpdateCategory(categoryToHide); // Cập nhật danh mục
-                loadData();
+                 LoadDataAsync();
+                MessageBox.Show("HideCategory successful!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
 
             }
         }

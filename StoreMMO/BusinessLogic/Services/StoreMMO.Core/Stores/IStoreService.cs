@@ -1,5 +1,6 @@
 ﻿using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
+using System.Collections.Generic;
 
 namespace BusinessLogic.Services.StoreMMO.Core.Stores
 {
@@ -20,6 +21,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
         public StoreDetailViewModels getStoreDetailById(string id);
         IEnumerable<CheckExitStore> checkExit(string userid);
 		public IEnumerable<getPriceStore> getPriceStorr(string storeID);
-	}
+
+        Task<IEnumerable<StoreViewModels>> getAll1(string sicbo);
+
+    }
 }
 

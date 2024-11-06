@@ -15,6 +15,8 @@ namespace BusinessLogic.Services.StoreMMO.Core.Categorys
         IEnumerable<CategoryViewModels> GetCategoryIsActive();
 
         IEnumerable<CategoryViewModels> GetCategoryIsHidden();
+        Task<IEnumerable<CategoryViewModels>> GetAll1();
+        Task<CategoryViewModels> GetByIdAsync(string id);
 
 
     }
