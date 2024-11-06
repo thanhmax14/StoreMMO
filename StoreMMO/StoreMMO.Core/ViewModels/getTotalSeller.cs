@@ -8,8 +8,8 @@ namespace StoreMMO.Core.ViewModels
 {
     public class getTotalSeller
     {
-        public int totalBuy { get; set; }
-        public int totalStore { get; set; }
-        public int totalSold { get; set; }
+        public int? totalBuy { get; set; }
+        public int? totalStore { get; set; }
+        public int? totalSold { get; set; }
     }
 }
