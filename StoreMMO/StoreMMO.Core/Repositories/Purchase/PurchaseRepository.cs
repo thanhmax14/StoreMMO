@@ -175,7 +175,7 @@ namespace StoreMMO.Core.Repositories.Purchase
         StoreDetails ON Stores.Id = StoreDetails.StoreId 
     INNER JOIN 
         Users ON OrderBuys.UserID = Users.Id 
-        AND Stores.UserId = Users.Id 
+       
     WHERE 
         OrderBuys.UserID = @userID 
     GROUP BY 
@@ -235,7 +235,7 @@ FROM
 JOIN 
     OrderDetails od ON ob.ID = od.OrderBuyID
 WHERE 
-    ob.Status = 'PAID' AND                                   -- Chỉ thống kê các giao dịch đã thanh toán
+                                    -- Chỉ thống kê các giao dịch đã thanh toán
     od.Dates >= CAST(GETDATE() AS DATE) AND                -- Lọc giao dịch trong ngày hôm nay
     od.Dates < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))    -- Đến 24 giờ tiếp theo
 GROUP BY 
@@ -261,8 +261,8 @@ FROM
 JOIN 
     OrderDetails od ON ob.ID = od.OrderBuyID
 WHERE 
-    ob.Status = 'PAID'  
-    AND MONTH(od.Dates) = MONTH(GETDATE())       -- Kiểm tra tháng hiện tại
+   
+     MONTH(od.Dates) = MONTH(GETDATE())       -- Kiểm tra tháng hiện tại
     AND YEAR(od.Dates) = YEAR(GETDATE())         -- Kiểm tra năm hiện tại
 GROUP BY 
     CONVERT(DATE, od.Dates)                                         

@@ -10,8 +10,8 @@ using System.Linq;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-
-    public class IndexModel : PageModel
+	[Authorize(Roles = "Admin")]
+	public class IndexModel : PageModel
     {
         private readonly IPurchaseService _Puchase;
         private readonly ISellerDashBoardService _sellerDashBoardService;
@@ -65,9 +65,9 @@ namespace StoreMMO.Web.Pages.Admin
                     break;
 
                 case "month":
-                   transactionData = new List<int>(new int[31]); // Khởi tạo danh sách 31 ngày
-                     revenueData = new List<decimal>(new decimal[31]);
-                     dates = Enumerable.Range(1, 31).Select(i => new DateTime(DateTime.Now.Year, DateTime.Now.Month, i).ToString("yyyy-MM-dd")).ToList();
+                   transactionData = new List<int>(new int[DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)]); // Khởi tạo danh sách 31 ngày
+                     revenueData = new List<decimal>(new decimal[DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)]);
+                     dates = Enumerable.Range(1, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)).Select(i => new DateTime(DateTime.Now.Year, DateTime.Now.Month, i).ToString("yyyy-MM-dd")).ToList();
 
                     var monthlyTransactions = await this._Puchase.GetMonth();
                     foreach (var transaction in monthlyTransactions)

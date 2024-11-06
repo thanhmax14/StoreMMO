@@ -7,6 +7,7 @@ using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
 using BusinessLogic.Services.StoreMMO.Core.StoreTypes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -18,6 +19,7 @@ using System.Linq;
 
 namespace StoreMMO.Web.Pages.Purchase
 {
+    [Authorize(Roles = "User,Seller")]
     public class checkoutModel : PageModel
     {
         private readonly IPurchaseService _purchase;
@@ -156,7 +158,7 @@ namespace StoreMMO.Web.Pages.Purchase
 									ProductTypeId = productTypeTem,
 									StoreID = intemPro.StoreID,
 									UserID = checkUser,
-									Status = "PAID",
+									Status = "PAID/no",
 									totalMoney = "" + purchaseItems.Sum(u => decimal.Parse(u.total))
 								};
 								commission = this._storeType.GetCommitssionByStoreID(intemPro.StoreID);

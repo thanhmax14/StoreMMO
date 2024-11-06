@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,7 +9,8 @@ using StoreMMO.Web.Models.ViewModels;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class UpdateUserModel : PageModel
+	[Authorize(Roles = "Admin")]
+	public class UpdateUserModel : PageModel
     {
         private readonly IUserServices _userServices;
         private readonly UserManager<AppUser> _userManager;

@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.RegisteredSeller;
 using BusinessLogic.Services.StoreMMO.Core.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,7 +11,8 @@ using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class RegisteredSellerModel : PageModel
+	[Authorize(Roles = "Admin")]
+	public class RegisteredSellerModel : PageModel
     {
         private readonly IRegisteredSellerService _registeredSellerService;
         private readonly UserManager<AppUser> _userManager;

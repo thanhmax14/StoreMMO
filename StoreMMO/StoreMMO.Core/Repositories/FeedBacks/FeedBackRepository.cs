@@ -121,5 +121,12 @@ namespace StoreMMO.Core.Repositories.FeedBacks
             }
             return null;
         }
+
+
+        public IEnumerable<FeedBack> GetFeebackByStoreID(string storid)
+        {
+            var temp = this._context.FeedBacks.Where(x => x.StoreDetailId == storid).ToList() ;
+            return temp;
+        }
     }
 }
