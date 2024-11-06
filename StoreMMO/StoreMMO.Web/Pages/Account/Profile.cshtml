@@ -680,14 +680,14 @@
 							<div class="order-content">
 								<h3 class="account-sub-title d-none d-md-block">
 									<i class="sicon-social-dropbox align-middle mr-3"></i>
-									<button class="btn btn-outline-primary btn-lg">Detail</button>
+								
 								</h3>
-
+								<button class="btn btn-outline-primary btn-lg" onclick="BackOrder()">Back To Order</button>
 								<div id="orderDetailContainer" class="order-table-container text-center">
 									<!-- Nội dung chi tiết đơn hàng sẽ được tải về qua AJAX -->
 									<p>Select an order to view details.</p>
 								</div>
-								<button onclick="BackOrder()">Back To Order</button>
+								
 							</div>
 						</div>
 
@@ -790,7 +790,7 @@
                             <th onclick="sortTable(3)">TYPE</th>
                             <th onclick="sortTable(4)">STATUS</th>
                             <th onclick="sortTable(5)">Description</th>
-                            <th>ACTIONS</th>
+                           
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -830,16 +830,7 @@
 														<td>@Html.Raw(description)</td>
 
 
-														<td>
-															@if (item.TransactionType.ToLower().Equals("buy".ToLower()))
-															{
-																<button class="btn btn-primary">View</button>
-															}
-															else
-															{
-																// Bạn có thể thêm chức năng khác ở đây
-															}
-														</td>
+														
 													</tr>
 													count++;
 												}
