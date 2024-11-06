@@ -31,7 +31,7 @@ namespace StoreMMO.Core.Repositories.SellerDashboard
         Stores s ON ob.StoreID = s.Id
     WHERE 
         s.UserId = @id AND
-        ob.Status = 'PAID' AND
+      
         od.Dates >= CAST(GETDATE() AS DATE) AND
         od.Dates < DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
     GROUP BY 
@@ -59,7 +59,7 @@ namespace StoreMMO.Core.Repositories.SellerDashboard
         Stores s ON ob.StoreID = s.Id
     WHERE 
         s.UserId = @id AND
-        ob.Status = 'PAID'  
+        
         AND MONTH(od.Dates) = MONTH(GETDATE())       -- Kiểm tra tháng hiện tại
         AND YEAR(od.Dates) = YEAR(GETDATE())         -- Kiểm tra năm hiện tại
     GROUP BY 
@@ -91,7 +91,7 @@ namespace StoreMMO.Core.Repositories.SellerDashboard
         WHERE 
             s.UserID = @sellerUserId
             AND CAST(od.Dates AS DATE) = CAST(GETDATE() AS DATE)
-            AND LOWER(ob.Status) = LOWER('Paid')
+          
     ";
 
             var parameters = new[] {
@@ -117,7 +117,7 @@ namespace StoreMMO.Core.Repositories.SellerDashboard
         OrderDetails od ON ob.ID = od.OrderBuyID
     WHERE 
         s.UserID = @userId
-        AND LOWER(ob.Status) = 'paid'                                                         -- Kiểm tra trạng thái đơn hàng
+
         AND YEAR(od.Dates) = YEAR(GETDATE())                                                  -- Lọc theo năm hiện tại
     GROUP BY 
         DATEADD(MONTH, DATEDIFF(MONTH, 0, od.Dates), 0)                                       -- Nhóm theo tháng
@@ -143,7 +143,7 @@ namespace StoreMMO.Core.Repositories.SellerDashboard
         OrderDetails od ON ob.ID = od.OrderBuyID
     WHERE 
         s.UserID = @userId                                                           -- Điều kiện UserID
-        AND LOWER(ob.Status) = 'paid'                                                -- Chỉ lấy các đơn hàng có trạng thái 'Paid'
+      
     GROUP BY 
         DATEFROMPARTS(YEAR(od.Dates), 1, 1)                                          -- Nhóm theo ngày đầu năm
     ORDER BY 
