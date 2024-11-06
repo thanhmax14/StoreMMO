@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    [Authorize(Roles = "User")]
+
     public class IndexModel : PageModel
     {
         private readonly IPurchaseService _Puchase;
