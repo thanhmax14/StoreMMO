@@ -35,6 +35,12 @@ namespace StoreMMO.Web.Pages.Account
         public void OnGet()
         {
         }
+        public async Task<IActionResult> OnGetLogout()
+        {
+            HttpContext.Session.Clear(); await _signInManager.SignOutAsync(); // Đăng xuất
+
+			return Redirect("/Account/login");
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -50,8 +56,15 @@ namespace StoreMMO.Web.Pages.Account
                     ModelState.AddModelError(string.Empty,"User not doesn't exit!");
                     return Page();
                 }
-                var user =  checkByEmail ??  checkByUsername;
-                var checkpwd = await this._userManager.CheckPasswordAsync(user, inputLogin.Password);
+				// Kiểm tra nếu người dùng đăng nhập bằng Google và chưa có mật khẩu nội bộ
+				
+				var user =  checkByEmail ??  checkByUsername;
+				if (await _userManager.HasPasswordAsync(user) == false)
+				{
+					ModelState.AddModelError(string.Empty, "This account is registered with Google. Please reset your password to login with local account.");
+					return Page();
+				}
+				var checkpwd = await this._userManager.CheckPasswordAsync(user, inputLogin.Password);
                 if (!checkpwd)
                 {
                     await this._userManager.AccessFailedAsync(user);
@@ -159,6 +172,11 @@ namespace StoreMMO.Web.Pages.Account
 			var createUserResult = await _userManager.CreateAsync(user);
 			if (createUserResult.Succeeded)
 			{
+				if (!await _roleManager.RoleExistsAsync("USER"))
+				{
+					await _roleManager.CreateAsync(new IdentityRole("USER"));
+				}
+				await _userManager.AddToRoleAsync(user, "USER");
 				await _userManager.AddLoginAsync(user, info);
 				await _signInManager.SignInAsync(user, isPersistent: true);
 
