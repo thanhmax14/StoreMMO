@@ -9,6 +9,7 @@ using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
 using CloudinaryDotNet;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -22,6 +23,7 @@ using System.Threading.Tasks;
 
 namespace StoreMMO.Web.Pages.Account
 {
+	[Authorize(Roles = "User,Seller")]
 	public class ProfileModel : PageModel
 	{
 		private readonly UserManager<AppUser> _userManager;
@@ -89,6 +91,15 @@ namespace StoreMMO.Web.Pages.Account
 				ViewData["IsSeller"] = false; // Nếu không tìm thấy người dùng, gán false
 			}
         }
+
+		public async Task<IActionResult> OnGetLogout()
+		{
+			HttpContext.Session.Clear();
+			return Redirect("/Account/login");
+		}
+
+
+
 
 		// Cập nhật phương thức OnPostWithdraw trong controller
 		public async Task<IActionResult> OnPostWithdraw(string number, string bank, string accountname, string amount)

@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.OrderDetails;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
@@ -7,7 +8,8 @@ using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Seller
 {
-    public class ViewOrderDetailsModel : PageModel
+	[Authorize(Roles = "Seller")]
+	public class ViewOrderDetailsModel : PageModel
     {
         private readonly IOderDetailsService _orderDetail;
         private readonly IPurchaseService _purchaseService;

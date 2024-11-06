@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.Stores;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
@@ -6,7 +7,8 @@ using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class StoreListModel : PageModel
+	[Authorize(Roles = "Admin")]
+	public class StoreListModel : PageModel
     {
         private readonly IStoreService _storeService;
         public StoreListModel(IStoreService storeService)

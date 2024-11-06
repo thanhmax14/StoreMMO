@@ -74,7 +74,7 @@ namespace StoreMMO.Web.Pages.Account
 				await this._userManager.ResetAccessFailedCountAsync(user);
 
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, inputLogin.Password,
-					 inputLogin.RememberMe, lockoutOnFailure: false);
+					 inputLogin.RememberMe, lockoutOnFailure: true);
                
 				 if (result.IsLockedOut)
                 {

@@ -3,6 +3,7 @@ using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
 using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,8 @@ using System.Collections;
 
 namespace StoreMMO.Web.Pages.Seller
 {
-    public class UpdateProductModel : PageModel
+	[Authorize(Roles = "Seller")]
+	public class UpdateProductModel : PageModel
     {
         private readonly IProductService _product;
         private readonly IMapper _mapper;

@@ -14,6 +14,7 @@ namespace StoreMMO.Core.Repositories.FeedBacks
         IEnumerable<FeedBackViewModels> getFeedbackCustomerById(string feedbackID);
 
         FeedBack replyFeedback(string id, string reply);
+        IEnumerable<FeedBack> GetFeebackByStoreID(string storid);
 
     }
 }

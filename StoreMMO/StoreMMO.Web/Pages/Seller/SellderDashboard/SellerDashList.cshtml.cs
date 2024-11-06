@@ -1,11 +1,13 @@
 using BusinessLogic.Services.StoreMMO.Core.SellerDashBoard;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.ViewModels.SellerDashboard;
 
 namespace StoreMMO.Web.Pages.Seller.SellderDashboard
 {
-    public class SellerDashListModel : PageModel
+	[Authorize(Roles = "Seller")]
+	public class SellerDashListModel : PageModel
     {
         private readonly ISellerDashBoardService _sellerDashBoardService;
 

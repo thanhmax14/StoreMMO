@@ -48,5 +48,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.FeedBacks
         {
             return _feedBackRepository.replyFeedback(id, reply);
         }
+
+        public IEnumerable<FeedBack> GetFeebackByStoreID(string storid)
+        {
+            return this._feedBackRepository.GetFeebackByStoreID(storid);
+        }
     }
 }

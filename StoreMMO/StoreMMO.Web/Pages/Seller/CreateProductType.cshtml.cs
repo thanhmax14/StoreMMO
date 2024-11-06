@@ -3,6 +3,7 @@ using BusinessLogic.Services.StoreMMO.Core.ProductConnects;
 using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
 using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
@@ -11,7 +12,8 @@ using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Seller
 {
-    public class CreateProductTypeModel : PageModel
+	[Authorize(Roles = "Seller")]
+	public class CreateProductTypeModel : PageModel
     {
         private readonly IProductService _productService;
         private readonly IProductTypeService _productTypeService;

@@ -1,4 +1,5 @@
 using BusinessLogic.Services.StoreMMO.Core.FeedBacks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.ViewModels;
@@ -6,7 +7,8 @@ using StoreMMO.Web.Models.ViewModels.Seller;
 
 namespace StoreMMO.Web.Pages.Seller
 {
-    public class ReplyFeedbackModel : PageModel
+	[Authorize(Roles = "Seller")]
+	public class ReplyFeedbackModel : PageModel
     {
         private readonly IFeedBackService _feedBackService;
         public ReplyFeedbackModel(IFeedBackService feedBackService)

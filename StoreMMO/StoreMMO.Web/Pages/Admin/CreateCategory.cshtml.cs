@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.Categorys;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.ViewModels;
@@ -6,7 +7,9 @@ using StoreMMO.Web.Models.ViewModels.Admin;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class CreateCategoryModel : PageModel
+	[Authorize(Roles = "Admin")]
+
+	public class CreateCategoryModel : PageModel
     {
         private readonly ICategoryService _categoryServices;
 

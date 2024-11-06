@@ -1,6 +1,7 @@
 using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
 using BusinessLogic.Services.StoreMMO.Core.Withdraws;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
@@ -9,7 +10,8 @@ using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class ManageWithdrawModel : PageModel
+	[Authorize(Roles = "Admin")]
+	public class ManageWithdrawModel : PageModel
     {
         private readonly IWithdrawService _withdrawService;
         private readonly IComplaintsService _complaintService;

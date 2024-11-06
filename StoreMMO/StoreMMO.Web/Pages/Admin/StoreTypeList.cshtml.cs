@@ -11,9 +11,11 @@ using StoreMMO.Core.Models;
 
 
 using StoreMMO.Core.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class StoreTypeListModel : PageModel
+	[Authorize(Roles = "Admin")]
+	public class StoreTypeListModel : PageModel
     {
         [TempData]
         public string success { get; set;}
