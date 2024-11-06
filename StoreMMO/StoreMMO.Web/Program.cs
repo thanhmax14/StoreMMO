@@ -107,10 +107,11 @@ builder.Services.Configure<IdentityOptions>(options =>
 // Cấu hình Cookie
 builder.Services.ConfigureApplicationCookie(options =>
 {
-	options.LoginPath = "/Account/Login";
-	options.LogoutPath = "/Account/Logout";
-	options.ExpireTimeSpan = TimeSpan.FromDays(14); // Thời gian lưu cookie khi chọn Remember Me
-	options.SlidingExpiration = true;
+    options.LoginPath = "/Account/Login"; // Đường dẫn đến trang đăng nhập
+    options.LogoutPath = "/Account/Logout"; // Đường dẫn đến trang đăng xuất
+    options.AccessDeniedPath = "/Account/AccessDenied"; // Đường dẫn khi truy cập bị từ chối
+    options.ExpireTimeSpan = TimeSpan.FromDays(14); // Thời gian lưu cookie
+    options.SlidingExpiration = true; // Làm mới thời gian hết hạn cookie
 });
 
 

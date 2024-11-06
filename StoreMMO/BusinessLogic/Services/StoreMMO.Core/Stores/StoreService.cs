@@ -70,5 +70,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
         {
             return this._storeRepo.checkExit(userid);
         }
-    }
+
+		public IEnumerable<getPriceStore> getPriceStorr(string storeID)
+		{
+            return this._storeRepo.getPriceStorr(storeID);
+		}
+	}
 }

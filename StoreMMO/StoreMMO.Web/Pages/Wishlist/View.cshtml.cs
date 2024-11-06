@@ -1,9 +1,10 @@
-using BusinessLogic.Services.Encrypt;
+﻿using BusinessLogic.Services.Encrypt;
 using BusinessLogic.Services.StoreMMO.API;
 using BusinessLogic.Services.StoreMMO.Core.Carts;
 using BusinessLogic.Services.StoreMMO.Core.WishLists;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using StoreMMO.Core.ViewModels;
 
@@ -56,6 +57,31 @@ namespace StoreMMO.Web.Pages.Wishlist
             }
 
             return Page();
+        }
+
+
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> OnPostRemoveWish(string id)
+        {
+
+            var UserID = HttpContext.Session.GetString("UserID");
+            if(UserID == null)
+            {
+                return new JsonResult(new { success = false, message = "Xóa thanh cong với ID " + id });
+            }
+
+            var get = this._wishListsService.getAllByUserID(UserID);
+            foreach(var item in get)
+            {
+                if(item.ProductId == id)
+                {
+                    this._wishListsService.DeleteWishList(item.Id);
+                    return new JsonResult(new { success = true, message = "Xóa thanh cong với ID " + id });
+                }
+            }
+
+            return new JsonResult(new { success = false, message = "Xóa thanh cong với ID " + id });
+
         }
     }
 }

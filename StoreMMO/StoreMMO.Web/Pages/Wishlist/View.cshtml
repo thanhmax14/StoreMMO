@@ -45,6 +45,9 @@
 </head>
 
 <body>
+    <form id="antiForgeryForm">
+        @Html.AntiForgeryToken()
+    </form>
     <div class="page-wrapper">
         <div class="top-notice bg-primary text-white">
             <div class="container text-center">
@@ -94,7 +97,7 @@
                         <tbody>
                        
                             @foreach(var item in Model.temitem){
-                                <tr class="product-row">
+                                <tr id="row-@item.productID" class="product-row">
                                     <td>
                                         <figure class="product-image-container">
 
@@ -111,7 +114,7 @@
                                                 <img src="@item.img" alt="product">
                                             </a>
                                         }
-                                            <a href="#" class="btn-remove icon-cancel" title="Remove Product"></a>
+                                            <a onclick="Remove('@item.productID')" class="btn-remove icon-cancel" title="Remove Product"></a>
                                         </figure>
                                     </td>
                                     <td>
@@ -163,7 +166,64 @@
                 </div><!-- End .cart-table-container -->
             </div><!-- End .container -->
         </main><!-- End .main -->
+        <script>
+            function Remove(productId) {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn btn-success",
+                        cancelButton: "btn btn-danger"
+                    },
+                    buttonsStyling: false
+                });
+                swalWithBootstrapButtons.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Wishlist/View?handler=RemoveWish",
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader("XSRF-TOKEN", $('#antiForgeryForm input[name="__RequestVerificationToken"]').val());
+                            },
+                            data: { "id": productId },
+                            success: function (response) {
+                                if (response.success) {
+                                    $('#row-' + productId).remove();
+                                    swalWithBootstrapButtons.fire({
+                                        title: "Deleted!",
+                                        text: "Your item has been removed from the wishlist.",
+                                        icon: "success"
+                                    });
+                                } else {
+                                    alert(response.message);
+                                }
+                            },
+                            failure: function (response) {
+                                alert("Failed: " + response.responseText);
+                            },
+                            error: function (response) {
+                                alert("Error: " + response.responseText);
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        swalWithBootstrapButtons.fire({
+                            title: "Cancelled",
+                            text: "Your imaginary file is safe :)",
+                            icon: "error"
+                        });
+                    }
+                });
+            }
 
+
+
+         </script>
       
     </div><!-- End .page-wrapper -->
 
