@@ -88,6 +88,7 @@ namespace StoreMMO.Web.Pages.Seller
                 DescriptionDetail = input.DescriptionDetail.Trim(),
                 CreatedDate = DateTime.Now,
                 ModifiedDate = null
+
             };
 
             // Bước 4: Xử lý upload ảnh

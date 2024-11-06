@@ -25,7 +25,7 @@ namespace StoreMMO.Web.Middleware
 
 		public async Task Invoke(HttpContext context)
 		{
-			context.Session.SetString("UserID", "1f0dbbe2-2a81-43e9-8272-117507ac9c45");
+			context.Session.SetString("UserID", "058c5842-b5f3-44ec-8376-d2e6a779dffb");
 			context.Session.SetString("Email", "AnhLDCE17jj1348@fpt.edu.vn");
 			var checkUserID = context.Session.GetString("UserID");
 			if (checkUserID != null)

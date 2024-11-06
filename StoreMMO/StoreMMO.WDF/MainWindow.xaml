@@ -60,9 +60,9 @@
             <!-- Nút để Hidden User Account -->
             <Button Content="Hidden User Account" Style="{StaticResource NavButtonStyle}" Click="buttonHiddenUserAccountList"/>
             <!-- Nút để Registered Sellers -->
-            <!--<Button Content="Registered Sellers" Style="{StaticResource NavButtonStyle}" Click="buttonRegisteredSellers"/>-->
+            <Button Content="Registered Sellers" Style="{StaticResource NavButtonStyle}" Click="buttonRegisteredSellers"/>
             <!-- Nút để Registered Stores -->
-            <Button Content="Registered Stores" Style="{StaticResource NavButtonStyle}" Click="button_RegisteredStores"/>
+            <!--<Button Content="Registered Stores" Style="{StaticResource NavButtonStyle}" Click="button_RegisteredStores"/>-->
             <!-- Nút để Stores -->
             <Button Content="Stores" Style="{StaticResource NavButtonStyle}" Click="button_StoresListt"/>
             <!-- Nút để Hidden Stores -->
