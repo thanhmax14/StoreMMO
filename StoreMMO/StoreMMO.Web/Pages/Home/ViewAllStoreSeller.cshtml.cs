@@ -30,7 +30,7 @@ namespace StoreMMO.Web.Pages.Home
         {
             var userId = HttpContext.Session.GetString("UserID");
             //products = _product.ManageStore();
-            //products = _product.ManageStore();
+            //products = _product.ManageStore(userId);
 
         }
         public void OnPost()

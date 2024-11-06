@@ -58,11 +58,12 @@ namespace StoreMMO.Web.Pages.Admin
                     if (user != null)
                     {
                         // C?ng Amount t? giao d?ch vào CurrentBalance c?a ng??i dùng
-                        user.CurrentBalance -= withdraw.Amount;
+                        //user.CurrentBalance -= withdraw.Amount;
+                        user.CurrentBalance -= Math.Abs(withdraw.Amount);
 
                         // L?u các thay ??i vào c? s? d? li?u
                         await _context.SaveChangesAsync();
-                        success = "Accept success! The money will refund to the customer's account.";
+                        success = "Accept success! The money will substract to the customer's account.";
                     }
                     else
                     {

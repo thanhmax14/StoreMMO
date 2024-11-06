@@ -22,8 +22,6 @@ namespace StoreMMO.Web.Pages.Admin
         this._sellerDashBoardService = sellerDashBoardService;
         }
 
-
-
         public IEnumerable<TopStoreViewModels> list = new List<TopStoreViewModels>();
 
         public async void OnGet()
