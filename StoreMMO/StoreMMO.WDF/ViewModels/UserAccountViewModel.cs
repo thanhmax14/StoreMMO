@@ -140,7 +140,7 @@ namespace StoreMMO.WDF.ViewModels
 				//Kiểm tra nếu vai trò là "Seller" và không phải là "Admin"
 				if (roleName != null && (roleName.Equals("Seller", StringComparison.OrdinalIgnoreCase) || roleName.Equals("User", StringComparison.OrdinalIgnoreCase)))
 				{
-					if (user.IsDelete == true)
+					if (user.IsDelete == false)
 					{
 						var userWithRole = new AppUserViewModel
 						{
@@ -267,7 +267,7 @@ namespace StoreMMO.WDF.ViewModels
 			if (userToUpdate != null)
 			{
 				// Đánh dấu người dùng là ẩn
-				userToUpdate.IsDelete = false;
+				userToUpdate.IsDelete = true;
 
 				// Lưu thay đổi vào cơ sở dữ liệu
 				var result = await _userManager.UpdateAsync(userToUpdate);

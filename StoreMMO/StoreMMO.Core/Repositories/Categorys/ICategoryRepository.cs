@@ -21,5 +21,7 @@ namespace StoreMMO.Core.Repositories.Categorys
         IEnumerable<CategoryViewModels> GetCategoryIsHidden();
         //   CategoryViewModels UpdateName(CategoryViewModels category);
 
+         Task<IEnumerable<CategoryViewModels>> GetAll1();
+        Task<CategoryViewModels> GetByIdAsync(string id);
     }
 }

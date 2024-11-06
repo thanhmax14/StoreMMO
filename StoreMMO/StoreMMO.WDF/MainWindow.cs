@@ -79,6 +79,7 @@ namespace StoreMMO.WDF
 
 			// Truyền đối tượng categoryViewModel vào hàm khởi tạo
 			frMain.Content = new CategoriesList(_categoryService);
+		
 		}
 
 		private void button_HiddenCategoryList(object sender, RoutedEventArgs e)
@@ -89,13 +90,11 @@ namespace StoreMMO.WDF
 		private void button_StoreTypeList(object sender, RoutedEventArgs e)
 		{
 			frMain.Content = new StoreTypeList(_storeTypeListViewModel);
-			_storeTypeListViewModel.loadData();
 		}
 
 		private void button_HiddenStoreTypeList(object sender, RoutedEventArgs e)
 		{
 			frMain.Content = new HiddenStoreTypeList(_hiddenStoreTypeListViewModel);
-			_hiddenStoreTypeListViewModel.LoadData();
 		}
 
 		//private void button_DisputesList(object sender, RoutedEventArgs e)

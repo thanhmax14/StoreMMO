@@ -75,5 +75,10 @@ namespace BusinessLogic.Services.StoreMMO.Core.Stores
 		{
             return this._storeRepo.getPriceStorr(storeID);
 		}
-	}
+
+        public async Task<IEnumerable<StoreViewModels>> getAll1(string sicbo)
+        {
+            return await this._storeRepo.getAll1(sicbo);
+        }
+    }
 }

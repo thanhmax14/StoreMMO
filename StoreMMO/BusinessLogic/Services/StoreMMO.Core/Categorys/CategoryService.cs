@@ -5,6 +5,7 @@ using StoreMMO.Core.ViewModels;
 namespace BusinessLogic.Services.StoreMMO.Core.Categorys
 {
 
+
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -26,6 +27,16 @@ namespace BusinessLogic.Services.StoreMMO.Core.Categorys
         public IEnumerable<CategoryViewModels> GetAll()
         {
            return _categoryRepository.GetAll();
+        }
+
+        public async Task<IEnumerable<CategoryViewModels>> GetAll1()
+        {
+            return await _categoryRepository.GetAll1();
+        }
+
+        public async Task<CategoryViewModels> GetByIdAsync(string id)
+        {
+            return await _categoryRepository.GetByIdAsync(id);
         }
 
         public CategoryViewModels getByIdCategory(string id)

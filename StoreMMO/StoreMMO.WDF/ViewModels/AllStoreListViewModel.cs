@@ -30,9 +30,9 @@ namespace StoreMMO.WDF.ViewModels
             Hide = new RelayCommand(Update);
         }
 
-        public void LoadData()
+        public async void LoadData()
         {
-            var obj = _storeService.getAll("0");
+            var obj = await _storeService.getAll1("0");
 
             storeViewModels = new ObservableCollection<StoreViewModels>(obj);
             OnPropertyChanged(nameof(storeViewModels));
@@ -94,7 +94,7 @@ namespace StoreMMO.WDF.ViewModels
             {
                 Id = _SelectItem.storeID,
                 UserId = _SelectItem.userid,
-                IsAccept = "0" // Cập nhật trạng thái IsAccept
+                IsAccept = "1" // Cập nhật trạng thái IsAccept
             };
 
             // Gọi dịch vụ để cập nhật store

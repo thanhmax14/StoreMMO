@@ -18,5 +18,8 @@ namespace StoreMMO.Core.Repositories.Stores
         public StoreDetailViewModels getStoreDetailById(string id);
         IEnumerable<CheckExitStore> checkExit(string userid);
         public IEnumerable<getPriceStore> getPriceStorr(string storeID);
+
+        Task<IEnumerable<StoreViewModels>> getAll1(string sicbo);
+
     }
 }

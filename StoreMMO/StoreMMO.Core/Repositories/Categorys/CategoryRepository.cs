@@ -1,4 +1,5 @@
-﻿using StoreMMO.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreMMO.Core.Models;
 using StoreMMO.Core.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace StoreMMO.Core.Repositories.Categorys
             _context.SaveChanges();
         }
 
-		public IEnumerable<CategoryViewModels> GetAll()
+		public  IEnumerable<CategoryViewModels> GetAll()
 		{
 			var list = _context.Categories.ToList();
 			var listtep = list.Select(x => new CategoryViewModels
@@ -55,8 +56,25 @@ namespace StoreMMO.Core.Repositories.Categorys
 			return listtep;
 		}
 
+        public async Task<IEnumerable<CategoryViewModels>> GetAll1()
+        {
+            // Sử dụng ToListAsync() để lấy danh sách bất đồng bộ
+            var list = await _context.Categories.ToListAsync();
 
-		public CategoryViewModels getById(string id)
+            // Chuyển đổi danh sách sang dạng CategoryViewModels
+            var listtep = list.Select(x => new CategoryViewModels
+            {
+                CreatedDate = x.CreatedDate,
+                Id = x.Id,
+                IsActive = x.IsActive,
+                ModifiedDate = x.ModifiedDate,
+                Name = x.Name
+            });
+
+            return listtep;
+        }
+
+        public CategoryViewModels getById(string id)
         {
             var findId = _context.Categories.SingleOrDefault(x => x.Id == id);
             if (findId == null)
@@ -70,6 +88,25 @@ namespace StoreMMO.Core.Repositories.Categorys
                 CreatedDate = findId.CreatedDate,
                 ModifiedDate = findId.ModifiedDate,
             };
+            return category;
+        }
+        public async Task<CategoryViewModels> GetByIdAsync(string id)
+        {
+            var findId = await _context.Categories.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (findId == null)
+            {
+                throw new Exception("Id not found");
+            }
+
+            var category = new CategoryViewModels
+            {
+                Id = findId.Id,
+                Name = findId.Name,
+                CreatedDate = findId.CreatedDate,
+                ModifiedDate = findId.ModifiedDate,
+            };
+
             return category;
         }
 

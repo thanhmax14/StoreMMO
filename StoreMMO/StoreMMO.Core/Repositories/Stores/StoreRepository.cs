@@ -38,6 +38,29 @@ namespace StoreMMO.Core.Repositories.Stores
 			}
 			return null;
         }
+        public async Task<IEnumerable<StoreViewModels>> getAll1(string sicbo)
+        {
+            string sql = $"SELECT s.Id AS storeID, us.id AS userid, sd.[Name] AS nameStore, ca.[Name] AS catename, us.UserName, sd.Img AS imgStore FROM Users us INNER JOIN Stores s ON us.Id = s.UserId INNER JOIN StoreDetails sd ON s.Id = sd.StoreId INNER JOIN StoreTypes st ON sd.StoreTypeId = st.Id INNER JOIN Categories ca ON sd.CategoryId = ca.Id WHERE s.IsAccept = '{sicbo}'\r\n";
+
+
+            var list = this._context.Database.SqlQueryRaw<StoreViewModels>(sql).ToList();
+
+            if (list.Count > 0)
+            {
+                List<StoreViewModels> storeViewModelsList = list.Select(s => new StoreViewModels
+                {
+                    storeID = s.storeID,
+                    userid = s.userid,
+                    nameStore = s.nameStore,
+                    catename = s.catename,
+                    UserName = s.UserName,
+                    imgStore = s.imgStore,
+                    price = getPriceStorr(s.storeID).First().PriceRange
+                }).ToList();
+                return storeViewModelsList;
+            }
+            return null;
+        }
 
         public StoreAddViewModels AddStore(StoreAddViewModels store)
         {
