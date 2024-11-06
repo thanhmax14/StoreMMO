@@ -69,18 +69,25 @@ namespace StoreMMO.Web.Pages.Seller
                 return Page(); // Hoặc RedirectToPage() nếu bạn muốn chuyển hướng
             }
             // Lấy loại sản phẩm hiện tại từ ProductTypeId
+            // Lấy loại sản phẩm hiện tại từ ProductTypeId
             var existingProductType = _productTypeService.getByIDProduct(CreateProduct.ProductTypeId);
 
             if (existingProductType != null)
             {
-                // Tăng Stock nếu sản phẩm đã tồn tại
-                if (int.TryParse(existingProductType.Stock, out int stockValue))
+                // Kiểm tra nếu Stock là null hoặc trống, đặt giá trị khởi đầu là 1
+                if (string.IsNullOrEmpty(existingProductType.Stock))
                 {
-                    stockValue++; // Tăng giá trị Stock lên 1
-                    existingProductType.Stock = stockValue.ToString(); // Chuyển lại thành string
-                    _productTypeService.Update(existingProductType); // Cập nhật sản phẩm
-                    _productService.AddProduct(productViewModels);
+                    existingProductType.Stock = "1"; // Đặt stock ban đầu là 1 nếu chưa có giá trị
                 }
+                else if (int.TryParse(existingProductType.Stock, out int stockValue))
+                {
+                    stockValue++; // Tăng giá trị Stock lên 1 nếu đã có giá trị
+                    existingProductType.Stock = stockValue.ToString(); // Cập nhật lại thành chuỗi
+                }
+
+                // Cập nhật loại sản phẩm với Stock mới
+                _productTypeService.Update(existingProductType);
+                _productService.AddProduct(productViewModels);
             }
             else
             {
@@ -88,6 +95,7 @@ namespace StoreMMO.Web.Pages.Seller
                 existingProductType.Stock = "1"; // Đặt stock ban đầu nếu là sản phẩm mới
                 _productTypeService.AddProduct(existingProductType);
             }
+
 
             // Redirect về trang Index sau khi tạo thành công
             return RedirectToPage("/Seller/Index");

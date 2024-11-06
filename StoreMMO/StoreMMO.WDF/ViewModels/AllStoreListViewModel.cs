@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Services.StoreMMO.Core.Stores;
+﻿using BusinessLogic.Services.StoreMMO.Core.Products;
+using BusinessLogic.Services.StoreMMO.Core.Stores;
 using StoreMMO.Core.ViewModels;
 using StoreMMO.WDF.Utilities;
 using System;
@@ -32,6 +33,7 @@ namespace StoreMMO.WDF.ViewModels
         public void LoadData()
         {
             var obj = _storeService.getAll("0");
+
             storeViewModels = new ObservableCollection<StoreViewModels>(obj);
             OnPropertyChanged(nameof(storeViewModels));
         }

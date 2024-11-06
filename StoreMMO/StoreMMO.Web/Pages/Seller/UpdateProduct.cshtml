@@ -380,73 +380,82 @@
                                     @{
                                         int stt = 1;
                                     }
-                                    @foreach (var item in Model.EditProduct)
+                                    @if (string.IsNullOrWhiteSpace(Model.EditProduct.First().ProductName))
                                     {
                                         <tr>
-                                            <td>@stt</td>
-                                            @*  @{
+
+                                        </tr>
+                                    }else{
+                                        @foreach (var item in Model.EditProduct)
+                                        {
+                                            <tr>
+                                                <td>@stt</td>
+                                                @*  @{
                                         var productTypeName = Model.ProductTypes.FirstOrDefault(pt => pt.Id == item.ProductTypeId)?.Name;
                                         } *@
-                                            <td>@item.ProductName</td> <!-- Hiển thị tên của ProductType -->
-                                            <td>@item.Price</td>
-                                            <td class="@(item.IsActive == true ? "text-success" : "text-danger")">
-                                                @(item.IsActive == true ? "Active" : "Hidden")
-                                            </td>
-                                            <td>@item.Stock</td>
+                                                <td>@item.ProductName</td> <!-- Hiển thị tên của ProductType -->
+                                                <td>@item.Price</td>
+                                                <td class="@(item.IsActive == true ? "text-success" : "text-danger")">
+                                                    @(item.IsActive == true ? "Active" : "Hidden")
+                                                </td>
+                                                <td>@item.Stock</td>
 
-                                            <td>
-                                                @*  <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
+                                                <td>
+                                                    @*  <button onclick="window.location.href='/admin/UpdateUser/@item.UserID'" type="button" class="btn btn-primary">Edit</button>
                                             <button type="button" class="btn btn-danger">Hidden</button>
                                             *@
-                                                <a asp-page="/Seller/ViewDetailsProduct" asp-route-id="@item.ProductTypeID" class="btn btn-primary">View Details</a>
-                                               @Html.AntiForgeryToken()
-                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.ProductTypeID">Edit</button>
+                                                    <a asp-page="/Seller/ViewDetailsProduct" asp-route-id="@item.ProductTypeID" class="btn btn-primary">View Details</a>
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.ProductTypeID">Edit</button>
 
-                                                <!-- Trigger modal with Edit button -->
-                                                @foreach (var item1 in Model.ProductTypes)
-                                                {
-                                                    <div class="modal fade" id="exampleModal-@item.ProductTypeID" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Edit Product</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <!-- Form to update product -->
-                                                                    <form id="editProductForm-@item.ProductTypeID" method="post" class="editProductForm" data-product-id="@item.ProductTypeID" action="/Seller/UpdateProduct">
-                                                                        @Html.AntiForgeryToken() <!-- Add this line -->
+                                                    <!-- Trigger modal with Edit button -->
+                                                    @foreach (var item1 in Model.ProductTypes)
+                                                    {
+                                                        <div class="modal fade" id="exampleModal-@item.ProductTypeID" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Edit Product</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <!-- Form to update product -->
+                                                                        <form id="editProductForm-@item.ProductTypeID" method="post" class="editProductForm" data-product-id="@item.ProductTypeID" action="/Seller/UpdateProduct">
+                                                                            @Html.AntiForgeryToken() <!-- Add this line -->
 
-                                                                        <div class="form-group">
-                                                                            <label asp-for="@item.ProductName">Name</label>
-                                                                            <input asp-for="@item.ProductName" type="text" name="ProductName" id="ProductName-@item.ProductTypeID" class="form-control" value="@item.ProductName" />
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label asp-for="@item.Price">Price</label>
-                                                                            <input asp-for="@item.Price" type="text" name="Price" id="Price-@item.ProductTypeID" class="form-control" value="@item.Price" />
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label asp-for="@item.IsActive">Status</label>
-                                                                            <select name="IsActive" class="form-control" id="IsActive-@item.ProductTypeID">
-                                                                                <option value="true">IsActive </option>
-                                                                                <option value="false">Hidden</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <input type="submit" value="Save" class="btn btn-primary" />
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                        </div>
-                                                                    </form>
+                                                                            <div class="form-group">
+                                                                                <label asp-for="@item.ProductName">Name</label>
+                                                                                <input asp-for="@item.ProductName" type="text" name="ProductName" id="ProductName-@item.ProductTypeID" class="form-control" value="@item.ProductName" />
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label asp-for="@item.Price">Price</label>
+                                                                                <input asp-for="@item.Price" type="text" name="Price" id="Price-@item.ProductTypeID" class="form-control" value="@item.Price" />
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label asp-for="@item.IsActive">Status</label>
+                                                                                <select name="IsActive" class="form-control" id="IsActive-@item.ProductTypeID">
+                                                                                    <option value="true">IsActive </option>
+                                                                                    <option value="false">Hidden</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <input type="submit" value="Save" class="btn btn-primary" />
+                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                }
-                                           
-                                            </td>
-                                        </tr>
-                                        stt++;
+                                                    }
+
+                                                </td>
+                                            </tr>
+                                            stt++;
+                                        }
                                     }
+
+                                  
 
                                 </tbody>
                             </table>

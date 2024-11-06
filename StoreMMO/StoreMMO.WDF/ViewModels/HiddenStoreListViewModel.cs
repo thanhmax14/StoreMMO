@@ -29,7 +29,7 @@ namespace StoreMMO.WDF.ViewModels
         }
         public void LoadData()
         {
-            var obj = _storeService.getAll("0");
+            var obj = _storeService.getAll("1");
             storeViewModels = new ObservableCollection<StoreViewModels>(obj);
             OnPropertyChanged(nameof(storeViewModels)); 
         }

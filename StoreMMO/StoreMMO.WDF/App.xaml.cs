@@ -2,6 +2,7 @@
 using BusinessLogic.Services.StoreMMO.Core.Balances;
 using BusinessLogic.Services.StoreMMO.Core.Categorys;
 using BusinessLogic.Services.StoreMMO.Core.Disputes;
+using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
 using BusinessLogic.Services.StoreMMO.Core.StoreTypes;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +15,7 @@ using StoreMMO.Core.Models;
 using StoreMMO.Core.Repositories.Balances;
 using StoreMMO.Core.Repositories.Categorys;
 using StoreMMO.Core.Repositories.Disputes;
+using StoreMMO.Core.Repositories.ProductsConnect;
 using StoreMMO.Core.Repositories.Stores;
 using StoreMMO.Core.Repositories.StoreTypes;
 using StoreMMO.WDF.ViewModels;
@@ -79,6 +81,8 @@ namespace StoreMMO.WDF
             services.AddTransient<IStoreRepository, StoreRepository>();
             services.AddTransient<IBalanceService, BalanceService>();
             services.AddTransient<IBalanceRepository, BalanceRepository>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IProductConnectRepository, ProductConnectRepository>();
             //services.AddTransient<IStudentRepository, StudentRepository>();
             services.AddTransient<CategoryViewModel>();
             services.AddTransient<HiddenCategoriesListModel>();
