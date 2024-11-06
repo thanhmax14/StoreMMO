@@ -101,11 +101,6 @@ namespace StoreMMO.Web.Pages.Account
 			}
         }
 
-		public async Task<IActionResult> OnGetLogout()
-		{
-			HttpContext.Session.Clear();
-			return Redirect("/Account/login");
-		}
 
 
 
