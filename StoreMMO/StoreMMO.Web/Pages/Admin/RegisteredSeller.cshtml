@@ -446,9 +446,10 @@
                                                     </form>
                                                     <br />
                                                     <!-- Reject Form -->
-                                                    <form method="post" asp-page-handler="OnPostRejectAsync" asp-route-id="@item.UserID">
+                                                    <form method="post" asp-page-handler="Reject" asp-route-id="@item.UserID">
                                                         <button type="submit" class="btn btn-danger">Reject</button>
                                                     </form>
+
                                                 </div>
                                                
                                                 <div class="modal fade" id="verticalycentered" tabindex="-1">

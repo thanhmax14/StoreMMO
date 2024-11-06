@@ -56,7 +56,7 @@ namespace StoreMMO.Web.Pages
                 HttpContext.Session.SetString("ListCate", JsonConvert.SerializeObject(listCate, jsonSettings));
 			}
 
-			storeView = await this._storeApi.GetStoresAsync("1");
+			storeView = await this._storeApi.GetStoresAsync("0");
 			
 		}
 

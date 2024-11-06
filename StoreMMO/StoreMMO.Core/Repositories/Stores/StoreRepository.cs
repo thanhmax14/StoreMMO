@@ -21,7 +21,22 @@ namespace StoreMMO.Core.Repositories.Stores
 
 
             var list = this._context.Database.SqlQueryRaw<StoreViewModels>(sql).ToList();
-            return list;
+
+			 if(list.Count > 0 )
+            {
+				List<StoreViewModels> storeViewModelsList = list.Select(s => new StoreViewModels
+				{
+					storeID = s.storeID,
+					userid = s.userid,
+					nameStore = s.nameStore,
+					catename = s.catename,
+					UserName = s.UserName,
+					imgStore = s.imgStore,
+					price = getPriceStorr(s.storeID).First().PriceRange
+				}).ToList();
+				return storeViewModelsList;
+			}
+			return null;
         }
 
         public StoreAddViewModels AddStore(StoreAddViewModels store)
@@ -233,5 +248,38 @@ FROM         Stores INNER JOIN
             var list = this._context.Database.SqlQueryRaw<CheckExitStore>(sql).ToList();
             return list;
         }
-    }
+
+		public IEnumerable<getPriceStore> getPriceStorr(string storeID)
+		{
+			string sql = $@" SELECT  
+    CASE 
+        WHEN MIN(p.Price) = MAX(p.Price) 
+        THEN CONCAT('0 - ', MAX(p.Price)) 
+        ELSE CONCAT(MIN(p.Price), ' - ', MAX(p.Price)) 
+    END AS PriceRange
+FROM 
+    Stores s
+JOIN 
+    StoreDetails sd ON s.Id = sd.StoreId
+LEFT JOIN 
+    Categories ca ON ca.Id = sd.CategoryId
+LEFT JOIN 
+    StoreTypes st ON st.Id = sd.StoreTypeId
+LEFT JOIN 
+    ProductConnects pc ON sd.Id = pc.StoreDetailId
+LEFT JOIN 
+    ProductTypes p ON pc.ProductTypeId = p.Id  
+	where s.Id ='{storeID}'
+GROUP BY 
+    sd.Id,  -- Thêm sd.Id vào GROUP BY
+    sd.[Name], 
+    ca.[Name],
+    s.IsAccept,
+    s.CreatedDate;";
+			var list = this._context.Database.SqlQueryRaw<getPriceStore>(sql).ToList();
+			return list;
+		}
+	}
+
+    
 }

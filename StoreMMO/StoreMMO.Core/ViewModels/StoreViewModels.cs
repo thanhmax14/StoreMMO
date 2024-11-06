@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,8 @@ namespace StoreMMO.Core.ViewModels
         public string catename { get; set; }
         public string UserName { get; set; }
         public string imgStore { get; set; }
-
+        [NotMapped]
+        public string? price { get; set; }
 
 
     }

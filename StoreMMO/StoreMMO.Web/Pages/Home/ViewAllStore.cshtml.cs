@@ -21,12 +21,12 @@ namespace StoreMMO.Web.Pages.Home
         public string CurrentFilter { get; set; }
         public int CurrentPageSize { get; set; }
        public List<CategoryViewModels> listCat { get; set; }
-        public async Task OnGetAsync(string searchString, int? page, int? count, string cat, string username)
+        public async Task OnGetAsync(string searchString, int? page, int? count, string cat, string username, string orderby)
         {
             CurrentFilter = searchString;
             CurrentPageSize = count ?? 12;
             int pageNumber = page ?? 1;
-            var stores = await _storeApi.GetStoresAsync("1");
+            var stores = await _storeApi.GetStoresAsync("0");
             var categoryJson = HttpContext.Session.GetString("ListCate");
           
             if (!string.IsNullOrEmpty(categoryJson))
@@ -42,20 +42,35 @@ namespace StoreMMO.Web.Pages.Home
                 stores = stores.Where(s => keywords.All(k => s.nameStore.ToLower().Contains(k.ToLower()))).ToList();
             }
 
-            // Lọc theo tên danh mục (categoryName)
+    
             if (!string.IsNullOrEmpty(cat))
             {
                 stores = stores.Where(s => s.catename.ToLower().Contains(cat.ToLower())).ToList();
             }
 
-            // Lọc theo username
+           
             if (!string.IsNullOrEmpty(username))
             {
                 stores = stores.Where(s => s.UserName.ToLower().Contains(username.ToLower())).ToList();
             }
 
+            stores = orderby switch
+            {
+                "price" => stores.OrderBy(s => ExtractMinPrice(s.price)).ToList(),
+                "price-desc" => stores.OrderByDescending(s => ExtractMinPrice(s.price)).ToList(),
+                _ => stores // Sắp xếp mặc định
+            };
+
+
+
             storeView = stores.ToPagedList(pageNumber, CurrentPageSize);
         }
+		private decimal ExtractMinPrice(string priceRange)
+		{
+			if (string.IsNullOrEmpty(priceRange)) return 0;
 
-    }
+			var prices = priceRange.Split('-');
+			return decimal.TryParse(prices[0].Trim(), out var minPrice) ? minPrice : 0;
+		}
+	}
 }

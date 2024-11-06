@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.Purchases;
 using BusinessLogic.Services.StoreMMO.Core.SellerDashBoard;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.ViewModels;
@@ -9,6 +10,7 @@ using System.Linq;
 
 namespace StoreMMO.Web.Pages.Admin
 {
+
     public class IndexModel : PageModel
     {
         private readonly IPurchaseService _Puchase;
