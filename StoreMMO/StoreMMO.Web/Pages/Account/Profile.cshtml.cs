@@ -83,7 +83,16 @@ namespace StoreMMO.Web.Pages.Account
 			{
 				Balance = AppUser.CurrentBalance +"";
 				ViewData["IsSeller"] = AppUser.IsSeller; // Gán trạng thái IsSeller cho ViewData
-			}
+
+				var userId = AppUser.Id; // Lấy UserId từ AppUser
+				HttpContext.Session.SetString("UserID", userId); // Lưu UserId vào Session
+
+				var currentRoles = await _userManager.GetRolesAsync(AppUser);
+
+                // Kiểm tra xem người dùng có vai trò "Seller" không
+                bool isSeller = currentRoles.Contains("Seller");
+                ViewData["IsSellerRole"] = isSeller; // Gán trạng thái vai trò Seller cho ViewData
+            }
 			else
 			{
 				ViewData["IsSeller"] = false; // Nếu không tìm thấy người dùng, gán false

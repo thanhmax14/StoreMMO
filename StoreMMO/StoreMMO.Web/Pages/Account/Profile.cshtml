@@ -497,8 +497,18 @@
 									details</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" id="shop-address-tab" data-toggle="tab" href="#shipping" role="tab"
-									aria-controls="edit" aria-selected="false">Register Seller</a>
+								@if (ViewData["IsSellerRole"] as bool? == true)
+								{
+									<!-- Hiển thị link "Management Seller" nếu người dùng là Seller -->
+<a class="nav-link" asp-page="/Seller/Index" asp-route-userId="@HttpContext.Session.GetString("UserID")">
+    Management Seller
+</a>								}
+								else
+								{
+									<!-- Hiển thị link "Register Seller" nếu người dùng chưa phải là Seller -->
+									<a class="nav-link" id="shop-address-tab" data-toggle="tab" href="#shipping" role="tab"
+									   aria-controls="edit" aria-selected="false">Register Seller</a>
+								}
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="/wishlist/view">Wishlist</a>

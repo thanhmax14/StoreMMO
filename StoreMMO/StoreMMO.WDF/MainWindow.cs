@@ -54,15 +54,15 @@ namespace StoreMMO.WDF
 			frMain.Content = new HiddenUserAccount(_hidentUserAccountViewModel);
 		}
 
-		//private void buttonRegisteredSellers(object sender, RoutedEventArgs e)
-		//{
-		//	frMain.Content = new RegisteredSellers(_registerSellerViewModel);
-		//}
-
-		private void button_RegisteredStores(object sender, RoutedEventArgs e)
+		private void buttonRegisteredSellers(object sender, RoutedEventArgs e)
 		{
-			frMain.Content = new RegisteredStores();
+			frMain.Content = new RegisteredSellers(_registerSellerViewModel);
 		}
+
+		//private void button_RegisteredStores(object sender, RoutedEventArgs e)
+		//{
+		//	frMain.Content = new RegisteredStores();
+		//}
 
 		private void button_StoresListt(object sender, RoutedEventArgs e)
 		{
