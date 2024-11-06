@@ -167,11 +167,16 @@ namespace StoreMMO.Core.Repositories.orderDetailViewModels
            return EditAsync(SaleHistoryViewModels);
         }
 
-        public IEnumerable<SaleHistoryViewModels> getAll()
+        public IEnumerable<SaleHistoryViewModels> getAll(string sellerId)
         {
-            string sql = $"SELECT OrderBuys.ID AS [OrderID], od.Dates, OrderBuys.OrderCode, us.UserName AS [NguoiMua], sd.Name AS [StoreName], pt.Name AS [Productype], od.Price, OrderBuys.totalMoney, od.AdminMoney, od.stasusPayment FROM OrderBuys INNER JOIN OrderDetails od ON OrderBuys.ID = od.OrderBuyID INNER JOIN Stores st ON OrderBuys.StoreID = st.Id INNER JOIN StoreDetails sd ON st.Id = sd.StoreId INNER JOIN ProductTypes pt ON OrderBuys.ProductTypeId = pt.Id INNER JOIN Users us ON OrderBuys.UserID = us.Id AND st.UserId = us.Id;\r\n";
+            
+            string sql = $"SELECT OrderBuys.ID AS [OrderID], od.Dates, OrderBuys.OrderCode, us.UserName AS [NguoiMua], sd.Name AS [StoreName], pt.Name AS [Productype], od.Price, OrderBuys.totalMoney, od.AdminMoney, od.stasusPayment FROM OrderBuys INNER JOIN OrderDetails od ON OrderBuys.ID = od.OrderBuyID INNER JOIN Stores st ON OrderBuys.StoreID = st.Id INNER JOIN StoreDetails sd ON st.Id = sd.StoreId INNER JOIN ProductTypes pt ON OrderBuys.ProductTypeId = pt.Id INNER JOIN Users us ON OrderBuys.UserID = us.Id where  st.UserId = '{sellerId}'\r\n";
+           
+            
             var list =  this._context.Database.SqlQueryRaw<SaleHistoryViewModels>(sql).ToList();
+            var a = list;
             return list;
+           
         }
 
         public IEnumerable<GetOrderDetailsViewModel> getOrderDetails(string orderID)

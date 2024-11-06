@@ -9,7 +9,7 @@ namespace BusinessLogic.Services.StoreMMO.Core.OrderDetails
 {
     public interface IOderDetailsService
     {
-        IEnumerable<SaleHistoryViewModels> getAll();
+        IEnumerable<SaleHistoryViewModels> getAll(string sellerId);
         Task<bool> AddAsync(OrderDetailsViewModels orderDetailViewModels);
         Task<bool> DeleteAsync(OrderDetailsViewModels orderDetailViewModels);
         Task<bool> UpdateAsync(SaleHistoryViewModels orderDetailViewModels);

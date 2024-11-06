@@ -27,9 +27,9 @@ namespace BusinessLogic.Services.StoreMMO.Core.OrderDetails
             return await this._oderDetailsRepository.DeleteAsync(orderDetailViewModels);
         }
 
-        public IEnumerable<SaleHistoryViewModels> getAll()
+        public IEnumerable<SaleHistoryViewModels> getAll(string sellerId)
         {
-            return  this._oderDetailsRepository.getAll();
+            return  this._oderDetailsRepository.getAll(sellerId);
         }
 
         public async Task<OrderDetailsViewModels> GetOrderDeailByIDAsync(string id)

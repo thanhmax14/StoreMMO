@@ -32,13 +32,14 @@ namespace StoreMMO.Web.Pages.Seller
         public string fail { get; set; }
         public void OnGet()
         {
-            list = this._orderDetailService.getAll();
+            var UserID = HttpContext.Session.GetString("UserID");
+            list = this._orderDetailService.getAll(UserID);
         }
 
         public void UpdateStoreIsAccept(SaleHistoryViewModels storeView)
         {
-            
-            list = this._orderDetailService.getAll();
+            var UserID = HttpContext.Session.GetString("UserID");
+            list = this._orderDetailService.getAll(UserID);
         }
 
 
