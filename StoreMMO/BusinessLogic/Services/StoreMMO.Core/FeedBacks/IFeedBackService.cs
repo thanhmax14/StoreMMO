@@ -14,6 +14,8 @@ namespace BusinessLogic.Services.StoreMMO.Core.FeedBacks
         void DeleteFeedBack(string id);
         IEnumerable<FeedBackViewModels> getFeedbackCustomerById(string feedbackID);
         FeedBack replyFeedback(string id, string reply);
+        IEnumerable<FeedBack> GetFeebackByStoreID(string storid);
+
 
     }
 }

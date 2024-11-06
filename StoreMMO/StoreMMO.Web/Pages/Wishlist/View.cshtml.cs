@@ -2,6 +2,7 @@
 using BusinessLogic.Services.StoreMMO.API;
 using BusinessLogic.Services.StoreMMO.Core.Carts;
 using BusinessLogic.Services.StoreMMO.Core.WishLists;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -10,6 +11,7 @@ using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Wishlist
 {
+    [Authorize(Roles = "User,Seller")]
     public class ViewModel : PageModel
     {
         private readonly IWishListsService _wishListsService;

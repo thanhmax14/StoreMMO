@@ -1,6 +1,8 @@
 ﻿using BusinessLogic.Services.Encrypt;
 using BusinessLogic.Services.StoreMMO.API;
+using BusinessLogic.Services.StoreMMO.Core.FeedBacks;
 using BusinessLogic.Services.StoreMMO.Core.Purchases;
+using BusinessLogic.Services.StoreMMO.Core.StoreDetails;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,22 +21,27 @@ namespace StoreMMO.Web.Pages.Home
         private readonly IPurchaseService _puchae;
         private readonly AppDbContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IFeedBackService _feed;
+        private readonly IStoreDetailsService _storeDetailSe;
 
         public AppUser info { get; set; }
 
         public StoredetailModel(AppDbContext context, StoreApiService storeApiService, ProductApiService productApi,
-            WishListApiService wish, IPurchaseService purchaseService)
+            WishListApiService wish, IPurchaseService purchaseService, IFeedBackService feed, IStoreDetailsService storeDetailSe)
         {
             _context = context;
             this._storeApi = storeApiService;
             this._productApi = productApi;
             this._wishListApi = wish;
             this._puchae = purchaseService;
+            _feed = feed;
+            _storeDetailSe = storeDetailSe;
         }
 
         [BindProperty]
         public List<StoreDetailViewModel> ListDetail { get; set; }
         public List<WishListViewModels> wishnew = new List<WishListViewModels>();
+        public IEnumerable<FeedBack> feedBacks = new List<FeedBack>();
 
         [TempData]
         public string DefauPrice { get; set; }
@@ -64,7 +71,9 @@ namespace StoreMMO.Web.Pages.Home
                 {
                     return NotFound();
                 }
-
+                var getStoreDtail = this._storeDetailSe.GetByIdStoDetails1(id);
+                feedBacks = this._feed.GetFeebackByStoreID(getStoreDtail.Id);
+                var aas = feedBacks;
                 foreach (var item in ListDetail)
                 {
                     if (item.ProductStock.Count >= 1)

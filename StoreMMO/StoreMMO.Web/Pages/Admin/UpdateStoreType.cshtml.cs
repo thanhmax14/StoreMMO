@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.StoreTypes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.ViewModels;
@@ -6,7 +7,8 @@ using StoreMMO.Web.Models.ViewModels.Admin;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class UpdateStoreTypeModel : PageModel
+	[Authorize(Roles = "Admin")]
+	public class UpdateStoreTypeModel : PageModel
     {
         private readonly IStoreTypesService _categoryServices;
 

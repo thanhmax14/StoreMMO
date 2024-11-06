@@ -1,5 +1,6 @@
 using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 using BusinessLogic.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
@@ -10,7 +11,8 @@ using System.Linq;
 
 namespace StoreMMO.Web.Pages.Seller.Complain
 {
-    public class ComplainListModel : PageModel
+	[Authorize(Roles = "Seller")]
+	public class ComplainListModel : PageModel
     {
 
 

@@ -1,6 +1,7 @@
 using BusinessLogic.Services.StoreMMO.Core.ComplaintsN;
 using BusinessLogic.Services.StoreMMO.Core.Stores;
 using BusinessLogic.Services.StoreMMO.Core.Withdraws;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.AutoMapper.ViewModelAutoMapper;
@@ -9,7 +10,8 @@ using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class ManageWithdrawModel : PageModel
+	[Authorize(Roles = "Admin")]
+	public class ManageWithdrawModel : PageModel
     {
         private readonly IWithdrawService _withdrawService;
         private readonly IComplaintsService _complaintService;
@@ -56,11 +58,12 @@ namespace StoreMMO.Web.Pages.Admin
                     if (user != null)
                     {
                         // C?ng Amount t? giao d?ch vào CurrentBalance c?a ng??i dùng
-                        user.CurrentBalance -= withdraw.Amount;
+                        //user.CurrentBalance -= withdraw.Amount;
+                        user.CurrentBalance -= Math.Abs(withdraw.Amount);
 
                         // L?u các thay ??i vào c? s? d? li?u
                         await _context.SaveChangesAsync();
-                        success = "Accept success! The money will refund to the customer's account.";
+                        success = "Accept success! The money will substract to the customer's account.";
                     }
                     else
                     {

@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.Stores;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,7 +9,8 @@ using StoreMMO.Web.Models.ViewModels;
 
 namespace StoreMMO.Web.Pages.Seller
 {
-    public class CreateStoreModel : PageModel
+	[Authorize(Roles = "Seller")]
+	public class CreateStoreModel : PageModel
     {
         private readonly IStoreService _storeServices;
         private readonly AppDbContext _context;

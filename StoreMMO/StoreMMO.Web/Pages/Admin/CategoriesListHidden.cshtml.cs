@@ -1,11 +1,13 @@
 ﻿using BusinessLogic.Services.StoreMMO.Core.Categorys;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.ViewModels;
 
 namespace StoreMMO.Web.Pages.Admin
 {
-    public class CategoriesListHiddenModel : PageModel
+	[Authorize(Roles = "Admin")]
+	public class CategoriesListHiddenModel : PageModel
     {
         private readonly ICategoryService _categoryServices;
 

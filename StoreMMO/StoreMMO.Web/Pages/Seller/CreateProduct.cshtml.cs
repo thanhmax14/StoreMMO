@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogic.Services.StoreMMO.Core.Products;
 using BusinessLogic.Services.StoreMMO.Core.ProductTypes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using StoreMMO.Core.Models;
@@ -10,7 +11,8 @@ using static QRCoder.PayloadGenerator;
 
 namespace StoreMMO.Web.Pages.Seller
 {
-    public class CreateProductModel : PageModel
+	[Authorize(Roles = "Seller")]
+	public class CreateProductModel : PageModel
     {
         private readonly IProductService _productService;
         private readonly IMapper _mapper;

@@ -143,9 +143,9 @@ app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();
 app.UseMiddleware<CheckingMiddleware>();
-
-app.UseAuthorization();
 app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapRazorPages();
 app.UseEndpoints(endpoints =>
 {
