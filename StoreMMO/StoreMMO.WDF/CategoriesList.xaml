@@ -85,9 +85,9 @@
                 
                 <!-- Nút thêm và cập nhật và ẩn-->
                 <WrapPanel Margin="255,0,0,5">
-                    <Button x:Name="Add" Width="80" Margin="0,0,5,0" Command="{Binding AddNew}" CommandParameter="{Binding SelectedCategorys}" FontSize="16">ADD</Button>
-                    <Button Width="80" Margin="0,0,5,0" Command="{Binding Update}" FontSize="16">UPDATE</Button>
-                    <Button Width="80" Margin="0,0,5,0" Command="{Binding Hide}" FontSize="16">HIDE</Button>
+                    <Button x:Name="Add" Background="#2C3E50" Foreground="White"  FontWeight="ExtraBold" Width="80" Margin="0,0,5,0" Command="{Binding AddNew}" CommandParameter="{Binding SelectedCategorys}" FontSize="16">ADD</Button>
+                    <Button Width="80" Background="#2C3E50" Foreground="White"  FontWeight="ExtraBold" Margin="0,0,5,0" Command="{Binding Update}" FontSize="16">UPDATE</Button>
+                    <Button Width="80" Background="#2C3E50" Foreground="White"  FontWeight="ExtraBold" Margin="0,0,5,0" Command="{Binding Hide}" FontSize="16">HIDE</Button>
                 </WrapPanel>
             </StackPanel>
         </Grid>

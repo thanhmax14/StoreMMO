@@ -93,7 +93,7 @@ namespace StoreMMO.WDF.ViewModels
         private async void UpdateSeller(object parameter)
         {
             if (_AppUserViewModel == null) {
-                MessageBox.Show("Please select a User to update.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please select a User to Accept.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             var update = await _userManager.FindByIdAsync(AppUserViewModel.Id);
@@ -113,7 +113,7 @@ namespace StoreMMO.WDF.ViewModels
         {
             if(_AppUserViewModel == null)
             {
-                MessageBox.Show("Please select a User to update.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please select a User to Reject.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             var update = await _userManager.FindByIdAsync(AppUserViewModel.Id);

@@ -394,13 +394,14 @@
         </div><!-- End Page Title --> *@
 
         <section class="section">
-            <a asp-page="/Seller/CreateProduct" asp-route-id="@Model.ProductTypeId" class="btn btn-primary">Create Product</a>
             <div class="row">
                 <div class="col-lg-12">
 
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Manage Product</h5>
+                            <a asp-page="/Seller/CreateProduct" asp-route-id="@Model.ProductTypeId" class="btn btn-primary">Create Product</a>
+
                             <h5>Đây là: @Model.ProductTypeName</h5> <!-- Hiển thị tên loại sản phẩm -->
                             <!-- Table with stripped rows -->
                             <table class="table datatable">

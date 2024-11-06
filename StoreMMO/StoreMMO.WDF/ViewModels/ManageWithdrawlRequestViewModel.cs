@@ -192,8 +192,8 @@ namespace StoreMMO.WDF.ViewModels
 				bool isRejected = await _balanceService.RejectRequestAsync(_SelectItem, Reason);
 				if(isRejected)
 				{
-					MessageBox.Show("The request has been rejected, and the balance has been successfully updated.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
-							await LoadData();
+                    await LoadData();
+                    MessageBox.Show("The request has been rejected, and the balance has been successfully updated.", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
 				}
 
 				//var find = await _balanceService.GetBalanceByIDAsync(_SelectItem.Id);

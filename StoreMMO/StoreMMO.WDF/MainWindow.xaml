@@ -60,7 +60,7 @@
             <!-- Nút để Hidden User Account -->
             <Button Content="Hidden User Account" Style="{StaticResource NavButtonStyle}" Click="buttonHiddenUserAccountList"/>
             <!-- Nút để Registered Sellers -->
-            <Button Content="Registered Sellers" Style="{StaticResource NavButtonStyle}" Click="buttonRegisteredSellers"/>
+            <!--<Button Content="Registered Sellers" Style="{StaticResource NavButtonStyle}" Click="buttonRegisteredSellers"/>-->
             <!-- Nút để Registered Stores -->
             <Button Content="Registered Stores" Style="{StaticResource NavButtonStyle}" Click="button_RegisteredStores"/>
             <!-- Nút để Stores -->
@@ -76,7 +76,7 @@
             <!-- Nút để Hidden Store Type -->
             <Button Content="Hidden Store Type" Style="{StaticResource NavButtonStyle}" Click="button_HiddenStoreTypeList"/>
             <!-- Nút để Disputes -->
-            <Button Content="Disputes" Style="{StaticResource NavButtonStyle}" Click="button_DisputesList"/>
+            <!--<Button Content="Disputes" Style="{StaticResource NavButtonStyle}" Click="button_DisputesList"/>-->
             <!-- Nút để Withdrawal Requests -->
             <Button Content="Withdrawal Requests" Style="{StaticResource NavButtonStyle}" Click="button_WithdrawalRequestsFromSellerList"/>
         </StackPanel>

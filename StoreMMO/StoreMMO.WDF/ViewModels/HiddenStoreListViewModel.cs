@@ -52,7 +52,7 @@ namespace StoreMMO.WDF.ViewModels
         {
             if (_SelectItem == null)
             {
-                System.Windows.MessageBox.Show("Please select a store to update.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                System.Windows.MessageBox.Show("Please select a store to Show.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             var storeToUpdate = new StoreAddViewModels

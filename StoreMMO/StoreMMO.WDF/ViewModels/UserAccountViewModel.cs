@@ -178,9 +178,22 @@ namespace StoreMMO.WDF.ViewModels
 				MessageBox.Show("Please fill in all the fields.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 				return;
 			}
+            // Kiểm tra số điện thoại có không vượt quá 10 ký tự
+            if (PhoneInfo.Length > 10 || !PhoneInfo.All(char.IsDigit))
+            {
+                MessageBox.Show("Phone number must be 10 digits or less and contain only numbers.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
-			// Cập nhật thông tin người dùng
-			var userToUpdate = await _userManager.FindByIdAsync(SelectUser.Id);
+            // Kiểm tra ngày sinh không vượt quá ngày hiện tại
+            if (CreateDateInfo > DateTime.Now)
+            {
+                MessageBox.Show("Date of birth cannot be in the future.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // Cập nhật thông tin người dùng
+            var userToUpdate = await _userManager.FindByIdAsync(SelectUser.Id);
 			if (userToUpdate != null)
 			{
 				userToUpdate.FullName = FullNameInfo;

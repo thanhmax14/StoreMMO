@@ -77,7 +77,7 @@
                         <GridViewColumn Header="Action" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Width="80" Margin="0,0,5,0" Command="{Binding DataContext.Hide, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" FontSize="16">Show</Button>
+                                    <Button Width="80" Background="#2C3E50" Foreground="White"  FontWeight="ExtraBold" Margin="0,0,5,0" Command="{Binding DataContext.Hide, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" FontSize="16">Show</Button>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
