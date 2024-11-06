@@ -54,10 +54,10 @@ namespace StoreMMO.WDF
 			frMain.Content = new HiddenUserAccount(_hidentUserAccountViewModel);
 		}
 
-		private void buttonRegisteredSellers(object sender, RoutedEventArgs e)
-		{
-			frMain.Content = new RegisteredSellers(_registerSellerViewModel);
-		}
+		//private void buttonRegisteredSellers(object sender, RoutedEventArgs e)
+		//{
+		//	frMain.Content = new RegisteredSellers(_registerSellerViewModel);
+		//}
 
 		private void button_RegisteredStores(object sender, RoutedEventArgs e)
 		{
@@ -98,10 +98,10 @@ namespace StoreMMO.WDF
 			_hiddenStoreTypeListViewModel.LoadData();
 		}
 
-		private void button_DisputesList(object sender, RoutedEventArgs e)
-		{
-			frMain.Content = new ManageDisputes(_manageDisputes);
-		}
+		//private void button_DisputesList(object sender, RoutedEventArgs e)
+		//{
+		//	frMain.Content = new ManageDisputes(_manageDisputes);
+		//}
 
 		private void button_WithdrawalRequestsFromSellerList(object sender, RoutedEventArgs e)
 		{

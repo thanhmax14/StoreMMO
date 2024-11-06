@@ -126,6 +126,19 @@ namespace StoreMMO.WDF.ViewModels
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(NameInfo) || NameInfo.Length < 2)
+                {
+                    MessageBox.Show("Name must be at least 2 characters long.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Kiểm tra nếu Commission bị rỗng hoặc không hợp lệ
+                if (Commission <= 0)
+                {
+                    MessageBox.Show("Commission must be a positive number.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+                
                 var newCategory = new StoreTypeViewModels
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -156,7 +169,11 @@ namespace StoreMMO.WDF.ViewModels
                 MessageBox.Show("Please select a category to update.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
+            if (Commission <= 0)
+            {
+                MessageBox.Show("Commission must be a positive number.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             // Cập nhật giá trị
             SelectedStore.Name = NameInfo;
             SelectedStore.Commission = Commission;

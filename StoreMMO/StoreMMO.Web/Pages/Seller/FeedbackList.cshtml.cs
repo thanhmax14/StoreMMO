@@ -15,8 +15,8 @@ namespace StoreMMO.Web.Pages.Seller
         public IEnumerable<FeedBackViewModels> list = new List<FeedBackViewModels>();
         public void OnGet()
         {
-            /*var checkUserID = context.Session.GetString("UserID");*/
-            list = this._feedBackService.getAllFeedBack("1f0dbbe2-2a81-43e9-8272-117507ac9c45");
+            var checkUserID = HttpContext.Session.GetString("UserID");
+            list = this._feedBackService.getAllFeedBack(checkUserID);
         }
     }
 }
